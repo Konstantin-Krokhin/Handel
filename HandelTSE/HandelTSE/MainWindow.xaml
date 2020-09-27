@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:HandelTSE"
         xmlns:viewmodels ="clr-namespace:HandelTSE.ViewModels"
         xmlns:views ="clr-namespace:HandelTSE.Views"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"  
+        xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         Icon="icon.ico"
-        Title="Handel TSE ::: OFFICE" Height="450" Width="730"
-        MinHeight="430" MinWidth="730">
+        Title="Handel TSE ::: OFFICE" Height="550" Width="800"
+        MinHeight="550" MinWidth="730">
 
     <Window.Resources>
         <DataTemplate x:Name="Main" DataType="{x:Type viewmodels:Main}">
@@ -18,8 +20,8 @@
         <DataTemplate x:Name="StatGraph" DataType="{x:Type viewmodels:StatisticsGraphViewModel}">
             <views:StatisticsGraph DataContext ="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="StatTable" DataType="{x:Type viewmodels:StatisticsTableViewModel}">
-            <views:StatisticsTable DataContext ="{Binding}"/>
+        <DataTemplate x:Name="StatTable" DataType="{x:Type viewmodels:StatTableModel}">
+            <views:StatTable DataContext ="{Binding}"/>
         </DataTemplate>
         <DataTemplate x:Name="TransPark" DataType="{x:Type viewmodels:TransactionParkingViewModel}">
             <views:TransactionParking DataContext ="{Binding}"/>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:HandelTSE.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Background="LightGray">
+        <Label Content="MwSt Tool" Grid.Column="2" Grid.Row="2"/>
     </Grid>
 </UserControl>

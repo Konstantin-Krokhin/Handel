@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="HandelTSE.Views.StatTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HandelTSE.Views"
+            xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+             xmlns:local1="clr-namespace:HandelTSE.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="660">
+    <UserControl.DataContext>
+        <local1:StatTableModel/>
+    </UserControl.DataContext>
+    <Grid Background="LightGray">
+
+        <syncfusion:SfChart Header="Bediener Statistik" FontWeight="Bold" Height="420" Width="630">
+            <!--Initialize the horizontal axis for SfChart-->
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis Header="" FontSize="14"/>
+            </syncfusion:SfChart.PrimaryAxis>
+
+            <!--Initialize the vertical axis for SfChart-->
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Header="" FontSize="14"/>
+            </syncfusion:SfChart.SecondaryAxis>
+
+            <!--Adding Legend to the SfChart-->
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend/>
+            </syncfusion:SfChart.Legend>
+
+            <!--Initialize the series for SfChart-->
+            <syncfusion:BubbleSeries  ItemsSource="{Binding Data}"  XBindingPath="data1" 
+
+YBindingPath="data2" Size="6" MinimumRadius="5" 
+
+MaximumRadius="10"
+
+Interior="#BCBCBC" />
+
+        </syncfusion:SfChart>
+        
+
+    </Grid>
+</UserControl>

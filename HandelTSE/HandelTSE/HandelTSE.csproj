@@ -38,10 +38,17 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Syncfusion.Licensing, Version=18.2460.0.59, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.18.2.0.59\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfChart.WPF, Version=18.2460.0.59, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.SfChart.WPF.18.2.0.59\lib\net46\Syncfusion.SfChart.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Windows.Controls.DataVisualization.Toolkit.4.0.0.0\lib\net40-Client\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,7 +62,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFToolkit">
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\WPFToolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -67,7 +75,7 @@
     <Compile Include="ViewModels\Main.cs" />
     <Compile Include="ViewModels\MwStTool.cs" />
     <Compile Include="ViewModels\StatisticsGraphViewModel.cs" />
-    <Compile Include="ViewModels\StatisticsTableViewModel.cs" />
+    <Compile Include="ViewModels\StatTableModel.cs" />
     <Compile Include="ViewModels\TransactionParkingViewModel.cs" />
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
@@ -78,8 +86,8 @@
     <Compile Include="Views\StatisticsGraph.xaml.cs">
       <DependentUpon>StatisticsGraph.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StatisticsTable.xaml.cs">
-      <DependentUpon>StatisticsTable.xaml</DependentUpon>
+    <Compile Include="Views\StatTable.xaml.cs">
+      <DependentUpon>StatTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransactionParking.xaml.cs">
       <DependentUpon>TransactionParking.xaml</DependentUpon>
@@ -108,7 +116,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StatisticsTable.xaml">
+    <Page Include="Views\StatTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

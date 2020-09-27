@@ -54,7 +54,7 @@ namespace HandelTSE
 
         private void StatTable_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new StatisticsTableViewModel();
+            DataContext = new StatTableModel();
         }
 
         private void StatGraph_Clicked(object sender, RoutedEventArgs e)
