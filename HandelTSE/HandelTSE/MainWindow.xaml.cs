@@ -74,7 +74,7 @@ namespace HandelTSE
 
         private void MainWindow_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new MainWindow();
+            DataContext = new Main();
         }
     }
 }

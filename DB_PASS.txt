@@ -1,0 +1,11 @@
+A19mdin!74i$ - db_source.posdb
+
+posprom - db_training.mdb
+
+Unter: C:\Program Files (x86)\HandelTSE\data
+
+19%
+7%
+-----
+16%
+5%

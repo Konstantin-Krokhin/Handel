@@ -12,7 +12,9 @@
         MinHeight="430" MinWidth="730">
 
     <Window.Resources>
-        
+        <DataTemplate x:Name="Main" DataType="{x:Type viewmodels:Main}">
+            <views:Main DataContext ="{Binding}"/>
+        </DataTemplate>
         <DataTemplate x:Name="StatGraph" DataType="{x:Type viewmodels:StatisticsGraphViewModel}">
             <views:StatisticsGraph DataContext ="{Binding}"/>
         </DataTemplate>
@@ -160,6 +162,6 @@
         <Button Content=">" Grid.Row="4" Height="35" Margin="0, -65, 0, 0" Click="StatGraph_Clicked" />
         <Button Content=">" Grid.Row="4" Height="35" Margin="0, 40, 0, 0" Click="TransParking_Clicked" />
         <Button Content=">" Grid.Row="4" Height="35" Margin="0, 150, 0, 0" Click="MwStTool_Clicked"/>
-        <ContentControl Grid.Column="2" Grid.ColumnSpan="7" Grid.Row="2" Grid.RowSpan="3" Content="{Binding}" />
+        <ContentControl Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="3" Content="{Binding}" />
     </Grid>
 </Window>
