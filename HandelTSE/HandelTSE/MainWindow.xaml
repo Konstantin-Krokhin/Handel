@@ -1,0 +1,148 @@
+﻿<Window x:Class="HandelTSE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HandelTSE"
+        mc:Ignorable="d"
+        Icon="icon.ico"
+        Title="Handel TSE ::: OFFICE" Height="450" Width="730"
+        MinHeight="430" MinWidth="730">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height= "*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <DockPanel DockPanel.Dock="Top" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7">
+            <Menu>
+                <MenuItem Header="_Kasse">
+                </MenuItem>
+                <MenuItem Header="_Warenverwaltung">
+                    <MenuItem Header="Artikelverwaltung" />
+                    <MenuItem Header="Rabattaktionen" />
+                    <MenuItem Header="Duplikate anzeigen" />
+                    <MenuItem Header="Lieferanten"/>
+                    <MenuItem Header="VMP - Bericht"/>
+                    <MenuItem Header="Gutscheinverwaltung"/>
+                    <MenuItem Header="Etikett druken"/>
+                    <Separator />
+                    <MenuItem Header="Import Artikel" />
+                    <MenuItem Header="Import aus Datenbank"/>
+                    <MenuItem Header="Export Artikel"/>
+                    <Separator />
+                    <MenuItem Header="Inventur"/>
+                    <Separator />
+                    <MenuItem Header="Program beenden"/>
+                </MenuItem>
+                <MenuItem Header="_Buchhaltung">
+                    <MenuItem Header="Rechnungswesen"/>
+                    <MenuItem Header="Auftrag erstellen"/>
+                    <MenuItem Header="Bestellung Mindestbestellmenge" />
+                    <MenuItem Header="Bestellerfassung" />
+                    <MenuItem Header="Bestellung-Historie" />
+                </MenuItem>
+                <MenuItem Header="_Kundenverwaltung">
+                    <MenuItem Header="Kundenliste"/>
+                    <MenuItem Header="neuer Kunde"/>
+                </MenuItem>
+                <MenuItem Header="_Berichte">
+                    <MenuItem Header="Kassensturz"/>
+                    <MenuItem Header="Kassenjournal" />
+                    <MenuItem Header="Export - Buchnungsdaten" />
+                    <MenuItem Header="Warenbestand" />
+                    <MenuItem Header="Z-Abschlag - Journal" />
+                    <MenuItem Header="Umsatzberichte" />
+                    <MenuItem Header="Monatsumsatz" />
+                    <MenuItem Header="Verkaufsstatistik" />
+                    <MenuItem Header="Bedienerabrechnung" />
+                    <MenuItem Header="Personalüberwachnung" />
+                    <MenuItem Header="Leergutabgabe" />
+                    <MenuItem Header="Artikel-Auswertung" />
+                    <MenuItem Header="Gutschein - Journal" />
+                    <MenuItem Header="Stornobericht" />
+                    <MenuItem Header="Programmierprotokoll" />
+                    <MenuItem Header="Fiskal Prüfung" />
+                    <MenuItem Header="GPDdU-Tools" />
+                    <MenuItem Header="DSFinV-K" />
+                    <MenuItem Header="TSE-Export" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem Header="_Einstellungen">
+                    <MenuItem Header="Programm - Einstellungen" />
+                    <MenuItem Header="Funktionseinstellungen" />
+                    <MenuItem Header="Personalverwaltung" />
+                    <MenuItem Header="Artikel-Optionen" />
+                    <MenuItem Header="Umsatzsteuer" />
+                    <MenuItem Header="Zahlungen" />
+                    <MenuItem Header="EAN-Einstellungen" />
+                    <MenuItem Header="Stornogründe" />
+                    <MenuItem Header="Presse und VMP" />
+                    <MenuItem Header="Datensicherung" />
+                    <MenuItem Header="Geräte Manager" />
+                    <MenuItem Header="Bon / Rechnung" />
+                    <MenuItem Header="A4-Dokumente" />
+                    <MenuItem Header="Sondernzeichen" />
+                    <MenuItem Header="Gutscheinvorlage" />
+                    <MenuItem Header="Pfand und Leergut" />
+                    <MenuItem Header="Terminplaner" />
+                    <MenuItem Header="Label Manager" />
+                    <MenuItem Header="Datenbank-Sicherungskopie erstellen" />
+                </MenuItem>
+                <MenuItem Header="_Lizenz">
+                </MenuItem>
+                <MenuItem Header="_Tastatur">
+                </MenuItem>
+
+            </Menu>
+
+
+        </DockPanel>
+        <TextBlock Name ="dateBlock" Grid.Column="2" Grid.Row="1" FontWeight="Bold" Margin="0, 2, 0, 0"/>
+        <Label Content="Gesamt - Abrechnung" Grid.Column="2" Grid.Row="2"/>
+        <Button Grid.Column="2" Grid.Row="2" Width="35" HorizontalAlignment="Right" Margin="0, 0, 0, 10">
+            <StackPanel>
+                <Image Source="/img/print1.png"  />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="2" Grid.Row="2" Width="35" HorizontalAlignment="Right" Margin="0, 0, 50, 10">
+            <StackPanel>
+                <Image Source="/img/print2.png" />
+            </StackPanel>
+        </Button>
+        <DataGrid Name ="dg1" Width="330" Grid.Column="2" Grid.Row="3" Grid.RowSpan="2" Height="{Binding ElementName=WindowName,Path=ActualWidth}"/>
+
+        <Button Grid.Column="4" Grid.Row="2" Width="35" HorizontalAlignment="Right" Margin="0, 0, 0, 10">
+            <StackPanel>
+                <Image Source="/img/print1.png"  />
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="2" Width="35" HorizontalAlignment="Right" Margin="0, 0, 50, 10">
+            <StackPanel>
+                <Image Source="/img/print2.png" />
+            </StackPanel>
+        </Button>
+        <Label Content="Warengruppen - Abrechnung" Grid.Column="4" Grid.Row="2"/>
+        <DataGrid Name ="dg2"  Width="330" Grid.Column="4" Grid.Row="3" Grid.RowSpan="2" Height="{Binding ElementName=WindowName,Path=ActualWidth}"/>
+
+
+        <Button Content=">" Grid.Row="4" Height="35" Margin="0, -277, 0, 0" />
+        <Button Content=">" Grid.Row="4" Height="35" Margin="0, -175, 0, 0"  />
+        <Button Content=">" Grid.Row="4" Height="35" Margin="0, -65, 0, 0" />
+        <Button Content=">" Grid.Row="4" Height="35" Margin="0, 40, 0, 0" />
+        <Button Content=">" Grid.Row="4" Height="35" Margin="0, 150, 0, 0"/>
+    </Grid>
+</Window>
