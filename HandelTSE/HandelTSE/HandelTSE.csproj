@@ -58,6 +58,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\MwStTool.cs" />
+    <Compile Include="ViewModels\StatisticsGraphViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsTableViewModel.cs" />
+    <Compile Include="ViewModels\TransactionParkingViewModel.cs" />
+    <Compile Include="Views\MwStTool.xaml.cs">
+      <DependentUpon>MwStTool.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticsGraph.xaml.cs">
+      <DependentUpon>StatisticsGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticsTable.xaml.cs">
+      <DependentUpon>StatisticsTable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransactionParking.xaml.cs">
+      <DependentUpon>TransactionParking.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +86,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MwStTool.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsGraph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransactionParking.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -110,5 +142,6 @@
     <Resource Include="img\print1.png" />
     <Resource Include="img\print2.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

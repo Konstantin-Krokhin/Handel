@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HandelTSE.ViewModels;
 
 namespace HandelTSE
 {
@@ -51,5 +52,29 @@ namespace HandelTSE
             public string geld { get; set; }
         }
 
+        private void StatTable_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new StatisticsTableViewModel();
+        }
+
+        private void StatGraph_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new StatisticsGraphViewModel();
+        }
+
+        private void TransParking_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new TransactionParkingViewModel();
+        }
+
+        private void MwStTool_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new MwStTool();
+        }
+
+        private void MainWindow_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new MainWindow();
+        }
     }
 }
