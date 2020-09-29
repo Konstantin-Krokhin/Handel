@@ -30,15 +30,16 @@
             </syncfusion:SfChart.Legend>
 
             <!--Initialize the series for SfChart-->
-            <syncfusion:BubbleSeries  ItemsSource="{Binding Data}"  XBindingPath="data1" 
-
-YBindingPath="data2" Size="6" MinimumRadius="5" 
-
-MaximumRadius="10"
-
-Interior="#BCBCBC" />
+            <syncfusion:ColumnSeries  ItemsSource="{Binding Data}" XBindingPath="data1" YBindingPath="data2" ShowTooltip="True" >
+                <syncfusion:ColumnSeries.AdornmentsInfo>
+                    <syncfusion:ChartAdornmentInfo>
+                    </syncfusion:ChartAdornmentInfo>
+                </syncfusion:ColumnSeries.AdornmentsInfo>
+            </syncfusion:ColumnSeries>
 
         </syncfusion:SfChart>
+
+            
         
 
     </Grid>

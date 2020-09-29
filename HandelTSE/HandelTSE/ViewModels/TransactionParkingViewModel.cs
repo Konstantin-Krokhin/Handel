@@ -15,7 +15,7 @@ namespace HandelTSE.ViewModels
     public TransactionParkingViewModel()
     {
 
-        for (int i=0; i< 30; i++) it.Add(new items { titel = "", geld = "" });
+        for (int i=0; i< 30; i++) it.Add(new items { geparkt = "", gesamt = "", artikel = "", bediener = "" });
             Data = it;
             
         }
@@ -23,7 +23,9 @@ namespace HandelTSE.ViewModels
     }
     public class items
     {
-        public string titel { get; set; }
-        public string geld { get; set; }
+        public string geparkt { get; set; }
+        public string gesamt { get; set; }
+        public string artikel { get; set; }
+        public string bediener { get; set; }
     }
 }
