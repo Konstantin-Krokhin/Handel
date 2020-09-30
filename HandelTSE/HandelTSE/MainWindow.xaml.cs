@@ -24,6 +24,7 @@ namespace HandelTSE
     {
         List<items> it = new List<items>();
         List<items> it2 = new List<items>();
+        //List<items> ArtikelData = new List<items>();
         public MainWindow()
         {
             InitializeComponent();
@@ -75,6 +76,15 @@ namespace HandelTSE
         private void MainWindow_Clicked(object sender, RoutedEventArgs e)
         {
             DataContext = new Main();
+        }
+
+        private void Artikelverwaltung_Click(object sender, RoutedEventArgs e)
+        {
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
+            DataContext = new Artikelverwaltung();
         }
     }
 }
