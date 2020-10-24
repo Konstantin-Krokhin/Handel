@@ -48,7 +48,7 @@
 
         <TreeView Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2"/>
 
-        <TextBox Grid.Row="0" Background="Gray" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
+        <TextBox x:Name="gruppe" Grid.Row="0" Background="Gray" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
         <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" Margin="50, 0, 50, 0">
         <StackPanel>
                 <Image Source="/img/add.png" />
@@ -115,7 +115,7 @@
             </DockPanel>
         </Button>
 
-        <TextBox Grid.Row="0" Grid.Column="2" Width="80" Height="20" HorizontalAlignment="Left" Margin="0, 0, 0, 0"/>
+        <TextBox Name="artikel" Grid.Row="0" Grid.Column="2" Width="80" Height="20" HorizontalAlignment="Left" Margin="0, 0, 0, 0"/>
         
         
             

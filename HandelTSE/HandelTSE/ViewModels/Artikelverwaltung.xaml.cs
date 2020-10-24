@@ -48,15 +48,25 @@ namespace HandelTSE.ViewModels
 
 
         public class items
-        {}
+        { }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var lines = new List<string>();
-            foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
-                lines.Add(string.Format("{0},{1}", tb.Name, tb.Text));
+
+            IEnumerator<TextBox> a = (IEnumerator<TextBox>)FindVisualChildren<TextBox>(this);
+            foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
+                if (cb.Name != "gruppe" & cb.Name != "artikel")
+                {
+                    lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
+                    cb.Text = "";
+                }
             foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
+            {
                 lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
+                cb.Text = "";
+            }
+                
             System.IO.File.WriteAllLines(@"data.csv", lines);
         }
     }
