@@ -14,8 +14,8 @@
         MinHeight="550" MinWidth="730">
 
     <Window.Resources>
-        <DataTemplate x:Name="Artikelverwaltung" DataType="{x:Type viewmodels:Artikelverwaltung}">
-            <views:Artikelverwaltung DataContext ="{Binding Artikelverwaltung}"/>
+        <DataTemplate x:Name="Artikelver" DataType="{x:Type viewmodels:Artikelverwaltung}">
+            <viewmodels:Artikelverwaltung DataContext ="{Binding}"/>
         </DataTemplate>
         <DataTemplate x:Name="Main" DataType="{x:Type viewmodels:Main}">
             <views:Main DataContext ="{Binding}"/>
@@ -150,12 +150,12 @@
 
         <Button Grid.Column="4" Grid.Row="2" Width="35" HorizontalAlignment="Right" Margin="0, 0, 0, 10">
             <StackPanel>
-                <Image Source="/img/print1.png"  />
+                <Image Source="/img/print1.1.png"  />
             </StackPanel>
         </Button>
         <Button Grid.Column="4" Grid.Row="2" Width="35" HorizontalAlignment="Right" Margin="0, 0, 50, 10">
             <StackPanel>
-                <Image Source="/img/print2.png" />
+                <Image Source="/img/print2.1.png" />
             </StackPanel>
         </Button>
         <Label Content="Warengruppen - Abrechnung" Grid.Column="4" Grid.Row="2"/>

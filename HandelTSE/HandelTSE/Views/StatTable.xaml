@@ -38,9 +38,5 @@
             </syncfusion:ColumnSeries>
 
         </syncfusion:SfChart>
-
-            
-        
-
     </Grid>
 </UserControl>

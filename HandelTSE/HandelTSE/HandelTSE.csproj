@@ -72,13 +72,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Artikelverwaltung.cs" />
     <Compile Include="ViewModels\Main.cs" />
     <Compile Include="ViewModels\MwStTool.cs" />
     <Compile Include="ViewModels\StatisticsGraphViewModel.cs" />
     <Compile Include="ViewModels\StatTableModel.cs" />
-    <Compile Include="ViewModels\TransactionParkingViewModel.cs" />
-    <Compile Include="Views\Artikelverwaltung.xaml.cs">
+    <Compile Include="TransactionParkingViewModel.cs" />
+    <Compile Include="ViewModels\Artikelverwaltung.xaml.cs">
       <DependentUpon>Artikelverwaltung.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main.xaml.cs">
@@ -93,7 +92,7 @@
     <Compile Include="Views\StatTable.xaml.cs">
       <DependentUpon>StatTable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransactionParking.xaml.cs">
+    <Compile Include="TransactionParking.xaml.cs">
       <DependentUpon>TransactionParking.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -108,7 +107,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Artikelverwaltung.xaml">
+    <Page Include="ViewModels\Artikelverwaltung.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,7 +127,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransactionParking.xaml">
+    <Page Include="TransactionParking.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,6 +172,28 @@
     <Resource Include="img\print1.png" />
     <Resource Include="img\print2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="img\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\print1.1.png" />
+    <Resource Include="img\print2.1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\paint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\magnifying.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\down-arrow.png" />
+    <Resource Include="img\up-arrow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
