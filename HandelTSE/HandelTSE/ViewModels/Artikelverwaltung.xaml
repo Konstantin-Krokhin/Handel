@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="HandelTSE.ViewModels.Artikelverwaltung"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		     xmlns:self="clr-namespace:HandelTSE.ViewModels"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HandelTSE.Views"
              xmlns:local1="clr-namespace:HandelTSE.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">  
-    
+             d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name ="grid" Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -46,10 +46,16 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.ColumnSpan="15" Grid.Row="0" Grid.RowSpan="1" Background="Bisque"/>
 
-        <TreeView Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2"/>
+        <TreeView Name="TreeView" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
 
         <TextBox x:Name="gruppe" Grid.Row="0" Background="Gray" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
-        <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" Margin="50, 0, 50, 0">
+        <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" Click="CleanGroupButton" Margin="50, 0, 50, 0">
         <StackPanel>
                 <Image Source="/img/add.png" />
         </StackPanel>
@@ -61,7 +67,7 @@
             </StackPanel>
         </Button>
 
-        <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-115,0, 0, 0">
+        <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-115,0, 0, 0" Click="WarenGruppeSave">
             <StackPanel>
                 <Image Source="/img/save.png" />
             </StackPanel>
@@ -83,7 +89,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="5" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="0, 3, 0, 0">
+        <Button Grid.Column="5" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Click="CleanFormButton" Background="Gray" Margin="0, 3, 0, 0">
             <DockPanel>
                 <Image Source="/img/add.png"/>
                 <TextBlock VerticalAlignment="center">Artikel
@@ -107,7 +113,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="7" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-5, 3, 20, 0">
+        <Button Grid.Column="7" HorizontalAlignment="Left" Click="DeleteButton_Click" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-5, 3, 20, 0">
             <DockPanel>
                 <Image Source="/img/close.png"/>
                 <TextBlock FontSize="8" VerticalAlignment="center">Waren <LineBreak/> gruppe
@@ -215,7 +221,7 @@
         <TextBlock Text="Mindestbestand" Grid.Column="7" Grid.Row="8" Grid.RowSpan="2" HorizontalAlignment="Right" Margin="0, 5, 10, 0"/>
         <TextBox Name ="MindestBestand" Grid.Column="8" Grid.Row="8" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
 
-        <Button Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="20, 3, 20, 0" Click="Button_Click">
+        <Button Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="20, 3, 20, 0" Click="SaveButton">
             <DockPanel>
                 <Image Source="/img/save.png"/>
                 <TextBlock VerticalAlignment="center">speichern
