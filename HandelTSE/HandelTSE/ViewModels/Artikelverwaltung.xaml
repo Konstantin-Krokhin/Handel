@@ -46,7 +46,7 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.ColumnSpan="15" Grid.Row="0" Grid.RowSpan="1" Background="Bisque"/>
 
-        <TreeView Name="TreeView" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2">
+        <TreeView Name="TreeView" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Loaded="LoadForm" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True" />
@@ -241,21 +241,21 @@
         <ComboBox Name="ImHausComboBox2" Grid.Row="10" Grid.Column="7" Margin="60, 0, 0, 0" IsEnabled="False" Height="20" Width="50" HorizontalAlignment="Left"/>
         <Button Content="übernehmen" Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="10" Background="Gray" Margin="20, 3, 20, 0"/>
 
-        <DataGrid Name ="dg3" Grid.Column="2" Grid.ColumnSpan="12" Grid.Row="13" Height="{Binding ElementName=WindowName,Path=ActualWidth}" ItemsSource="{Binding Data}">
+        <DataGrid Name ="dg3" AutoGeneratingColumn = "CustomizeHeaders" Grid.Column="2" Grid.ColumnSpan="12" Grid.Row="13" Height="{Binding ElementName=WindowName,Path=ActualWidth}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn >
+                <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Nr." Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn Header="PLU / EAN" Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Artikel" Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Preis" Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn Header="MwSt." Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Bestand" Binding="{Binding Data}"></DataGridTextColumn>
+                <!--<DataGridTextColumn Header="Nr." Binding="{Binding Data}"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="dgPluEan" Header="PLU / EAN" Binding="{Binding Data}"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="dgArtikel" Header="Artikel" Binding="{Binding Data}"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="dgVKPreisBrutto" Header="Preis" Binding="{Binding Data}"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="dgAusserHaus" Header="MwSt." Binding="{Binding Data}"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="dgBestand" Header="Bestand" Binding="{Binding Data}"></DataGridTextColumn>-->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
