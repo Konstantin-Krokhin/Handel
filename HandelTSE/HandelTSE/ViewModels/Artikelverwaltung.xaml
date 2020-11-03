@@ -40,8 +40,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="260"/>
-            <RowDefinition Height= "*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.ColumnSpan="15" Grid.Row="0" Grid.RowSpan="1" Background="Bisque"/>
@@ -81,7 +81,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="50" Background="Gray" Margin="0, 3, 20, 0">
+        <Button Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="50" Background="Gray" Margin="0, 3, 20, 0" Click="TextSearchButton_Click">
             <DockPanel>
                 <Image Source="/img/magnifying.png"/>
                 <TextBlock VerticalAlignment="center">Text
@@ -121,7 +121,7 @@
             </DockPanel>
         </Button>
 
-        <TextBox Name="artikel" Grid.Row="0" Grid.Column="2" Width="80" Height="20" HorizontalAlignment="Left" Margin="0, 0, 0, 0"/>
+        <TextBox Name="SearchBoxArtikel" Grid.Row="0" Grid.Column="2" Width="80" Height="20" HorizontalAlignment="Left" Margin="0, 0, 0, 0"/>
         
         
             
@@ -161,7 +161,10 @@
         MwSt. <LineBreak/>
         außer Haus
         </TextBlock>
-        <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="0, 10, 0, 10" Width="50" HorizontalAlignment="Left"/>
+        <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="0, 10, 0, 10" Width="50" HorizontalAlignment="Left">
+            <ComboBoxItem>16 %</ComboBoxItem>
+            <ComboBoxItem>19 %</ComboBoxItem>
+        </ComboBox>
         <ComboBox Name ="ImHaus" Grid.Row="5" Grid.Column="4" Margin="5, 10, 0, 10" Width="50" HorizontalAlignment="Left"/>
         <TextBlock Text="im Haus" Grid.Column="4" Grid.Row="5" Grid.RowSpan="2" Margin="55, 13, 0, 0"/>
 
@@ -241,7 +244,9 @@
         <ComboBox Name="ImHausComboBox2" Grid.Row="10" Grid.Column="7" Margin="60, 0, 0, 0" IsEnabled="False" Height="20" Width="50" HorizontalAlignment="Left"/>
         <Button Content="übernehmen" Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="10" Background="Gray" Margin="20, 3, 20, 0"/>
 
-        <DataGrid Name ="dg3" AutoGeneratingColumn = "CustomizeHeaders" Grid.Column="2" Grid.ColumnSpan="12" Grid.Row="13" Height="{Binding ElementName=WindowName,Path=ActualWidth}">
+        <DataGrid Name ="dg3" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Column="2" Grid.ColumnSpan="13" Grid.Row="14" Height="{Binding ElementName=WindowName,Path=ActualWidth}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -250,12 +255,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!--<DataGridTextColumn Header="Nr." Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="dgPluEan" Header="PLU / EAN" Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="dgArtikel" Header="Artikel" Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="dgVKPreisBrutto" Header="Preis" Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="dgAusserHaus" Header="MwSt." Binding="{Binding Data}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="dgBestand" Header="Bestand" Binding="{Binding Data}"></DataGridTextColumn>-->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

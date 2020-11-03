@@ -22,17 +22,20 @@ namespace HandelTSE.ViewModels
     public partial class Artikelverwaltung
     {
         public List<items> Data { get; set; }
+        public List<items2> Data2 { get; set; }
         public TreeViewItem selectedTVI { get; set; }
         List<items> it = new List<items>();
+        List<items2> it2 = new List<items2>();
         ItemsControl parent { get; set; }
         public Artikelverwaltung()
         {
             InitializeComponent();
             //for (int i = 0; i < 30; i++) it.Add(new items {  });
             //Data = it;
-            if (!File.Exists(@"data.csv"))File.Create(@"data.csv");
+            if (!File.Exists(@"data.csv")) File.Create(@"data.csv").Close();
         }
 
+        //Load Warengruppen and Artikeln from DB into the TreeView
         private void LoadForm(object sender, System.EventArgs e)
         {
             if (File.Exists(@"data.csv"))
@@ -79,10 +82,21 @@ namespace HandelTSE.ViewModels
             }
         }
 
+        //DataGrid columns
         public class items
         {
             public string nr { get; set; }
             public string pluean { get; set; }
+            public string artikel { get; set; }
+            public string preis { get; set; }
+            public string mwst { get; set; }
+            public string bestand { get; set; }
+        }
+
+        public class items2
+        {
+            public string nr { get; set; }
+            public string warengruppe { get; set; }
             public string artikel { get; set; }
             public string preis { get; set; }
             public string mwst { get; set; }
@@ -98,9 +112,9 @@ namespace HandelTSE.ViewModels
 
             var lines = new List<string>();
             string ArtikelString = Artikel.Text;
-
+            
             foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
-            if (cb.Name != "gruppe" & cb.Name != "artikel")
+            if (cb.Name != "gruppe" & cb.Name != "SearchBoxArtikel")
             {
                 if (cb.Name == "Artikel")
                 {
@@ -119,30 +133,27 @@ namespace HandelTSE.ViewModels
             }
 
             //Add Artikel to Warengruppe in TreeView
-            selectedTVI.Items.Add(ArtikelString);
+            selectedTVI.Items.Add(new TreeViewItem() { Header = ArtikelString });
 
             //Save to DB file
             TreeViewItem tvi = TreeView.Tag as TreeViewItem;
             var str = "\n["+ tvi.Header.ToString() + "]\n" ;
             File.AppendAllText(@"data.csv", str);
             foreach (string i in lines) File.AppendAllText(@"data.csv", i + "\n");
+
+            LoadTVItems();
         }
 
-        // If TreeView item was selected (warengruppe or artikel)
-        private void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
+        //Load Artikeln from DB depending on the Warengruppe selected
+        void LoadTVItems()
         {
-            TreeView.Tag = e.OriginalSource;
-            selectedTVI = TreeView.Tag as TreeViewItem;
+            parent = GetSelectedTreeViewItemParent(selectedTVI);
             int trigger = 0, trigger2 = 0, n = 0, nr = 0;
             string[] artikel = new string[21];
-
-            TreeViewItem item = e.OriginalSource as TreeViewItem;
-            if (item != null) parent = GetSelectedTreeViewItemParent(item);
-
+            // If selected item is Warengruppe then retrieve data (Artikeln) for this group from DB and output in the DataGrid
             if (parent.GetType() == typeof(TreeView) && File.Exists(@"data.csv"))
             {
                 string csvData = File.ReadAllText("data.csv");
-                //Data = null;
                 foreach (TreeViewItem i in selectedTVI.Items)
                 {
                     foreach (string row in csvData.Split('\n'))
@@ -182,18 +193,31 @@ namespace HandelTSE.ViewModels
                         foreach (string s in artikel)
                         {
                             //MessageBox.Show(s);
-                            if (s.Contains("Artikel")) str_artikel = s.TrimStart("Artikel,".ToCharArray());
-                            if (s.Contains("PluEan")) str_pluean = s.TrimStart("PluEan,".ToCharArray());
-                            if (s.Contains("VKPreisBrutto")) str_preis = s.TrimStart("VKPreisBrutto,".ToCharArray());
-                            if (s.Contains("AuserHausComboBox2")) str_mwst = s.TrimStart("AuserHausComboBox2,".ToCharArray());
+                            if (s.StartsWith("Artikel")) str_artikel = s.TrimStart("Artikel,".ToCharArray());
+                            if (s.StartsWith("PluEan")) str_pluean = s.TrimStart("PluEan,".ToCharArray());
+                            if (s.StartsWith("VKPreisBrutto")) str_preis = s.TrimStart("VKPreisBrutto,".ToCharArray());
+                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.TrimStart("AuserHausComboBox2,".ToCharArray());
                             if (s.StartsWith("Bestand")) str_bestand = s.TrimStart("Bestand,".ToCharArray());
                         }
-                        it.Add(new items { nr = nr++.ToString(), pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand});
+                        it.Add(new items { nr = nr++.ToString(), pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
                     }
                 }//1st foreach
                 Data = it;
                 dg3.ItemsSource = Data;
                 it = new List<items>();
+            }
+        }
+
+        // If TreeView item was selected (warengruppe or artikel)
+        private void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
+        {
+            TreeView.Tag = e.OriginalSource;
+            selectedTVI = TreeView.Tag as TreeViewItem;
+            
+            if (selectedTVI != null)
+            {
+                parent = GetSelectedTreeViewItemParent(selectedTVI);
+                LoadTVItems();
             }
         }
 
@@ -206,6 +230,7 @@ namespace HandelTSE.ViewModels
             if (e.Column.Header.ToString() == "artikel") e.Column.Header = "Artikel";
             if (e.Column.Header.ToString() == "mwst") e.Column.Header = "MwSt.";
             if (e.Column.Header.ToString() == "bestand") e.Column.Header = "Bestand";
+            if (e.Column.Header.ToString() == "warengruppe") e.Column.Header = "Warengruppe";
         }
 
         //Check if selected item parent is warengruppe, which means that selected item is artikel
@@ -246,6 +271,75 @@ namespace HandelTSE.ViewModels
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (TreeView.SelectedItem != null) TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
+        }
+
+        private void TextSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string csvData = File.ReadAllText("data.csv");
+            int trigger = 0, trigger2 = 0, n = 0, nr = 0;
+            string[] artikel = new string[21];
+
+            foreach (TreeViewItem t in TreeView.Items)
+            {
+                foreach (TreeViewItem i in t.Items)
+                {
+                    if (i.Header.ToString().Contains(SearchBoxArtikel.Text))
+                    {
+                        foreach (string row in csvData.Split('\n'))
+                        {
+                            if (!string.IsNullOrEmpty(row) && row == (string)"[" + t.Header.ToString() + "]")
+                            {
+                                trigger = 1;
+                                continue;
+                            }
+                            if (trigger == 1)
+                            {
+                                if (row == "Artikel," + i.Header.ToString())
+                                {
+                                    trigger2 = 1;
+                                }
+                                if (row == "Artikel," + i.Header.ToString())
+                                {
+                                    trigger2 = 1;
+                                }
+                                if (trigger2 == 1)
+                                {
+                                    if (!row.Contains("ImHausComboBox"))
+                                    {
+                                        artikel[n++] = row;
+                                    }
+                                    else
+                                    {
+                                        artikel[n] = row;
+                                        trigger = 0;
+                                        trigger2 = 0;
+                                        n = 0;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(artikel[0]))
+                        {
+                            string str_artikel = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
+                            foreach (string s in artikel)
+                            {
+                                //MessageBox.Show(s);
+                                if (s.StartsWith("Artikel")) str_artikel = s.TrimStart("Artikel,".ToCharArray());
+                                if (s.StartsWith("VKPreisBrutto")) str_preis = s.TrimStart("VKPreisBrutto,".ToCharArray());
+                                if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.TrimStart("AuserHausComboBox2,".ToCharArray());
+                                if (s.StartsWith("Bestand")) str_bestand = s.TrimStart("Bestand,".ToCharArray());
+                            }
+                            str_pluean = t.Header.ToString();
+                            it2.Add(new items2 { nr = nr++.ToString(), warengruppe = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
+                        }
+                    }
+                    
+                }//2nd foreach
+            }//1st foreach
+            Data2 = it2;
+            dg3.ItemsSource = Data2;
+            it2 = new List<items2>();
         }
     }
 }
