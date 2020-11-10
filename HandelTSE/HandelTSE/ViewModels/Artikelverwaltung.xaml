@@ -97,7 +97,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="6" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-30, 3, 20, 0">
+        <Button Grid.Column="6" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-25, 3, 20, 0" Click="ArtikelDelete_Click">
             <DockPanel>
                 <Image Source="/img/close.png"/>
                 <TextBlock VerticalAlignment="center">Artikel
@@ -105,7 +105,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="6" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-30, 3, 20, 0">
+        <Button Grid.Column="7" HorizontalAlignment="Left" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="0, 3, 20, 0" Click="AlleArtikelnDelete_Click">
             <DockPanel>
                 <Image Source="/img/close.png"/>
                 <TextBlock FontSize="9" VerticalAlignment="center">alle <LineBreak/> Artikel
@@ -113,7 +113,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="7" HorizontalAlignment="Left" Click="DeleteButton_Click" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-5, 3, 20, 0">
+        <Button Grid.Column="8" HorizontalAlignment="Left" Click="WarenGruppeDelete_Click" Grid.ColumnSpan="1" Grid.Row="0" Height="25" Width="60" Background="Gray" Margin="-30, 3, 20, 0">
             <DockPanel>
                 <Image Source="/img/close.png"/>
                 <TextBlock FontSize="8" VerticalAlignment="center">Waren <LineBreak/> gruppe

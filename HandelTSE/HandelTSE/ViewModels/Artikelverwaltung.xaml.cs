@@ -2,6 +2,8 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
@@ -51,11 +53,11 @@ namespace HandelTSE.ViewModels
                             prevNode = (string)newChild.Header;
                             if (CheckGroup(newChild) == 1) { TreeView.Items.Add(newChild); }
                         }
-                        else if (row.Contains("Artikel,") && !(row_artikel.TrimStart("Artikel,".ToCharArray()) == ""))
+                        else if (row.Contains("Artikel,") && !string.IsNullOrEmpty(row.Substring(row.IndexOf(",") + 1)))
                         {
                             //Look for currently added Warengruppe for this Artikel
-                            foreach(TreeViewItem i in TreeView.Items)
-                                if (i.Header.ToString() == prevNode) i.Items.Add(new TreeViewItem() { Header = row.TrimStart("Artikel,".ToCharArray()) });
+                            foreach (TreeViewItem i in TreeView.Items)
+                                if (i.Header.ToString() == prevNode) { i.Items.Add(new TreeViewItem() { Header = row.Substring(row.IndexOf(",") + 1)}); }
                         }
                     }
                 }
@@ -112,12 +114,11 @@ namespace HandelTSE.ViewModels
                     if (cb.Name == "Artikel")
                     {
                         TreeViewItem newChild = new TreeViewItem() { Header = cb.Text };
-                        if (!string.IsNullOrEmpty(cb.Text)) if (CheckGroupItems(newChild) == 0) { MessageBox.Show("Artikel mit demselben Namen kann nicht in derselben Warengruppe erstellt werden!"); return; }
+                        if (string.IsNullOrEmpty(cb.Text) && CheckGroupItems(newChild) == 0) { MessageBox.Show("Artikel mit demselben Namen oder leerem Inhalt kann nicht in derselben Warengruppe erstellt werden!"); return; }
                     }
                     // Check if in text fields no special character like '[' for enclosing Warengruppe name in database file is used
                     if (cb.Text.Contains("[") || cb.Text.Contains("]")) { MessageBox.Show("Textfelder dürfen keine '[' oder ']' Zeichen enthalten!"); return; }
                     lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
-                    cb.Text = "";
                 }
             foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
             {
@@ -140,10 +141,11 @@ namespace HandelTSE.ViewModels
             if (parent.GetType() == typeof(TreeViewItem)) { MessageBox.Show("Sie können keinen Artikel in einem anderen hinzufügen. Es muss eine Warengruppe sein!"); return; }
             if (Artikel.Text == "") { MessageBox.Show("Bitte geben Sie den Artikelname an!"); return; }
 
+            SaveWGToDB();
+
             //Add Artikel to Warengruppe in TreeView
             selectedTVI.Items.Add(new TreeViewItem() { Header = Artikel.Text });
-
-            SaveWGToDB();
+            Artikel.Text = "";
 
             LoadTVItems();
         }
@@ -172,7 +174,7 @@ namespace HandelTSE.ViewModels
                         if (trigger == 1)
                         {
                             row_artikel = row;
-                            if (row == "Artikel," + i.Header.ToString() && row_artikel.TrimStart("Artikel,".ToCharArray()).Count() > 0)
+                            if (row == "Artikel," + i.Header.ToString() && row.Substring(row.IndexOf(",") + 1).Count() > 0)
                             {
                                 trigger2 = 1;
                             }
@@ -180,7 +182,7 @@ namespace HandelTSE.ViewModels
                             {
                                 if (!row.Contains("ImHausComboBox"))
                                 {
-                                    artikel[n++] = row;
+                                    if (n < 20) artikel[n++] = row;
                                 }
                                 else
                                 {
@@ -199,11 +201,11 @@ namespace HandelTSE.ViewModels
                         string str_artikel = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
                         foreach (string s in artikel)
                         {
-                            if (s.StartsWith("Artikel")) str_artikel = s.TrimStart("Artikel,".ToCharArray());
-                            if (s.StartsWith("PluEan")) str_pluean = s.TrimStart("PluEan,".ToCharArray());
-                            if (s.StartsWith("VKPreisBrutto")) str_preis = s.TrimStart("VKPreisBrutto,".ToCharArray());
-                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.TrimStart("AuserHausComboBox2,".ToCharArray());
-                            if (s.StartsWith("Bestand")) str_bestand = s.TrimStart("Bestand,".ToCharArray());
+                            if (s.StartsWith("Artikel")) str_artikel = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("PluEan")) str_pluean = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("VKPreisBrutto")) str_preis = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("Bestand")) str_bestand = s.Substring(s.IndexOf(",") + 1);
                         }
                         it.Add(new items { nr = nr++.ToString(), pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
                     }
@@ -255,7 +257,7 @@ namespace HandelTSE.ViewModels
         private void CleanFormButton(object sender, RoutedEventArgs e)
         {
             IEnumerator<TextBox> a = (IEnumerator<TextBox>)FindVisualChildren<TextBox>(this);
-            foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this)) if (cb.Name != "gruppe" & cb.Name != "artikel") cb.Text = "";
+            foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this)) if (cb.Name != "gruppe" & cb.Name != "SearchBoxArtikel") cb.Text = "";
             foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this)) cb.Text = "";
         }
 
@@ -272,17 +274,103 @@ namespace HandelTSE.ViewModels
                 TreeView.Items.Add(newChild);
                 selectedTVI = newChild;
                 SaveWGToDB();
-            }
-            else
+            } else { MessageBox.Show("Field Box cannot be empty or contain the name that exists already!"); }
+        }
+
+        //Delete the Warengruppe from the TreeView
+        private void WarenGruppeDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (TreeView.SelectedItem == null || parent.GetType() != typeof(TreeView)) { MessageBox.Show("Bitte wählen Sie die Warengruppe im TreeView-Bereich aus"); return; }
+            string messageBoxText = "Achtung!\n\nAlle dazugehörige Artikel werden gelöscht.\nWollen Sie wirklich die Daten löschen?";
+            string caption = "Warengruppe löschen";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+            string csvData = File.ReadAllText(@"data.csv");
+            int trigger = 0;
+
+            // Process the user choice
+            switch (result)
             {
-                MessageBox.Show("Field Box cannot be empty or contain the name that exists already!");
+                case MessageBoxResult.OK:
+                    List <string> data = new List<string>(csvData.Split('\n'));
+                    for (int i = 0; i < data.Count(); i++)
+                    {
+                        if (!string.IsNullOrEmpty(data[i]) && data[i] == (string)"[" + selectedTVI.Header.ToString() + "]")
+                        {
+                            trigger = 1;
+                        }
+                        if (trigger == 1)
+                        {
+                            if (string.IsNullOrEmpty(data[i]))
+                            { data.RemoveAt(i--); trigger = 0; continue; }
+                            data.RemoveAt(i--);
+                        }
+                    }
+                    File.WriteAllLines("data.csv", new [] { String.Join("\n", data) });
+                    TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
             }
         }
 
-        //Delete the group from the TreeView
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        //Delete all the articles from WG
+        private void AlleArtikelnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeView.SelectedItem != null && parent.GetType() == typeof(TreeView)) TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
+            if (TreeView.SelectedItem == null || parent.GetType() != typeof(TreeView)) { MessageBox.Show("Bitte wählen Sie die Warengruppe im TreeView-Bereich aus"); return; }
+            string messageBoxText = "Achtung!\n\nWollen Sie wirklich alle Artikel löschen?";
+            string caption = "Artikel löschen";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+            string csvData = File.ReadAllText(@"data.csv");
+            int trigger = 0, trigger2 = 0;
+
+            // Process the user choice
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    List<string> data = new List<string>(csvData.Split('\n'));
+                    foreach (TreeViewItem item in selectedTVI.Items)
+                    {
+                        for (int i = 0; i < data.Count(); i++)
+                        {
+                            if (!string.IsNullOrEmpty(data[i]) && data[i] == (string)"[" + selectedTVI.Header.ToString() + "]")
+                            {
+                                trigger = 1;
+                                continue;
+                            }
+                            if (trigger == 1)
+                            {
+                                if (string.IsNullOrEmpty(data[i]))
+                                { data.RemoveAt(i--); trigger = 0; trigger2 = 0; continue; }
+                                if (data[i].Substring(data[i].IndexOf(",") + 1) == item.Header.ToString())
+                                {
+                                    data.RemoveAt(--i);
+                                    trigger2 = 1;
+                                }
+                                if (trigger2 == 1)
+                                {
+                                    data.RemoveAt(i--);
+                                }
+                            }
+                        }
+                    }
+                    File.WriteAllLines("data.csv", new[] { String.Join("\n", data) });
+                    selectedTVI.Items.Clear();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+
+        //Delete one article from WG
+        private void ArtikelDelete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         //Searching for Artikel by name
@@ -337,11 +425,11 @@ namespace HandelTSE.ViewModels
                             string str_artikel = "", str_waren = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
                             foreach (string s in artikel)
                             {
-                                if (s.StartsWith("Artikel")) str_artikel = s.TrimStart("Artikel,".ToCharArray());
-                                if (s.StartsWith("PluEan")) str_pluean = s.TrimStart("PluEan,".ToCharArray());
-                                if (s.StartsWith("VKPreisBrutto")) str_preis = s.TrimStart("VKPreisBrutto,".ToCharArray());
-                                if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.TrimStart("AuserHausComboBox2,".ToCharArray());
-                                if (s.StartsWith("Bestand")) str_bestand = s.TrimStart("Bestand,".ToCharArray());
+                                if (s.StartsWith("Artikel")) str_artikel = s.Substring(s.IndexOf(",") + 1);
+                                if (s.StartsWith("PluEan")) str_pluean = s.Substring(s.IndexOf(",") + 1);
+                                if (s.StartsWith("VKPreisBrutto")) str_preis = s.Substring(s.IndexOf(",") + 1);
+                                if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.Substring(s.IndexOf(",") + 1);
+                                if (s.StartsWith("Bestand")) str_bestand = s.Substring(s.IndexOf(",") + 1);
                             }
                             str_waren = t.Header.ToString();
                             it2.Add(new items2 { warengruppe = str_waren, pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
@@ -387,7 +475,7 @@ namespace HandelTSE.ViewModels
                                 else
                                 {
                                     artikel[n] = row;
-                                    if (row.TrimStart("PluEan,".ToCharArray()).ToUpper().Contains(SearchBoxArtikel.Text.ToUpper()))
+                                    if (row.Substring(row.IndexOf(",") + 1).ToUpper().Contains(SearchBoxArtikel.Text.ToUpper()))
                                     {
                                         trigger = 0;
                                         trigger2 = 0;
@@ -411,11 +499,11 @@ namespace HandelTSE.ViewModels
                         foreach (string s in artikel)
                         {
                             //MessageBox.Show(s);
-                            if (s.StartsWith("Artikel")) str_artikel = s.TrimStart("Artikel,".ToCharArray());
-                            if (s.StartsWith("PluEan")) str_pluean = s.TrimStart("PluEan,".ToCharArray());
-                            if (s.StartsWith("VKPreisBrutto")) str_preis = s.TrimStart("VKPreisBrutto,".ToCharArray());
-                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.TrimStart("AuserHausComboBox2,".ToCharArray());
-                            if (s.StartsWith("Bestand")) str_bestand = s.TrimStart("Bestand,".ToCharArray());
+                            if (s.StartsWith("Artikel")) str_artikel = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("PluEan")) str_pluean = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("VKPreisBrutto")) str_preis = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("Bestand")) str_bestand = s.Substring(s.IndexOf(",") + 1);
                         }
                         str_waren = t.Header.ToString();
                         it2.Add(new items2 { warengruppe = str_waren, pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
