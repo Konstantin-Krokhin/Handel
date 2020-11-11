@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Windows.Controls;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,33 +7,42 @@ using System.Collections.Specialized;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DataGridRow = System.Windows.Controls.DataGridRow;
 
 namespace HandelTSE.ViewModels
 {
     public partial class Artikelverwaltung
     {
+        //public System.Windows.Controls.DataGridCheckBoxColumn chk = new System.Windows.Controls.DataGridCheckBoxColumn();
         public List<items> Data { get; set; }
         public List<items2> Data2 { get; set; }
         public TreeViewItem selectedTVI { get; set; }
         List<items> it = new List<items>();
         List<items2> it2 = new List<items2>();
+        List<string> articlesToDelete = new List<string>();
         ItemsControl parent { get; set; }
+        CheckBox checkBox = new CheckBox();
         public Artikelverwaltung()
         {
             InitializeComponent();
             if (!File.Exists(@"data.csv")) File.Create(@"data.csv").Close();
+            
+            //dg3.Columns.Add(chk);
         }
 
         //Load Warengruppen and Artikeln from DB into the TreeView
@@ -161,6 +171,9 @@ namespace HandelTSE.ViewModels
             // If selected item is Warengruppe then retrieve data (Artikeln) for this group from DB and output in the DataGrid
             if (parent.GetType() == typeof(TreeView) && File.Exists(@"data.csv"))
             {
+                //Clear the list with chosen articles from the previous WG
+                articlesToDelete.Clear();
+
                 string csvData = File.ReadAllText("data.csv");
                 foreach (TreeViewItem i in selectedTVI.Items)
                 {
@@ -211,9 +224,39 @@ namespace HandelTSE.ViewModels
                     }
                 }//1st foreach
                 Data = it;
+                
                 dg3.ItemsSource = Data;
+
                 it = new List<items>();
             }
+        }
+
+        private void CheckedBox(object sender, RoutedEventArgs e)
+        {
+            checkBox = (CheckBox)e.OriginalSource;
+            DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(checkBox);
+
+            if (checkBox.IsChecked == true && !String.IsNullOrEmpty(dataGridRow.ToString()))
+            {
+                var data = dataGridRow.Item as items;
+                if (!articlesToDelete.Contains(data.artikel))  articlesToDelete.Add(data.artikel);
+            }
+
+            e.Handled = true;
+        }
+
+        private void UncheckedBox(object sender, RoutedEventArgs e)
+        {
+            checkBox = (CheckBox)e.OriginalSource;
+            DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(checkBox);
+
+            if (checkBox.IsChecked == false && !String.IsNullOrEmpty(dataGridRow.ToString()))
+            {
+                var data = dataGridRow.Item as items;
+                if (articlesToDelete.Contains(data.artikel)) articlesToDelete.Remove(data.artikel);
+            }
+
+            e.Handled = true;
         }
 
         // If TreeView item was selected (warengruppe or artikel)
@@ -221,16 +264,27 @@ namespace HandelTSE.ViewModels
         {
             TreeView.Tag = e.OriginalSource;
             selectedTVI = TreeView.Tag as TreeViewItem;
-            
-            if (selectedTVI != null)
+            parent = GetSelectedTreeViewItemParent(selectedTVI);
+
+            if (selectedTVI != null) { LoadTVItems(); }
+
+            if (parent.GetType() == typeof(TreeViewItem)) 
             {
-                parent = GetSelectedTreeViewItemParent(selectedTVI);
-                LoadTVItems();
+                //Select the row in DataGrid corresponding to the TreeViewItem
+                try
+                {
+                    var emp = (from i in Data
+                               where i.artikel == selectedTVI.Header.ToString()
+                               select i).FirstOrDefault();
+                    if (emp != null) dg3.SelectedItem = emp;
+                    
+                }
+                catch (Exception){}
             }
         }
 
         //Change default names inherited from item class variables to human readable
-        private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        private void CustomizeHeaders(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.Column.Header.ToString() == "nr") e.Column.Header = "Nr.";
             if (e.Column.Header.ToString() == "pluean") e.Column.Header = "PLU / EAN";
@@ -370,7 +424,65 @@ namespace HandelTSE.ViewModels
         //Delete one article from WG
         private void ArtikelDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (articlesToDelete.Count == 0) { MessageBox.Show("Bitte wählen Sie die Artikel im Tabelle aus"); return; }
+            string messageBoxText = "Achtung!\n\nWollen Sie wirklich " + articlesToDelete.Count + " Artikel löschen?";
+            string caption = "Artikel löschen";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
 
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+            string csvData = File.ReadAllText(@"data.csv");
+            int trigger = 0, trigger2 = 0;
+
+            // Process the user choice
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    List<string> data = new List<string>(csvData.Split('\n'));
+                    string WG = "";
+                    TreeViewItem tv = new TreeViewItem();
+                    if (parent.GetType() == TreeView.GetType()) { tv = selectedTVI; WG = selectedTVI.Header.ToString(); }
+                    else
+                    {
+                        tv = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI);
+                        WG = tv.Header.ToString();
+                    }
+                    for (int j = 0; j < articlesToDelete.Count; j++)
+                    {
+                        for (int i = 0; i < data.Count(); i++)
+                        {
+                            if (!string.IsNullOrEmpty(data[i]) && data[i] == (string)"[" + WG + "]")
+                            {
+                                trigger = 1;
+                                continue;
+                            }
+                            if (trigger == 1)
+                            {
+                                if (string.IsNullOrEmpty(data[i]) && trigger2 == 1)
+                                { data.RemoveAt(i); trigger = 0; trigger2 = 0; continue; }
+                                if (data[i].Substring(data[i].IndexOf(",") + 1) == articlesToDelete[j])
+                                {
+                                    data.RemoveAt(--i);
+                                    trigger2 = 1;
+                                }
+                                if (trigger2 == 1)
+                                {
+                                    data.RemoveAt(i--);
+                                }
+                            }
+                        }
+                    }
+                    File.WriteAllLines("data.csv", new[] { String.Join("\n", data) });
+
+                    //Loop through all TreeViewItems to delete ones that were deleted from DB
+                    for (int i = 0; i < tv.Items.Count; i++) 
+                        if (articlesToDelete.Contains(((TreeViewItem)tv.Items[i]).Header.ToString())) 
+                            tv.Items.RemoveAt(tv.Items.IndexOf(((TreeViewItem)tv.Items[i])));
+                    LoadTVItems();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
 
         //Searching for Artikel by name
@@ -514,6 +626,26 @@ namespace HandelTSE.ViewModels
             Data2 = it2;
             dg3.ItemsSource = Data2;
             it2 = new List<items2>();
+        }
+    }
+
+    public class VisualTreeHelpers
+    {
+        // Returns the first ancester of specified type
+        public static T FindAncestor<T>(DependencyObject current)
+        where T : DependencyObject
+        {
+            current = VisualTreeHelper.GetParent(current);
+
+            while (current != null)
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            };
+            return null;
         }
     }
 }

@@ -242,14 +242,14 @@
         <ComboBox Name="ImHausComboBox2" Grid.Row="10" Grid.Column="7" Margin="60, 0, 0, 0" IsEnabled="False" Height="20" Width="50" HorizontalAlignment="Left"/>
         <Button Content="übernehmen" Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="10" Background="Gray" Margin="20, 3, 20, 0"/>
 
-        <DataGrid Name ="dg3" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
+        <DataGrid Name ="dg3" IsReadOnly="True" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"
       ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Column="2" Grid.ColumnSpan="13" Grid.Row="14" Height="{Binding ElementName=WindowName,Path=ActualWidth}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="temp">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox/>
+                            <CheckBox Name="checkbox" Unchecked="UncheckedBox" IsChecked="False" Checked="CheckedBox"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
