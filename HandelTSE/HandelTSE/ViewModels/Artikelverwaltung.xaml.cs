@@ -1,9 +1,11 @@
 ﻿using Microsoft.Windows.Controls;
 using System;
 using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
@@ -28,7 +30,6 @@ namespace HandelTSE.ViewModels
 {
     public partial class Artikelverwaltung
     {
-        //public System.Windows.Controls.DataGridCheckBoxColumn chk = new System.Windows.Controls.DataGridCheckBoxColumn();
         public List<items> Data { get; set; }
         public List<items2> Data2 { get; set; }
         public TreeViewItem selectedTVI { get; set; }
@@ -80,19 +81,6 @@ namespace HandelTSE.ViewModels
         //Checks if group contains newchild item
         public int CheckGroupItems(TreeViewItem newChild) { foreach (TreeViewItem i in selectedTVI.Items) if (i.Header.ToString() == newChild.Header.ToString()) return 0; return 1; }
 
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj != null)
-            {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T) { yield return (T)child; }
-                    foreach (T childOfChild in FindVisualChildren<T>(child)) { yield return childOfChild; }
-                }
-            }
-        }
-
         //DataGrid columns
         public class items
         {
@@ -104,6 +92,7 @@ namespace HandelTSE.ViewModels
             public string bestand { get; set; }
         }
 
+        //DataGrid columns in case Articles searched by EAN or Artikel Name
         public class items2
         {
             public string warengruppe { get; set; }
@@ -231,6 +220,14 @@ namespace HandelTSE.ViewModels
             }
         }
 
+        // Used by button "alle Artikel"
+        private void CheckedBox_SelectAll(object sender, RoutedEventArgs e)
+        { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(dg3)) ch.IsChecked = true; }
+
+        private void CheckedBox_DeselectAll(object sender, RoutedEventArgs e)
+        { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(dg3)) ch.IsChecked = false; }
+
+        // When checkbox is checked method adds Artikel to articlesToDelete (queue for deleting)
         private void CheckedBox(object sender, RoutedEventArgs e)
         {
             checkBox = (CheckBox)e.OriginalSource;
@@ -239,12 +236,13 @@ namespace HandelTSE.ViewModels
             if (checkBox.IsChecked == true && !String.IsNullOrEmpty(dataGridRow.ToString()))
             {
                 var data = dataGridRow.Item as items;
-                if (!articlesToDelete.Contains(data.artikel))  articlesToDelete.Add(data.artikel);
+                if (!articlesToDelete.Contains(data.artikel)) articlesToDelete.Add(data.artikel);
             }
 
             e.Handled = true;
         }
 
+        // When unchecked the checkbox its deleted from the articlesToDelete array used later to delete articles
         private void UncheckedBox(object sender, RoutedEventArgs e)
         {
             checkBox = (CheckBox)e.OriginalSource;
@@ -270,14 +268,18 @@ namespace HandelTSE.ViewModels
 
             if (parent.GetType() == typeof(TreeViewItem)) 
             {
-                //Select the row in DataGrid corresponding to the TreeViewItem
+                // Select the row in DataGrid corresponding to the TreeViewItem selected and tick the checkbox to add Artikel to articlesToDelete array
                 try
                 {
+                    // Select row in DataGrid based on the selected TreeViewItem (Artikel) in the Warengruppe in TreeView
                     var emp = (from i in Data
                                where i.artikel == selectedTVI.Header.ToString()
                                select i).FirstOrDefault();
                     if (emp != null) dg3.SelectedItem = emp;
-                    
+
+                    // Checks the checkbox on the selected row in DataGrid
+                    var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
+                    foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row))  x.IsChecked = true;
                 }
                 catch (Exception){}
             }
@@ -555,6 +557,7 @@ namespace HandelTSE.ViewModels
             it2 = new List<items2>();
         }
 
+        //Searching for Artikel by EAN
         private void EAN_SearchButton_Click(object sender, RoutedEventArgs e)
         {
             string csvData = File.ReadAllText("data.csv");
@@ -627,8 +630,23 @@ namespace HandelTSE.ViewModels
             dg3.ItemsSource = Data2;
             it2 = new List<items2>();
         }
+
+        // Looks for children of the element (Control)
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T) { yield return (T)child; }
+                    foreach (T childOfChild in FindVisualChildren<T>(child)) { yield return childOfChild; }
+                }
+            }
+        }
     }
 
+    // Class with method for looking the Parent of the element (Control)
     public class VisualTreeHelpers
     {
         // Returns the first ancester of specified type
