@@ -37,9 +37,9 @@ C:\Users\Konstantin\Desktop\kokro-handel-ac22e3a25e72\HandelTSE\HandelTSE\obj\De
 C:\Users\Konstantin\Desktop\kokro-handel-ac22e3a25e72\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csproj.CoreCompileInputs.cache
 C:\Users\Konstantin\Desktop\kokro-handel-ac22e3a25e72\HandelTSE\HandelTSE\obj\Debug\HandelTSE.exe
 C:\Users\Konstantin\Desktop\kokro-handel-ac22e3a25e72\HandelTSE\HandelTSE\obj\Debug\HandelTSE.pdb
-C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\MainWindow.g.cs
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Artikelverwaltung.g.cs
+C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Kasse.g.cs
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\Views\Main.g.cs
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\Views\MwStTool.g.cs
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\Views\StatisticsGraph.g.cs
@@ -59,6 +59,7 @@ C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\bin\Debug\WPFToolkit.dl
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\bin\Debug\Syncfusion.SfChart.WPF.xml
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\MainWindow.baml
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Artikelverwaltung.baml
+C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Kasse.baml
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\Views\Main.baml
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\Views\MwStTool.baml
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\Views\StatisticsGraph.baml
@@ -71,3 +72,5 @@ C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csp
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csproj.CopyComplete
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.exe
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.pdb
+C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache
+C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\App.baml

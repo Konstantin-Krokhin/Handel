@@ -4,6 +4,55 @@
              xmlns:local="clr-namespace:HandelTSE"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DropShadowEffect x:Key="MyEffect" ShadowDepth="1" BlurRadius="30" Color="CornflowerBlue"/>
+        
+        <Style TargetType="FrameworkElement" x:Key="VisibleAnimation">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Opacity" Value="10"/>
+            <Setter Property="Height" Value="700"></Setter>
+            <Style.Triggers>
+                <Trigger Property="Visibility" Value="Visible">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                         From="0.0" To="1.0" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="7,7,7,7" Background="White"    BorderBrush="#ccc" BorderThickness="1,1,1,1" >
+                            <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                
+                <!-- Glowing the Buttons when Hovering with mouse-->
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Effect" Value="{StaticResource MyEffect}" />
+                </Trigger>
+                
+                <EventTrigger RoutedEvent="Button.Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

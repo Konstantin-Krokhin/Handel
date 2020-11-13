@@ -86,5 +86,11 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
             DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
         }
+
+        private void Kasse_Click(object sender, RoutedEventArgs e)
+        {
+            Kasse kasse = new Kasse();
+            kasse.Show();
+        }
     }
 }
