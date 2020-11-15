@@ -42,8 +42,6 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
             if (!File.Exists(@"data.csv")) File.Create(@"data.csv").Close();
-            
-            //dg3.Columns.Add(chk);
         }
 
         //Load Warengruppen and Artikeln from DB into the TreeView
@@ -119,11 +117,7 @@ namespace HandelTSE.ViewModels
                     if (cb.Text.Contains("[") || cb.Text.Contains("]")) { MessageBox.Show("Textfelder dürfen keine '[' oder ']' Zeichen enthalten!"); return; }
                     lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
                 }
-            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
-            {
-                lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
-                cb.Text = "";
-            }
+            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this)) { lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.Text = ""; }
 
             //Save to DB file
             string str = "";
@@ -236,7 +230,9 @@ namespace HandelTSE.ViewModels
             if (checkBox.IsChecked == true && !String.IsNullOrEmpty(dataGridRow.ToString()))
             {
                 var data = dataGridRow.Item as items;
+                /* ERROR FIX WHEN DELETED ONE ARTICLE SELECTED FROM TV and DG */
                 if (!articlesToDelete.Contains(data.artikel)) articlesToDelete.Add(data.artikel);
+
             }
 
             e.Handled = true;
@@ -318,19 +314,39 @@ namespace HandelTSE.ViewModels
         }
 
         //Cleans the TextBox for Warengruppe
-        private void CleanGroupButton(object sender, RoutedEventArgs e) { gruppe.Text = ""; }
+        private void CleanGroupButton(object sender, RoutedEventArgs e) { gruppe.Text = ""; selectedTVI.IsSelected = false; }
 
         //Adds the group with the name entered in the textfield to the TreeView
         private void WarenGruppeSave(object sender, RoutedEventArgs e)
         {
             // Checks if Warengruppe field is not empty and does not contain same name as existing group in the TreeView
-            if (!String.IsNullOrEmpty(gruppe.Text) && !TreeView.Items.Cast<TreeViewItem>().Any(item => item.Header.ToString() == gruppe.Text))
-            {
+            if (String.IsNullOrEmpty(gruppe.Text) || TreeView.Items.Cast<TreeViewItem>().Any(item => item.Header.ToString() == gruppe.Text))
+            { MessageBox.Show("Feld Box darf nicht leer sein oder den bereits vorhandenen Namen enthalten!"); } 
+            else if(selectedTVI == null || selectedTVI.IsSelected == false) // IF item on the TreeView was not selected then create new
+            { 
                 TreeViewItem newChild = new TreeViewItem() { Header = gruppe.Text };
                 TreeView.Items.Add(newChild);
                 selectedTVI = newChild;
                 SaveWGToDB();
-            } else { MessageBox.Show("Field Box cannot be empty or contain the name that exists already!"); }
+            }
+            else // Otherwise if item is selected change WG name in the DB saving the articles
+            {
+                string csvData = File.ReadAllText(@"data.csv");
+                List<string> data = new List<string>(csvData.Split('\n'));
+                
+                for (int i = 0; i < data.Count(); i++)
+                {
+                    if (!string.IsNullOrEmpty(data[i]) && data[i] == (string)"[" + selectedTVI.Header.ToString() + "]")
+                    {
+                        data[i] = "[" + gruppe.Text + "]";
+                    }
+                }
+                File.WriteAllLines("data.csv", new[] { String.Join("\n", data) });
+                TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
+                TreeViewItem newChild = new TreeViewItem() { Header = gruppe.Text };
+                TreeView.Items.Add(newChild);
+                selectedTVI = newChild;
+            }
         }
 
         //Delete the Warengruppe from the TreeView
@@ -643,6 +659,12 @@ namespace HandelTSE.ViewModels
                     foreach (T childOfChild in FindVisualChildren<T>(child)) { yield return childOfChild; }
                 }
             }
+        }
+
+        private void dg3_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
+            foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) x.IsChecked = true;
         }
     }
 
