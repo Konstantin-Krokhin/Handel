@@ -51,7 +51,29 @@ namespace HandelTSE.ViewModels
                         {
                             Button newChild = new Button() { Content = row.Trim('[', ']') };
                             //prevNode = (string)newChild.Content;
-                            if (CheckGroup(newChild) == 1) { if (x < 40) buttons[x++].Content = newChild.Content; }
+                            if (CheckGroup(newChild) == 1)
+                            {
+                                if (x < 40)
+                                {
+                                    //For WG Colors
+                                    if (File.Exists(@"data_colors.csv"))
+                                    {
+                                        string csvData2 = File.ReadAllText(@"data_colors.csv");
+                                        List<string> data2 = new List<string>(csvData2.Split('\n'));
+
+                                        for (int i = 0; i < data2.Count(); i++)
+                                        {
+                                            if (!string.IsNullOrEmpty(data2[i]) && data2[i].Contains(",") && data2[i].Substring(0, newChild.Content.ToString().Length+1) == newChild.Content.ToString() + ",")
+                                            {
+                                                var converter = new System.Windows.Media.BrushConverter();
+                                                buttons[x].Style = (Style)FindResource("BlueButton");
+                                                buttons[x].Background = (Brush)converter.ConvertFromString(data2[i].Substring(data2[i].IndexOf(",") + 1));
+                                            }
+                                        }
+                                    }
+                                    buttons[x++].Content = newChild.Content;
+                                }
+                            }
                         }
                     }
                 }

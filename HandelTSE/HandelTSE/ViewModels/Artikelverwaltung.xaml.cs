@@ -24,7 +24,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Drawing;
 using DataGridRow = System.Windows.Controls.DataGridRow;
+using Color = System.Windows.Media.Color;
+using System.Globalization;
 
 namespace HandelTSE.ViewModels
 {
@@ -314,11 +317,12 @@ namespace HandelTSE.ViewModels
         }
 
         //Cleans the TextBox for Warengruppe
-        private void CleanGroupButton(object sender, RoutedEventArgs e) { gruppe.Text = ""; selectedTVI.IsSelected = false; }
+        private void CleanGroupButton(object sender, RoutedEventArgs e) { gruppe.Text = ""; if(selectedTVI != null) selectedTVI.IsSelected = false; }
 
         //Adds the group with the name entered in the textfield to the TreeView
         private void WarenGruppeSave(object sender, RoutedEventArgs e)
         {
+            string line = null;
             // Checks if Warengruppe field is not empty and does not contain same name as existing group in the TreeView
             if (String.IsNullOrEmpty(gruppe.Text) || TreeView.Items.Cast<TreeViewItem>().Any(item => item.Header.ToString() == gruppe.Text))
             { MessageBox.Show("Feld Box darf nicht leer sein oder den bereits vorhandenen Namen enthalten!"); } 
@@ -328,6 +332,7 @@ namespace HandelTSE.ViewModels
                 TreeView.Items.Add(newChild);
                 selectedTVI = newChild;
                 SaveWGToDB();
+                if (cp.SelectedColor != null) line = string.Format("{0},{1}", gruppe.Text, cp.SelectedColor.Value);
             }
             else // Otherwise if item is selected change WG name in the DB saving the articles
             {
@@ -341,12 +346,47 @@ namespace HandelTSE.ViewModels
                         data[i] = "[" + gruppe.Text + "]";
                     }
                 }
+                if (cp.SelectedColor != null)
+                {
+                    string csvData2 = File.ReadAllText(@"data_colors.csv");
+                    List<string> data2 = new List<string>(csvData2.Split('\n'));
+                    int trigger = 0;
+
+                    for (int i = 0; i < data2.Count(); i++)
+                    {
+                        if (!string.IsNullOrEmpty(data2[i]) && data2[i].Contains(selectedTVI.Header.ToString() + ","))
+                        {
+                            data2[i] = gruppe.Text + "," + cp.SelectedColor.Value.ToString();
+                            trigger = 1;
+                        }
+                    }
+                    if (trigger == 0) File.AppendAllText("data_colors.csv", string.Format("{0},{1}", gruppe.Text, cp.SelectedColor.Value));
+                    if (trigger == 1) File.WriteAllLines("data_colors.csv", new[] { String.Join("\n", data2) });
+                }
+                else
+                {
+                    string csvData2 = File.ReadAllText(@"data_colors.csv");
+                    List<string> data2 = new List<string>(csvData2.Split('\n'));
+
+                    for (int i = 0; i < data2.Count(); i++)
+                    {
+                        if (!string.IsNullOrEmpty(data2[i]) && data2[i].Contains(selectedTVI.Header.ToString() + ","))
+                        {
+                            data2[i] = gruppe.Text + data2[i].Substring(data2[i].IndexOf(","));
+                        }
+                        File.WriteAllLines("data_colors.csv", new[] { String.Join("\n", data2) });
+                    }
+                }
                 File.WriteAllLines("data.csv", new[] { String.Join("\n", data) });
                 TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
+                LoadForm(this, e);
+                
+                /*TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
                 TreeViewItem newChild = new TreeViewItem() { Header = gruppe.Text };
                 TreeView.Items.Add(newChild);
-                selectedTVI = newChild;
+                selectedTVI = newChild;*/
             }
+            if (line != null) File.AppendAllText("data_colors.csv", line+"\n"); ;
         }
 
         //Delete the Warengruppe from the TreeView
@@ -647,6 +687,21 @@ namespace HandelTSE.ViewModels
             it2 = new List<items2>();
         }
 
+        //Change color of the output of WG
+        private void ColorOfWGChange(object sender, RoutedEventArgs e) { if (cp.IsOpen == false) cp.IsOpen = true; else cp.IsOpen = false; }
+
+        //For Color Picker
+        private void cp_SelectedColorChanged_1(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (cp.SelectedColor.HasValue)
+            {
+                Color C = cp.SelectedColor.Value;
+                long colorVal = Convert.ToInt64(C.B * (Math.Pow(256, 0)) + C.G * (Math.Pow(256, 1)) + C.R * (Math.Pow(256, 2)));
+            }
+            gruppe.Background = new SolidColorBrush(cp.SelectedColor.Value);
+            if (!File.Exists(@"data_colors.csv")) File.Create(@"data_colors.csv").Close();
+        }
+
         // Looks for children of the element (Control)
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
         {
@@ -666,6 +721,7 @@ namespace HandelTSE.ViewModels
             var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
             foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) x.IsChecked = true;
         }
+
     }
 
     // Class with method for looking the Parent of the element (Control)

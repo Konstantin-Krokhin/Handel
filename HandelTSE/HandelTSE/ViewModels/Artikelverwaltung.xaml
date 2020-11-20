@@ -6,8 +6,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HandelTSE.Views"
              xmlns:local1="clr-namespace:HandelTSE.ViewModels"
+             xmlns:xctk="http://schemas/xceed.com/wpf/xaml/toolkit" 
+             xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid x:Name ="grid" Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -48,18 +51,21 @@
 
         <TreeView Name="TreeView" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Loaded="LoadForm" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2"/>
 
-        <TextBox x:Name="gruppe" Grid.Row="0" Background="Gray" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
+        <TextBox x:Name="gruppe" Grid.Row="0" Background="white" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
         <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" Click="CleanGroupButton" Margin="50, 0, 50, 0">
             <StackPanel>
                 <Image Source="/img/add.png" />
             </StackPanel>
         </Button>
-
-        <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-165,0,0,0">
+        
+        <!-- Color picking fucntionality (Button and Color Picker element) -->
+        <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-165,0,0,0" Click="ColorOfWGChange">
             <StackPanel>
                 <Image Source="/img/paint.png" />
             </StackPanel>
         </Button>
+        
+        <xctk1:ColorPicker Name="cp" Visibility="Hidden" Grid.Column="1" DisplayColorAndName="True" SelectedColorChanged="cp_SelectedColorChanged_1" AvailableColorsSortingMode="HueSaturationBrightness" ></xctk1:ColorPicker>
 
         <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-115,0, 0, 0" Click="WarenGruppeSave">
             <StackPanel>

@@ -24,6 +24,10 @@
             </Style.Triggers>
         </Style>
 
+        <Style TargetType="Button" x:Key="BlueButton">
+            <Setter Property="Background" Value="White" />
+        </Style>
+
         <Style TargetType="Button">
             <Setter Property="Background" Value="White" />
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
