@@ -89,6 +89,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\DragDataGridRowMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewModels\DragDataGridRowMessageBox.Designer.cs">
+      <DependentUpon>DragDataGridRowMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Kasse.xaml.cs">
       <DependentUpon>Kasse.xaml</DependentUpon>
     </Compile>
@@ -173,6 +179,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewModels\DragDataGridRowMessageBox.resx">
+      <DependentUpon>DragDataGridRowMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="img\.vs\img\v16\.suo" />
     <None Include="img\.vs\slnx.sqlite" />

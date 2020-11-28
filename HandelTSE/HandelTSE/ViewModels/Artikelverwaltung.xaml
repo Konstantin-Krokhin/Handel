@@ -49,9 +49,24 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.ColumnSpan="15" Grid.Row="0" Grid.RowSpan="1" Background="Bisque"/>
 
-        <TreeView Name="TreeView" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Loaded="LoadForm" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2"/>
+        <TreeView Name="TreeView" AllowDrop="True" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Loaded="LoadForm" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2">
+            <TreeView.ItemContainerStyle>
+                
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Style.Triggers>
+                        <Trigger Property="local1:TreeViewDropHighlighter.IsPossibleDropTarget" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="local1:TreeViewDropHighlighter.IsPossibleDropTarget" Value="False">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
 
-        <TextBox x:Name="gruppe" Grid.Row="0" Background="white" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+
+        <TextBox x:Name="gruppe" AllowDrop="False" Grid.Row="0" Background="white" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
         <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" Click="CleanGroupButton" Margin="50, 0, 50, 0">
             <StackPanel>
                 <Image Source="/img/add.png" />
@@ -242,7 +257,7 @@
         <ComboBox Name="ImHausComboBox2" Grid.Row="10" Grid.Column="7" Margin="60, 0, 0, 0" IsEnabled="False" Height="20" Width="50" HorizontalAlignment="Left"/>
         <Button Content="übernehmen" Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="10" Background="Gray" Margin="20, 3, 20, 0"/>
 
-        <DataGrid Name ="dg3" IsReadOnly="True" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
+        <DataGrid Name ="dg3" SelectionMode="Single" IsReadOnly="True" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"
       ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Column="2" Grid.ColumnSpan="13" Grid.Row="14" Height="{Binding ElementName=WindowName,Path=ActualWidth}" 
       SelectionChanged="dg3_SelectionChanged">

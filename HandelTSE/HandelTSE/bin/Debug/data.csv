@@ -45,7 +45,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[rq]
+[wg123]
 Artikel,ert1
 VKPreisBrutto,
 EKPreisBrutto,
@@ -67,7 +67,6 @@ Einheit,
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
-
 
 [rq]
 Artikel,gseg
@@ -138,8 +137,6 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-
-
 [dh]
 Artikel,
 VKPreisBrutto,
@@ -163,10 +160,6 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-
-
-
-
 [WW]
 Artikel,
 VKPreisBrutto,
@@ -189,11 +182,6 @@ Einheit,
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
-
-
-
-
-
 
 [wg12]
 Artikel,
@@ -356,5 +344,48 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
+[rq]
+Artikel,ARte
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
 
-
+[wg123]
+Artikel,gseg
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
