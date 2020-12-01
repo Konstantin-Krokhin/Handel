@@ -9,7 +9,7 @@
              xmlns:xctk="http://schemas/xceed.com/wpf/xaml/toolkit" 
              xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="830" MinWidth="830">
 
     <Grid x:Name ="grid" Background="LightGray">
         <Grid.ColumnDefinitions>
@@ -51,7 +51,7 @@
 
         <TreeView Name="TreeView" AllowDrop="True" TreeViewItem.Selected="TreeViewItem_OnItemSelected" Loaded="LoadForm" Grid.Row="1" Grid.RowSpan="14" Grid.ColumnSpan="2">
             <TreeView.ItemContainerStyle>
-                
+
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Style.Triggers>
                         <Trigger Property="local1:TreeViewDropHighlighter.IsPossibleDropTarget" Value="True">
@@ -72,14 +72,14 @@
                 <Image Source="/img/add.png" />
             </StackPanel>
         </Button>
-        
+
         <!-- Color picking fucntionality (Button and Color Picker element) -->
         <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-165,0,0,0" Click="ColorOfWGChange">
             <StackPanel>
                 <Image Source="/img/paint.png" />
             </StackPanel>
         </Button>
-        
+
         <xctk1:ColorPicker Name="cp" Visibility="Hidden" Grid.Column="1" DisplayColorAndName="True" SelectedColorChanged="cp_SelectedColorChanged_1" AvailableColorsSortingMode="HueSaturationBrightness" ></xctk1:ColorPicker>
 
         <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-115,0, 0, 0" Click="WarenGruppeSave">
@@ -146,15 +146,17 @@
         </ComboBox>
         <Button Content="Hintergrund farben" Background="Gray"  Grid.Column="8" Grid.Row="1" Grid.RowSpan="2" Width="120"  Margin="10, 5"></Button>
         <TextBlock Text="PLU/EAN" Grid.Column="2" Grid.Row="2" Margin="20, 5" />
-        <ComboBox Name="PluEan" Grid.Column="3" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="2" Width="150" Margin="0, 5, 0, 0">
+        <ComboBox Name="PluEan" Grid.Column="3" HorizontalAlignment="Left" SelectedIndex="0" Grid.ColumnSpan="2" Grid.Row="2" Width="150" Margin="0, 5, 0, 0" SelectionChanged="PluEan_SelectionChanged">
             <ComboBoxItem>EAN-Code einscannen</ComboBoxItem>
             <ComboBoxItem>EAN-Code generieren</ComboBoxItem>
             <ComboBoxItem>EAN-Code mit Preis</ComboBoxItem>
             <ComboBoxItem>EAN-Code mit Gewicht</ComboBoxItem>
             <ComboBoxItem>EAN-Code min Menge</ComboBoxItem>
         </ComboBox>
-        <Button Content="Artikel-Optionen" IsEnabled="False" Grid.Column="5" Grid.Row="2" Margin="7, 4, 7, 0"/>
-        <Button Content="Set - Artikel" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Background="Gray" Margin="0, 3, 0, 0"/>
+        <Button x:Name="ArtikelOptionenButton" Content="Artikel-Optionen" IsEnabled="False" Grid.Column="5" Grid.Row="2" Margin="7, 4, 7, 0"/>
+        <ComboBox Name="ComboBoxMitPreis" Grid.Column="5" Grid.Row="2" Visibility="Hidden" Margin="7, 4, 7, 0" />
+        <Button x:Name="SetArtikelButton" Content="Set - Artikel" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Background="Gray" Margin="0, 3, 0, 0"/>
+        <TextBox x:Name="TextFieldMitPreis" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Visibility="Hidden" Margin="0, 3, 0, 0" />
 
         <TextBlock Text="VK-Preis" Grid.Column="2" Grid.Row="3" Margin="20, 5" />
         <TextBox Name="VKPreisBrutto"  Grid.Column="3" Background="Pink" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
@@ -174,15 +176,15 @@
         MwSt. <LineBreak/>
         außer Haus
         </TextBlock>
-        <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="0, 10, 0, 10" Width="50" HorizontalAlignment="Left">
+        <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="0, 10, 0, 10" Width="70" HorizontalAlignment="Left">
             <ComboBoxItem>16 %</ComboBoxItem>
             <ComboBoxItem>19 %</ComboBoxItem>
         </ComboBox>
-        <ComboBox Name ="ImHaus" Grid.Row="5" Grid.Column="4" Margin="5, 10, 0, 10" Width="50" HorizontalAlignment="Left"/>
-        <TextBlock Text="im Haus" Grid.Column="4" Grid.Row="5" Grid.RowSpan="2" Margin="55, 13, 0, 0"/>
+        <ComboBox Name ="ImHaus" Grid.Row="5" Grid.Column="4" Margin="5, 10, 0, 10" Width="70" HorizontalAlignment="Left"/>
+        <TextBlock Text="im Haus" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="5, 13, 0, 0"/>
 
         <TextBlock Text="Einheit" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="55, 13, 0, 0"/>
-        <ComboBox Name="Einheit" Grid.Row="5" Grid.Column="6" Margin="0, 10, 0, 10" Width="50" HorizontalAlignment="Left">
+        <ComboBox Name="Einheit" Grid.Row="5" Grid.Column="6" Margin="0, 10, 0, 10" Width="70" HorizontalAlignment="Left">
             <ComboBoxItem>Stück</ComboBoxItem>
             <ComboBoxItem>Packung</ComboBoxItem>
             <ComboBoxItem>Kilogramm</ComboBoxItem>
@@ -203,7 +205,7 @@
         <TextBox Name="Legerplatz2" Grid.Column="4" Grid.Row="6" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
 
         <TextBlock Text="Pfand" Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" Margin="55, 5, 0, 0"/>
-        <ComboBox Name ="Pfand" Grid.Row="6" Grid.Column="6" Margin="0, 3, 0, 2" Width="50" HorizontalAlignment="Left">
+        <ComboBox Name ="Pfand" Grid.Row="6" Grid.Column="6" Margin="0, 3, 0, 2" Width="70" HorizontalAlignment="Left">
             <ComboBoxItem>kein</ComboBoxItem>
             <ComboBoxItem>0.08|19%</ComboBoxItem>
             <ComboBoxItem>0.15|19%</ComboBoxItem>
@@ -237,11 +239,34 @@
         <TextBlock Text="Mindestbestand" Grid.Column="7" Grid.Row="8" Grid.RowSpan="2" HorizontalAlignment="Right" Margin="0, 5, 10, 0"/>
         <TextBox Name ="MindestBestand" Grid.Column="8" Grid.Row="8" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
 
+        <Button Name="EtikettDruckenButton" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="12, 5, 3, 5" Click="SaveButton" IsEnabled="False" Visibility="Hidden">
+            <DockPanel>
+                <Image Source="/img/EtikettDruken.png" Height="20" Width="20"/>
+                <TextBlock VerticalAlignment="center" FontSize="11"> Etikett<LineBreak/>drucken</TextBlock>
+            </DockPanel>
+        </Button>
+
+        <Button x:Name="KopierenInWGButton" Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="8, 5, 3, 5" Click="KopierenInWGButton_Clicked" Visibility="Hidden">
+            <TextBlock FontSize="11"> kopieren in<LineBreak/>Warengruppe</TextBlock>
+        </Button>
+
+        <Button x:Name="VerschiebenInWGButton" Click="VerschiebenInWGButton_Clicked" Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="0, 5, 3, 5" Visibility="Hidden">
+            <TextBlock FontSize="11"> verschieben in<LineBreak/>Warengruppe </TextBlock>
+        </Button>
+
+        <ComboBox x:Name="WGComboBox" IsVisibleChanged="WGComboLoadElements" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="9" Margin="0, 10" IsEditable="True" Text="-- wählen Sie aus --" Visibility="Hidden" />
+
+        <Button x:Name="KopieSpeichernButton" Grid.Column="7" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="15, 3, 0, 0" Click="SaveButton" Visibility="Hidden">
+            <DockPanel>
+                <Image Source="/img/save.png"/>
+                <TextBlock FontSize="11" VerticalAlignment="center">Kopie <LineBreak/> speichern </TextBlock>
+            </DockPanel>
+        </Button>
+
         <Button Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="20, 3, 20, 0" Click="SaveButton">
             <DockPanel>
                 <Image Source="/img/save.png"/>
-                <TextBlock VerticalAlignment="center">speichern
-                </TextBlock>
+                <TextBlock VerticalAlignment="center">speichern </TextBlock>
             </DockPanel>
         </Button>
 

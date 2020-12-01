@@ -1,5 +1,5 @@
 
-[rq]
+[WG2]
 Artikel,
 VKPreisBrutto,
 EKPreisBrutto,
@@ -68,7 +68,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[rq]
+[aa]
 Artikel,gseg
 VKPreisBrutto,
 EKPreisBrutto,
@@ -91,7 +91,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[gw]
+[WG1]
 Artikel,
 VKPreisBrutto,
 EKPreisBrutto,
@@ -344,7 +344,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[rq]
+[WG2]
 Artikel,ARte
 VKPreisBrutto,
 EKPreisBrutto,
@@ -383,6 +383,99 @@ Etikett2,
 MindestBestand,
 Lieferanten,
 PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[WG1]
+Artikel,ARte
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[WT]
+Artikel,ARte
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,EAN-Code einscannen
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[WT]
+Artikel,ARTIKLE
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,kein
+PluEan,EAN-Code mit Preis
+AusserHaus,19 %
+ImHaus,
+Einheit,Kilogramm
+Pfand,0.08|19%
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[WTT]
+Artikel,ARTIKLE
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+PART_EditableTextBox,-- wählen Sie aus --
+Lieferanten,
+PluEan,EAN-Code einscannen
 AusserHaus,
 ImHaus,
 Einheit,

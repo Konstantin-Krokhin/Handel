@@ -228,5 +228,8 @@
     <Resource Include="img\down-arrow.png" />
     <Resource Include="img\up-arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\EtikettDruken.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

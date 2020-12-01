@@ -43,6 +43,7 @@ namespace HandelTSE.ViewModels
         List<string> articlesToDelete = new List<string>();
         ItemsControl parent { get; set; }
         CheckBox checkBox = new CheckBox();
+        Int32 rowIndex;
 
         public Artikelverwaltung()
         {
@@ -51,10 +52,10 @@ namespace HandelTSE.ViewModels
             dg3.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(dg3_PreviewMouseLeftButtonDown);
         }
 
-        /// DataGridRow Drap&Drop START
+        ///////// DataGridRow Drap&Drop START
         void dg3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var rowIndex = GetCurrentRowIndex(e.GetPosition);
+            rowIndex = GetCurrentRowIndex(e.GetPosition);
             if (rowIndex < 0) return;
             dg3.SelectedIndex = rowIndex;
 
@@ -109,8 +110,8 @@ namespace HandelTSE.ViewModels
                                             }
                                             else if (trigger2 == 1)
                                             {
-                                                Artikel.Add(data1[j-1]);
-                                                if (string.IsNullOrEmpty(data1[j])) 
+                                                Artikel.Add(data1[j - 1]);
+                                                if (string.IsNullOrEmpty(data1[j]))
                                                     break;
                                             }
                                         }
@@ -160,7 +161,7 @@ namespace HandelTSE.ViewModels
                             break;
                         }
                     }
-                    
+
                 }
                 if (chosenTVI != null) chosenTVI.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFFFFF");
             }
@@ -192,8 +193,8 @@ namespace HandelTSE.ViewModels
                 }
             }
             return curIndex;
-        } 
-        /// DataGridRow Drap&Drop END
+        }
+        //////// DataGridRow Drap&Drop END
 
         //Fires when TreeView needs to be loaded
         private void LoadForm(object sender, System.EventArgs e) { LoadTreeViewFromDB(); }
@@ -262,7 +263,7 @@ namespace HandelTSE.ViewModels
         {
             var lines = new List<string>();
             foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
-                if (cb.Name != "gruppe" & cb.Name != "SearchBoxArtikel")
+                if (cb.Name != "gruppe" & cb.Name != "SearchBoxArtikel" && cb.Name != "TextFieldMitPreis")
                 {
                     if (cb.Name == "Artikel")
                     {
@@ -273,7 +274,8 @@ namespace HandelTSE.ViewModels
                     if (cb.Text.Contains("[") || cb.Text.Contains("]")) { MessageBox.Show("Textfelder dürfen keine '[' oder ']' Zeichen enthalten!"); return; }
                     lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
                 }
-            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this)) { lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.Text = ""; }
+            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
+            { if (cb.Name != "WGComboBox" && cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.Text = ""; }
 
             //Save to DB file
             string str = "";
@@ -302,26 +304,27 @@ namespace HandelTSE.ViewModels
         //Load Artikeln to DataGrid from DB depending on the Warengruppe selected in the TreeView
         void LoadTVItems()
         {
-            dg3.ItemsSource = null;
-            dg3.Items.Clear();
-            dg3.Columns.Clear();
             parent = GetSelectedTreeViewItemParent(selectedTVI);
             int trigger = 0, trigger2 = 0, n = 0, nr = 0;
             string row_artikel = "";
             string[] artikel = new string[21];
+            var WG = new TreeViewItem();
+
+            if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
+            else { WG = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI); }
 
             // If selected item is Warengruppe then retrieve data (Artikeln) for this group from DB and output in the DataGrid
-            if (parent.GetType() == typeof(TreeView) && File.Exists(@"data.csv"))
+            if (File.Exists(@"data.csv"))
             {
                 //Clear the list with chosen articles from the previous WG
                 articlesToDelete.Clear();
 
                 string csvData = File.ReadAllText("data.csv");
-                foreach (TreeViewItem i in selectedTVI.Items)
+                foreach (TreeViewItem i in WG.Items)
                 {
                     foreach (string row in csvData.Split('\n'))
                     {
-                        if (!string.IsNullOrEmpty(row) && row == (string)"[" + selectedTVI.Header.ToString() + "]")
+                        if (!string.IsNullOrEmpty(row) && row == (string)"[" + WG.Header.ToString() + "]")
                         {
                             trigger = 1;
                             continue;
@@ -371,6 +374,15 @@ namespace HandelTSE.ViewModels
 
                 it = new List<items>();
             }
+
+            //Hide DataGridRow transfering to other WG buttons
+            {
+                EtikettDruckenButton.Visibility = Visibility.Hidden;
+                KopierenInWGButton.Visibility = Visibility.Hidden;
+                VerschiebenInWGButton.Visibility = Visibility.Hidden;
+                WGComboBox.Visibility = Visibility.Hidden;
+                KopieSpeichernButton.Visibility = Visibility.Hidden;
+            }
         }
 
         // Used by button "alle Artikel"
@@ -415,11 +427,12 @@ namespace HandelTSE.ViewModels
         {
             TreeView.Tag = e.OriginalSource;
             selectedTVI = TreeView.Tag as TreeViewItem;
-            parent = GetSelectedTreeViewItemParent(selectedTVI);
 
             if (selectedTVI != null) { LoadTVItems(); }
 
-            if (parent.GetType() == typeof(TreeViewItem)) 
+
+            // FOR clicking on the Artikel in TreeView and selecting the row in DG (BUGGY !!! when dg3.selectedItem = emp;)
+            /*if (parent.GetType() == typeof(TreeViewItem)) 
             {
                 // Select the row in DataGrid corresponding to the TreeViewItem selected and tick the checkbox to add Artikel to articlesToDelete array
                 try
@@ -434,8 +447,8 @@ namespace HandelTSE.ViewModels
                     var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
                     foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row))  x.IsChecked = true;
                 }
-                catch (Exception){}
-            }
+                catch (Exception){ MessageBox.Show("CHECKBOX ERROR !"); }
+            }*/
         }
 
         //Change default names inherited from item class variables to human readable
@@ -865,10 +878,201 @@ namespace HandelTSE.ViewModels
         // When row is chosen check the corresponding checkbox too
         private void dg3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
+            parent = GetSelectedTreeViewItemParent(selectedTVI);
+            var dg = sender as System.Windows.Controls.DataGrid;
+            if (dg == null) return;
+            var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(dg.SelectedIndex);
+            if (row == null) return;
             foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) x.IsChecked = true;
+            int trigger = 0, trigger2 = 0, n = 0, nr = 0;
+            string row_artikel = "";
+            string[] artikel = new string[21];
+            var WG = new TreeViewItem();
+            if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
+            else { WG = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI); }
+
+            TreeViewItem chosenTVI = new TreeViewItem();
+            var DGdata = row.Item as items;
+            var ArtikelName = DGdata.artikel;
+
+            ////
+
+            string csvData = File.ReadAllText("data.csv");
+            foreach (string s in csvData.Split('\n'))
+            {
+                if (!string.IsNullOrEmpty(s) && s == (string)"[" + WG.Header.ToString() + "]")
+                {
+                    trigger = 1;
+                    continue;
+                }
+                if (trigger == 1)
+                {
+                    row_artikel = s;
+                    if (s == "Artikel," + ArtikelName && s.Substring(s.IndexOf(",") + 1).Count() > 0)
+                    {
+                        trigger2 = 1;
+                    }
+                    if (trigger2 == 1)
+                    {
+                        if (!s.Contains("ImHausComboBox"))
+                        {
+                            if (n < 20) artikel[n++] = s;
+                        }
+                        else
+                        {
+                            artikel[n] = s;
+                            trigger = 0;
+                            trigger2 = 0;
+                            n = 0;
+                            break;
+                        }
+                    }
+                }
+            }//2nd foreach
+
+            if (!string.IsNullOrEmpty(artikel[0]))
+            {
+                int trigger3 = 0;
+                foreach (string s in artikel)
+                {
+                    trigger3 = 1;
+                    foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
+                        if (cb.Name == s.Substring(0, s.IndexOf(",")))
+                        {
+                            cb.Text = s.Substring(s.IndexOf(",") + 1);
+                            trigger3 = 0;
+                            break;
+                        }
+                    if (trigger3 == 1)
+                        foreach (ComboBox cb2 in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
+                            if (cb2.Name == s.Substring(0, s.IndexOf(",")) && s.Substring(s.IndexOf(",") + 1) != "") { cb2.SelectedItem = s.Substring(s.IndexOf(",") + 1); break; }
+                }
+            }
+
+            EtikettDruckenButton.Visibility = Visibility.Visible;
+            KopierenInWGButton.Visibility = Visibility.Visible;
+            VerschiebenInWGButton.Visibility = Visibility.Visible;
+            WGComboBox.Visibility = Visibility.Visible;
+            KopieSpeichernButton.Visibility = Visibility.Visible;
         }
 
+        // When PLU-EAN ComboBox value is "mit Preis" then make all VK and EK Preis fields read-only and show MitPreis related ComboBox and Field
+        private void PluEan_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PluEan.SelectedItem == null) return;
+            if (((ComboBoxItem)PluEan.SelectedItem).Content.ToString() == "EAN-Code mit Preis")
+            { 
+                VKPreisBrutto.Text = ""; VKPreisBrutto.IsReadOnly = true; VKPreisNetto.Text = ""; VKPreisNetto.IsReadOnly = true; 
+                EKPreisBrutto.Text = ""; EKPreisBrutto.IsReadOnly = true; EKPreisNetto.Text = ""; EKPreisNetto.IsReadOnly = true;
+                ArtikelOptionenButton.Visibility = Visibility.Hidden;
+                SetArtikelButton.Visibility = Visibility.Hidden;
+                ComboBoxMitPreis.Visibility = Visibility.Visible;
+                TextFieldMitPreis.Visibility = Visibility.Visible;
+            }
+        }
+
+        //Load Warengruppen to WGComboBox when it is set to visible
+        public ObservableCollection<string> list = new ObservableCollection<string>();
+        private void WGComboLoadElements(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (WGComboBox.IsVisible == true)
+            {
+                foreach(TreeViewItem t in TreeView.Items)
+                {
+                    list.Add(t.Header.ToString());
+                }
+                WGComboBox.ItemsSource = list;
+            }
+        }
+
+        //Relocate DG Row to WG using ComboBox and Buttons
+        private void VerschiebenInWGButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (WGComboBox.SelectedItem == null) { MessageBox.Show("Wählen Sie bitte eine Warengruppe aus"); return; };
+
+            string csvData = File.ReadAllText(@"data.csv");
+            List<string> data = new List<string>(csvData.Split('\n'));
+            TreeViewItem item = new TreeViewItem();
+            string WG = selectedTVI.Header.ToString();
+
+            DataGridRow dataGridRow = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
+            TreeViewItem chosenTVI = new TreeViewItem();
+            var DGdata = dataGridRow.Item as items;
+            var ArtikelName = DGdata.artikel;
+            
+            int trigger = 0;
+
+            for (int j = 0; j < data.Count(); j++)
+            {
+                if (!string.IsNullOrEmpty(data[j]) && data[j] == (string)"[" + WG + "]")
+                {
+                    trigger = 1;
+                    continue;
+                }
+                if (trigger == 1)
+                {
+                    if (data[j].Substring(data[j].IndexOf(",") + 1) == ArtikelName)
+                    {
+                        foreach (TreeViewItem i in TreeView.Items) if (i.Header.ToString() == WGComboBox.SelectedItem.ToString()) item = i; 
+                        data[--j] = "[" + item.Header.ToString() + "]";
+                        break;
+                    }
+                }
+            }
+
+            File.WriteAllLines("data.csv", new[] { String.Join("\n", data) });
+            //Adding relocated TreeViewItem to new WG
+            item.Items.Add(new TreeViewItem() { Header = ArtikelName });
+            //Deleting TVI from old WG
+            foreach (TreeViewItem y in selectedTVI.Items) if (y.Header.ToString() == ArtikelName) { selectedTVI.Items.Remove(y); break; }
+            LoadTVItems();
+        }
+
+        //Copy & Paste selected Artikel DG Row to WG using ComboBox and Buttons
+        private void KopierenInWGButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (WGComboBox.SelectedItem == null) { MessageBox.Show("Wählen Sie bitte eine Warengruppe aus"); return; };
+
+            string csvData = File.ReadAllText(@"data.csv");
+            List<string> data = new List<string>(csvData.Split('\n'));
+            TreeViewItem item = new TreeViewItem();
+            string WG = selectedTVI.Header.ToString();
+
+            DataGridRow dataGridRow = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
+            TreeViewItem chosenTVI = new TreeViewItem();
+            var DGdata = dataGridRow.Item as items;
+            var ArtikelName = DGdata.artikel;
+            List<string> Artikel = new List<string>();
+            int trigger = 0, trigger2 = 0;
+
+            for (int j = 0; j < data.Count(); j++)
+            {
+                if (!string.IsNullOrEmpty(data[j]) && data[j] == (string)"[" + WG + "]")
+                {
+                    trigger = 1;
+                    continue;
+                }
+                if (trigger == 1)
+                {
+                    if (data[j].Substring(data[j].IndexOf(",") + 1) == ArtikelName)
+                    {
+                        foreach (TreeViewItem i in TreeView.Items) if (i.Header.ToString() == WGComboBox.SelectedItem.ToString()) item = i;
+                        Artikel.Add("[" + item.Header.ToString() + "]");
+                        trigger2 = 1;
+                    }
+                    else if (trigger2 == 1)
+                    {
+                        Artikel.Add(data[j - 1]);
+                        if (string.IsNullOrEmpty(data[j])) break;
+                    }
+                }
+            }
+
+            File.AppendAllLines("data.csv", new[] { String.Join("\n", Artikel) });
+            //Adding copied TreeViewItem to new WG
+            item.Items.Add(new TreeViewItem() { Header = ArtikelName });
+            LoadTVItems();
+        }
     }
 
     // Class responsible for highlighting the TreeViewItem when DG row is dragged over it

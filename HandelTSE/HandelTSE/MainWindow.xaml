@@ -10,8 +10,8 @@
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         Icon="icon.ico"
-        Title="Handel TSE ::: OFFICE" Height="550" Width="800"
-        MinHeight="550" MinWidth="730">
+        Title="Handel TSE ::: OFFICE" Height="550" Width="830"
+        MinHeight="550" MinWidth="840">
 
     <Window.Resources>
         <DataTemplate x:Name="Artikelver" DataType="{x:Type viewmodels:Artikelverwaltung}">
