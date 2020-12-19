@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\
+D:\handel\HandelTSE\HandelTSE\obj\Debug\
 HandelTSE
 none
 false
 DEBUG;TRACE
-C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\App.xaml
-81442518299
+D:\handel\HandelTSE\HandelTSE\App.xaml
+8-940971002
 
-201671648640
-24-595716381
-MainWindow.xaml;ViewModels\Artikelverwaltung.xaml;ViewModels\Kasse.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;
+21-47240311
+24600545528
+MainWindow.xaml;ViewModels\Artikelverwaltung\Artikelverwaltung.xaml;ViewModels\Kasse.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;
 
-True
+False
 

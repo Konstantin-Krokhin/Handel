@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\Artikelverwaltung\TreeViewDropHighlighter.cs" />
     <Compile Include="ViewModels\DragDataGridRowMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,7 +104,7 @@
     <Compile Include="ViewModels\StatisticsGraphViewModel.cs" />
     <Compile Include="ViewModels\StatTableModel.cs" />
     <Compile Include="TransactionParkingViewModel.cs" />
-    <Compile Include="ViewModels\Artikelverwaltung.xaml.cs">
+    <Compile Include="ViewModels\Artikelverwaltung\Artikelverwaltung.xaml.cs">
       <DependentUpon>Artikelverwaltung.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main.xaml.cs">
@@ -133,7 +134,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ViewModels\Artikelverwaltung.xaml">
+    <Page Include="ViewModels\Artikelverwaltung\Artikelverwaltung.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

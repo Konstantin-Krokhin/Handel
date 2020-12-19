@@ -4,7 +4,7 @@
 		     xmlns:self="clr-namespace:HandelTSE.ViewModels"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HandelTSE.Views"
+             xmlns:local="clr-namespace:HandelTSE.ViewModels"
              xmlns:local1="clr-namespace:HandelTSE.ViewModels"
              xmlns:xctk="http://schemas/xceed.com/wpf/xaml/toolkit" 
              xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -54,10 +54,10 @@
 
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Style.Triggers>
-                        <Trigger Property="local1:TreeViewDropHighlighter.IsPossibleDropTarget" Value="True">
+                        <Trigger Property="local:TreeViewDropHighlighter.IsPossibleDropTarget" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </Trigger>
-                        <Trigger Property="local1:TreeViewDropHighlighter.IsPossibleDropTarget" Value="False">
+                        <Trigger Property="local:TreeViewDropHighlighter.IsPossibleDropTarget" Value="False">
                             <Setter Property="Background" Value="White" />
                         </Trigger>
                     </Style.Triggers>
