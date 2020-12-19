@@ -263,7 +263,7 @@ namespace HandelTSE.ViewModels
         {
             var lines = new List<string>();
             foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
-                if (cb.Name != "gruppe" & cb.Name != "SearchBoxArtikel" && cb.Name != "TextFieldMitPreis")
+                if (cb.Name != "gruppe" && cb.Name != "PART_EditableTextBox" && cb.Name != "SearchBoxArtikel" && cb.Name != "TextFieldMitPreis")
                 {
                     if (cb.Name == "Artikel")
                     {
@@ -275,7 +275,7 @@ namespace HandelTSE.ViewModels
                     lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
                 }
             foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
-            { if (cb.Name != "WGComboBox" && cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.Text = ""; }
+            { if (cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.Text = ""; }
 
             //Save to DB file
             string str = "";
@@ -430,25 +430,26 @@ namespace HandelTSE.ViewModels
 
             if (selectedTVI != null) { LoadTVItems(); }
 
-
             // FOR clicking on the Artikel in TreeView and selecting the row in DG (BUGGY !!! when dg3.selectedItem = emp;)
-            /*if (parent.GetType() == typeof(TreeViewItem)) 
             {
-                // Select the row in DataGrid corresponding to the TreeViewItem selected and tick the checkbox to add Artikel to articlesToDelete array
-                try
+                /*if (parent.GetType() == typeof(TreeViewItem)) 
                 {
-                    // Select row in DataGrid based on the selected TreeViewItem (Artikel) in the Warengruppe in TreeView
-                    var emp = (from i in Data
-                               where i.artikel == selectedTVI.Header.ToString()
-                               select i).FirstOrDefault();
-                    if (emp != null) dg3.SelectedItem = emp;
+                    // Select the row in DataGrid corresponding to the TreeViewItem selected and tick the checkbox to add Artikel to articlesToDelete array
+                    try
+                    {
+                        // Select row in DataGrid based on the selected TreeViewItem (Artikel) in the Warengruppe in TreeView
+                        var emp = (from i in Data
+                                   where i.artikel == selectedTVI.Header.ToString()
+                                   select i).FirstOrDefault();
+                        if (emp != null) dg3.SelectedItem = emp;
 
-                    // Checks the checkbox on the selected row in DataGrid
-                    var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
-                    foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row))  x.IsChecked = true;
-                }
-                catch (Exception){ MessageBox.Show("CHECKBOX ERROR !"); }
-            }*/
+                        // Checks the checkbox on the selected row in DataGrid
+                        var row = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
+                        foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row))  x.IsChecked = true;
+                    }
+                    catch (Exception){ MessageBox.Show("CHECKBOX ERROR !"); }
+                }*/
+            }
         }
 
         //Change default names inherited from item class variables to human readable
@@ -548,7 +549,8 @@ namespace HandelTSE.ViewModels
                 TreeView.Items.RemoveAt(TreeView.Items.IndexOf(TreeView.SelectedItem));
                 LoadForm(this, e);
             }
-            if (line != null) File.AppendAllText("data_colors.csv", line+"\n"); ;
+            if (line != null) File.AppendAllText("data_colors.csv", line+"\n");
+            Artikel.Text = "";
         }
 
         //Delete the Warengruppe from the TreeView
