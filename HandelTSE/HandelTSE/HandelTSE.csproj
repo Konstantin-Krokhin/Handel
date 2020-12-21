@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\Artikelverwaltung\DataGridDragDrop.cs" />
     <Compile Include="ViewModels\Artikelverwaltung\TreeViewDropHighlighter.cs" />
     <Compile Include="ViewModels\DragDataGridRowMessageBox.cs">
       <SubType>Form</SubType>

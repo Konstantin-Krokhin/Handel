@@ -12,9 +12,9 @@ DEBUG;TRACE
 D:\handel\HandelTSE\HandelTSE\App.xaml
 8-940971002
 
-21-47240311
+22-1528493799
 24600545528
 MainWindow.xaml;ViewModels\Artikelverwaltung\Artikelverwaltung.xaml;ViewModels\Kasse.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;
 
-False
+True
 
