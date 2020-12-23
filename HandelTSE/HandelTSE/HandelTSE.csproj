@@ -97,6 +97,9 @@
     <Compile Include="ViewModels\DragDataGridRowMessageBox.Designer.cs">
       <DependentUpon>DragDataGridRowMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\EanEinstellungen.xaml.cs">
+      <DependentUpon>EanEinstellungen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Kasse.xaml.cs">
       <DependentUpon>Kasse.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ViewModels\Artikelverwaltung\Artikelverwaltung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\EanEinstellungen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

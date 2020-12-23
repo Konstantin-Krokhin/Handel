@@ -60,7 +60,7 @@ Bestellmenge,
 Etikett2,
 MindestBestand,
 Lieferanten,
-PluEan,
+PluEan,EAN-Code min Menge
 AusserHaus,
 ImHaus,
 Einheit,
@@ -70,9 +70,9 @@ ImHausComboBox2,
 
 [aa]
 Artikel,gseg
-VKPreisBrutto,
+VKPreisBrutto,g
 EKPreisBrutto,
-VKPreisNetto,
+VKPreisNetto,rr
 EKPreisNetto,
 SortNr,
 Legerplatz1,
@@ -82,9 +82,9 @@ Etikett1,
 Bestellmenge,
 Etikett2,
 MindestBestand,
-Lieferanten,
-PluEan,
-AusserHaus,
+Lieferanten,kein
+PluEan,EAN-Code mit Gewicht
+AusserHaus,19 %
 ImHaus,
 Einheit,
 Pfand,
@@ -507,7 +507,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[AHA]
+[WG1]
 Artikel,WOW
 VKPreisBrutto,
 EKPreisBrutto,
@@ -546,29 +546,6 @@ Bestellmenge,
 Etikett2,
 MindestBestand,
 PART_EditableTextBox,-- wählen Sie aus --
-Lieferanten,kein
-PluEan,EAN-Code mit Gewicht
-AusserHaus,
-ImHaus,
-Einheit,
-Pfand,0.15|19%
-AuserHausComboBox2,
-ImHausComboBox2,
-
-[dsslms]
-Artikel,rg
-VKPreisBrutto,
-EKPreisBrutto,
-VKPreisNetto,
-EKPreisNetto,
-SortNr,
-Legerplatz1,
-Legerplatz2,
-Bestand,
-Etikett1,
-Bestellmenge,
-Etikett2,
-MindestBestand,
 Lieferanten,kein
 PluEan,EAN-Code mit Gewicht
 AusserHaus,
@@ -646,3 +623,53 @@ Einheit,
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
+
+[wg2]
+Artikel,
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,EAN-Code einscannen
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dsslms]
+Artikel,rgw
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,kein
+PluEan,EAN-Code mit Gewicht
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,0.15|19%
+AuserHausComboBox2,
+ImHausComboBox2,
+
+
+
+

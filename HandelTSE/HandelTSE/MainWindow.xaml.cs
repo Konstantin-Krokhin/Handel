@@ -33,7 +33,8 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
             DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
-            // FOR MAIN WINDOW (COMMENTED WHILE WORKED ON ARTIKELVERWALTUNG PAGE)
+
+            // FOR SHOWING MAIN WINDOW FIRST (COMMENTED WHILE WORKED ON ARTIKELVERWALTUNG PAGE)
             /*
 
             dateBlock.Text = "Heute ist der " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");

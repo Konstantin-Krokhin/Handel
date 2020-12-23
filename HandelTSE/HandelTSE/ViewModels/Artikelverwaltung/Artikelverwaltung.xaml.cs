@@ -130,11 +130,63 @@ namespace HandelTSE.ViewModels
             if (parent.GetType() == typeof(TreeViewItem)) { MessageBox.Show("Sie können keinen Artikel in einem anderen hinzufügen. Es muss eine Warengruppe sein!"); return; }
             if (Artikel.Text == "") { MessageBox.Show("Bitte geben Sie den Artikelname an!"); return; }
 
-            SaveWGToDB();
+            if (CheckGroupItems(new TreeViewItem() { Header = Artikel.Text }) == 1)
+            {
+                SaveWGToDB();
 
-            //Add Artikel to Warengruppe in TreeView
-            selectedTVI.Items.Add(new TreeViewItem() { Header = Artikel.Text });
-            Artikel.Text = "";
+                //Add Artikel to Warengruppe in TreeView
+                selectedTVI.Items.Add(new TreeViewItem() { Header = Artikel.Text });
+                Artikel.Text = "";
+            }
+            else
+            {
+                string csvData = File.ReadAllText(@"data.csv");
+                List<string> data = new List<string>(csvData.Split('\n'));
+                TreeViewItem item = new TreeViewItem();
+                string WG = selectedTVI.Header.ToString();
+
+                int trigger = 0, trigger2 = 0, trigger3 = 0, trigger4 = 0;
+
+                for (int j = 0; j < data.Count(); j++)
+                {
+                    if (string.IsNullOrEmpty(data[j]) || data[j].Length <= 0) continue;
+                    if (data[j] == (string)"[" + WG + "]") { trigger = 1; continue; }
+                    if (trigger == 1)
+                    {
+                        if (data[j].Substring(data[j].IndexOf(",") + 1) == Artikel.Text) { trigger2 = 1; continue; }
+                        if (trigger2 == 1)
+                        {
+                            foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
+                            {
+                                trigger3 = 1;
+                                // Check if in text fields no special character like '[' for enclosing Warengruppe name in database file is used
+                                if (cb.Text.Contains("[") || cb.Text.Contains("]")) { MessageBox.Show("Textfelder dürfen keine '[' oder ']' Zeichen enthalten!"); return; }
+
+                                    if (data[j].Substring(0, data[j].IndexOf(",")) == cb.Name)
+                                    {
+                                        data[j] = data[j].Substring(0, data[j].IndexOf(",")+1) + cb.Text;
+                                        trigger3 = 0;
+                                        break;
+                                    }
+                            }
+
+                            if (trigger3 == 1)
+                                foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
+                                {
+                                    if (data[j].Substring(0, data[j].IndexOf(",")) == cb.Name)
+                                    {
+                                        if (data[j].Substring(0, data[j].IndexOf(",")) == "ImHausComboBox2") trigger4 = 1;
+                                        data[j] = data[j].Substring(0, data[j].IndexOf(",")+1) + cb.Text;
+                                        break;
+                                    }
+                                }
+                        }
+                    }
+                    if (trigger4 == 1) break;
+                }
+
+                File.WriteAllLines("data.csv", new[] { String.Join("\n", data) });
+            }
 
             LoadTVItems();
         }

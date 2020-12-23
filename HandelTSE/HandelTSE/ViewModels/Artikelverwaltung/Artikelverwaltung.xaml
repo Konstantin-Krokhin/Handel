@@ -146,7 +146,7 @@
         </ComboBox>
         <Button Content="Hintergrund farben" Background="Gray"  Grid.Column="8" Grid.Row="1" Grid.RowSpan="2" Width="120"  Margin="10, 5"></Button>
         <TextBlock Text="PLU/EAN" Grid.Column="2" Grid.Row="2" Margin="20, 5" />
-        <ComboBox Name="PluEan" Grid.Column="3" HorizontalAlignment="Left" SelectedIndex="0" Grid.ColumnSpan="2" Grid.Row="2" Width="150" Margin="0, 5, 0, 0" SelectionChanged="PluEan_SelectionChanged">
+        <ComboBox Name="PluEan" Grid.Column="3" IsEditable="True" HorizontalAlignment="Left" SelectedIndex="0" Grid.ColumnSpan="2" Grid.Row="2" Width="150" Margin="0, 5, 0, 0" SelectionChanged="PluEan_SelectionChanged">
             <ComboBoxItem>EAN-Code einscannen</ComboBoxItem>
             <ComboBoxItem>EAN-Code generieren</ComboBoxItem>
             <ComboBoxItem>EAN-Code mit Preis</ComboBoxItem>
