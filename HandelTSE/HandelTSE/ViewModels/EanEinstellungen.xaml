@@ -5,8 +5,78 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HandelTSE.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="Pink">
     <Grid>
-            
+        <TabControl>
+            <TabControl.Resources>
+                <Style TargetType="TextBlock" x:Key="HeaderTextBlockStyle">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected,
+                          RelativeSource={RelativeSource AncestorType=TabItem}}"
+                         Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Resources>
+            <TabItem FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Text="EAN-Code mit Preis" Style="{StaticResource HeaderTextBlockStyle}"/>
+                </TabItem.Header>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height= "*"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Erkennung von EAN-Code" Margin="20, 15"/>
+
+                    <DataGrid Name="listOfPreisCodes" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
+                        
+                    </DataGrid>
+                    
+                    <!--
+                    <ListView x:Name="listOfPreisCodes" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Prefix" Width="120" DisplayMemberBinding="{Binding Prefix}" />
+                                <GridViewColumn Header="Produktcode" Width="120" DisplayMemberBinding="{Binding Produktcode}" />
+                                <GridViewColumn Header="Preis" Width="150" DisplayMemberBinding="{Binding Preis}" />
+                                <GridViewColumn Header="Bezeichnung" Width="150" DisplayMemberBinding="{Binding Bezeichnung}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    -->
+                    <Button Grid.Column="3" Content="Entfernen" Margin="0,0,-80,0" Background="IndianRed" Grid.Row="2" Width="80" Height="40" Click="Entfernen_Click"/>
+                    <Button Name="Speichern" Grid.Column="3" Content ="Speichern" Margin="0,0,-80,0" Background="ForestGreen" Grid.Row="3" Width="80" Height="40" Click="Speichern_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Text="EAN-Code mit Gewicht" Style="{StaticResource HeaderTextBlockStyle}"/>
+                </TabItem.Header>
+                <TextBlock Text="Erkennung von EAN-Code" Margin="20, 15"/>
+            </TabItem>
+            <TabItem FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Text="EAN-Code mit Menge" Style="{StaticResource HeaderTextBlockStyle}"/>
+                </TabItem.Header>
+                <TextBlock Text="Erkennung von EAN-Code" Margin="20, 15"/>
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </UserControl>

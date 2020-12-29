@@ -32,7 +32,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
+            DataContext = new HandelTSE.ViewModels.EanEinstellungen();
 
             // FOR SHOWING MAIN WINDOW FIRST (COMMENTED WHILE WORKED ON ARTIKELVERWALTUNG PAGE)
             /*
@@ -99,6 +99,11 @@ namespace HandelTSE
         {
             Kasse kasse = new Kasse();
             kasse.Show();
+        }
+
+        private void EanEinstellungen_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = new EanEinstellungen();
         }
     }
 }

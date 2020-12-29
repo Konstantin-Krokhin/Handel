@@ -146,3 +146,4 @@ D:\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.exe
 D:\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.pdb
 D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\EanEinstellungen.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\EanEinstellungen.baml
+D:\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache

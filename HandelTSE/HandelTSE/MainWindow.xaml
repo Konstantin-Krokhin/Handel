@@ -111,7 +111,7 @@
                     <MenuItem Header="Artikel-Optionen" />
                     <MenuItem Header="Umsatzsteuer" />
                     <MenuItem Header="Zahlungen" />
-                    <MenuItem Header="EAN-Einstellungen" />
+                    <MenuItem Header="EAN-Einstellungen" Name="EanEinstellungen" Click="EanEinstellungen_Click"/>
                     <MenuItem Header="Stornogründe" />
                     <MenuItem Header="Presse und VMP" />
                     <MenuItem Header="Datensicherung" />
