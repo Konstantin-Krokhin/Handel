@@ -26,6 +26,7 @@ namespace HandelTSE.ViewModels
         public ItemsControl parent { get; set; }
         CheckBox checkBox = new CheckBox();
         public Int32 rowIndex;
+        int ArtikelCodeLength = 0;
 
         public Artikelverwaltung()
         {
@@ -99,9 +100,11 @@ namespace HandelTSE.ViewModels
         //Saves WG with articles or empty to the DB
         public void SaveWGToDB()
         {
+            if (PluEan.SelectedIndex > 1)
+                if (ArtikelCodeTemplateValue.Text.Length != ArtikelCodeLength) { MessageBox.Show("Der Artikelcode muss " + ArtikelCodeLength + " Zaichen lang sein."); return; }
             var lines = new List<string>();
             foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
-                if (cb.Name != "gruppe" && cb.Name != "PART_EditableTextBox" && cb.Name != "SearchBoxArtikel" && cb.Name != "TextFieldMitPreis")
+                if (cb.Name != "gruppe" && cb.Name != "PART_EditableTextBox" && cb.Name != "SearchBoxArtikel" && cb.Name != "ArtikelCodeTemplateValue")
                 {
                     if (cb.Name == "Artikel")
                     {
@@ -113,7 +116,7 @@ namespace HandelTSE.ViewModels
                     lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
                 }
             foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
-            { if (cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.Text = ""; }
+            { if (cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis" && cb.Name != "ArtikelCodeTemplate") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.SelectedIndex = 0; }
 
             //Save to DB file
             string str = "";
@@ -129,6 +132,8 @@ namespace HandelTSE.ViewModels
             if (TreeView.SelectedItem == null) { MessageBox.Show("Bitte Warengruppe anlagen und auswählen!"); return; }
             if (parent.GetType() == typeof(TreeViewItem)) { MessageBox.Show("Sie können keinen Artikel in einem anderen hinzufügen. Es muss eine Warengruppe sein!"); return; }
             if (Artikel.Text == "") { MessageBox.Show("Bitte geben Sie den Artikelname an!"); return; }
+            if (PluEan.SelectedIndex > 1)
+                if (ArtikelCodeTemplateValue.Text.Length != ArtikelCodeLength) { MessageBox.Show("Der Artikelcode muss " + ArtikelCodeLength + " Zaichen lang sein."); return; }
 
             if (CheckGroupItems(new TreeViewItem() { Header = Artikel.Text }) == 1)
             {
@@ -249,7 +254,7 @@ namespace HandelTSE.ViewModels
                         string str_artikel = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
                         foreach (string s in artikel)
                         {
-                            if (s.StartsWith("Artikel")) str_artikel = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("Artikel,")) str_artikel = s.Substring(s.IndexOf(",") + 1);
                             if (s.StartsWith("PluEan")) str_pluean = s.Substring(s.IndexOf(",") + 1);
                             if (s.StartsWith("VKPreisBrutto")) str_preis = s.Substring(s.IndexOf(",") + 1);
                             if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.Substring(s.IndexOf(",") + 1);
@@ -852,18 +857,91 @@ namespace HandelTSE.ViewModels
             KopieSpeichernButton.Visibility = Visibility.Visible;
         } // END -- dg3_SelectionChanged
 
+        private void ArtikelCodeTemplate_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int i = ArtikelCodeTemplate.SelectedIndex;
+            if (i < 0) return;
+            string csvData = "", line = "", template = "";
+            ArtikelCodeTemplateValue.Text = "";
+            if (PluEan.SelectedIndex == 2) { csvData = File.ReadAllText(@"eancodes_preis.csv"); }
+            else if (PluEan.SelectedIndex == 3) { csvData = File.ReadAllText(@"eancodes_gewicht.csv"); }
+            else if (PluEan.SelectedIndex == 4) { csvData = File.ReadAllText(@"eancodes_menge.csv"); }
+            List<string> data = new List<string>(csvData.Split('\n'));
+
+            if (data[i].Contains("["))
+            {
+                int j = 1, f = 0;
+                for (; j < data[i].Length; j++)
+                {
+                    line = data[i];
+                    if (line[j] == ',') { f++; continue; }
+                    if (f == 2)
+                    {
+                        template += line[j];
+                    }
+                    if (f == 3) break;
+                }
+                ArtikelCodeLength = template.Length;
+            }
+        }
+
         // When PLU-EAN ComboBox value is "mit Preis" then make all VK and EK Preis fields read-only and show MitPreis related ComboBox and Field
         private void PluEan_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (PluEan.SelectedItem == null) return;
-            if (((ComboBoxItem)PluEan.SelectedItem).Content.ToString() == "EAN-Code mit Preis")
-            { 
-                VKPreisBrutto.Text = ""; VKPreisBrutto.IsReadOnly = true; VKPreisNetto.Text = ""; VKPreisNetto.IsReadOnly = true; 
+            //Block/unblock VK and EK Preis text fields when "EAN mit Preis" is selected/deselected
+            if (PluEan.SelectedIndex == 2)
+            {
+                VKPreisBrutto.Text = ""; VKPreisBrutto.IsReadOnly = true; VKPreisNetto.Text = ""; VKPreisNetto.IsReadOnly = true;
                 EKPreisBrutto.Text = ""; EKPreisBrutto.IsReadOnly = true; EKPreisNetto.Text = ""; EKPreisNetto.IsReadOnly = true;
+            }
+            else if (PluEan.SelectedIndex >= 0 && VKPreisBrutto != null)
+            {
+                VKPreisBrutto.IsReadOnly = false; VKPreisNetto.IsReadOnly = false;
+                EKPreisBrutto.IsReadOnly = false; EKPreisNetto.IsReadOnly = false;
+            }
+
+            if (PluEan.SelectedIndex > 1)
+            {
                 ArtikelOptionenButton.Visibility = Visibility.Hidden;
                 SetArtikelButton.Visibility = Visibility.Hidden;
-                ComboBoxMitPreis.Visibility = Visibility.Visible;
-                TextFieldMitPreis.Visibility = Visibility.Visible;
+                ArtikelCodeTemplate.Visibility = Visibility.Visible;
+                ArtikelCodeTemplateValue.Visibility = Visibility.Visible;
+
+                string csvData = "";
+                ArtikelCodeTemplate.Items.Clear();
+                if (PluEan.SelectedIndex == 2) { csvData = File.ReadAllText(@"eancodes_preis.csv"); }
+                else if (PluEan.SelectedIndex == 3) { csvData = File.ReadAllText(@"eancodes_gewicht.csv"); }
+                else if (PluEan.SelectedIndex == 4) { csvData = File.ReadAllText(@"eancodes_menge.csv"); }
+
+                string line = "", template = "", templateName = "";
+                List<string> data = new List<string>(csvData.Split('\n'));
+
+                for (int i = 0; i < data.Count(); i++)
+                {
+                    if (data[i].Contains("["))
+                    {
+                        int j = 1, f = 0;
+                        for (; j < data[i].Length; j++)
+                        {
+                            line = data[i];
+                            if (line[j] == ',') { f++; continue; }
+                            if (f == 2 && i == 0)
+                            {
+                                template += line[j];
+                            }
+                            if (f == 3)
+                            {
+                                if (line[j] != ']') templateName += line[j];
+                                else break;
+                            }
+                        }
+                        if (i == 0) ArtikelCodeLength = template.Length;
+                        ArtikelCodeTemplate.Items.Add(templateName);
+                        templateName = "";
+                    }
+                }
+                ArtikelCodeTemplate.SelectedIndex = 0;
             }
         }
 

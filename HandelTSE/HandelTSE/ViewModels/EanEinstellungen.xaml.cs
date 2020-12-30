@@ -23,40 +23,51 @@ namespace HandelTSE.ViewModels
     public partial class EanEinstellungen : UserControl
     {
         List<Code> codes = new List<Code>();
+        List<Code> preisCodes = new List<Code>();
+        List<Code> gewichtCodes = new List<Code>();
+        List<Code> mengeCodes = new List<Code>();
         public EanEinstellungen()
         {
             InitializeComponent();
 
-            if (!File.Exists(@"eancodes.csv")) File.Create(@"eancodes.csv").Close();
+            if (!File.Exists(@"eancodes_preis.csv")) File.Create(@"eancodes_preis.csv").Close();
+            if (!File.Exists(@"eancodes_gewicht.csv")) File.Create(@"eancodes_gewicht.csv").Close();
+            if (!File.Exists(@"eancodes_menge.csv")) File.Create(@"eancodes_menge.csv").Close();
 
-            string csvData = File.ReadAllText(@"eancodes.csv");
+            string csvData = File.ReadAllText(@"eancodes_preis.csv");
             string line = "";
 
-            List<string> data = new List<string>(csvData.Split('\n'));
-            for (int i = 0; i < data.Count(); i++)
+            for (int o = 0; o < 3; o++)
             {
-                string[] codeExamples = new string[4];
-                if (data[i].Contains("["))
+                if (o == 1) csvData = File.ReadAllText(@"eancodes_gewicht.csv");
+                else if (o == 2) csvData = File.ReadAllText(@"eancodes_menge.csv");
+                List<string> data = new List<string>(csvData.Split('\n'));
+                for (int i = 0; i < data.Count(); i++)
                 {
-                    int j = 1;
-                    for (int k = 0; k < 4; k++)
-                        for (; j < data[i].Length; j++)
-                        {
-                            line = data[i];
-                            //if (line[j] == '[') continue;
-                            if (line[j] != ',' && line[j] != ']')
-                                codeExamples[k] += line[j];
-                            else
+                    string[] codeExamples = new string[4];
+                    if (data[i].Contains("["))
+                    {
+                        int j = 1;
+                        for (int k = 0; k < 4; k++)
+                            for (; j < data[i].Length; j++)
                             {
-                                j++;
-                                break;
+                                line = data[i];
+                                if (line[j] != ',' && line[j] != ']')
+                                    codeExamples[k] += line[j];
+                                else
+                                {
+                                    j++;
+                                    break;
+                                }
                             }
-                        }
-                    codes.Add(new Code { Prefix = Int32.Parse(codeExamples[0]), Produktcode = codeExamples[1], Preis = codeExamples[2], Bezeichnung = codeExamples[3] });
+                        codes.Add(new Code { Prefix = Int32.Parse(codeExamples[0]), Produktcode = codeExamples[1], Preis = codeExamples[2], Bezeichnung = codeExamples[3] });
+                    }
                 }
+                if (o == 0) { preisCodes.AddRange(codes); listOfPreisCodes.ItemsSource = preisCodes; }
+                else if (o == 1) { gewichtCodes.AddRange(codes); listOfGewichtCodes.ItemsSource = gewichtCodes; }
+                else if (o == 2) { mengeCodes.AddRange(codes); listOfMengeCodes.ItemsSource = mengeCodes; }
+                codes.Clear();
             }
-            
-            listOfPreisCodes.ItemsSource = codes;
         }
 
         public class Code
@@ -70,16 +81,22 @@ namespace HandelTSE.ViewModels
         private void Speichern_Click(object sender, RoutedEventArgs e)
         {
             List<string> list = new List<string>();
-            string l = "";
-            
-            for (int i = 0; i < listOfPreisCodes.Items.Count-1; i++)
+            string l = "", savePath = "";
+            TabItem ti = EanTabs.SelectedItem as TabItem;
+            DataGrid dg = new DataGrid();
+            if (ti.Name == "PreisTabItem") { dg = listOfPreisCodes; savePath = "eancodes_preis.csv"; }
+            else if (ti.Name == "GewichtTabItem") { dg = listOfGewichtCodes; savePath = "eancodes_gewicht.csv"; }
+            else if (ti.Name == "MengeTabItem") { dg = listOfMengeCodes; savePath = "eancodes_menge.csv"; }
+
+            for (int i = 0; i < dg.Items.Count-1; i++)
             {
                 l = "";
-                DataGridRow dataGridRow = (DataGridRow)listOfPreisCodes.ItemContainerGenerator.ContainerFromIndex(i);
+                DataGridRow dataGridRow = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(i);
                 string prefix = (dataGridRow.Item as Code).Prefix.ToString(), produktcode = (dataGridRow.Item as Code).Produktcode,
                 preis = (dataGridRow.Item as Code).Preis, bezeichnung = (dataGridRow.Item as Code).Bezeichnung;
 
                 // Check if EAN Code is in correct format
+                if (prefix == null || produktcode == null || preis == null || bezeichnung == null) { MessageBox.Show("Prüfen Sie Ihre Daten!\n----------------\nPrefix: 1-2 Zeichen\nProduktcode: 5-6 Zeichen\nPreis: 4-6 Zeichen\n----------------\nGesamt: 12 Zeichen"); list = null; break; }
                 if ((prefix.Length == 1 || prefix.Length == 2) && (produktcode.Length == 5 || produktcode.Length == 6) && (preis.Length >= 4 && preis.Length <= 6) && (prefix.Length + produktcode.Length + preis.Length == 12))
                 {
                     l += "[" + prefix + ",";
@@ -93,10 +110,10 @@ namespace HandelTSE.ViewModels
                     MessageBox.Show("Prüfen Sie Ihre Daten!\n----------------\nPrefix: 1-2 Zeichen\nProduktcode: 5-6 Zeichen\nPreis: 4-6 Zeichen\n----------------\nGesamt: 12 Zeichen");
                     list = null;
                     break;
-                }  
+                }
             }
-            
-            if (list != null) File.WriteAllLines("eancodes.csv", new[] { String.Join("\n", list)});
+
+            if (list != null) File.WriteAllLines(savePath, new[] { String.Join("\n", list) });
         }
 
         private void Entfernen_Click(object sender, RoutedEventArgs e)
@@ -111,14 +128,34 @@ namespace HandelTSE.ViewModels
             switch (result)
             {
                 case MessageBoxResult.OK:
-                    codes.Remove((Code)listOfPreisCodes.SelectedItem);
-                    listOfPreisCodes.ItemsSource = codes;
-                    listOfPreisCodes.Items.Refresh();
+                    TabItem ti = EanTabs.SelectedItem as TabItem;
+                    DataGrid dg = new DataGrid();
+                    if (ti.Name == "PreisTabItem") 
+                    { 
+                        dg = listOfPreisCodes;
+                        preisCodes.Remove((Code)dg.SelectedItem);
+                        dg.ItemsSource = preisCodes;
+                    }
+                    else if (ti.Name == "GewichtTabItem") 
+                    { 
+                        dg = listOfGewichtCodes;
+                        gewichtCodes.Remove((Code)dg.SelectedItem);
+                        dg.ItemsSource = gewichtCodes;
+                    }
+                    else if (ti.Name == "MengeTabItem") 
+                    { 
+                        dg = listOfMengeCodes;
+                        mengeCodes.Remove((Code)dg.SelectedItem);
+                        dg.ItemsSource = mengeCodes;
+                    }
+                    
+                    dg.Items.Refresh();
                     break;
                 case MessageBoxResult.Cancel:
                     break;
             }
-            Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            // FIX SAVING INSTANTLY WHEN DELETED
+            //Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
     }
 }
