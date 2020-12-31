@@ -71,26 +71,6 @@ ImHausComboBox2,
 [aa]
 Artikel,gseg
 VKPreisBrutto,g
-EKPreisBrutto,
-VKPreisNetto,rr
-EKPreisNetto,
-SortNr,
-Legerplatz1,
-Legerplatz2,
-Bestand,
-Etikett1,
-Bestellmenge,
-Etikett2,
-MindestBestand,
-Lieferanten,kein
-PluEan,EAN-Code mit Gewicht
-AusserHaus,19 %
-ImHaus,
-Einheit,
-Pfand,
-AuserHausComboBox2,
-ImHausComboBox2,
-
 [WG1]
 Artikel,
 VKPreisBrutto,
@@ -679,14 +659,14 @@ EKPreisNetto,
 SortNr,
 Legerplatz1,
 Legerplatz2,
-Bestand,
+Bestand,af
 Etikett1,
 Bestellmenge,
 Etikett2,
 MindestBestand,
 Lieferanten,
 PluEan,EAN-Code mit Preis
-AusserHaus,
+AusserHaus,16 %
 ImHaus,
 Einheit,
 Pfand,
@@ -715,3 +695,27 @@ Einheit,
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
+
+[WG2]
+Artikel,test
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+

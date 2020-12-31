@@ -30,6 +30,7 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
 
+            // Create all required db files for each EAN code grid
             if (!File.Exists(@"eancodes_preis.csv")) File.Create(@"eancodes_preis.csv").Close();
             if (!File.Exists(@"eancodes_gewicht.csv")) File.Create(@"eancodes_gewicht.csv").Close();
             if (!File.Exists(@"eancodes_menge.csv")) File.Create(@"eancodes_menge.csv").Close();
@@ -78,6 +79,7 @@ namespace HandelTSE.ViewModels
             public string Bezeichnung { get; set; }
         }
 
+        // Universal click event for saving currently editable grid into the file
         private void Speichern_Click(object sender, RoutedEventArgs e)
         {
             List<string> list = new List<string>();
@@ -116,6 +118,7 @@ namespace HandelTSE.ViewModels
             if (list != null) File.WriteAllLines(savePath, new[] { String.Join("\n", list) });
         }
 
+        // Universal event. Deletes element from the grid. It is required to click "Speichern" button (to call Speichern event) afterwards to save into the file.
         private void Entfernen_Click(object sender, RoutedEventArgs e)
         {
             string messageBoxText = "Wollen Sie wirklich entfernen?";
@@ -154,7 +157,7 @@ namespace HandelTSE.ViewModels
                 case MessageBoxResult.Cancel:
                     break;
             }
-            // FIX SAVING INSTANTLY WHEN DELETED
+            // FIX ! TO SAVE RIGHT AFTER DELETED
             //Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
     }

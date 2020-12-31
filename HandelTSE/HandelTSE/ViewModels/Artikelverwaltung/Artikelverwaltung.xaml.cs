@@ -27,6 +27,7 @@ namespace HandelTSE.ViewModels
         CheckBox checkBox = new CheckBox();
         public Int32 rowIndex;
         int ArtikelCodeLength = 0;
+        int codeGeneriert = 7600001;
 
         public Artikelverwaltung()
         {
@@ -116,7 +117,11 @@ namespace HandelTSE.ViewModels
                     lines.Add(string.Format("{0},{1}", cb.Name, cb.Text));
                 }
             foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
-            { if (cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis" && cb.Name != "ArtikelCodeTemplate") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); cb.SelectedIndex = 0; }
+            { 
+                if (cb.Name != "WGComboBox" && cb.Name != "ComboBoxMitPreis" && cb.Name != "ArtikelCodeTemplate") lines.Add(string.Format("{0},{1}", cb.Name, cb.Text)); 
+                if (cb.Name == "PluEan" && cb.Text == codeGeneriert.ToString()) File.WriteAllText(@"eancodegenerieren.csv", codeGeneriert.ToString());
+                cb.SelectedIndex = 0;
+            }
 
             //Save to DB file
             string str = "";
@@ -257,7 +262,7 @@ namespace HandelTSE.ViewModels
                             if (s.StartsWith("Artikel,")) str_artikel = s.Substring(s.IndexOf(",") + 1);
                             if (s.StartsWith("PluEan")) str_pluean = s.Substring(s.IndexOf(",") + 1);
                             if (s.StartsWith("VKPreisBrutto")) str_preis = s.Substring(s.IndexOf(",") + 1);
-                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.Substring(s.IndexOf(",") + 1);
+                            if (s.StartsWith("AusserHaus")) str_mwst = s.Substring(s.IndexOf(",") + 1);
                             if (s.StartsWith("Bestand")) str_bestand = s.Substring(s.IndexOf(",") + 1);
                         }
                         it.Add(new items { nr = nr++.ToString(), pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
@@ -792,8 +797,6 @@ namespace HandelTSE.ViewModels
             var DGdata = row.Item as items;
             var ArtikelName = DGdata.artikel;
 
-            ////
-
             string csvData = File.ReadAllText("data.csv");
             foreach (string s in csvData.Split('\n'))
             {
@@ -825,7 +828,7 @@ namespace HandelTSE.ViewModels
                         }
                     }
                 }
-            }//2nd foreach
+            }
 
             if (!string.IsNullOrEmpty(artikel[0]))
             {
@@ -857,6 +860,7 @@ namespace HandelTSE.ViewModels
             KopieSpeichernButton.Visibility = Visibility.Visible;
         } // END -- dg3_SelectionChanged
 
+        // Depending on Template chosen from all available for each type of EAN templates, appply, 'preis' length limits
         private void ArtikelCodeTemplate_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int i = ArtikelCodeTemplate.SelectedIndex;
@@ -888,26 +892,28 @@ namespace HandelTSE.ViewModels
         // When PLU-EAN ComboBox value is "mit Preis" then make all VK and EK Preis fields read-only and show MitPreis related ComboBox and Field
         private void PluEan_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (PluEan.SelectedItem == null) return;
+            if (PluEan.SelectedItem == null) return; // Safeguard for the case if the form with control of interest didn't load yet
+            
             //Block/unblock VK and EK Preis text fields when "EAN mit Preis" is selected/deselected
             if (PluEan.SelectedIndex == 2)
             {
                 VKPreisBrutto.Text = ""; VKPreisBrutto.IsReadOnly = true; VKPreisNetto.Text = ""; VKPreisNetto.IsReadOnly = true;
                 EKPreisBrutto.Text = ""; EKPreisBrutto.IsReadOnly = true; EKPreisNetto.Text = ""; EKPreisNetto.IsReadOnly = true;
             }
-            else if (PluEan.SelectedIndex >= 0 && VKPreisBrutto != null)
+            else if (PluEan.SelectedIndex >= 0 && VKPreisBrutto != null && PluEan.SelectedIndex != 5)
             {
                 VKPreisBrutto.IsReadOnly = false; VKPreisNetto.IsReadOnly = false;
                 EKPreisBrutto.IsReadOnly = false; EKPreisNetto.IsReadOnly = false;
             }
 
-            if (PluEan.SelectedIndex > 1)
+            if (PluEan.SelectedIndex > 1 && PluEan.SelectedIndex != 5)
             {
                 ArtikelOptionenButton.Visibility = Visibility.Hidden;
                 SetArtikelButton.Visibility = Visibility.Hidden;
                 ArtikelCodeTemplate.Visibility = Visibility.Visible;
                 ArtikelCodeTemplateValue.Visibility = Visibility.Visible;
 
+                // Based on which PluEan option user chooses open appropriate file with records (EAN Templates)
                 string csvData = "";
                 ArtikelCodeTemplate.Items.Clear();
                 if (PluEan.SelectedIndex == 2) { csvData = File.ReadAllText(@"eancodes_preis.csv"); }
@@ -917,9 +923,10 @@ namespace HandelTSE.ViewModels
                 string line = "", template = "", templateName = "";
                 List<string> data = new List<string>(csvData.Split('\n'));
 
+                // Cycle through those records to acquire the templates for appropriate option
                 for (int i = 0; i < data.Count(); i++)
                 {
-                    if (data[i].Contains("["))
+                    if (data[i].Contains("[")) // Beginnning of the record
                     {
                         int j = 1, f = 0;
                         for (; j < data[i].Length; j++)
@@ -943,6 +950,29 @@ namespace HandelTSE.ViewModels
                 }
                 ArtikelCodeTemplate.SelectedIndex = 0;
             }
+            else if (ArtikelOptionenButton != null) // In case PluEan einscannen or generieren is chosen return buttons
+            {
+                ArtikelOptionenButton.Visibility = Visibility.Visible;
+                SetArtikelButton.Visibility = Visibility.Visible;
+                ArtikelCodeTemplate.Visibility = Visibility.Hidden;
+                ArtikelCodeTemplateValue.Visibility = Visibility.Hidden;
+            }
+            if (PluEan.SelectedIndex == 1 && PluEan.Items.Count <= 5) // if EAN-Codegenerieren option was chosen
+            {
+                if (!File.Exists("eancodegenerieren.csv")) 
+                {
+                    PluEan.Items.Add(codeGeneriert.ToString());
+                    PluEan.SelectedIndex = 5;
+                }
+                else
+                {
+                    string csvData = File.ReadAllText("eancodegenerieren.csv");
+                    List<string> data = new List<string>(csvData.Split('\n'));
+                    PluEan.Items.Add((codeGeneriert = Int32.Parse(data[0])+1).ToString());
+                    PluEan.SelectedIndex = 5;
+                }
+            }
+            else if(PluEan.SelectedIndex != 5 && PluEan.SelectedIndex != 1) { PluEan.Items.Remove(codeGeneriert.ToString()); }
         }
 
         //Load Warengruppen to WGComboBox when it is set to visible

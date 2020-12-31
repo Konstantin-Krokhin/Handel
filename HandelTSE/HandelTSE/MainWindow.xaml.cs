@@ -28,14 +28,8 @@ namespace HandelTSE
         public MainWindow()
         {
             InitializeComponent();
-            ContentWindow.SetValue(Grid.RowProperty, 1);
-            ContentWindow.SetValue(Grid.ColumnProperty, 0);
-            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
-            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
 
-            // FOR SHOWING MAIN WINDOW FIRST (COMMENTED WHILE WORKED ON ARTIKELVERWALTUNG PAGE)
-            /*
+            // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)
 
             dateBlock.Text = "Heute ist der " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
@@ -51,7 +45,7 @@ namespace HandelTSE
             it2.Add(new items { titel = "davon MwSt.:", geld = "0 EUR" });
             for (int i = 0; i < 30; i++) it2.Add(new items { titel = "", geld = "" });
 
-            dg2.ItemsSource = it2;*/
+            dg2.ItemsSource = it2;
         }
 
 
