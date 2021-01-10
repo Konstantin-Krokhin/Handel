@@ -786,12 +786,14 @@ namespace HandelTSE.ViewModels
             var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(dg.SelectedIndex);
             if (row == null) return;
             foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) x.IsChecked = true;
-            int trigger = 0, trigger2 = 0, n = 0, nr = 0;
+            int trigger = 0, trigger2 = 0, n = 0;
             string row_artikel = "";
             string[] artikel = new string[21];
             var WG = new TreeViewItem();
             if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
             else { WG = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI); }
+
+            ArtikelOptionenButton.IsEnabled = true;
 
             TreeViewItem chosenTVI = new TreeViewItem();
             var DGdata = row.Item as items;
@@ -1076,6 +1078,11 @@ namespace HandelTSE.ViewModels
             //Adding copied TreeViewItem to new WG
             item.Items.Add(new TreeViewItem() { Header = ArtikelName });
             LoadTVItems();
+        }
+
+        private void ArtikelOptionenButton_Click(object sender, RoutedEventArgs e)
+        {
+            //DataContext = new ViewModels.Artikelverwaltung.ArtikelOptionen();
         }
     }
 
