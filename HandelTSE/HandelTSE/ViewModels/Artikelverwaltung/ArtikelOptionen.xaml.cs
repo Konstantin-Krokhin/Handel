@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HandelTSE.ViewModels
+namespace HandelTSE.ViewModels.Artikelverwaltung
 {
     /// <summary>
     /// Interaction logic for ArtikelOptionen.xaml
     /// </summary>
-    public partial class ArtikelOptionen : Window
+    public partial class ArtikelOptionen
     {
         public ArtikelOptionen()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
 
         private void CloseButton_Clicked(object sender, RoutedEventArgs e) { (this.Parent as Canvas).Children.Remove(this); }
