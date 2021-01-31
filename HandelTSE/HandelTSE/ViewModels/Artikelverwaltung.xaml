@@ -54,12 +54,14 @@
 
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Style.Triggers>
+                        <!-- 
                         <Trigger Property="local:TreeViewDropHighlighter.IsPossibleDropTarget" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </Trigger>
                         <Trigger Property="local:TreeViewDropHighlighter.IsPossibleDropTarget" Value="False">
                             <Setter Property="Background" Value="White" />
                         </Trigger>
+                        -->
                     </Style.Triggers>
                 </Style>
 

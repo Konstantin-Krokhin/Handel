@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HandelTSE.Views
+namespace HandelTSE
 {
     /// <summary>
     /// Interaction logic for TransactionParking.xaml

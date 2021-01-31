@@ -17,7 +17,7 @@
         <DataTemplate x:Name="Artikelver" DataType="{x:Type viewmodels:Artikelverwaltung}">
             <viewmodels:Artikelverwaltung DataContext ="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="Main" DataType="{x:Type viewmodels:Main}">
+        <DataTemplate x:Name="Main" DataType="{x:Type views:Main}">
             <views:Main DataContext ="{Binding}"/>
         </DataTemplate>
         <DataTemplate x:Name="StatGraph" DataType="{x:Type viewmodels:StatisticsGraphViewModel}">
@@ -26,10 +26,10 @@
         <DataTemplate x:Name="StatTable" DataType="{x:Type viewmodels:StatTableModel}">
             <views:StatTable DataContext ="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="TransPark" DataType="{x:Type viewmodels:TransactionParkingViewModel}">
-            <views:TransactionParking DataContext ="{Binding}"/>
+        <DataTemplate x:Name="TransPark" DataType="{x:Type local:TransactionParkingViewModel}">
+            <local:TransactionParking DataContext ="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="MainTemplate" DataType="{x:Type viewmodels:MwStTool}">
+        <DataTemplate x:Name="MainTemplate" DataType="{x:Type views:MwStTool}">
             <views:MwStTool DataContext ="{Binding}"/>
         </DataTemplate>
     </Window.Resources>

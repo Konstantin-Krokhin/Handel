@@ -89,7 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Artikelverwaltung\ArtikelOptionen.xaml.cs">
+    <Compile Include="ViewModels\ArtikelOptionen.xaml.cs">
       <DependentUpon>ArtikelOptionen.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DragDataGridRowMessageBox.cs">
@@ -109,7 +109,7 @@
     <Compile Include="ViewModels\StatisticsGraphViewModel.cs" />
     <Compile Include="ViewModels\StatTableModel.cs" />
     <Compile Include="TransactionParkingViewModel.cs" />
-    <Compile Include="ViewModels\Artikelverwaltung\Artikelverwaltung.xaml.cs">
+    <Compile Include="ViewModels\Artikelverwaltung.xaml.cs">
       <DependentUpon>Artikelverwaltung.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main.xaml.cs">
@@ -139,11 +139,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ViewModels\Artikelverwaltung\ArtikelOptionen.xaml">
+    <Page Include="ViewModels\ArtikelOptionen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\Artikelverwaltung\Artikelverwaltung.xaml">
+    <Page Include="ViewModels\Artikelverwaltung.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

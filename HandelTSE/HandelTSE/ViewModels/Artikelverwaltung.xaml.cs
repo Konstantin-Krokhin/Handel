@@ -1085,31 +1085,7 @@ namespace HandelTSE.ViewModels
         {
             //DataContext = new ViewModels.Artikelverwaltung.ArtikelOptionen();
         }
-    }
 
-    // Class with method for looking the Parent of the element (Control)
-    public class VisualTreeHelpers
-    {
-        // Returns the first ancester of specified type
-        public static T FindAncestor<T>(DependencyObject current)
-        where T : DependencyObject
-        {
-            current = VisualTreeHelper.GetParent(current);
-
-            while (current != null)
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            };
-            return null;
-        }
-    }
-
-    public partial class Artikelverwaltung
-    {
         ///////// DataGridRow Drap&Drop START
         public void dg3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -1253,6 +1229,27 @@ namespace HandelTSE.ViewModels
             return curIndex;
         }
         //////// DataGridRow Drap&Drop END
+    }
+
+    // Class with method for looking the Parent of the element (Control)
+    public class VisualTreeHelpers
+    {
+        // Returns the first ancester of specified type
+        public static T FindAncestor<T>(DependencyObject current)
+        where T : DependencyObject
+        {
+            current = VisualTreeHelper.GetParent(current);
+
+            while (current != null)
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            };
+            return null;
+        }
     }
 
     // Class responsible for highlighting the TreeViewItem when DG row is dragged over it

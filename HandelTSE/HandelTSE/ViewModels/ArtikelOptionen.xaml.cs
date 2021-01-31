@@ -13,11 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HandelTSE.ViewModels.Artikelverwaltung
+namespace HandelTSE.ViewModels//.Artikelverwaltung
 {
     /// <summary>
     /// Interaction logic for ArtikelOptionen.xaml
     /// </summary>
+    
     public partial class ArtikelOptionen
     {
         public ArtikelOptionen()

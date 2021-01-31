@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HandelTSE.ViewModels;
 using HandelTSE.Views;
 
-namespace HandelTSE.ViewModels
+namespace HandelTSE
 {
     public partial class TransactionParkingViewModel
     {
