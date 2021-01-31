@@ -92,8 +92,8 @@ C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csp
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache
 C:\Users\Konstantin\Documents\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.ViewModels.DragDataGridRowMessageBox.resources
 D:\handel\HandelTSE\HandelTSE\obj\Debug\MainWindow.g.cs
+D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Artikelverwaltung\ArtikelOptionen.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Artikelverwaltung\Artikelverwaltung.g.cs
-D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Artikelverwaltung\AtikelOptionen.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\EanEinstellungen.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Kasse.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\Views\Main.g.cs
@@ -105,4 +105,4 @@ D:\handel\HandelTSE\HandelTSE\obj\Debug\App.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE_MarkupCompile.cache
 D:\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE_MarkupCompile.lref
-D:\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Artikelverwaltung\ArtikelOptionen.g.cs
+D:\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache

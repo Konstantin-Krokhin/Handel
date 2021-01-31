@@ -92,8 +92,6 @@
     <Compile Include="ViewModels\Artikelverwaltung\ArtikelOptionen.xaml.cs">
       <DependentUpon>ArtikelOptionen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Artikelverwaltung\DataGridDragDrop.cs" />
-    <Compile Include="ViewModels\Artikelverwaltung\TreeViewDropHighlighter.cs" />
     <Compile Include="ViewModels\DragDataGridRowMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
