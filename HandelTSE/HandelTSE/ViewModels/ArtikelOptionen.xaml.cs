@@ -19,7 +19,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
     /// Interaction logic for ArtikelOptionen.xaml
     /// </summary>
     
-    public partial class ArtikelOptionen
+    public partial class ArtikelOptionen:UserControl
     {
         public ArtikelOptionen()
         {

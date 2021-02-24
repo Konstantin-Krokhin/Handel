@@ -37,11 +37,11 @@
             <ComboBoxItem>Größe Schuhe</ComboBoxItem>
         </ComboBox>
 
-        <Button Width="100" Content="löschen" Height="30" Grid.Column="4" Grid.Row="1" Margin="20, 0"/>
-        <Button Width="100" Content="speichern" Height="30" Grid.Column="4" Grid.Row="2" Margin="20, 0"/>
+        <Button Width="100" Content="löschen" Height="30" Grid.Column="4" Grid.Row="1" Margin="10, 0"/>
+        <Button Width="100" Content="speichern" Height="30" Grid.Column="4" Grid.Row="2" Margin="10, 0"/>
 
         <TextBlock Text="Option2:" Grid.Column="5" Grid.Row="1" Margin="10, 10"/>
-        <ComboBox Grid.Column="6" Grid.Row="1" Width="150" HorizontalAlignment="Left" Text="kein" Margin="10, 8, 10, 8">
+        <ComboBox Grid.Column="6" Grid.Row="1" Width="150" HorizontalAlignment="Left" Text="keine" Margin="10, 8, 10, 8">
             <ComboBoxItem>keine</ComboBoxItem>
             <ComboBoxItem>Farbe</ComboBoxItem>
             <ComboBoxItem>Größe Textil</ComboBoxItem>
@@ -53,6 +53,15 @@
                 <Image Source="../HandelTSE/HandelTSE/img/close_btn.png" />
             </StackPanel>
         </Button>
+
+        <DataGrid Name="listOption1" Width="340" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="0, 20">
+
+        </DataGrid>
+
+        <DataGrid Name="listOption2" Width="340" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="0, 20">
+
+        </DataGrid>
+
     </Grid>
 </UserControl>
 

@@ -29,8 +29,14 @@ namespace HandelTSE
         {
             InitializeComponent();
 
-            // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
+            DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
 
+            // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)
+            /*
             dateBlock.Text = "Heute ist der " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
             it.Add(new items { titel = "Umsatz gesamt:", geld = "0 EUR" });
@@ -46,6 +52,7 @@ namespace HandelTSE
             for (int i = 0; i < 30; i++) it2.Add(new items { titel = "", geld = "" });
 
             dg2.ItemsSource = it2;
+            */
         }
 
 
@@ -98,6 +105,15 @@ namespace HandelTSE
         private void EanEinstellungen_Click(object sender, RoutedEventArgs e)
         {
             DataContext = new EanEinstellungen();
+        }
+
+        public void func()
+        {
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
+            DataContext = new ViewModels.ArtikelOptionen();
         }
     }
 }

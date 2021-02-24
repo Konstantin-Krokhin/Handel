@@ -1083,7 +1083,9 @@ namespace HandelTSE.ViewModels
 
         private void ArtikelOptionenButton_Click(object sender, RoutedEventArgs e)
         {
-            //DataContext = new ViewModels.Artikelverwaltung.ArtikelOptionen();
+            MainWindow m = new MainWindow();
+            m.func();
+            
         }
 
         ///////// DataGridRow Drap&Drop START
