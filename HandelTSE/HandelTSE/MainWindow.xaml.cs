@@ -29,11 +29,13 @@ namespace HandelTSE
         {
             InitializeComponent();
 
+            // FOR DEV Purposes ONLY********************
             ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
             DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
+            //*******************************************
 
             // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)
             /*
@@ -105,15 +107,6 @@ namespace HandelTSE
         private void EanEinstellungen_Click(object sender, RoutedEventArgs e)
         {
             DataContext = new EanEinstellungen();
-        }
-
-        public void func()
-        {
-            ContentWindow.SetValue(Grid.RowProperty, 1);
-            ContentWindow.SetValue(Grid.ColumnProperty, 0);
-            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
-            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new ViewModels.ArtikelOptionen();
         }
     }
 }
