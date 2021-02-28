@@ -272,7 +272,7 @@
                 <TextBlock VerticalAlignment="center">speichern </TextBlock>
             </DockPanel>
         </Button>
-
+        
         <CheckBox x:Name="AlleArtikel" Checked="CheckedBox_SelectAll" Unchecked="CheckedBox_DeselectAll" Grid.Column="2" Grid.Row="10" Grid.RowSpan="2" Margin="10, 8, 0, 0" />
         <TextBlock Text="alle Artikel" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="10" Grid.RowSpan="2" Margin="25, 6, 0, 0"/>
 
