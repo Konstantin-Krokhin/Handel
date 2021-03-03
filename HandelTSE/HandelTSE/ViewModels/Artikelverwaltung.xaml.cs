@@ -24,6 +24,9 @@ namespace HandelTSE.ViewModels
         List<items> it = new List<items>();
         List<items2> it2 = new List<items2>();
         List<string> articlesToDelete = new List<string>();
+        public string ArtikelName;
+        public static string WG_str;
+
         public ItemsControl parent { get; set; }
         CheckBox checkBox = new CheckBox();
         public Int32 rowIndex;
@@ -152,6 +155,7 @@ namespace HandelTSE.ViewModels
             else
             {
                 string csvData = File.ReadAllText(@"data.csv");
+
                 List<string> data = new List<string>(csvData.Split('\n'));
                 TreeViewItem item = new TreeViewItem();
                 string WG = selectedTVI.Header.ToString();
@@ -789,21 +793,22 @@ namespace HandelTSE.ViewModels
             foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) x.IsChecked = true;
             int trigger = 0, trigger2 = 0, n = 0;
             string row_artikel = "";
-            string[] artikel = new string[21];
             var WG = new TreeViewItem();
+            string[] artikel = new string[21];
             if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
             else { WG = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI); }
+            WG_str = WG.Header.ToString();
 
             ArtikelOptionenButton.IsEnabled = true;
 
             TreeViewItem chosenTVI = new TreeViewItem();
             var DGdata = row.Item as items;
-            var ArtikelName = DGdata.artikel;
+            ArtikelName = DGdata.artikel;
 
             string csvData = File.ReadAllText("data.csv");
             foreach (string s in csvData.Split('\n'))
             {
-                if (!string.IsNullOrEmpty(s) && s == (string)"[" + WG.Header.ToString() + "]")
+                if (!string.IsNullOrEmpty(s) && s == (string)"[" + WG_str + "]")
                 {
                     trigger = 1;
                     continue;
@@ -1081,10 +1086,7 @@ namespace HandelTSE.ViewModels
             LoadTVItems();
         }
 
-        private void ArtikelOptionenButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Content = new ArtikelOptionen();
-        }
+        private void ArtikelOptionenButton_Click(object sender, RoutedEventArgs e) { this.Content = new ArtikelOptionen(); }
 
         ///////// DataGridRow Drap&Drop START
         public void dg3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
