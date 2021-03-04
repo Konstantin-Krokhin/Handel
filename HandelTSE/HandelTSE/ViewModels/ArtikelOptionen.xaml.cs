@@ -190,12 +190,30 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         void OnChecked(object sender, RoutedEventArgs e)
         {
+            int i = 0;
             foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption1))
             {
-                if (((CheckBox)sender).Name == ch.Name)
+                if (i == 1) { ch.IsChecked = false; break; }
+                if (((CheckBox)sender) == ch)
                 {
-                    MessageBox.Show(((CheckBox)sender).Name + ch.Name);
+                    i = 1;
+                    continue;
                 }
+            }
+        }
+
+        void OnChecked2(object sender, RoutedEventArgs e)
+        {
+            int i = 0;
+            CheckBox c = new CheckBox();
+            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption1))
+            {
+                if (((CheckBox)sender) == ch)
+                {
+                    c.IsChecked = false;
+                    break;
+                }
+                c = ch;
             }
         }
 
@@ -205,7 +223,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             List<string> optionenToSave = new List<string>();
             optionenToSave.Add("\n[" + Artikelverwaltung.WG_str + "]\n");
             
-            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption1))
+            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(OhnePreis))
             {
                 DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(ch);
 
@@ -219,6 +237,11 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
             }
             foreach (string s in new[] { String.Join("\n", optionenToSave) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }

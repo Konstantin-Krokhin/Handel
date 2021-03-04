@@ -65,8 +65,24 @@
         <CheckBox Name="addierenAlleCheckBoxRight" IsEnabled="false" Grid.Row="3" Grid.Column="8" Checked="CheckedBox_SelectAll" Unchecked="CheckedBox_DeselectAll" HorizontalAlignment="Left"/>
         <TextBlock Text="Alle" Grid.Row="3" Grid.Column="8" Margin="18, -1"/>
 
-        <DataGrid Name="listOption1" AutoGeneratingColumn = "CustomizeHeaders" Width="340" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Margin="0, 20">
+        <DataGrid Name="listOption1" AutoGeneratingColumn = "CustomizeHeaders" Width="340" SelectionChanged="DataGrid_SelectionChanged" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Margin="0, 20">
             <DataGrid.Columns>
+                <DataGridTemplateColumn x:Name="OhnePreis" Header="ohne Pr." Visibility="Hidden">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Checked="OnChecked" Name="theCheckbox" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn x:Name="Addieren" Header="addieren" Visibility="Hidden">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Checked="OnChecked2" Name="theCheckbox2" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--
                 <DataGridCheckBoxColumn x:Name="OhnePreis" Header="ohne Pr." Visibility="Hidden" IsThreeState="True" Binding="{Binding OnlineOrderFlag}">
                     <DataGridCheckBoxColumn.CellStyle>
                         <Style>
@@ -74,7 +90,8 @@
                         </Style>
                     </DataGridCheckBoxColumn.CellStyle>
                 </DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn x:Name="Addieren" Header="addieren" Visibility="Hidden" IsThreeState="True" Binding="{Binding OnlineOrderFlag}" />
+                <DataGridCheckBoxColumn  Visibility="Hidden" IsThreeState="True" Binding="{Binding OnlineOrderFlag}" />
+            -->
             </DataGrid.Columns>
         </DataGrid>
 
