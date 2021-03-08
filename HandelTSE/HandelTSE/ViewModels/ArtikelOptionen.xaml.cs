@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -25,6 +26,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
         public List<items> Data { get; set; }
         List<items> it = new List<items>();
         public List<items> Data2 { get; set; }
+
+        List<string> artikel = new List<string>();
         public class items
         {
             public string option { get; set; }
@@ -33,12 +36,44 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
         public ArtikelOptionen()
         {
             InitializeComponent();
+
+            // FOR DEBUG ONLY
+            HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
+            HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
+
+            string row_artikel = "";
+            int trigger = 0, trigger2 = 0, n = 0;
+            string csvData = File.ReadAllText("artikel_optionen_data.csv");
+            foreach (string row in csvData.Split('\n'))
+            {
+                if (!string.IsNullOrEmpty(row) && row == (string)"[" + Artikelverwaltung.WG_str + "]")
+                {
+                    trigger = 1;
+                    continue;
+                }
+                if (trigger == 1)
+                {
+                    row_artikel = row;
+                    if (row == "Name:" + Artikelverwaltung.ArtikelName && row.Substring(row.IndexOf(",") + 1).Count() > 0)
+                    {
+                        trigger2 = 1;
+                        continue;
+                    }
+                    if (trigger2 == 1)
+                    {
+                        if (row.Contains('[') && row.Contains(']')) break;
+                        if (row == "Option,S" || row == "Option,M" || (row.Contains("Option,") && row.Contains("L"))) Option1CB.SelectedIndex = 2;
+                        else if (row.Contains("Option,") && (row.Any(Char.IsDigit))) Option1CB.SelectedIndex = 3;
+                        else if (row.Contains("Option,")) Option1CB.SelectedIndex = 1;
+                        artikel.Add(row);
+                    }
+                }
+            }
+            
+            
         }
 
-        private void CloseButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            Content = new Artikelverwaltung();
-        }
+        private void CloseButton_Clicked(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }
 
         private void Option1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -178,9 +213,9 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             else if (((CheckBox)sender).Name == "addierenAlleCheckBoxRight") { i = 0; j = 3; dataGrid = listOption2; }
 
             foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGrid))
-            { 
+            {
                 if (i % 2 == 1) { ch.IsChecked = b; i++; }
-                else { ch.IsChecked = false; i++; } 
+                else { ch.IsChecked = false; i++; }
             }
             if (j == 0) addierenAlleCheckBoxLeft.IsChecked = false;
             else if (j == 1) addierenAlleCheckBoxRight.IsChecked = false;
@@ -188,60 +223,151 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             else ohnePreisAlleCheckBoxRight.IsChecked = false;
         }
 
-        void OnChecked(object sender, RoutedEventArgs e)
+        void OnChecked1(object sender, RoutedEventArgs e) { OnCheckedOhnePreis(sender, e, listOption1); }
+        void OnChecked2(object sender, RoutedEventArgs e) { OnCheckedAddieren(sender, e, listOption1); }
+        void OnChecked3(object sender, RoutedEventArgs e) { OnCheckedOhnePreis(sender, e, listOption2); }
+        void OnChecked4(object sender, RoutedEventArgs e) { OnCheckedAddieren(sender, e, listOption2); }
+
+        void OnCheckedOhnePreis(object sender, RoutedEventArgs e, DataGrid listOption)
         {
             int i = 0;
-            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption1))
+            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption))
             {
                 if (i == 1) { ch.IsChecked = false; break; }
-                if (((CheckBox)sender) == ch)
-                {
-                    i = 1;
-                    continue;
-                }
+                if (((CheckBox)sender) == ch) { i = 1; continue; }
             }
         }
 
-        void OnChecked2(object sender, RoutedEventArgs e)
+        void OnCheckedAddieren(object sender, RoutedEventArgs e, DataGrid listOption)
         {
             int i = 0;
             CheckBox c = new CheckBox();
-            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption1))
+            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption))
             {
-                if (((CheckBox)sender) == ch)
-                {
-                    c.IsChecked = false;
-                    break;
-                }
+                if (((CheckBox)sender) == ch) { c.IsChecked = false; break; }
                 c = ch;
             }
         }
 
-        private void SpeichernLeft_Click(object sender, RoutedEventArgs e)
+        private void SpeichernLeftGrid_Click(object sender, RoutedEventArgs e) { Speichern(sender, e, listOption1); }
+
+        private void SpeichernRightGrid_Click(object sender, RoutedEventArgs e) { Speichern(sender, e, listOption2); }
+
+        private void Speichern(object sender, RoutedEventArgs e, DataGrid dg)
         {
             int i = 1;
             List<string> optionenToSave = new List<string>();
-            optionenToSave.Add("\n[" + Artikelverwaltung.WG_str + "]\n");
-            
-            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(OhnePreis))
+            optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");
+            optionenToSave.Add("\nName:" + Artikelverwaltung.ArtikelName);
+
+            foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(dg))
             {
                 DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(ch);
 
                 if (ch.IsChecked == true && !String.IsNullOrEmpty(dataGridRow.ToString()))
                 {
                     var data = dataGridRow.Item as items;
+                    if (data == null) break;
                     optionenToSave.Add(string.Format("{0},{1}", "Option", data.option));
-                    if (i % 2 == 1) optionenToSave.Add(string.Format("{0},{1}", "Preis", data.preis));
-                    optionenToSave.Add("\n");
+                    if (i % 2 == 0) optionenToSave.Add(string.Format("{0},{1}", "Preis", data.preis));
                 }
-
+                i++;
             }
             foreach (string s in new[] { String.Join("\n", optionenToSave) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OrderCheckboxColumns(object sender, RoutedEventArgs e) 
+        { 
+            OrderColumns(listOption1);
+
+            if (!string.IsNullOrEmpty(artikel[0]))
+            {
+                string option_name = "", prev_option = "", option_preis = "";
+                foreach (string s in artikel)
+                {
+                    if (s.StartsWith("Option,"))
+                    {
+                        option_name = s.Substring(s.IndexOf(",") + 1);
+
+                        for (int i = 1; i < listOption1.Items.Count; i++)
+                        {
+                            DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
+                            var data = dataGridRow.Item as items;
+                            if (data == null) continue;
+                            if (option_name == data.option)
+                            {
+                                foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
+                                {
+                                    if (c.Name == "theCheckbox") { c.IsChecked = true;
+                                        prev_option = option_name; break; }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else if (s.StartsWith("Preis,"))
+                    {
+                        option_preis = s.Substring(s.IndexOf(",") + 1);
+                        for (int i = 0; i < listOption1.Items.Count; i++)
+                        {
+                            DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
+                            var data = dataGridRow.Item as items;
+                            if (data == null) continue;
+                            if (prev_option == data.option)
+                            {
+                                foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
+                                {
+                                    if (c.Name == "theCheckbox2") { c.IsChecked = true; Class.GetCell(listOption1, dataGridRow, 3).Content = option_preis; break; }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                //it.Add(new items { nr = nr++.ToString(), pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
+            }
+        }
+
+    }
+
+    static class Class
+    {
+        public static DataGridCell GetCell(this DataGrid grid, DataGridRow row, int column)
         {
-            
+            if (row != null)
+            {
+                DataGridCellsPresenter presenter = GetVisualChild<DataGridCellsPresenter>(row);
+
+                if (presenter == null)
+                {
+                    grid.ScrollIntoView(row, grid.Columns[column]);
+                    presenter = GetVisualChild<DataGridCellsPresenter>(row);
+                }
+
+                DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
+                return cell;
+            }
+            return null;
+        }
+
+        public static T GetVisualChild<T>(Visual parent) where T : Visual
+        {
+            T child = default(T);
+            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < numVisuals; i++)
+            {
+                Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
+                child = v as T;
+                if (child == null)
+                {
+                    child = GetVisualChild<T>(v);
+                }
+                if (child != null)
+                {
+                    break;
+                }
+            }
+            return child;
         }
     }
 }

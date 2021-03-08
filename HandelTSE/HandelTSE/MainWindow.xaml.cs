@@ -29,12 +29,14 @@ namespace HandelTSE
         {
             InitializeComponent();
 
-            // FOR DEV Purposes ONLY********************
+            // FOR DEV/TEST Purposes ONLY********************
             ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
             DataContext = new HandelTSE.ViewModels.ArtikelOptionen();
+            //HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
+            //HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
             //*******************************************
 
             // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)

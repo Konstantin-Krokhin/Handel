@@ -24,7 +24,7 @@ namespace HandelTSE.ViewModels
         List<items> it = new List<items>();
         List<items2> it2 = new List<items2>();
         List<string> articlesToDelete = new List<string>();
-        public string ArtikelName;
+        public static string ArtikelName;
         public static string WG_str;
 
         public ItemsControl parent { get; set; }
