@@ -38,15 +38,82 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             InitializeComponent();
 
             // FOR DEBUG ONLY
+            //***************
             HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
             HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
+            //***************
 
+            LoadOptionenDataToArtikelArray();
+
+        }
+
+        // *************LOADING PART START****************
+        private void LoadOptionenToDG(object sender, RoutedEventArgs e)
+        {
+            OrderColumns(listOption1);
+            if (artikel.Count != 0) LoadDataToDG();
+        }
+
+        private void LoadDataToDG()
+        {
+            if (!string.IsNullOrEmpty(artikel[0]))
+            {
+                string option_name = "", prev_option = "", option_preis = "";
+                foreach (string s in artikel)
+                {
+                    if (s.StartsWith("Option,"))
+                    {
+                        option_name = s.Substring(s.IndexOf(",") + 1);
+
+                        for (int i = 0; i < listOption1.Items.Count; i++)
+                        {
+                            DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
+                            var data = dataGridRow.Item as items;
+                            if (data == null) continue;
+                            if (option_name.Contains(data.option))
+                            {
+                                foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
+                                {
+                                    if (c.Name == "theCheckbox")
+                                    {
+                                        c.IsChecked = true;
+                                        prev_option = option_name; break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else if (s.StartsWith("Preis,"))
+                    {
+                        option_preis = s.Substring(s.IndexOf(",") + 1);
+                        for (int i = 0; i < listOption1.Items.Count; i++)
+                        {
+                            DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
+                            var data = dataGridRow.Item as items;
+                            if (data == null) continue;
+                            if (prev_option.Contains(data.option))
+                            {
+                                foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
+                                {
+                                    if (c.Name == "theCheckbox2") { c.IsChecked = true; DGCell.GetCell(listOption1, dataGridRow, 3).Content = option_preis; break; }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void LoadOptionenDataToArtikelArray()
+        {
             string row_artikel = "";
-            int trigger = 0, trigger2 = 0, n = 0;
+            int trigger = 0, trigger2 = 0;
             string csvData = File.ReadAllText("artikel_optionen_data.csv");
             foreach (string row in csvData.Split('\n'))
             {
-                if (!string.IsNullOrEmpty(row) && row == (string)"[" + Artikelverwaltung.WG_str + "]")
+                if (!string.IsNullOrEmpty(row) && row.Contains((string)"[" + Artikelverwaltung.WG_str + "]"))
                 {
                     trigger = 1;
                     continue;
@@ -54,7 +121,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                 if (trigger == 1)
                 {
                     row_artikel = row;
-                    if (row == "Name:" + Artikelverwaltung.ArtikelName && row.Substring(row.IndexOf(",") + 1).Count() > 0)
+                    if (row.Contains("Name:" + Artikelverwaltung.ArtikelName) && row.Substring(row.IndexOf(":") + 1).Count() > 0)
                     {
                         trigger2 = 1;
                         continue;
@@ -69,9 +136,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                     }
                 }
             }
-            
-            
         }
+        // *************LOADING PART END****************
 
         private void CloseButton_Clicked(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }
 
@@ -249,14 +315,16 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             }
         }
 
+        // *************SAVING PART START****************
         private void SpeichernLeftGrid_Click(object sender, RoutedEventArgs e) { Speichern(sender, e, listOption1); }
 
         private void SpeichernRightGrid_Click(object sender, RoutedEventArgs e) { Speichern(sender, e, listOption2); }
 
         private void Speichern(object sender, RoutedEventArgs e, DataGrid dg)
         {
-            int i = 1;
+            int i = 1, trigger = 0, trigger2 = 0, trigger3 = 0;
             List<string> optionenToSave = new List<string>();
+            List<string> optionenToSubstitute = new List<string>();
             optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");
             optionenToSave.Add("\nName:" + Artikelverwaltung.ArtikelName);
 
@@ -273,64 +341,37 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                 }
                 i++;
             }
-            foreach (string s in new[] { String.Join("\n", optionenToSave) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
-        }
-
-        private void OrderCheckboxColumns(object sender, RoutedEventArgs e) 
-        { 
-            OrderColumns(listOption1);
-
-            if (!string.IsNullOrEmpty(artikel[0]))
+            string csvData = File.ReadAllText("artikel_optionen_data.csv");
+            foreach (string row in csvData.Split('\n'))
             {
-                string option_name = "", prev_option = "", option_preis = "";
-                foreach (string s in artikel)
+                if (trigger2 != 1) optionenToSubstitute.Add(row);
+                if (row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger = 1; continue; }
+                if (trigger == 1) 
+                    if (row.Contains("Name:" + Artikelverwaltung.ArtikelName))
+                    {
+                        trigger = 0;
+                        trigger2 = 1;
+                        continue;
+                    }
+                if (trigger2 == 1)
                 {
-                    if (s.StartsWith("Option,"))
-                    {
-                        option_name = s.Substring(s.IndexOf(",") + 1);
-
-                        for (int i = 1; i < listOption1.Items.Count; i++)
-                        {
-                            DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
-                            var data = dataGridRow.Item as items;
-                            if (data == null) continue;
-                            if (option_name == data.option)
-                            {
-                                foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
-                                {
-                                    if (c.Name == "theCheckbox") { c.IsChecked = true;
-                                        prev_option = option_name; break; }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    else if (s.StartsWith("Preis,"))
-                    {
-                        option_preis = s.Substring(s.IndexOf(",") + 1);
-                        for (int i = 0; i < listOption1.Items.Count; i++)
-                        {
-                            DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
-                            var data = dataGridRow.Item as items;
-                            if (data == null) continue;
-                            if (prev_option == data.option)
-                            {
-                                foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
-                                {
-                                    if (c.Name == "theCheckbox2") { c.IsChecked = true; Class.GetCell(listOption1, dataGridRow, 3).Content = option_preis; break; }
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    if (trigger3 == 0) foreach (string s in optionenToSave) { if (s.Contains("[") || s.Contains("Name:")) continue; optionenToSubstitute.Add(s); }
+                    trigger3 = 1;
                 }
-                //it.Add(new items { nr = nr++.ToString(), pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
+                if (row.Contains("[") && row.Contains("]") && !row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger2 = 0; optionenToSubstitute.Add(row); }
+            }
+            if (trigger3 == 0)
+                foreach (string s in new[] { String.Join("\n", optionenToSave) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
+            else
+            {
+                File.Delete(@"artikel_optionen_data.csv");
+                foreach (string s in new[] { String.Join("\n", optionenToSubstitute) }) File.AppendAllText(@"artikel_optionen_data.csv",  s);
             }
         }
-
+        // *************SAVING PART END****************
     }
 
-    static class Class
+    static class DGCell
     {
         public static DataGridCell GetCell(this DataGrid grid, DataGridRow row, int column)
         {

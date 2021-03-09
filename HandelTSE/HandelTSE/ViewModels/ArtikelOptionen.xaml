@@ -65,7 +65,7 @@
         <CheckBox Name="addierenAlleCheckBoxRight" IsEnabled="false" Grid.Row="3" Grid.Column="8" Checked="CheckedBox_SelectAll" Unchecked="CheckedBox_DeselectAll" HorizontalAlignment="Left"/>
         <TextBlock Text="Alle" Grid.Row="3" Grid.Column="8" Margin="18, -1"/>
 
-        <DataGrid Name="listOption1" Loaded="OrderCheckboxColumns" AutoGeneratingColumn = "CustomizeHeaders" Width="340" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Margin="0, 20">
+        <DataGrid Name="listOption1" Loaded="LoadOptionenToDG" AutoGeneratingColumn = "CustomizeHeaders" Width="340" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Margin="0, 20">
             <DataGrid.Columns>
                 <DataGridTemplateColumn x:Name="OhnePreis1" Header="ohne Pr." Visibility="Hidden">
                     <DataGridTemplateColumn.CellTemplate>
