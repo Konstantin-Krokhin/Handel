@@ -39,8 +39,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
             // FOR DEBUG ONLY
             //***************
-            HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
-            HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
+            if (HandelTSE.ViewModels.Artikelverwaltung.WG_str == null) HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
+            if (HandelTSE.ViewModels.Artikelverwaltung.ArtikelName == null) HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
             //***************
 
             LoadOptionenDataToArtikelArray();
@@ -70,7 +70,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                             DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
                             var data = dataGridRow.Item as items;
                             if (data == null) continue;
-                            if (option_name.Contains(data.option))
+                            if (option_name == data.option)
                             {
                                 foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
                                 {
@@ -92,7 +92,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                             DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
                             var data = dataGridRow.Item as items;
                             if (data == null) continue;
-                            if (prev_option.Contains(data.option))
+                            if (prev_option == data.option)
                             {
                                 foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
                                 {
@@ -306,7 +306,6 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         void OnCheckedAddieren(object sender, RoutedEventArgs e, DataGrid listOption)
         {
-            int i = 0;
             CheckBox c = new CheckBox();
             foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(listOption))
             {
@@ -322,12 +321,13 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         private void Speichern(object sender, RoutedEventArgs e, DataGrid dg)
         {
-            int i = 1, trigger = 0, trigger2 = 0, trigger3 = 0;
+            int i = 1, trigger = 0, trigger2 = 0, trigger3 = 0, t = 0;
             List<string> optionenToSave = new List<string>();
             List<string> optionenToSubstitute = new List<string>();
             optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");
             optionenToSave.Add("\nName:" + Artikelverwaltung.ArtikelName);
-
+            
+            // Reading data from DG into the List optionenToSave to then add to DB
             foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(dg))
             {
                 DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(ch);
@@ -338,13 +338,21 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                     if (data == null) break;
                     optionenToSave.Add(string.Format("{0},{1}", "Option", data.option));
                     if (i % 2 == 0) optionenToSave.Add(string.Format("{0},{1}", "Preis", data.preis));
+                    if (t == 0) t = 1;
                 }
                 i++;
             }
+
+            // Check if any checkboxes are chosen
+            if (t == 0) { MessageBox.Show("Bitte geben Sie die Daten ein!"); return; }
+
+            // Reading from DB file into the List optionenToSubstitute
             string csvData = File.ReadAllText("artikel_optionen_data.csv");
             foreach (string row in csvData.Split('\n'))
             {
                 if (trigger2 != 1) optionenToSubstitute.Add(row);
+                
+                // If the record is already present in the DB file then substitute the part with parameters of the given Artikel
                 if (row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger = 1; continue; }
                 if (trigger == 1) 
                     if (row.Contains("Name:" + Artikelverwaltung.ArtikelName))
@@ -355,7 +363,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                     }
                 if (trigger2 == 1)
                 {
-                    if (trigger3 == 0) foreach (string s in optionenToSave) { if (s.Contains("[") || s.Contains("Name:")) continue; optionenToSubstitute.Add(s); }
+                    if (trigger3 == 0) foreach (string s in optionenToSave) { if (s.Contains("[" + Artikelverwaltung.WG_str + "]") || s.Contains("Name:")) continue; optionenToSubstitute.Add(s); }
                     trigger3 = 1;
                 }
                 if (row.Contains("[") && row.Contains("]") && !row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger2 = 0; optionenToSubstitute.Add(row); }
@@ -368,7 +376,49 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                 foreach (string s in new[] { String.Join("\n", optionenToSubstitute) }) File.AppendAllText(@"artikel_optionen_data.csv",  s);
             }
         }
+
         // *************SAVING PART END****************
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            int trigger = 0, trigger2 = 0, trigger3 = 0, trigger4 = 0;
+            List<string> data = new List<string>();
+            string csvData = File.ReadAllText("artikel_optionen_data.csv");
+            foreach (string row in csvData.Split('\n'))
+            {
+                
+                if (row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger = 1; trigger2 = 1; continue; }
+                if (trigger == 1)
+                {
+                    if (row.Contains("Name:" + Artikelverwaltung.ArtikelName))
+                    {
+                        trigger2 = 0;
+                        trigger3 = 0;
+                        trigger4 = 1;
+                        continue;
+                    }
+                    else if (row == "" && trigger2 == 1)
+                    {
+                        trigger3 = 1;
+                        continue;
+                    }
+                    else if (trigger2 == 1 && trigger3 == 1)
+                    {
+                        data.Add("[" + Artikelverwaltung.WG_str + "]");
+                        data.Add(row);
+                        trigger = 0;
+                        trigger2 = 0;
+                        continue;
+                    }
+                    else if (row.Contains("[") && row.Contains("]") && !row.Contains("[" + Artikelverwaltung.WG_str + "]")) { data.Add(row); trigger = 0; trigger2 = 0; continue; };
+                    if (row.Contains("Name:") && !row.Contains(Artikelverwaltung.ArtikelName)) trigger4 = 0;
+                    if (trigger4 == 1) { continue; }
+                }
+                data.Add(row);
+            }
+            File.Delete(@"artikel_optionen_data.csv");
+            foreach (string s in new[] { String.Join("\n", data) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
+        }
     }
 
     static class DGCell
