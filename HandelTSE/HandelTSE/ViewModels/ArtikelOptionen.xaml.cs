@@ -39,8 +39,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
             // FOR DEBUG ONLY
             //***************
-            if (HandelTSE.ViewModels.Artikelverwaltung.WG_str == null) HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
-            if (HandelTSE.ViewModels.Artikelverwaltung.ArtikelName == null) HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
+            //if (HandelTSE.ViewModels.Artikelverwaltung.WG_str == null) HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
+            //if (HandelTSE.ViewModels.Artikelverwaltung.ArtikelName == null) HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
             //***************
 
             LoadOptionenDataToArtikelArray();

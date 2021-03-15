@@ -26,6 +26,7 @@ namespace HandelTSE.ViewModels
         List<string> articlesToDelete = new List<string>();
         public static string ArtikelName;
         public static string WG_str;
+        int eanSuchenTrigger = 0;
 
         public ItemsControl parent { get; set; }
         CheckBox checkBox = new CheckBox();
@@ -305,9 +306,10 @@ namespace HandelTSE.ViewModels
 
             if (checkBox.IsChecked == true && !String.IsNullOrEmpty(dataGridRow.ToString()))
             {
-                var data = dataGridRow.Item as items;
+                if (eanSuchenTrigger == 0) ArtikelName = ((items)dataGridRow.Item).artikel;
+                else ArtikelName = ((items2)dataGridRow.Item).artikel;
                 /* ERROR FIX WHEN DELETED ONE ARTICLE SELECTED FROM TV and DG */
-                if (!articlesToDelete.Contains(data.artikel)) articlesToDelete.Add(data.artikel);
+                if (!articlesToDelete.Contains(ArtikelName)) articlesToDelete.Add(ArtikelName);
             }
             e.Handled = true;
         }
@@ -320,16 +322,17 @@ namespace HandelTSE.ViewModels
 
             if (checkBox.IsChecked == false && !String.IsNullOrEmpty(dataGridRow.ToString()))
             {
-                var data = dataGridRow.Item as items;
-                if (articlesToDelete.Contains(data.artikel)) articlesToDelete.Remove(data.artikel);
+                if (eanSuchenTrigger == 0) ArtikelName = ((items)dataGridRow.Item).artikel;
+                else ArtikelName = ((items2)dataGridRow.Item).artikel;
+                if (articlesToDelete.Contains(ArtikelName)) articlesToDelete.Remove(ArtikelName);
             }
-
             e.Handled = true;
         }
 
         // If TreeView item was selected (warengruppe or artikel)
         private void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
         {
+            eanSuchenTrigger = 0;
             TreeView.Tag = e.OriginalSource;
             selectedTVI = TreeView.Tag as TreeViewItem;
 
@@ -580,12 +583,14 @@ namespace HandelTSE.ViewModels
                                 trigger = 1;
                                 continue;
                             }
+                            else if (data[i].Contains("[") && data[i].Contains("]")) trigger = 0;
                             if (trigger == 1)
                             {
                                 if (string.IsNullOrEmpty(data[i]) && trigger2 == 1)
                                 { data.RemoveAt(i); trigger = 0; trigger2 = 0; continue; }
                                 if (data[i].Substring(data[i].IndexOf(",") + 1) == articlesToDelete[j])
                                 {
+                                    if (i == 0) break;
                                     data.RemoveAt(--i);
                                     trigger2 = 1;
                                 }
@@ -612,9 +617,11 @@ namespace HandelTSE.ViewModels
         //Searching for Artikel by name
         private void TextSearchButton_Click(object sender, RoutedEventArgs e)
         {
+            eanSuchenTrigger = 1;
+            if (SearchBoxArtikel.Text == "") return;
             string csvData = File.ReadAllText("data.csv");
             int trigger = 0, trigger2 = 0, n = 0;
-            string[] artikel = new string[21];
+            List<string> artikel = new List<string>();
 
             foreach (TreeViewItem t in TreeView.Items)
             {
@@ -643,11 +650,11 @@ namespace HandelTSE.ViewModels
                                 {
                                     if (!row.Contains("ImHausComboBox"))
                                     {
-                                        artikel[n++] = row;
+                                        artikel.Add(row);
                                     }
                                     else
                                     {
-                                        artikel[n] = row;
+                                        artikel.Add(row);
                                         trigger = 0;
                                         trigger2 = 0;
                                         n = 0;
@@ -671,7 +678,7 @@ namespace HandelTSE.ViewModels
                             it2.Add(new items2 { warengruppe = str_waren, pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
                         }
                     }
-                    
+                    artikel = new List<string>();
                 }//2nd foreach
             }//1st foreach
             Data2 = it2;
@@ -682,9 +689,11 @@ namespace HandelTSE.ViewModels
         //Searching for Artikel by EAN
         private void EAN_SearchButton_Click(object sender, RoutedEventArgs e)
         {
+            eanSuchenTrigger = 1;
+            if (SearchBoxArtikel.Text == "") return;
             string csvData = File.ReadAllText("data.csv");
             int trigger = 0, trigger2 = 0, n = 0;
-            string[] artikel = new string[15];
+            List<string> artikel = new List<string>();
 
             foreach (TreeViewItem t in TreeView.Items)
             {
@@ -707,11 +716,11 @@ namespace HandelTSE.ViewModels
                             {
                                 if (!row.Contains("PluEan,"))
                                 {
-                                    artikel[n++] = row;
+                                    artikel.Add(row);
                                 }
                                 else
                                 {
-                                    artikel[n] = row;
+                                    artikel.Add(row);
                                     if (row.Substring(row.IndexOf(",") + 1).ToUpper().Contains(SearchBoxArtikel.Text.ToUpper()))
                                     {
                                         trigger = 0;
@@ -724,12 +733,12 @@ namespace HandelTSE.ViewModels
                                         trigger = 0;
                                         trigger2 = 0;
                                         n = 0;
-                                        artikel = new string[15];
                                     }
                                 }
                             }
                         }
                     }
+                    if (artikel.Count <= 0) return;
                     if (!string.IsNullOrEmpty(artikel[0]))
                     {
                         string str_artikel = "", str_waren = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
@@ -745,7 +754,7 @@ namespace HandelTSE.ViewModels
                         str_waren = t.Header.ToString();
                         it2.Add(new items2 { warengruppe = str_waren, pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
                     }
-
+                    artikel = new List<string>();
                 }//2nd foreach
             }//1st foreach
             Data2 = it2;
@@ -785,25 +794,30 @@ namespace HandelTSE.ViewModels
         // When row is chosen check the corresponding checkbox too
         private void dg3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            parent = GetSelectedTreeViewItemParent(selectedTVI);
             var dg = sender as System.Windows.Controls.DataGrid;
             if (dg == null) return;
             var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(dg.SelectedIndex);
             if (row == null) return;
-            foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) x.IsChecked = true;
+
+            var WG = new TreeViewItem();
+            if (eanSuchenTrigger == 0)
+            {
+                parent = GetSelectedTreeViewItemParent(selectedTVI);
+                if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
+                else { WG = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI); }
+                WG_str = WG.Header.ToString();
+                ArtikelName = ((items)row.Item).artikel;
+            }
+            else { WG_str = ((items2)row.Item).warengruppe; ArtikelName = ((items2)row.Item).artikel; }
+
+            foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(row)) { if (x.IsChecked == true) x.IsChecked = false; else x.IsChecked = true; }
+            
             int trigger = 0, trigger2 = 0, n = 0;
             string row_artikel = "";
-            var WG = new TreeViewItem();
             string[] artikel = new string[21];
-            if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
-            else { WG = (TreeViewItem)GetSelectedTreeViewItemParent(selectedTVI); }
-            WG_str = WG.Header.ToString();
-
+            
             ArtikelOptionenButton.IsEnabled = true;
-
             TreeViewItem chosenTVI = new TreeViewItem();
-            var DGdata = row.Item as items;
-            ArtikelName = DGdata.artikel;
 
             string csvData = File.ReadAllText("data.csv");
             foreach (string s in csvData.Split('\n'))
@@ -1009,9 +1023,9 @@ namespace HandelTSE.ViewModels
 
             DataGridRow dataGridRow = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
             TreeViewItem chosenTVI = new TreeViewItem();
-            var DGdata = dataGridRow.Item as items;
-            var ArtikelName = DGdata.artikel;
-            
+            if (eanSuchenTrigger == 0) ArtikelName = ((items)dataGridRow.Item).artikel;
+            else ArtikelName = ((items2)dataGridRow.Item).artikel;
+
             int trigger = 0;
 
             for (int j = 0; j < data.Count(); j++)
@@ -1052,8 +1066,8 @@ namespace HandelTSE.ViewModels
 
             DataGridRow dataGridRow = (DataGridRow)dg3.ItemContainerGenerator.ContainerFromIndex(dg3.SelectedIndex);
             TreeViewItem chosenTVI = new TreeViewItem();
-            var DGdata = dataGridRow.Item as items;
-            var ArtikelName = DGdata.artikel;
+            if (eanSuchenTrigger == 0) ArtikelName = ((items)dataGridRow.Item).artikel;
+            else ArtikelName = ((items2)dataGridRow.Item).artikel;
             List<string> Artikel = new List<string>();
             int trigger = 0, trigger2 = 0;
 
@@ -1100,8 +1114,8 @@ namespace HandelTSE.ViewModels
             if (!String.IsNullOrEmpty(dataGridRow.ToString()))
             {
                 TreeViewItem chosenTVI = new TreeViewItem();
-                var DGdata = dataGridRow.Item as items;
-                var ArtikelName = DGdata.artikel;
+                if (eanSuchenTrigger == 0) ArtikelName = ((items)dataGridRow.Item).artikel;
+                else ArtikelName = ((items2)dataGridRow.Item).artikel;
                 DragDropEffects dragdropeffects = DragDropEffects.Move;
                 if (DragDrop.DoDragDrop(dg3, ArtikelName, dragdropeffects) != DragDropEffects.None)
                 {

@@ -44,7 +44,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Erkennung von EAN-Code" Margin="20, 15"/>
 
-                    <DataGrid Name="listOfPreisCodes" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
+                    <DataGrid Name="listOfPreisCodes" CanUserAddRows="False" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
                         
                     </DataGrid>
                    
@@ -76,7 +76,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Erkennung von EAN-Code" Margin="20, 15"/>
 
-                    <DataGrid Name="listOfGewichtCodes" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
+                    <DataGrid Name="listOfGewichtCodes" CanUserAddRows="False" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
 
                     </DataGrid>
 
@@ -108,7 +108,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Erkennung von EAN-Code" Margin="20, 15"/>
 
-                    <DataGrid Name="listOfMengeCodes" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
+                    <DataGrid Name="listOfMengeCodes" CanUserAddRows="False" Width="600" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="5" Margin="20, 40, 230, 20">
 
                     </DataGrid>
 

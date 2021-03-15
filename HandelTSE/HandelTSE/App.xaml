@@ -34,7 +34,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="7,7,7,7" Background="White"    BorderBrush="#ccc" BorderThickness="1,1,1,1" >
+                        <Border  Background="White"    BorderBrush="#ccc" BorderThickness="1,1,1,1" >
                             <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
@@ -51,7 +51,7 @@
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
