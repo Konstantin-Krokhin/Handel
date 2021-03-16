@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:HandelTSE"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <DropShadowEffect x:Key="MyEffect" ShadowDepth="1" BlurRadius="30" Color="CornflowerBlue"/>
+        <DropShadowEffect x:Key="MyEffect" ShadowDepth="1" BlurRadius="20" Color="LightGray"/>
         
         <Style TargetType="FrameworkElement" x:Key="VisibleAnimation">
             <Setter Property="Visibility" Value="Collapsed"/>
@@ -34,14 +34,20 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border  Background="White"    BorderBrush="#ccc" BorderThickness="1,1,1,1" >
+                        <Border  Background="#c0c0c0"    BorderBrush="#e4e7eb" BorderThickness="2" >
                             <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                            
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                
+
+                <!-- Fade out the button when not enabled-->
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.6" />
+                </Trigger>
+
                 <!-- Glowing the Buttons when Hovering with mouse-->
                 <Trigger Property="Button.IsMouseOver" Value="True">
                     <Setter Property="Button.Effect" Value="{StaticResource MyEffect}" />
