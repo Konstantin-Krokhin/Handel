@@ -75,11 +75,6 @@
             </StackPanel>
         </Button>
 
-        <!-- Color picking fucntionality (Button and Color Picker element) -->
-        <Button Grid.Row="0" Content="Farbe" Grid.Column="2" Width="20" Background="#e1e1e1" Height="20" Margin="-165,0,0,0" Click="ColorOfWGChange"/>
-
-        <xctk1:ColorPicker Name="cp" Visibility="Hidden" Grid.Column="1" DisplayColorAndName="True" SelectedColorChanged="cp_SelectedColorChanged_1" AvailableColorsSortingMode="HueSaturationBrightness" ></xctk1:ColorPicker>
-
         <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-115,0, 0, 0" Click="WarenGruppeSave">
             <StackPanel>
                 <Image Source="/img/save.png" />
@@ -108,107 +103,169 @@
             <Button Grid.Column="8" Content="Warengruppen löschen" HorizontalAlignment="Left" Click="WarenGruppeDelete_Click" Grid.ColumnSpan="1" Grid.Row="0" Height="30" Width="140" Background="Gray" />
         </StackPanel>
 
-        <TextBlock Text="Artikel" Grid.Column="2" Grid.Row="1" Margin="20, 5"/>
-        <TextBox Name="Artikel" Grid.Column="3" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1" Width="150" Margin="0, 5, 0, 0"/>
-        <TextBlock Text="Lieferanten" Grid.Column="5" Grid.Row="1" Margin="20, 5" />
-        <ComboBox Name="Lieferanten" Grid.Column="6" HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" Width="150" Margin="0, 5, 0, 0">
-            <ComboBoxItem>kein</ComboBoxItem>
-        </ComboBox>
-        <Button Content="Hintergrund farben" Background="Gray"  Grid.Column="8" Grid.Row="1" Grid.RowSpan="2" Width="120"  Margin="10, 5"></Button>
-        <TextBlock Text="PLU/EAN" Grid.Column="2" Grid.Row="2" Margin="20, 5" />
-        <ComboBox Name="PluEan" Grid.Column="3" IsEditable="True" HorizontalAlignment="Left" SelectedIndex="0" Grid.ColumnSpan="2" Grid.Row="2" Width="150" Margin="0, 5, 0, 0" SelectionChanged="PluEan_SelectionChanged">
-            <ComboBoxItem>EAN-Code einscannen</ComboBoxItem>
-            <ComboBoxItem>EAN-Code generieren</ComboBoxItem>
-            <ComboBoxItem>EAN-Code mit Preis</ComboBoxItem>
-            <ComboBoxItem>EAN-Code mit Gewicht</ComboBoxItem>
-            <ComboBoxItem>EAN-Code min Menge</ComboBoxItem>
-        </ComboBox>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Artikel:" Grid.Column="2" Grid.Row="1" Margin="20, 5, 10, 5"/>
+                <TextBox Name="Artikel" Grid.Column="3" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1" Width="150" Margin="0, 5, 0, 0"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="PLU/EAN:" Grid.Column="2" Grid.Row="2" Margin="7, 5, 10, 5" />
+                <ComboBox Name="PluEan" Grid.Column="3" IsEditable="True" HorizontalAlignment="Left" SelectedIndex="0" Grid.ColumnSpan="2" Grid.Row="2" Width="150" Margin="0, 5, 0, 0" SelectionChanged="PluEan_SelectionChanged">
+                    <ComboBoxItem>EAN-Code einscannen</ComboBoxItem>
+                    <ComboBoxItem>EAN-Code generieren</ComboBoxItem>
+                    <ComboBoxItem>EAN-Code mit Preis</ComboBoxItem>
+                    <ComboBoxItem>EAN-Code mit Gewicht</ComboBoxItem>
+                    <ComboBoxItem>EAN-Code min Menge</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="VK-Preis:" Grid.Column="2" Grid.Row="3" Margin="10, 5" />
+                <TextBox Name="VKPreisBrutto"  Grid.Column="3" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
+                <TextBlock Text="Brutto" Grid.Column="4" Grid.Row="3" Margin="5, 5, 0, 5" />
+                <TextBlock Text="pro" Grid.Column="4" Grid.Row="3" Margin="5, 5, 0, 5" />
+            </StackPanel>
 
-        <Button x:Name="ArtikelOptionenButton" Content="Artikel-Optionen" IsEnabled="False" Grid.Column="5" Grid.Row="2" Margin="7, 4, 7, 0" Click="ArtikelOptionenButton_Click"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name ="VKPreisNetto" Grid.Column="3" Grid.Row="4" Width="50" HorizontalAlignment="Left" Margin="67, 5, 0, 0"/>
+                <TextBlock Text="Netto" Grid.Column="4" Grid.Row="4" Margin="5, 5, 0, 5" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Grid.Column="2" Grid.Row="5" Grid.RowSpan="2" Margin="22, 5, 0, 5"> MwSt.: </TextBlock>
+                <TextBlock Text="außer Haus" Grid.Column="2" Grid.Row="5" Grid.RowSpan="2" Margin="15, 5, 0, 5" />
+                <TextBlock Text="im Haus" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="25, 5, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="67, 0, 0, 20" Width="70" HorizontalAlignment="Left">
+                    <ComboBoxItem>16 %</ComboBoxItem>
+                    <ComboBoxItem>19 %</ComboBoxItem>
+                </ComboBox>
+                <ComboBox Name ="ImHaus" Grid.Row="5" Grid.Column="4" Margin="5, 0, 0, 20" Width="70" HorizontalAlignment="Left"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="EK-Preis:" Grid.Column="5" Grid.Row="3" Margin="18, 5, 0, 5" />
+                <TextBox Name="EKPreisBrutto" Grid.Column="6" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="5, 5, 0, 0"/>
+                <TextBlock Text="Brutto" Grid.Column="7" Grid.Row="3" Margin="5, 5, 0, 5" />
+                
+                <!-- Color picking fucntionality (Button and Color Picker element) -->
+                <Button Grid.Row="0" Content="Farbe" Grid.Column="4" Height="20" Width="58" Background="#e1e1e1" Margin="5,5,0,0" Click="ColorOfWGChange"/>
+
+                <xctk1:ColorPicker Name="cp" Visibility="Hidden" Grid.Column="1" DisplayColorAndName="True" SelectedColorChanged="cp_SelectedColorChanged_1" AvailableColorsSortingMode="HueSaturationBrightness" ></xctk1:ColorPicker>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name ="EKPreisNetto" Grid.Column="6" Grid.Row="4" Width="50" HorizontalAlignment="Left" Margin="68, 5, 0, 0"/>
+                <TextBlock Text="Netto" Grid.Column="7" Grid.Row="4" Margin="5, 5, 0, 5" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Lieferanten" Grid.Column="5" Grid.Row="1" Margin="0, 5" />
+                <ComboBox Name="Lieferanten" Grid.Column="6" HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" Width="150" Margin="5, 5">
+                    <ComboBoxItem>kein</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Einheit" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="22, 13, 5, 0"/>
+                <ComboBox Name="Einheit" Grid.Row="5" Grid.Column="6" Margin="0, 10, 0, 10" Width="70" HorizontalAlignment="Left">
+                    <ComboBoxItem>Stück</ComboBoxItem>
+                    <ComboBoxItem>Packung</ComboBoxItem>
+                    <ComboBoxItem>Kilogramm</ComboBoxItem>
+                    <ComboBoxItem>Gramm</ComboBoxItem>
+                    <ComboBoxItem>Flasche</ComboBoxItem>
+                    <ComboBoxItem>Karton</ComboBoxItem>
+                    <ComboBoxItem>Meter</ComboBoxItem>
+                    <ComboBoxItem>Zentimeter</ComboBoxItem>
+                    <ComboBoxItem>Quadratmeter</ComboBoxItem>
+                    <ComboBoxItem>Liter</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <TextBlock Text="Pfand" Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" Margin="28, 5, 5, 0"/>
+                <ComboBox Name ="Pfand" Grid.Row="6" Grid.Column="6" Margin="0, 3, 0, 2" Width="70" HorizontalAlignment="Left">
+                    <ComboBoxItem>kein</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.15|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                    <ComboBoxItem>0.08|19%</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <TextBlock Text="Bestand" Grid.Column="7" Grid.Row="6" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="17, 5, 4, 0"/>
+                <TextBox Name="Bestand" Grid.Column="8" Grid.Row="6" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <TextBlock Text="Lagerplatz" Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" Margin="3, 5, 5, 0"/>
+                <TextBox Name="Legerplatz1" Grid.Column="6" Grid.Row="6" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+                <TextBox Name="Legerplatz2" Grid.Column="7" Grid.Row="6" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Freitext 1" Grid.Column="2" Grid.Row="9" Grid.RowSpan="2" Margin="10, 5, 0, 0"/>
+                <TextBox Name="Etikett1" Grid.Column="3" Width="100" Grid.ColumnSpan="2" Grid.Row="9" Margin="5, 5, 0, 5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Freitext 2" Grid.Column="2" Grid.Row="10" Grid.RowSpan="2" Margin="10, 5, 0, 0"/>
+                <TextBox x:Name="Etikett2" Width="100" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="10" Margin="5, 5, 0, 5"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="1" Grid.RowSpan="8" Margin="-15, 0">
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <CheckBox Name="Seriennummer" Grid.Column="5" Grid.Row="7" Grid.RowSpan="2" Margin="10, 8, 0, 0" />
+                <TextBlock Text="Seriennummer notwendig" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="2" Margin="25, 6, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <CheckBox x:Name="MengeEingabe" Grid.Column="5" Grid.Row="8" Grid.RowSpan="2"  Margin="10, 8, 0, 0" />
+                <TextBlock Text ="Menge - Eingabe" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="8" Grid.RowSpan="2" Margin="25, 7, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <TextBlock Text="Bestellmenge" Grid.Column="7" Grid.Row="7" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="25, 5, 10, 0"/>
+                <TextBox Name="Bestellmenge" Grid.Column="8" Grid.Row="7" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <TextBlock Text="Mindestbestand" Grid.Column="7" Grid.Row="8" Grid.RowSpan="2" HorizontalAlignment="Right" Margin="11, 5, 10, 0"/>
+                <TextBox Name ="MindestBestand" Grid.Column="8" Grid.Row="8" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 13">
+                <Button x:Name="ArtikelOptionenButton" Width="180" Height="25" Content="Artikel-Optionen" IsEnabled="False" Grid.Column="5" Grid.Row="2" Margin="10, 4, 7, 0" Click="ArtikelOptionenButton_Click"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <Button x:Name="SetArtikelButton" Width="180" Height="25" Content="Set - Artikel" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Background="Gray" Margin="10, 3, 0, 0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Button Content="Hintergrund farben" Visibility="Hidden" Background="Gray"  Grid.Column="8" Grid.Row="1" Grid.RowSpan="2" Width="120"  Margin="10, 5"></Button>
+        
+
+        
         <ComboBox Name="ArtikelCodeTemplate" SelectionChanged="ArtikelCodeTemplate_SelectionChanged"  Grid.Column="5" Visibility="Hidden" Grid.ColumnSpan="2" Grid.Row="2" Margin="7, 4, 5, 0"/>
-        <Button x:Name="SetArtikelButton" Content="Set - Artikel" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Background="Gray" Margin="0, 3, 0, 0"/>
+        
         <TextBox x:Name="ArtikelCodeTemplateValue" Grid.Column="7" Grid.Row="2" Visibility="Hidden" Margin="3, 3, 3, 0" />
 
-        <TextBlock Text="VK-Preis" Grid.Column="2" Grid.Row="3" Margin="20, 5" />
-        <TextBox Name="VKPreisBrutto"  Grid.Column="3" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
-        <TextBlock Text="Brutto" Grid.Column="4" Grid.Row="3" Margin="0, 5, 0, 5" />
 
-        <TextBlock Text="EK-Preis" Grid.Column="5" Grid.Row="3" Margin="40, 5, 0, 5" />
-        <TextBox Name="EKPreisBrutto" Grid.Column="6" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
-        <TextBlock Text="Brutto" Grid.Column="7" Grid.Row="3" Margin="0, 5, 0, 5" />
-
-        <TextBox Name ="VKPreisNetto" Grid.Column="3" Grid.Row="4" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
-        <TextBlock Text="Netto" Grid.Column="4" Grid.Row="4" Margin="0, 5, 0, 5" />
-
-        <TextBox Name ="EKPreisNetto" Grid.Column="6" Grid.Row="4" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
-        <TextBlock Text="Netto" Grid.Column="7" Grid.Row="4" Margin="0, 5, 0, 5" />
-
-        <TextBlock Grid.Column="2" Grid.Row="5" Grid.RowSpan="2" Margin="20, 5, 0, 5">
-        MwSt. <LineBreak/>
-        außer Haus
-        </TextBlock>
-        <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="0, 10, 0, 10" Width="70" HorizontalAlignment="Left">
-            <ComboBoxItem>16 %</ComboBoxItem>
-            <ComboBoxItem>19 %</ComboBoxItem>
-        </ComboBox>
-        <ComboBox Name ="ImHaus" Grid.Row="5" Grid.Column="4" Margin="5, 10, 0, 10" Width="70" HorizontalAlignment="Left"/>
-        <TextBlock Text="im Haus" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="5, 13, 0, 0"/>
-
-        <TextBlock Text="Einheit" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="55, 13, 0, 0"/>
-        <ComboBox Name="Einheit" Grid.Row="5" Grid.Column="6" Margin="0, 10, 0, 10" Width="70" HorizontalAlignment="Left">
-            <ComboBoxItem>Stück</ComboBoxItem>
-            <ComboBoxItem>Packung</ComboBoxItem>
-            <ComboBoxItem>Kilogramm</ComboBoxItem>
-            <ComboBoxItem>Gramm</ComboBoxItem>
-            <ComboBoxItem>Flasche</ComboBoxItem>
-            <ComboBoxItem>Karton</ComboBoxItem>
-            <ComboBoxItem>Meter</ComboBoxItem>
-            <ComboBoxItem>Zentimeter</ComboBoxItem>
-            <ComboBoxItem>Quadratmeter</ComboBoxItem>
-            <ComboBoxItem>Liter</ComboBoxItem>
-        </ComboBox>
-
-        <TextBlock Text="Sort-Nr." Grid.Column="7" Grid.Row="5" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="45, 13, 10, 0"/>
-        <TextBox Name ="SortNr" Grid.Column="8" Grid.Row="5" Width="70" Height="20" HorizontalAlignment="Left" Margin="0, 10, 0, 10"/>
-
-        <TextBlock Text="Lagerplatz" Grid.Column="2" Grid.Row="6" Grid.RowSpan="2" Margin="20, 5, 0, 0"/>
-        <TextBox Name="Legerplatz1" Grid.Column="3" Grid.Row="6" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
-        <TextBox Name="Legerplatz2" Grid.Column="4" Grid.Row="6" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
-
-        <TextBlock Text="Pfand" Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" Margin="55, 5, 0, 0"/>
-        <ComboBox Name ="Pfand" Grid.Row="6" Grid.Column="6" Margin="0, 3, 0, 2" Width="70" HorizontalAlignment="Left">
-            <ComboBoxItem>kein</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.15|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-            <ComboBoxItem>0.08|19%</ComboBoxItem>
-        </ComboBox>
-
-        <TextBlock Text="Bestand" Grid.Column="7" Grid.Row="6" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="45, 5, 10, 0"/>
-        <TextBox Name="Bestand" Grid.Column="8" Grid.Row="6" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
-
-        <TextBlock Text="Etikett-Freitext 1" Grid.Column="2" Grid.Row="7" Grid.RowSpan="2" Margin="0, 5, 0, 0"/>
-        <TextBox Name="Etikett1" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="7" Margin="0, 5, 0, 5"/>
-
-        <CheckBox Name="Seriennummer" Grid.Column="5" Grid.Row="7" Grid.RowSpan="2" Margin="10, 8, 0, 0" />
-        <TextBlock Text="Seriennummer notwendig" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="7" Grid.RowSpan="2" Margin="25, 6, 0, 0"/>
-
-        <TextBlock Text="Bestellmenge" Grid.Column="7" Grid.Row="7" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="25, 5, 10, 0"/>
-        <TextBox Name="Bestellmenge" Grid.Column="8" Grid.Row="7" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
-
-        <TextBlock Text="Etikett-Freitext 2" Grid.Column="2" Grid.Row="8" Grid.RowSpan="2" Margin="0, 5, 0, 0"/>
-        <TextBox x:Name="Etikett2" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="8" Margin="0, 5, 0, 5"/>
-
-        <CheckBox x:Name="MengeEingabe" Grid.Column="5" Grid.Row="8" Grid.RowSpan="2"  Margin="10, 8, 0, 0" />
-        <TextBlock Text ="Menge - Eingabe" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="8" Grid.RowSpan="2" Margin="25, 7, 0, 0"/>
-
-        <TextBlock Text="Mindestbestand" Grid.Column="7" Grid.Row="8" Grid.RowSpan="2" HorizontalAlignment="Right" Margin="0, 5, 10, 0"/>
-        <TextBox Name ="MindestBestand" Grid.Column="8" Grid.Row="8" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+        <TextBlock Text="Sort-Nr." Visibility="Hidden" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="13"/>
+        <TextBox Name ="SortNr" Visibility="Hidden" Grid.Column="3" Grid.Row="9" Width="70" Height="20" HorizontalAlignment="Left" Margin="0"/>
 
         <Button Name="EtikettDruckenButton" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="12, 5, 3, 5" Click="SaveButton" IsEnabled="False" Visibility="Hidden">
             <DockPanel>
@@ -234,7 +291,7 @@
             </DockPanel>
         </Button>
 
-        <Button Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="20, 3, 20, 0" Click="SaveButton">
+        <Button Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="9" Background="Gray" Margin="20, 3, -8, 0" Click="SaveButton">
             <DockPanel>
                 <Image Source="/img/save.png"/>
                 <TextBlock VerticalAlignment="center">speichern </TextBlock>
@@ -251,7 +308,7 @@
         <CheckBox x:Name="ImHausCheckbox" Grid.Column="6" Grid.Row="10" Grid.RowSpan="2" Margin="0, 8, 0, 0" />
         <TextBlock Text="MwSt. im Haus" Grid.Column="6" Grid.ColumnSpan="3" Grid.Row="10" Grid.RowSpan="2" Margin="25, 6, 0, 0"/>
         <ComboBox Name="ImHausComboBox2" Grid.Row="10" Grid.Column="7" Margin="60, 0, 0, 0" IsEnabled="False" Height="20" Width="50" HorizontalAlignment="Left"/>
-        <Button Content="übernehmen" Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="10" Background="Gray" Margin="20, 3, 20, 0"/>
+        <Button Content="übernehmen" Grid.Column="8" Grid.ColumnSpan="1" Grid.Row="10" Background="Gray" Margin="20, 3, -8, 0"/>
 
         <DataGrid Name ="dg3" SelectionMode="Single" CanUserAddRows="False" IsReadOnly="True" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"

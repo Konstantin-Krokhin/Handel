@@ -416,29 +416,6 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[wggg]
-Artikel,wga2
-VKPreisBrutto,44t
-EKPreisBrutto,3
-VKPreisNetto,232
-EKPreisNetto,3
-SortNr,
-Legerplatz1,sgd
-Legerplatz2,AAA
-Bestand,
-Etikett1,resgv
-Bestellmenge,
-Etikett2,s
-MindestBestand,
-Lieferanten,kein
-PluEan,EAN-Code mit Gewicht
-AusserHaus,
-ImHaus,
-Einheit,
-Pfand,0.15|19%
-AuserHausComboBox2,
-ImHausComboBox2,
-
 [AHA]
 Artikel,WOW
 VKPreisBrutto,
@@ -599,6 +576,7 @@ Einheit,
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
+
 
 
 
