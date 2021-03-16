@@ -694,69 +694,43 @@ namespace HandelTSE.ViewModels
             string csvData = File.ReadAllText("data.csv");
             int trigger = 0, trigger2 = 0, n = 0;
             List<string> artikel = new List<string>();
+            string WG = "", ArtikelName = "";
 
-            foreach (TreeViewItem t in TreeView.Items)
+            foreach (string s in csvData.Split('\n'))
             {
-                foreach (TreeViewItem i in t.Items)
+                if (s.Contains("[") && s.Contains("]")) { WG = s; trigger = 1; continue; }
+                if (s.Substring(s.IndexOf("Artikel,") + 1).Length > 0 && trigger == 1) { ArtikelName = s; artikel.Add(WG); artikel.Add(ArtikelName); trigger = 0; trigger2 = 1; continue; }
+                trigger = 0;
+                if (trigger2 == 1)
                 {
-                    foreach (string row in csvData.Split('\n'))
+                    artikel.Add(s);
+                }
+                if (s.Contains("ImHausComboBox2"))
+                {
+                    trigger2 = 0;
+                    foreach (string i in artikel) if (i.Contains("PluEan,") && i.Substring(i.IndexOf(",") + 1).ToUpper().Contains(SearchBoxArtikel.Text.ToUpper())) trigger2 = 1;
+                    if (trigger2 == 1)
                     {
-                        if (!string.IsNullOrEmpty(row) && row == (string)"[" + t.Header.ToString() + "]")
+                        if (artikel.Count <= 0) return;
+                        if (!string.IsNullOrEmpty(artikel[0]))
                         {
-                            trigger = 1;
-                            continue;
-                        }
-                        if (trigger == 1)
-                        {
-                            if (row == "Artikel," + i.Header.ToString())
+                            string str_artikel = "", str_waren = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
+                            foreach (string t in artikel)
                             {
-                                trigger2 = 1;
+                                if (t.StartsWith("[") && t.Contains("]")) str_waren = t.Substring(t.IndexOf("[") + 1, t.IndexOf("]") - 1);
+                                if (t.StartsWith("Artikel")) str_artikel = t.Substring(t.IndexOf(",") + 1);
+                                if (t.StartsWith("PluEan")) str_pluean = t.Substring(t.IndexOf(",") + 1);
+                                if (t.StartsWith("VKPreisBrutto")) str_preis = t.Substring(t.IndexOf(",") + 1);
+                                if (t.StartsWith("AuserHausComboBox2")) str_mwst = t.Substring(t.IndexOf(",") + 1);
+                                if (t.StartsWith("Bestand")) str_bestand = t.Substring(t.IndexOf(",") + 1);
                             }
-                            if (trigger2 == 1)
-                            {
-                                if (!row.Contains("PluEan,"))
-                                {
-                                    artikel.Add(row);
-                                }
-                                else
-                                {
-                                    artikel.Add(row);
-                                    if (row.Substring(row.IndexOf(",") + 1).ToUpper().Contains(SearchBoxArtikel.Text.ToUpper()))
-                                    {
-                                        trigger = 0;
-                                        trigger2 = 0;
-                                        n = 0;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        trigger = 0;
-                                        trigger2 = 0;
-                                        n = 0;
-                                    }
-                                }
-                            }
+                            it2.Add(new items2 { warengruppe = str_waren, pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
                         }
-                    }
-                    if (artikel.Count <= 0) return;
-                    if (!string.IsNullOrEmpty(artikel[0]))
-                    {
-                        string str_artikel = "", str_waren = "", str_pluean = "", str_preis = "", str_mwst = "", str_bestand = "";
-                        foreach (string s in artikel)
-                        {
-                            //MessageBox.Show(s);
-                            if (s.StartsWith("Artikel")) str_artikel = s.Substring(s.IndexOf(",") + 1);
-                            if (s.StartsWith("PluEan")) str_pluean = s.Substring(s.IndexOf(",") + 1);
-                            if (s.StartsWith("VKPreisBrutto")) str_preis = s.Substring(s.IndexOf(",") + 1);
-                            if (s.StartsWith("AuserHausComboBox2")) str_mwst = s.Substring(s.IndexOf(",") + 1);
-                            if (s.StartsWith("Bestand")) str_bestand = s.Substring(s.IndexOf(",") + 1);
-                        }
-                        str_waren = t.Header.ToString();
-                        it2.Add(new items2 { warengruppe = str_waren, pluean = str_pluean, artikel = str_artikel, preis = str_preis, mwst = str_mwst, bestand = str_bestand });
+                        trigger2 = 0;
                     }
                     artikel = new List<string>();
-                }//2nd foreach
-            }//1st foreach
+                }
+            }
             Data2 = it2;
             dg3.ItemsSource = Data2;
             it2 = new List<items2>();
