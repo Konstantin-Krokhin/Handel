@@ -867,6 +867,7 @@ namespace HandelTSE.ViewModels
             else if (PluEan.SelectedIndex == 3) { csvData = File.ReadAllText(@"eancodes_gewicht.csv"); }
             else if (PluEan.SelectedIndex == 4) { csvData = File.ReadAllText(@"eancodes_menge.csv"); }
             List<string> data = new List<string>(csvData.Split('\n'));
+            if (data.Count < 1) return;
 
             if (data[i].Contains("["))
             {

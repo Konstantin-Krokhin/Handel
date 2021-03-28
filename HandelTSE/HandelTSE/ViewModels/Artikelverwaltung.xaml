@@ -69,13 +69,13 @@
         </TreeView>
 
         <TextBox x:Name="gruppe" AllowDrop="False" Grid.Row="0" Background="white" Grid.Column="1" Width="65" Height="20" HorizontalAlignment="Left" Margin="-15, 0, 75, 0"/>
-        <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" Click="CleanGroupButton" Margin="50, 0, 50, 0">
+        <Button Grid.Row="0" Grid.Column="1" Width="23" Height="23" Click="CleanGroupButton" Margin="50, 0, 50, 0">
             <StackPanel>
                 <Image Source="/img/add.png" />
             </StackPanel>
         </Button>
 
-        <Button Grid.Row="0" Grid.Column="2" Width="20" Height="20" Margin="-115,0, 0, 0" Click="WarenGruppeSave">
+        <Button Grid.Row="0" Grid.Column="1" Width="23" Height="23" Margin="50,0, 0, 0" Click="WarenGruppeSave">
             <StackPanel>
                 <Image Source="/img/save.png" />
             </StackPanel>
@@ -246,6 +246,12 @@
                 <TextBox Name ="MindestBestand" Grid.Column="8" Grid.Row="8" Width="70" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
             </StackPanel>
 
+            <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                <ComboBox Name="ArtikelCodeTemplate" SelectionChanged="ArtikelCodeTemplate_SelectionChanged" Width="100" Grid.Column="5" Visibility="Visible" Grid.ColumnSpan="1" Grid.Row="2" Margin="7, 4, 5, 0"/>
+                <TextBox x:Name="ArtikelCodeTemplateValue" Width="80" Grid.Column="7" Grid.Row="2" Visibility="Visible" Margin="3, 3, 3, 0" />
+            </StackPanel>
+
+
             <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 13">
                 <Button x:Name="ArtikelOptionenButton" Width="180" Height="25" Content="Artikel-Optionen" IsEnabled="False" Grid.Column="5" Grid.Row="2" Margin="10, 4, 7, 0" Click="ArtikelOptionenButton_Click"/>
             </StackPanel>
@@ -259,9 +265,7 @@
         
 
         
-        <ComboBox Name="ArtikelCodeTemplate" SelectionChanged="ArtikelCodeTemplate_SelectionChanged"  Grid.Column="5" Visibility="Hidden" Grid.ColumnSpan="2" Grid.Row="2" Margin="7, 4, 5, 0"/>
         
-        <TextBox x:Name="ArtikelCodeTemplateValue" Grid.Column="7" Grid.Row="2" Visibility="Hidden" Margin="3, 3, 3, 0" />
 
 
         <TextBlock Text="Sort-Nr." Visibility="Hidden" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="13"/>
