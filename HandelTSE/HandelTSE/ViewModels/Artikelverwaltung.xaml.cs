@@ -896,11 +896,14 @@ namespace HandelTSE.ViewModels
             {
                 VKPreisBrutto.Text = ""; VKPreisBrutto.IsReadOnly = true; VKPreisNetto.Text = ""; VKPreisNetto.IsReadOnly = true;
                 EKPreisBrutto.Text = ""; EKPreisBrutto.IsReadOnly = true; EKPreisNetto.Text = ""; EKPreisNetto.IsReadOnly = true;
+                AlsNegativCheckbox.Visibility = Visibility.Visible; AlsNegativTitel.Visibility = Visibility.Visible;
             }
             else if (PluEan.SelectedIndex >= 0 && VKPreisBrutto != null && PluEan.SelectedIndex != 5)
             {
                 VKPreisBrutto.IsReadOnly = false; VKPreisNetto.IsReadOnly = false;
                 EKPreisBrutto.IsReadOnly = false; EKPreisNetto.IsReadOnly = false;
+                AlsNegativCheckbox.Visibility = Visibility.Hidden;
+                AlsNegativTitel.Visibility = Visibility.Hidden;
             }
 
             if (PluEan.SelectedIndex > 1 && PluEan.SelectedIndex != 5)
@@ -909,7 +912,6 @@ namespace HandelTSE.ViewModels
                 SetArtikelButton.Visibility = Visibility.Hidden;
                 ArtikelCodeTemplate.Visibility = Visibility.Visible;
                 ArtikelCodeTemplateValue.Visibility = Visibility.Visible;
-
                 // Based on which PluEan option user chooses open appropriate file with records (EAN Templates)
                 string csvData = "";
                 ArtikelCodeTemplate.Items.Clear();
