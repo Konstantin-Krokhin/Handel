@@ -581,3 +581,28 @@ ImHausComboBox2,
 
 
 
+
+[dh]
+Artikel,ar
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+SortNr,
+PluEan,EAN-Code mit Preis
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+
