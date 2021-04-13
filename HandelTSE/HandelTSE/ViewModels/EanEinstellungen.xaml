@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HandelTSE.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Pink">
+             d:DesignHeight="450" d:DesignWidth="800" Background="Gray">
     <Grid>
         <TabControl Name="EanTabs">
             <TabControl.Resources>
@@ -80,8 +80,8 @@
 
                     </DataGrid>
 
-                    <Button Grid.Column="3" Content="Entfernen" Margin="0,0,-80,0" Background="IndianRed" Grid.Row="2" Width="80" Height="40" Click="Entfernen_Click"/>
-                    <Button Name="Speichern2" Grid.Column="3" Content ="Speichern" Margin="0,0,-80,0" Background="ForestGreen" Grid.Row="3" Width="80" Height="40" Click="Speichern_Click"/>
+                    <Button Grid.Column="3" Content="Entfernen" Margin="0,0,-80,0" Background="IndianRed" Grid.Row="2" Width="90" Height="40" Click="Entfernen_Click"/>
+                    <Button Name="Speichern2" Grid.Column="3" Content ="Speichern" Margin="0,5,-80,0" Background="ForestGreen" Grid.Row="3" Width="90" Height="40" Click="Speichern_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Name="MengeTabItem" FontSize="16">

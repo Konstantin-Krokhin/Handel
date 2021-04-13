@@ -11,9 +11,14 @@ using System.Windows.Media;
 using DataGridRow = System.Windows.Controls.DataGridRow;
 using Color = System.Windows.Media.Color;
 using System.Windows.Controls.Primitives;
+using System.Threading;
 
 namespace HandelTSE.ViewModels
 {
+    static class Globals
+    {
+        public static int high = 0;
+    }
     public partial class Artikelverwaltung
     {
         public delegate System.Windows.Point GetPosition(IInputElement element);
@@ -26,7 +31,7 @@ namespace HandelTSE.ViewModels
         List<string> articlesToDelete = new List<string>();
         public static string ArtikelName;
         public static string WG_str;
-        int eanSuchenTrigger = 0;
+        int eanSuchenTrigger = 0, n_size = 20;
 
         public ItemsControl parent { get; set; }
         CheckBox checkBox = new CheckBox();
@@ -213,7 +218,7 @@ namespace HandelTSE.ViewModels
             parent = GetSelectedTreeViewItemParent(selectedTVI);
             int trigger = 0, trigger2 = 0, n = 0, nr = 0;
             string row_artikel = "";
-            string[] artikel = new string[21];
+            string[] artikel = new string[n_size];
             var WG = new TreeViewItem();
 
             if (parent.GetType() == TreeView.GetType()) { WG = selectedTVI; }
@@ -246,7 +251,7 @@ namespace HandelTSE.ViewModels
                             {
                                 if (!row.Contains("ImHausComboBox"))
                                 {
-                                    if (n < 20) artikel[n++] = row;
+                                    if (n < 19) artikel[n++] = row;
                                 }
                                 else
                                 {
@@ -281,7 +286,7 @@ namespace HandelTSE.ViewModels
                 it = new List<items>();
             }
 
-            //Hide DataGridRow transfering to other WG buttons
+            //Hide DataGridRow transfering options to other WG buttons
             {
                 EtikettDruckenButton.Visibility = Visibility.Hidden;
                 KopierenInWGButton.Visibility = Visibility.Hidden;
@@ -749,6 +754,7 @@ namespace HandelTSE.ViewModels
             }
             gruppe.Background = new SolidColorBrush(cp.SelectedColor.Value);
             if (!File.Exists(@"data_colors.csv")) File.Create(@"data_colors.csv").Close();
+            cp.Visibility = Visibility.Collapsed;
         }
 
         // Looks for children of the element (Control)
@@ -788,7 +794,7 @@ namespace HandelTSE.ViewModels
             
             int trigger = 0, trigger2 = 0, n = 0;
             string row_artikel = "";
-            string[] artikel = new string[21];
+            string[] artikel = new string[n_size];
             
             ArtikelOptionenButton.IsEnabled = true;
             TreeViewItem chosenTVI = new TreeViewItem();
@@ -812,7 +818,7 @@ namespace HandelTSE.ViewModels
                     {
                         if (!s.Contains("ImHausComboBox"))
                         {
-                            if (n < 20) artikel[n++] = s;
+                            if (n < 19) artikel[n++] = s;
                         }
                         else
                         {
@@ -831,14 +837,18 @@ namespace HandelTSE.ViewModels
                 int trigger3 = 0;
                 foreach (string s in artikel)
                 {
+                    if (s == null) continue;
                     trigger3 = 1;
                     foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
+                    {
+                        if (cb.Name == "gruppe" && cb.Name == "PART_EditableTextBox" && cb.Name == "SearchBoxArtikel" && cb.Name == "ArtikelCodeTemplateValue") continue;
                         if (cb.Name == s.Substring(0, s.IndexOf(",")) || cb.Name == s.Replace(",", ""))
                         {
                             cb.Text = s.Substring(s.IndexOf(",") + 1);
                             trigger3 = 0;
                             break;
                         }
+                    }
                     if (trigger3 == 1)
                         foreach (ComboBox cb2 in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
                             if (cb2.Name == s.Substring(0, s.IndexOf(",")))
@@ -856,7 +866,7 @@ namespace HandelTSE.ViewModels
             KopieSpeichernButton.Visibility = Visibility.Visible;
         } // END -- dg3_SelectionChanged
 
-        // Depending on Template chosen from all available for each type of EAN templates, appply, 'preis' length limits
+        // Depending on Template chosen from all available for each type of EAN templates, apply, 'preis' length limits
         private void ArtikelCodeTemplate_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int i = ArtikelCodeTemplate.SelectedIndex;
@@ -912,6 +922,7 @@ namespace HandelTSE.ViewModels
                 SetArtikelButton.Visibility = Visibility.Hidden;
                 ArtikelCodeTemplate.Visibility = Visibility.Visible;
                 ArtikelCodeTemplateValue.Visibility = Visibility.Visible;
+
                 // Based on which PluEan option user chooses open appropriate file with records (EAN Templates)
                 string csvData = "";
                 ArtikelCodeTemplate.Items.Clear();
@@ -1100,9 +1111,11 @@ namespace HandelTSE.ViewModels
                     {
                         if (i.Background.ToString() == ((System.Windows.Media.Brush)bc.ConvertFrom("#FF0078D7")).ToString())
                         {
+                            TreeViewDropHighlighter.OnDragLeave(sender, null);
                             if (TreeView.SelectedItem == null || parent.GetType() != typeof(TreeView)) { MessageBox.Show("Bitte wählen Sie die Warengruppe im TreeView-Bereich aus"); return; }
                             string messageBoxText = "Eine Artikel aus Warengruppe " + "'" + selectedTVI.Header.ToString() + "'" + " in die Warengruppe " + "'" + i.Header.ToString() + "'";
                             chosenTVI = i;
+                            foreach (TreeViewItem t in i.Items) if(t.Header.ToString() == ArtikelName) { /*chosenTVI.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFFFFFFF");*/ MessageBox.Show("Artikel mit dem gleichen Namen existiert bereits!"); return; } 
                             DragDataGridRowMessageBox frm = new DragDataGridRowMessageBox(messageBoxText, "kopieren", "verschieben", "abbrechen");
                             frm.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
                             frm.ShowDialog();
@@ -1185,12 +1198,14 @@ namespace HandelTSE.ViewModels
                                 case "abbrechen":
                                     break;
                             }
+                            Globals.high = 0;
                             break;
                         }
                     }
 
                 }
-                if (chosenTVI != null) chosenTVI.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFFFFF");
+                
+                //if (chosenTVI != null) chosenTVI.Background = (System.Windows.Media.Brush)bc.ConvertFrom("#FFFFFFFF");
             }
         }
 
@@ -1252,7 +1267,7 @@ namespace HandelTSE.ViewModels
         private static TreeViewItem _currentItem = null;
 
         /// Indicates whether the current TreeViewItem is a possible drop target
-        private static bool _dropPossible;
+        public static bool _dropPossible;
 
         /// Property key (since this is a read-only DP) for the IsPossibleDropTarget property.
         public static readonly DependencyPropertyKey IsPossibleDropTargetKey =
@@ -1320,7 +1335,7 @@ namespace HandelTSE.ViewModels
         }
 
         /// Called when the drag cursor leaves the TreeViewItem
-        static void OnDragLeave(object sender, DragEventArgs args)
+        public static void OnDragLeave(object sender, DragEventArgs args)
         {
             lock (IsPossibleDropTargetProperty)
             {
@@ -1342,5 +1357,6 @@ namespace HandelTSE.ViewModels
                 }
             }
         }
+
     }
 }

@@ -321,7 +321,7 @@ Pfand,0.08|19%
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[WTT]
+[wg]
 Artikel,ARTIKLE
 VKPreisBrutto,
 EKPreisBrutto,
@@ -389,29 +389,6 @@ PluEan,EAN-Code mit Gewicht
 AusserHaus,
 ImHaus,
 Einheit,Packung
-Pfand,
-AuserHausComboBox2,
-ImHausComboBox2,
-
-[WW]
-Artikel,ARte
-VKPreisBrutto,
-EKPreisBrutto,
-VKPreisNetto,
-EKPreisNetto,
-SortNr,
-Legerplatz1,
-Legerplatz2,
-Bestand,
-Etikett1,
-Bestellmenge,
-Etikett2,
-MindestBestand,
-Lieferanten,
-PluEan,
-AusserHaus,
-ImHaus,
-Einheit,
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
@@ -605,4 +582,892 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
+
+
+[WW]
+Artikel,ewg
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+[wg2]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wgg]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wgg2]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wgg2]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wg]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wg]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wg]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wg]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wqf]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,vd
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+PluEan,
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[dh]
+Artikel,gseg
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[WG1]
+Artikel,ARte
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+[dh]
+Artikel,WOW
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+PART_EditableTextBox,
+Lieferanten,
+PluEan,EAN-Code mit Gewicht
+AusserHaus,
+ImHaus,
+Einheit,Packung
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+[WG1]
+Artikel,ARTIKLE
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+PART_EditableTextBox,-- wählen Sie aus --
+Lieferanten,
+PluEan,EAN-Code einscannen
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+[dh]
+Artikel,ARte
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+Lieferanten,
+PluEan,
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wg123]
+Artikel,ARTIKLE
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+PART_EditableTextBox,-- wählen Sie aus --
+Lieferanten,
+PluEan,EAN-Code einscannen
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
+
+[wg]
+Artikel,gse
+VKPreisBrutto,
+EKPreisBrutto,
+VKPreisNetto,
+EKPreisNetto,
+SortNr,
+Legerplatz1,
+Legerplatz2,
+Bestand,
+Etikett1,
+Bestellmenge,
+Etikett2,
+MindestBestand,
+PART_EditableTextBox,-- wählen Sie aus --
+Lieferanten,kein
+PluEan,EAN-Code mit Gewicht
+AusserHaus,
+ImHaus,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
 
