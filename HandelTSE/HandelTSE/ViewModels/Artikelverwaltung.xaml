@@ -152,7 +152,8 @@
                     <TextBlock Text="VK-Preis:" Grid.Column="2" Grid.Row="3" Margin="10, 5" />
                     <TextBox Name="VKPreisBrutto"  Grid.Column="3" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="0, 5, 0, 0"/>
                     <TextBlock Text="Brutto" Grid.Column="4" Grid.Row="3" Margin="5, 5, 0, 5" />
-                    <TextBlock Text="pro" Grid.Column="4" Grid.Row="3" Margin="5, 5, 0, 5" />
+                    <TextBlock Text="pro" Grid.Column="4" Grid.Row="3" Margin="3, 5, 0, 5" />
+                    <TextBlock Name="einheitType" Text="" Grid.Column="4" Grid.Row="3" Margin="2, 5, 0, 5" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
@@ -167,20 +168,29 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox Name="AusserHaus" Grid.Row="5" Grid.Column="3" Margin="67, 0, 0, 20" Width="70" HorizontalAlignment="Left">
-                        <ComboBoxItem>16 %</ComboBoxItem>
-                        <ComboBoxItem>19 %</ComboBoxItem>
+                    <ComboBox Name="AusserHaus" SelectedIndex="0" Grid.Row="5" Grid.Column="3" Margin="67, 0, 0, 20" Width="70" HorizontalAlignment="Left">
+                        <ComboBoxItem>19</ComboBoxItem>
+                        <ComboBoxItem>7</ComboBoxItem>
+                        <ComboBoxItem>10.7</ComboBoxItem>
+                        <ComboBoxItem>5.5</ComboBoxItem>
+                        <ComboBoxItem>0</ComboBoxItem>
                     </ComboBox>
-                    <ComboBox Name ="ImHaus" Grid.Row="5" Grid.Column="4" Margin="5, 0, 0, 20" Width="70" HorizontalAlignment="Left"/>
-                </StackPanel>
+                        <ComboBox Name ="ImHaus" SelectedIndex="0" Grid.Row="5" Grid.Column="4" Margin="5, 0, 0, 20" Width="70" HorizontalAlignment="Left">
+                            <ComboBoxItem>19</ComboBoxItem>
+                            <ComboBoxItem>7</ComboBoxItem>
+                            <ComboBoxItem>10.7</ComboBoxItem>
+                            <ComboBoxItem>5.5</ComboBoxItem>
+                            <ComboBoxItem>0</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="EK-Preis:" Grid.Column="5" Grid.Row="3" Margin="13, 5, 0, 5" />
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
-                            <TextBox Name="EKPreisBrutto" Grid.Column="6" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="5, 5, 0, 0"/>
-                            <TextBox Name ="EKPreisNetto" Grid.Column="6" Grid.Row="4" Width="50" HorizontalAlignment="Left" Margin="5, 5, 0, 0"/>
+                            <TextBox Name="EKPreisBrutto" Grid.Column="6" Background="#ffe0c0" Grid.Row="3" Width="50" HorizontalAlignment="Left" Margin="10, 5, 0, 0"/>
+                            <TextBox Name ="EKPreisNetto" Grid.Column="6" Grid.Row="4" Width="50" HorizontalAlignment="Left" Margin="10, 5, 0, 0"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Brutto" Grid.Column="7" Grid.Row="3" Margin="5, 4, 0, 5" />
@@ -189,7 +199,7 @@
 
                         <StackPanel Orientation="Vertical" Grid.RowSpan="2">
                             <!-- Color picking fucntionality (Button and Color Picker element) -->
-                            <Button Grid.Row="0" Grid.RowSpan="2" Content="Farbe" Grid.Column="4" Height="40" Width="58" Background="#e1e1e1" Margin="5,5,0,0" Click="ColorOfWGChange"/>
+                            <Button Grid.Row="0" Grid.RowSpan="2" Content="Farbe" Grid.Column="4" Height="40" Width="53" Background="#e1e1e1" Margin="5,5,0,0" Click="ColorOfWGChange"/>
                             <xctk1:ColorPicker Name="cp" Visibility="Hidden" Grid.Column="1" DisplayColorAndName="True" SelectedColorChanged="cp_SelectedColorChanged_1" AvailableColorsSortingMode="HueSaturationBrightness" ></xctk1:ColorPicker>
                         </StackPanel>
                     </StackPanel>
@@ -208,14 +218,14 @@
                 <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="8">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Lieferanten" Grid.Column="5" Grid.Row="1" Margin="0, 5" />
-                        <ComboBox Name="Lieferanten" Grid.Column="6" HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" Width="150" Margin="5, 5">
+                        <ComboBox Name="Lieferanten" SelectedIndex="0" Grid.Column="6" HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" Width="150" Margin="5, 5">
                             <ComboBoxItem>kein</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Einheit" Grid.Column="5" Grid.Row="5" Grid.RowSpan="2" Margin="22, 13, 5, 0"/>
-                        <ComboBox Name="Einheit" Grid.Row="5" Grid.Column="6" Margin="0, 10, 0, 10" Width="150" HorizontalAlignment="Left">
+                        <ComboBox Name="Einheit" Grid.Row="5" SelectedIndex="0" SelectionChanged="EinheitDataChanged" Grid.Column="6" Margin="0, 10, 0, 10" Width="150" HorizontalAlignment="Left">
                             <ComboBoxItem>Stück</ComboBoxItem>
                             <ComboBoxItem>Packung</ComboBoxItem>
                             <ComboBoxItem>Kilogramm</ComboBoxItem>
@@ -231,7 +241,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
                         <TextBlock Text="Pfand" Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" Margin="28, 5, 5, 0"/>
-                        <ComboBox Name ="Pfand" Grid.Row="6" Grid.Column="6" Margin="0, 3, 0, 2" Width="150" HorizontalAlignment="Left">
+                        <ComboBox Name ="Pfand" Grid.Row="6" SelectedIndex="0" Grid.Column="6" Margin="0, 3, 0, 2" Width="150" HorizontalAlignment="Left">
                             <ComboBoxItem>kein</ComboBoxItem>
                             <ComboBoxItem>0.08 | 19%</ComboBoxItem>
                             <ComboBoxItem>0.15 | 19%</ComboBoxItem>
@@ -245,14 +255,16 @@
                         </ComboBox>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
-                        <TextBlock Text="Bestand" Grid.Column="7" Grid.Row="6" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="17, 5, 4, 0"/>
-                        <TextBox Name="Bestand" Grid.Column="8" Grid.Row="6" Width="150" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
-                    </StackPanel>
+
+                    <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" Margin="0, 0, 0, 5">
+                            <TextBlock Name="bestandTitel" DockPanel.Dock="Left"  Text="Bestand " Grid.Column="7" Grid.Row="6" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="0, 5, 4, 0"/>
+                            <TextBox Name="Bestand" Grid.Column="8" Width="Auto" Grid.Row="6" HorizontalAlignment="Stretch" Margin="13, 5, 6, 5"/>
+                        </DockPanel>
+                    
 
                     <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
                         <TextBlock Text="Lagerplatz" Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" Margin="3, 5, 5, 0"/>
-                        <TextBox Name="Legerplatz1" Grid.Column="6" Grid.Row="6" Width="75" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
+                        <TextBox Name="Legerplatz1" Grid.Column="6" Grid.Row="6" Width="75" HorizontalAlignment="Left" Margin="1, 5, 0, 5"/>
                         <TextBox Name="Legerplatz2" Grid.Column="7" Grid.Row="6" Width="75" HorizontalAlignment="Left" Margin="0, 5, 0, 5"/>
                     </StackPanel>
 

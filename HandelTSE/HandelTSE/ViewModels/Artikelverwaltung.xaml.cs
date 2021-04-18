@@ -44,6 +44,7 @@ namespace HandelTSE.ViewModels
             InitializeComponent();
             if (!File.Exists(@"data.csv")) File.Create(@"data.csv").Close();
             dg3.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(dg3_PreviewMouseLeftButtonDown);
+            EinheitDataChanged(null, null);
         }
 
         //Fires when TreeView needs to be loaded
@@ -115,7 +116,7 @@ namespace HandelTSE.ViewModels
                 if (ArtikelCodeTemplateValue.Text.Length != ArtikelCodeLength) { MessageBox.Show("Der Artikelcode muss " + ArtikelCodeLength + " Zaichen lang sein."); return; }
             var lines = new List<string>();
             foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(this))
-                if (cb.Name != "gruppe" && cb.Name != "PART_EditableTextBox" && cb.Name != "SearchBoxArtikel" && cb.Name != "ArtikelCodeTemplateValue")
+                if (cb.Name != "gruppe" && cb.Name != "PART_EditableTextBox" && cb.Name != "SearchBoxArtikel")
                 {
                     if (cb.Name == "Artikel")
                     {
@@ -1211,15 +1212,40 @@ namespace HandelTSE.ViewModels
 
         private bool GetMouseTargetRow(Visual theTarget, GetPosition position)
         {
-            Rect rect = VisualTreeHelper.GetDescendantBounds(theTarget);
-            System.Windows.Point point = position((IInputElement)theTarget);
-            return rect.Contains(point);
+            Rect rect;
+            if (theTarget != null)
+            {
+                rect = VisualTreeHelper.GetDescendantBounds(theTarget);
+                System.Windows.Point point = position((IInputElement)theTarget);
+                return rect.Contains(point);
+            }
+            else return false;
         }
 
         private DataGridRow GetRowItem(int index)
         {
             if (dg3.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated) return null;
             return dg3.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
+        }
+
+        private void EinheitDataChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (einheitType != null && bestandTitel != null)
+            {
+                Thickness m = Bestand.Margin;
+                if (Einheit.SelectedIndex == 0) { einheitType.Text = "St."; bestandTitel.Text = "Bestand (St.)"; m.Left = 0; }
+                else if (Einheit.SelectedIndex == 1) { einheitType.Text = "Pac."; bestandTitel.Text = "Bestand (Pac.)"; m.Left = -1; }
+                else if (Einheit.SelectedIndex == 2) { einheitType.Text = "Kg."; bestandTitel.Text = "Bestand (Kg.)"; m.Left = 0; }
+                else if (Einheit.SelectedIndex == 3) { einheitType.Text = "Gr."; bestandTitel.Text = "Bestand (Gr.)"; m.Left = 0; }
+                else if (Einheit.SelectedIndex == 4) { einheitType.Text = "Fl."; bestandTitel.Text = "Bestand (Fl.)"; m.Left = 0; }
+                else if (Einheit.SelectedIndex == 5) { einheitType.Text = "Kart."; bestandTitel.Text = "Bestand (Kart.)"; }
+                else if (Einheit.SelectedIndex == 6) { einheitType.Text = "m"; bestandTitel.Text = "Bestand (m)"; }
+                else if (Einheit.SelectedIndex == 7) { einheitType.Text = "zent."; bestandTitel.Text = "Bestand (zent.)"; }
+                else if (Einheit.SelectedIndex == 8) { einheitType.Text = "m2"; bestandTitel.Text = "Bestand (m2)"; m.Left = 0; }
+                else if (Einheit.SelectedIndex == 9) { einheitType.Text = "l"; bestandTitel.Text = "Bestand (l)"; m.Left = 3; }
+                else { einheitType.Text = ""; bestandTitel.Text = "Bestand"; m.Left = 17; }
+                Bestand.Margin = m;
+            }
         }
 
         private int GetCurrentRowIndex(GetPosition pos)

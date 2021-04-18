@@ -252,7 +252,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[WG1]
+[wqf12]
 Artikel,ARte
 VKPreisBrutto,
 EKPreisBrutto,
@@ -597,7 +597,7 @@ Etikett1,
 Etikett2,
 Bestellmenge,
 MindestBestand,
-PluEan,
+PluEan,EAN-Code mit Preis
 AusserHaus,
 ImHaus,
 Lieferanten,
@@ -622,7 +622,7 @@ PluEan,
 AusserHaus,
 ImHaus,
 Lieferanten,
-Einheit,
+Einheit,Kilogramm
 Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
@@ -1332,7 +1332,7 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
-[WG1]
+[wqf]
 Artikel,ARte
 VKPreisBrutto,
 EKPreisBrutto,
@@ -1471,3 +1471,31 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
+
+
+
+
+
+
+[dh]
+Artikel,ar2
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+ArtikelCodeTemplateValue,11111
+PluEan,EAN-Code mit Preis
+AusserHaus,
+ImHaus,
+Lieferanten,
+Einheit,
+Pfand,
+AuserHausComboBox2,
+ImHausComboBox2,
