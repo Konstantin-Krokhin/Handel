@@ -1248,6 +1248,8 @@ namespace HandelTSE.ViewModels
             }
         }
 
+        private void SetArtikel_Clicked(object sender, RoutedEventArgs e) { this.Content = new SetArtikel(); }
+
         private int GetCurrentRowIndex(GetPosition pos)
         {
             int curIndex = -1;
