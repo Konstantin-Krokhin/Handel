@@ -1248,7 +1248,9 @@ namespace HandelTSE.ViewModels
             }
         }
 
-        private void SetArtikel_Clicked(object sender, RoutedEventArgs e) { this.Content = new SetArtikel(); }
+        private void SetArtikel_Clicked(object sender, RoutedEventArgs e) { foreach(TreeViewItem t in TreeView.Items) SetArtikel.WGs.Add(t.Header.ToString()); SetArtikel.TV = TreeView; this.Content = new SetArtikel(); }
+
+        private void LoadForm(object sender, RoutedEventArgs e) { LoadTreeViewFromDB(); }
 
         private int GetCurrentRowIndex(GetPosition pos)
         {
