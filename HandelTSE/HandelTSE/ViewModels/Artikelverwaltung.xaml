@@ -321,7 +321,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 5">
-                            <Button x:Name="SetArtikelButton" Width="190" Height="25" Click="SetArtikel_Clicked" Content="Set - Artikel" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Background="Gray" Margin="10, 3, 0, 0" />
+                            <Button x:Name="SetArtikelButton" Width="190" Height="25" Click="SetArtikel_Clicked" IsEnabled="False" Content="Set - Artikel" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="2" Background="Gray" Margin="10, 3, 0, 0" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
@@ -408,7 +408,7 @@
             
         <DataGrid Name ="dg3" SelectionMode="Single" CanUserAddRows="False" IsReadOnly="True" AutoGeneratingColumn = "CustomizeHeaders" ScrollViewer.CanContentScroll="True" 
       ScrollViewer.VerticalScrollBarVisibility="Auto"
-      ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Column="2" Grid.ColumnSpan="13" Grid.Row="14" Height="{Binding ElementName=WindowName,Path=ActualWidth}" 
+      ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Column="2" Grid.ColumnSpan="13" Grid.Row="14" Height="{Binding ElementName=WindowName, Path=ActualWidth}" 
       SelectionChanged="dg3_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTemplateColumn x:Name="temp">

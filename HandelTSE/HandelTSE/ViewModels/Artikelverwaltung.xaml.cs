@@ -798,6 +798,7 @@ namespace HandelTSE.ViewModels
             string[] artikel = new string[n_size];
             
             ArtikelOptionenButton.IsEnabled = true;
+            SetArtikelButton.IsEnabled = true;
             TreeViewItem chosenTVI = new TreeViewItem();
 
             string csvData = File.ReadAllText("data.csv");

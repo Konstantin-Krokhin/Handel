@@ -1500,3 +1500,26 @@ Pfand,
 AuserHausComboBox2,
 ImHausComboBox2,
 
+
+[wg123]
+Artikel,art
+VKPreisBrutto,
+VKPreisNetto,
+EKPreisBrutto,
+EKPreisNetto,
+Bestand,
+Legerplatz1,
+Legerplatz2,
+Etikett1,
+Etikett2,
+Bestellmenge,
+MindestBestand,
+ArtikelCodeTemplateValue,
+PluEan,EAN-Code einscannen
+AusserHaus,19
+ImHaus,19
+Lieferanten,kein
+Einheit,Stück
+Pfand,kein
+AuserHausComboBox2,
+ImHausComboBox2,

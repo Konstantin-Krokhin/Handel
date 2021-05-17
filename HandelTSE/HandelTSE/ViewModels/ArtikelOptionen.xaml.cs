@@ -37,6 +37,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
         {
             InitializeComponent();
 
+            if (!File.Exists(@"artikel_optionen_data.csv")) File.Create(@"artikel_optionen_data.csv").Close();
+
             // FOR DEBUG ONLY
             //***************
             //if (HandelTSE.ViewModels.Artikelverwaltung.WG_str == null) HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
@@ -314,7 +316,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             }
         }
 
-        // *************SAVING PART START****************
+        // *************SAVING PART START*****************
         private void SpeichernLeftGrid_Click(object sender, RoutedEventArgs e) { Speichern(sender, e, listOption1); }
 
         private void SpeichernRightGrid_Click(object sender, RoutedEventArgs e) { Speichern(sender, e, listOption2); }

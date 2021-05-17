@@ -23,9 +23,12 @@ namespace HandelTSE.ViewModels
     public partial class SetArtikel : UserControl
     {
         public List<items> Data { get; set; }
+        public List<items2> Data2 { get; set; }
         List<items> it = new List<items>();
+        List<items2> it2 = new List<items2>();
         public static List<string> WGs = new List<string>();
         public static TreeView TV = new TreeView();
+        List<string> artikel = new List<string>();
         int n_size = 20;
 
         public class items
@@ -34,10 +37,19 @@ namespace HandelTSE.ViewModels
             public string preis { get; set; }
         }
 
+        public class items2
+        {
+            public string Artikel { get; set; }
+            public string Menge { get; set; }
+        }
+
         public SetArtikel()
         {
             InitializeComponent();
             foreach (string s in WGs) WGComboBox.Items.Add(s);
+            if (!File.Exists(@"artikel_set_data.csv")) File.Create(@"artikel_set_data.csv").Close();
+
+            LoadOptionenDataToArtikelArray();
         }
 
         private void Text_Suchen_Click(object sender, RoutedEventArgs e)
@@ -78,5 +90,130 @@ namespace HandelTSE.ViewModels
         private void BackToArticle_Click(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }
 
         private void CloseButton_Clicked(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            it2.Add(new items2 { Artikel = ((items)listArtikeln.SelectedItem).artikel, Menge = "1" });
+            Data2 = it2;
+            listArtikelnData.ItemsSource = Data2;
+
+            it2 = new List<items2>();
+
+            ///Save_Click(sender, e);
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            int i = 1, trigger = 0, trigger2 = 0, trigger3 = 0;
+            List<string> optionenToSave = new List<string>();
+            List<string> optionenToSubstitute = new List<string>();
+            optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");
+            optionenToSave.Add("\nName:" + Artikelverwaltung.ArtikelName);
+
+            // Reading data from DG into the List optionenToSave to then add to DB
+            foreach (DataGridRow dataGridRow in Artikelverwaltung.FindVisualChildren<DataGridRow>(listArtikelnData))
+            {
+                //DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(ch);
+
+                if (!String.IsNullOrEmpty(dataGridRow.ToString()))
+                {
+                    var data = dataGridRow.Item as items2;
+                    if (data == null) break;
+                    optionenToSave.Add(string.Format("{0},{1}", "Artikel", data.Artikel));
+                    optionenToSave.Add(string.Format("{0},{1}", "Menge", data.Menge));
+                }
+            }
+
+            // Reading from DB file into the List optionenToSubstitute
+            string csvData = File.ReadAllText("artikel_set_data.csv");
+            foreach (string row in csvData.Split('\n'))
+            {
+                if (trigger2 != 1) optionenToSubstitute.Add(row);
+
+                // If the record is already present in the DB file then substitute the part with parameters of the given Artikel
+                if (row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger = 1; continue; }
+                if (trigger == 1)
+                    if (row.Contains("Name:" + Artikelverwaltung.ArtikelName))
+                    {
+                        trigger = 0;
+                        trigger2 = 1;
+                        continue;
+                    }
+                if (trigger2 == 1)
+                {
+                    if (trigger3 == 0) foreach (string s in optionenToSave) { if (s.Contains("[" + Artikelverwaltung.WG_str + "]") || s.Contains("Name:")) continue; optionenToSubstitute.Add(s); }
+                    trigger3 = 1;
+                }
+                if (row.Contains("[") && row.Contains("]") && !row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger2 = 0; optionenToSubstitute.Add(row); }
+            }
+            if (trigger3 == 0)
+                foreach (string s in new[] { String.Join("\n", optionenToSave) }) File.AppendAllText(@"artikel_set_data.csv", s);
+            else
+            {
+                File.Delete(@"artikel_set_data.csv");
+                foreach (string s in new[] { String.Join("\n", optionenToSubstitute) }) File.AppendAllText(@"artikel_set_data.csv", s);
+            }
+        }
+
+        private void LoadDataToDG(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(artikel[0]))
+            {
+                string option_name = "", prev_artikel = "", option_menge = "";
+                foreach (string s in artikel)
+                {
+                    if (s.StartsWith("Artikel,"))
+                    {
+                        option_name = s.Substring(s.IndexOf(",") + 1);
+                    }
+                    else if (s.StartsWith("Menge,"))
+                    {
+                        option_menge = s.Substring(s.IndexOf(",") + 1);
+                        it2.Add(new items2 { Artikel = option_name, Menge = option_menge });
+                        Data2 = it2;
+                        listArtikelnData.ItemsSource = Data2;
+
+                        it2 = new List<items2>();
+                    }
+                }
+            }
+        }
+
+        private void LoadOptionenDataToArtikelArray()
+        {
+            string row_artikel = "";
+            int trigger = 0, trigger2 = 0;
+            string csvData = File.ReadAllText("artikel_set_data.csv");
+            foreach (string row in csvData.Split('\n'))
+            {
+                if (!string.IsNullOrEmpty(row) && row.Contains((string)"[" + Artikelverwaltung.WG_str + "]"))
+                {
+                    trigger = 1;
+                    continue;
+                }
+                if (trigger == 1)
+                {
+                    row_artikel = row;
+                    if (row.Contains("Name:" + Artikelverwaltung.ArtikelName) && row.Substring(row.IndexOf(":") + 1).Count() > 0)
+                    {
+                        trigger2 = 1;
+                        continue;
+                    }
+                    if (trigger2 == 1)
+                    {
+                        if (row.Contains('[') && row.Contains(']')) break;
+                        /*if (row == "Option,S" || row == "Option,M" || (row.Contains("Option,") && row.Contains("L"))) Option1CB.SelectedIndex = 2;
+                        else if (row.Contains("Artikel,") && (row.Any(Char.IsDigit))) Option1CB.SelectedIndex = 3;
+                        else if (row.Contains("Menge,")) Option1CB.SelectedIndex = 1;*/
+                        artikel.Add(row);
+                    }
+                }
+            }
+        }
     }
 }
