@@ -49,7 +49,7 @@ namespace HandelTSE.ViewModels
             foreach (string s in WGs) WGComboBox.Items.Add(s);
             if (!File.Exists(@"artikel_set_data.csv")) File.Create(@"artikel_set_data.csv").Close();
 
-            LoadOptionenDataToArtikelArray();
+            LoadSetDataToArtikelArray();
         }
 
         private void Text_Suchen_Click(object sender, RoutedEventArgs e)
@@ -93,23 +93,36 @@ namespace HandelTSE.ViewModels
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            it2.Add(new items2 { Artikel = ((items)listArtikeln.SelectedItem).artikel, Menge = "1" });
-            Data2 = it2;
-            listArtikelnData.ItemsSource = Data2;
+            if (listArtikeln.SelectedItem == null) { MessageBox.Show("Bitte wählen Sie den Artikel"); return; }
+            LoadSetDataToArtikelArray();
 
+            artikel.Add("Artikel,"+((items)listArtikeln.SelectedItem).artikel);
+            artikel.Add("Menge,1");
+
+            UpdateDG(sender, e);
+
+            //Save_Click(sender, e);
+        }
+
+        private void UpdateDG(object sender, RoutedEventArgs e)
+        {
             it2 = new List<items2>();
-
-            ///Save_Click(sender, e);
+            Data2 = null;
+            LoadDataToDG(sender, e);
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-
+            if (listArtikelnData.SelectedItem == null) { MessageBox.Show("Bitte wählen Sie den Artikel"); return; }
+            int n = artikel.FindIndex(x => x.Contains("Artikel," + ((items2)listArtikelnData.SelectedItem).Artikel));
+            artikel.RemoveAt(n);
+            artikel.RemoveAt(n++);
+            UpdateDG(sender, e);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            int i = 1, trigger = 0, trigger2 = 0, trigger3 = 0;
+            int trigger = 0, trigger2 = 0, trigger3 = 0;
             List<string> optionenToSave = new List<string>();
             List<string> optionenToSubstitute = new List<string>();
             optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");
@@ -162,9 +175,9 @@ namespace HandelTSE.ViewModels
 
         private void LoadDataToDG(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(artikel[0]))
+            if (artikel != null)
             {
-                string option_name = "", prev_artikel = "", option_menge = "";
+                string option_name = "", option_menge = "";
                 foreach (string s in artikel)
                 {
                     if (s.StartsWith("Artikel,"))
@@ -175,17 +188,16 @@ namespace HandelTSE.ViewModels
                     {
                         option_menge = s.Substring(s.IndexOf(",") + 1);
                         it2.Add(new items2 { Artikel = option_name, Menge = option_menge });
-                        Data2 = it2;
-                        listArtikelnData.ItemsSource = Data2;
-
-                        it2 = new List<items2>();
                     }
                 }
+                Data2 = it2;
+                listArtikelnData.ItemsSource = Data2;
             }
         }
 
-        private void LoadOptionenDataToArtikelArray()
+        private void LoadSetDataToArtikelArray()
         {
+            artikel = new List<string>();
             string row_artikel = "";
             int trigger = 0, trigger2 = 0;
             string csvData = File.ReadAllText("artikel_set_data.csv");
@@ -210,7 +222,7 @@ namespace HandelTSE.ViewModels
                         /*if (row == "Option,S" || row == "Option,M" || (row.Contains("Option,") && row.Contains("L"))) Option1CB.SelectedIndex = 2;
                         else if (row.Contains("Artikel,") && (row.Any(Char.IsDigit))) Option1CB.SelectedIndex = 3;
                         else if (row.Contains("Menge,")) Option1CB.SelectedIndex = 1;*/
-                        artikel.Add(row);
+                        if (row != "") artikel.Add(row);
                     }
                 }
             }
