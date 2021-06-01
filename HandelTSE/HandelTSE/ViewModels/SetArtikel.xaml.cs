@@ -54,12 +54,70 @@ namespace HandelTSE.ViewModels
 
         private void Text_Suchen_Click(object sender, RoutedEventArgs e)
         {
+            //eanSuchenTrigger = 1;
+            if (SearchBox.Text == "") return;
+            string csvData = File.ReadAllText("data.csv");
+            int trigger = 0, trigger2 = 0, n = 0;
+            List<string> artikel = new List<string>();
 
+            foreach (TreeViewItem t in TV.Items)
+            {
+                foreach (TreeViewItem i in t.Items)
+                {
+                    if (i.Header.ToString().ToUpper().Contains(SearchBox.Text.ToUpper()))
+                    {
+                        it.Add(new items { artikel = i.Header.ToString(), preis = "0" });
+                    }
+                    artikel = new List<string>();
+                }
+            }
+            Data = it;
+            listArtikeln.ItemsSource = Data;
+            it = new List<items>();
         }
 
         private void EAN_Suchen_Click(object sender, RoutedEventArgs e)
         {
+            if (SearchBox.Text == "") return;
+            string csvData = File.ReadAllText("data.csv");
+            int trigger = 0, trigger2 = 0, n = 0;
+            List<string> artikel = new List<string>();
+            string WG = "", ArtikelName = "";
 
+            foreach (string s in csvData.Split('\n'))
+            {
+                if (s.Contains("[") && s.Contains("]")) { WG = s; trigger = 1; continue; }
+                if (s.Substring(s.IndexOf("Artikel,") + 1).Length > 0 && trigger == 1) 
+                { ArtikelName = s; artikel.Add(WG); artikel.Add(ArtikelName); trigger = 0; trigger2 = 1; continue; }
+                trigger = 0;
+                if (trigger2 == 1)
+                {
+                    artikel.Add(s);
+                }
+                if (s.Contains("ImHausComboBox2"))
+                {
+                    trigger2 = 0;
+                    foreach (string i in artikel) if (i.Contains("PluEan,") && i.Substring(i.IndexOf(",") + 1).ToUpper().Contains(SearchBox.Text.ToUpper())) trigger2 = 1;
+                    if (trigger2 == 1)
+                    {
+                        if (artikel.Count <= 0) return;
+                        if (!string.IsNullOrEmpty(artikel[0]))
+                        {
+                            string str_artikel = "";
+                            foreach (string t in artikel)
+                            {
+                                if (t.StartsWith("Artikel,")) str_artikel = t.Substring(t.IndexOf(",") + 1);
+                            }
+                            it.Add(new items { artikel = str_artikel, preis = "0" });
+                        }
+                        trigger2 = 0;
+                    }
+                    artikel = new List<string>();
+                }
+            }
+            Data = it;
+            listArtikeln.ItemsSource = Data;
+            it = new List<items>();
         }
 
         private void WGComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -84,7 +142,22 @@ namespace HandelTSE.ViewModels
 
         private void SetDelete_Click(object sender, RoutedEventArgs e)
         {
+            string messageBoxText = "Wollen Sie wirklich ein Set löschen?";
+            string caption = "Set-Artikel löschen";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
 
+            // Process the user choice
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    artikel = new List<string>();
+                    UpdateDG(sender, e);
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
 
         private void BackToArticle_Click(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }

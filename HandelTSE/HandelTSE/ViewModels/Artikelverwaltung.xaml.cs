@@ -148,6 +148,7 @@ namespace HandelTSE.ViewModels
             if (TreeView.SelectedItem == null) { MessageBox.Show("Bitte Warengruppe anlagen und auswählen!"); return; }
             if (parent.GetType() == typeof(TreeViewItem)) { MessageBox.Show("Sie können keinen Artikel in einem anderen hinzufügen. Es muss eine Warengruppe sein!"); return; }
             if (Artikel.Text == "") { MessageBox.Show("Bitte geben Sie den Artikelname an!"); return; }
+            if (PluEan.Text == "") { MessageBox.Show("Bitte geben Sie den PluEan an!"); return; }
             if (PluEan.SelectedIndex > 1)
                 if (ArtikelCodeTemplateValue.Text.Length != ArtikelCodeLength) { MessageBox.Show("Der Artikelcode muss " + ArtikelCodeLength + " Zaichen lang sein."); return; }
 
@@ -901,7 +902,13 @@ namespace HandelTSE.ViewModels
         // When PLU-EAN ComboBox value is "mit Preis" then make all VK and EK Preis fields read-only and show MitPreis related ComboBox and Field
         private void PluEan_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (PluEan.SelectedItem == null) return; // Safeguard for the case if the form with control of interest didn't load yet
+            if (PluEan.SelectedItem == null) {
+                ArtikelOptionenButton.Visibility = Visibility.Visible;
+                SetArtikelButton.Visibility = Visibility.Visible;
+                ArtikelCodeTemplate.Visibility = Visibility.Hidden;
+                ArtikelCodeTemplateValue.Visibility = Visibility.Hidden;
+                return;
+            }; // Safeguard for the case if the form with control of interest didn't load yet
             
             //Block/unblock VK and EK Preis text fields when "EAN mit Preis" is selected/deselected
             if (PluEan.SelectedIndex == 2)
