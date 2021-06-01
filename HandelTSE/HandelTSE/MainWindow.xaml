@@ -108,7 +108,7 @@
                     <MenuItem Header="Programm - Einstellungen" />
                     <MenuItem Header="Funktionseinstellungen" />
                     <MenuItem Header="Personalverwaltung" />
-                    <MenuItem Header="Artikel-Optionen" />
+                    <MenuItem Header="Artikel-Optionen" Name="ArtikelOptionen" Click="ArtikelOptionen_Click" />
                     <MenuItem Header="Umsatzsteuer" />
                     <MenuItem Header="Zahlungen" />
                     <MenuItem Header="EAN-Einstellungen" Name="EanEinstellungen" Click="EanEinstellungen_Click"/>

@@ -208,3 +208,5 @@ C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\SetArtikel.g.cs
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\SetArtikel.baml
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\ArtikelOptionenEinstellungen.g.cs
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\ArtikelOptionenEinstellungen.baml

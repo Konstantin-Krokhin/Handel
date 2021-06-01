@@ -108,5 +108,10 @@ namespace HandelTSE
         {
             DataContext = new EanEinstellungen();
         }
+
+        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = new ArtikelOptionenEinstellungen();
+        }
     }
 }

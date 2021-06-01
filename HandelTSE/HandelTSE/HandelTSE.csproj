@@ -92,6 +92,9 @@
     <Compile Include="ViewModels\ArtikelOptionen.xaml.cs">
       <DependentUpon>ArtikelOptionen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ArtikelOptionenEinstellungen.xaml.cs">
+      <DependentUpon>ArtikelOptionenEinstellungen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\DragDataGridRowMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +146,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ViewModels\ArtikelOptionen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\ArtikelOptionenEinstellungen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
