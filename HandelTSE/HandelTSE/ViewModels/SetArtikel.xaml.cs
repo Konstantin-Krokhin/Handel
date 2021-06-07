@@ -47,6 +47,7 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
             foreach (string s in WGs) WGComboBox.Items.Add(s);
+            
             if (!File.Exists(@"artikel_set_data.csv")) File.Create(@"artikel_set_data.csv").Close();
 
             LoadSetDataToArtikelArray();
@@ -87,7 +88,7 @@ namespace HandelTSE.ViewModels
             foreach (string s in csvData.Split('\n'))
             {
                 if (s.Contains("[") && s.Contains("]")) { WG = s; trigger = 1; continue; }
-                if (s.Substring(s.IndexOf("Artikel,") + 1).Length > 0 && trigger == 1) 
+                if (s.Substring(s.IndexOf("Artikel,") + 1).Length > 0 && trigger == 1)
                 { ArtikelName = s; artikel.Add(WG); artikel.Add(ArtikelName); trigger = 0; trigger2 = 1; continue; }
                 trigger = 0;
                 if (trigger2 == 1)

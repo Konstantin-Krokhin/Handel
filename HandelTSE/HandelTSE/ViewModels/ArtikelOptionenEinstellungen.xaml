@@ -22,34 +22,34 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height= "auto"/>
-                    <RowDefinition Height= "auto"/>
-                    <RowDefinition Height="20"/>
-                </Grid.RowDefinitions>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
 
         <TextBlock Text="Artikel-Option" Grid.Column="1" Grid.Row="1" Margin="33, 5, 10, 5"/>
         <TextBox Name="ArtikelOption" Grid.Row="2" Grid.Column="1" Width="140" HorizontalAlignment="Left" Margin="0, 0, 0, 20" Height="25"></TextBox>
         <TextBlock Text="Option-Text" Grid.Column="2" Grid.Row="1" Margin="45, 5, 10, 5"/>
         <TextBox Name="OptionText" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Width="140" HorizontalAlignment="Right" Margin="0, 0, 0, 20" Height="25"></TextBox>
-                
-        <DataGrid Name="listArtikeln" Height="335" HeadersVisibility="None" CanUserAddRows="False" Loaded="listArtikelnOptionenLoaded" Width="305" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0, 0">
 
-                </DataGrid>
+        <DataGrid Name="listArtikeln" IsReadOnly="True" Height="335" SelectionChanged="ArtikelOptionSelected" HeadersVisibility="None" CanUserAddRows="False" Loaded="listArtikelnOptionenLoaded" Width="305" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="0, 0">
+
+        </DataGrid>
+        
         <Button Width="70" Content="neu" Height="30" Grid.Column="4" Grid.Row="3" Margin="10, 5" Click="NeuArtikelOption_Click"/>
         <Button Width="70" Content="löschen" Height="30" Grid.Column="4" Grid.Row="4" Margin="0, 0" Click="LoschenArtikelOption_Click"/>
         <Button Width="70" Content="speichern" Height="30" Grid.Column="4" Grid.Row="5" Margin="0, 5" Click="SpeichernArtikelOption_Click"/>
 
 
         <TextBlock Text="Option-Attribute" Grid.Column="5" Grid.Row="1" Margin="70, 5, 10, 5"/>
-        <TextBox Name="ArtikelOption2" Grid.Row="2" Grid.Column="5" Width="240" HorizontalAlignment="Left" Margin="0, 0, 0, 20" Height="25"></TextBox>
-        
-        <DataGrid Name="listArtikelnData" Loaded="listOptionAttributenLoaded" CanUserAddRows="False" Width="300" Height="335" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="0">
+        <TextBox Name="OptionAttribute" Grid.Row="2" Grid.Column="5" Width="240" HorizontalAlignment="Left" Margin="0, 0, 0, 20" Height="25"></TextBox>
+
+        <DataGrid Name="listArtikelnData" IsReadOnly="True" Loaded="listOptionAttributenLoaded" HeadersVisibility="None" CanUserAddRows="False" Width="300" Height="335" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="0">
 
                 </DataGrid>
         

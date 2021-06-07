@@ -41,7 +41,7 @@
             <ComboBoxItem>-- Warengruppe --</ComboBoxItem>
         </ComboBox>
 
-        <DataGrid Name="listArtikeln" MaxHeight="325" HeadersVisibility="None" CanUserAddRows="False" Loaded="listArtikelnLoaded" Width="300" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="4" Margin="0, 20">
+        <DataGrid Name="listArtikeln" IsReadOnly="True" MaxHeight="325" HeadersVisibility="None" CanUserAddRows="False" Loaded="listArtikelnLoaded" Width="300" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="4" Margin="0, 20">
             
         </DataGrid>
 
