@@ -41,13 +41,14 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             if (!File.Exists(@"artikel_optionen_data.csv")) File.Create(@"artikel_optionen_data.csv").Close();
             if (!File.Exists(@"artikel_option_einstellungen_data.csv")) File.Create(@"artikel_option_einstellungen_data.csv").Close();
 
+            LoadDataToArtikelArray();
+            LoadOptionenDataToArtikelArray();
+
             // FOR DEBUG ONLY
             //***************
             //if (HandelTSE.ViewModels.Artikelverwaltung.WG_str == null) HandelTSE.ViewModels.Artikelverwaltung.WG_str = "Test";
             //if (HandelTSE.ViewModels.Artikelverwaltung.ArtikelName == null) HandelTSE.ViewModels.Artikelverwaltung.ArtikelName = "test";
             //***************
-
-            LoadOptionenDataToArtikelArray();
 
         }
 
@@ -60,6 +61,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         private void LoadDataToDG()
         {
+            items data = null;
             if (!string.IsNullOrEmpty(artikel[0]))
             {
                 string option_name = "", prev_option = "", option_preis = "";
@@ -72,8 +74,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                         for (int i = 0; i < listOption1.Items.Count; i++)
                         {
                             DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
-                            var data = dataGridRow.Item as items;
-                            if (data == null) continue;
+                            if (dataGridRow != null) data = dataGridRow.Item as items;
+                            else continue;
                             if (option_name == data.option)
                             {
                                 foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
@@ -94,8 +96,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                         for (int i = 0; i < listOption1.Items.Count; i++)
                         {
                             DataGridRow dataGridRow = (DataGridRow)listOption1.ItemContainerGenerator.ContainerFromIndex(i);
-                            var data = dataGridRow.Item as items;
-                            if (data == null) continue;
+                            if (dataGridRow != null) data = dataGridRow.Item as items;
+                            else continue;
                             if (prev_option == data.option)
                             {
                                 foreach (CheckBox c in Artikelverwaltung.FindVisualChildren<CheckBox>(dataGridRow))
@@ -133,14 +135,30 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                     if (trigger2 == 1)
                     {
                         if (row.Contains('[') && row.Contains(']')) break;
-                        if (row == "Option,S" || row == "Option,M" || (row.Contains("Option,") && row.Contains("L"))) Option1CB.SelectedIndex = 2;
-                        else if (row.Contains("Option,") && (row.Any(Char.IsDigit))) Option1CB.SelectedIndex = 3;
-                        else if (row.Contains("Option,")) Option1CB.SelectedIndex = 1;
+                        if (row.Contains("OptionName:")) 
+                        { Option1CB.SelectedValue = row.Substring(row.IndexOf(":") + 1); continue; }
                         artikel.Add(row);
                     }
                 }
             }
         }
+
+        private void LoadDataToArtikelArray()
+        {
+            optionen = new List<string>();
+            string csvData = File.ReadAllText("artikel_option_einstellungen_data.csv");
+            foreach (string row in csvData.Split('\n')) { optionen.Add(row); }
+
+            foreach (string s in optionen)
+            {
+                if (s.Contains("[") && s.Contains("]"))
+                {
+                    Option1CB.Items.Add(s.Substring(s.IndexOf("[") + 1, s.IndexOf("]") - 1));
+                    Option2CB.Items.Add(s.Substring(s.IndexOf("[") + 1, s.IndexOf("]") - 1));
+                }
+            }
+        }
+
         // *************LOADING PART END****************
 
         private void CloseButton_Clicked(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }
@@ -240,28 +258,6 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         }
 
-        public void Farben()
-        {
-            it.Add(new items { option = "weiß", preis = "0.00" });
-            it.Add(new items { option = "schwarz", preis = "0.00" });
-            it.Add(new items { option = "blau", preis = "0.00" });
-            it.Add(new items { option = "gelb", preis = "0.00" });
-            it.Add(new items { option = "rot", preis = "0.00" });
-            it.Add(new items { option = "grau", preis = "0.00" });
-            it.Add(new items { option = "grün", preis = "0.00" });
-            it.Add(new items { option = "braun", preis = "0.00" });
-        }
-
-        public void Grossen()
-        {
-            it.Add(new items { option = "S", preis = "0.00" });
-            it.Add(new items { option = "M", preis = "0.00" });
-            it.Add(new items { option = "L", preis = "0.00" });
-            it.Add(new items { option = "XL", preis = "0.00" });
-            it.Add(new items { option = "XXL", preis = "0.00" });
-            it.Add(new items { option = "XXXL", preis = "0.00" });
-        }
-
         private void CustomizeHeaders(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e)
         {
             var grid = (DataGrid)sender;
@@ -344,7 +340,9 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             List<string> optionenToSubstitute = new List<string>();
             optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");
             optionenToSave.Add("\nName:" + Artikelverwaltung.ArtikelName);
-            
+            if (dg.Name == "listOption1") optionenToSave.Add("OptionName:" + Option1CB.Text);
+            else if (dg.Name == "listOption2") optionenToSave.Add("OptionName:" + Option2CB.Text);
+
             // Reading data from DG into the List optionenToSave to then add to DB
             foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(dg))
             {
@@ -436,27 +434,6 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             }
             File.Delete(@"artikel_optionen_data.csv");
             foreach (string s in new[] { String.Join("\n", data) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
-        }
-
-        private void Option2CBLoaded(object sender, RoutedEventArgs e)
-        {
-            LoadDataToArtikelArray();
-
-            foreach (string s in optionen)
-            {
-                if (s.Contains("[") && s.Contains("]"))
-                {
-                    Option1CB.Items.Add(s.Substring(s.IndexOf("[") + 1, s.IndexOf("]") - 1));
-                    Option2CB.Items.Add(s.Substring(s.IndexOf("[") + 1, s.IndexOf("]") - 1));
-                }
-
-            }
-        }
-        private void LoadDataToArtikelArray()
-        {
-            optionen = new List<string>();
-            string csvData = File.ReadAllText("artikel_option_einstellungen_data.csv");
-            foreach (string row in csvData.Split('\n')) { optionen.Add(row); }
         }
     }
 
