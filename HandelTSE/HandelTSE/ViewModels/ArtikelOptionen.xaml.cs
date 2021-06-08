@@ -26,6 +26,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
         public List<items> Data { get; set; }
         List<items> it = new List<items>();
         public List<items> Data2 { get; set; }
+        List<string> optionen = new List<string>();
 
         List<string> artikel = new List<string>();
         public class items
@@ -38,6 +39,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             InitializeComponent();
 
             if (!File.Exists(@"artikel_optionen_data.csv")) File.Create(@"artikel_optionen_data.csv").Close();
+            if (!File.Exists(@"artikel_option_einstellungen_data.csv")) File.Create(@"artikel_option_einstellungen_data.csv").Close();
 
             // FOR DEBUG ONLY
             //***************
@@ -147,39 +149,46 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
         {
             it = new List<items>();
             if (listOption1 == null) return;
-            if (listOption1.Visibility == Visibility.Hidden) listOption1.Visibility = Visibility.Visible;
+            ohnePreisAlleCheckBoxLeft.IsChecked = false;
+            addierenAlleCheckBoxLeft.IsChecked = false;
 
             if (Option1CB.SelectedIndex == 0) 
             {
                 ohnePreisAlleCheckBoxLeft.IsEnabled = false;
                 addierenAlleCheckBoxLeft.IsEnabled = false;
-                listOption1.Visibility = Visibility.Hidden; 
+                it = new List<items>();
+                Data = it;
+                listOption1.ItemsSource = Data;
+                listOption1.HeadersVisibility = DataGridHeadersVisibility.None;
             }
             else
             {
+                listOption1.HeadersVisibility = DataGridHeadersVisibility.All;
                 ohnePreisAlleCheckBoxLeft.IsEnabled = true;
                 addierenAlleCheckBoxLeft.IsEnabled = true;
-                if (Option1CB.SelectedIndex == 1) // Farbe
+
+                int trigger = 0, trigger2 = 0;
+                foreach (string s in optionen)
                 {
-                    Farben();
-                    Data = it;
-                    listOption1.ItemsSource = Data;
-                    OrderColumns(listOption1);
+                    if (s.Contains("[" + Option1CB.SelectedItem.ToString() + "]"))
+                    {
+                        trigger = 1;
+                        continue;
+                    }
+                    if (trigger == 1 && s.Contains("Beschreibung,"))
+                    {
+                        trigger2 = 1;
+                        continue;
+                    }
+                    if (trigger == 1 && trigger2 == 1 && s.Contains("Artikel,"))
+                    {
+                        it.Add(new items { option = s.Substring(s.IndexOf(",") + 1).ToString(), preis = "0.00" });
+                    }
+                    else if (it.Count >= 1) break;
                 }
-                else if (Option1CB.SelectedIndex == 2) // Textil
-                {
-                    Grossen();
-                    Data = it;
-                    listOption1.ItemsSource = Data;
-                    OrderColumns(listOption1);
-                }
-                else if (Option1CB.SelectedIndex == 3) // Schuhe
-                {
-                    for (int i = 35; i <= 47; i++) it.Add(new items { option = i.ToString(), preis = "0.00" });
-                    Data = it;
-                    listOption1.ItemsSource = Data;
-                    OrderColumns(listOption1);
-                }
+                Data = it;
+                listOption1.ItemsSource = Data;
+                OrderColumns(listOption1);
             }
         }
 
@@ -187,39 +196,46 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
         {
             it = new List<items>();
             if (listOption2 == null) return;
-            if (listOption2.Visibility == Visibility.Hidden) listOption2.Visibility = Visibility.Visible;
+            ohnePreisAlleCheckBoxRight.IsChecked = false;
+            addierenAlleCheckBoxRight.IsChecked = false;
 
             if (Option2CB.SelectedIndex == 0)
             {
                 ohnePreisAlleCheckBoxRight.IsEnabled = false;
                 addierenAlleCheckBoxRight.IsEnabled = false;
-                listOption2.Visibility = Visibility.Hidden;
+                it = new List<items>();
+                Data2 = it;
+                listOption2.ItemsSource = Data2;
+                listOption2.HeadersVisibility = DataGridHeadersVisibility.None;
             }
             else
             {
+                listOption2.HeadersVisibility = DataGridHeadersVisibility.All;
                 ohnePreisAlleCheckBoxRight.IsEnabled = true;
                 addierenAlleCheckBoxRight.IsEnabled = true;
-                if (Option2CB.SelectedIndex == 1) // Farbe
+
+                int trigger = 0, trigger2 = 0;
+                foreach (string s in optionen)
                 {
-                    Farben();
-                    Data2 = it;
-                    listOption2.ItemsSource = Data2;
-                    OrderColumns(listOption2);
+                    if (s.Contains("[" + Option2CB.SelectedItem.ToString() + "]"))
+                    {
+                        trigger = 1;
+                        continue;
+                    }
+                    if (trigger == 1 && s.Contains("Beschreibung,"))
+                    {
+                        trigger2 = 1;
+                        continue;
+                    }
+                    if (trigger == 1 && trigger2 == 1 && s.Contains("Artikel,"))
+                    {
+                        it.Add(new items { option = s.Substring(s.IndexOf(",") + 1).ToString(), preis = "0.00" });
+                    }
+                    else if (it.Count >= 1) break;
                 }
-                else if (Option2CB.SelectedIndex == 2) // Textil
-                {
-                    Grossen();
-                    Data2 = it;
-                    listOption2.ItemsSource = Data2;
-                    OrderColumns(listOption2);
-                }
-                else if (Option2CB.SelectedIndex == 3) // Schuhe
-                {
-                    for (int i = 35; i <= 47; i++) it.Add(new items { option = i.ToString(), preis = "0.00" });
-                    Data2 = it;
-                    listOption2.ItemsSource = Data2;
-                    OrderColumns(listOption2);
-                }
+                Data2 = it;
+                listOption2.ItemsSource = Data2;
+                OrderColumns(listOption2);
             }
 
         }
@@ -420,6 +436,27 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             }
             File.Delete(@"artikel_optionen_data.csv");
             foreach (string s in new[] { String.Join("\n", data) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
+        }
+
+        private void Option2CBLoaded(object sender, RoutedEventArgs e)
+        {
+            LoadDataToArtikelArray();
+
+            foreach (string s in optionen)
+            {
+                if (s.Contains("[") && s.Contains("]"))
+                {
+                    Option1CB.Items.Add(s.Substring(s.IndexOf("[") + 1, s.IndexOf("]") - 1));
+                    Option2CB.Items.Add(s.Substring(s.IndexOf("[") + 1, s.IndexOf("]") - 1));
+                }
+
+            }
+        }
+        private void LoadDataToArtikelArray()
+        {
+            optionen = new List<string>();
+            string csvData = File.ReadAllText("artikel_option_einstellungen_data.csv");
+            foreach (string row in csvData.Split('\n')) { optionen.Add(row); }
         }
     }
 
