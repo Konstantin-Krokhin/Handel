@@ -48,7 +48,7 @@
         <Button Width="80" Content="Set löschen" Height="30" Grid.Column="6" Grid.Row="1" Margin="0, 0" Click="SetDelete_Click"/>
         <Button Width="120" Content="Zurück zum Artikel" HorizontalAlignment="Left" Height="30" Grid.Column="7" Grid.Row="1" Margin="-25, 0" Click="BackToArticle_Click"/>
 
-        <DataGrid Name="listArtikelnData" Loaded="LoadDataToDG" CanUserAddRows="False" Width="445" Height="270" Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="2" Margin="33, 20">
+        <DataGrid Name="listArtikelnData" DataGrid.AutoGeneratingColumn = "OnAutoGeneratingColumn"  AutoGenerateColumns="True" Loaded="LoadDataToDG" CanUserAddRows="False" Width="445" Height="270" Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="2" Margin="33, 20">
 
         </DataGrid>
 

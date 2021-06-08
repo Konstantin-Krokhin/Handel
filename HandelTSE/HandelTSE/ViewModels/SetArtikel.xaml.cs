@@ -58,7 +58,6 @@ namespace HandelTSE.ViewModels
             //eanSuchenTrigger = 1;
             if (SearchBox.Text == "") return;
             string csvData = File.ReadAllText("data.csv");
-            int trigger = 0, trigger2 = 0, n = 0;
             List<string> artikel = new List<string>();
 
             foreach (TreeViewItem t in TV.Items)
@@ -267,6 +266,13 @@ namespace HandelTSE.ViewModels
                 Data2 = it2;
                 listArtikelnData.ItemsSource = Data2;
             }
+
+        }
+
+        private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyName == "Menge") { e.Column.IsReadOnly = false; }
+            if (e.PropertyName == "Artikel") { e.Column.IsReadOnly = true; }
         }
 
         private void LoadSetDataToArtikelArray()
