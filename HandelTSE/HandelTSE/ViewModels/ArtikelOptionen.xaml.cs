@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HandelTSE.ViewModels//.Artikelverwaltung
+namespace HandelTSE.ViewModels
 {
     /// <summary>
     /// Interaction logic for ArtikelOptionen.xaml
@@ -42,6 +42,7 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
             if (!File.Exists(@"artikel_option_einstellungen_data.csv")) File.Create(@"artikel_option_einstellungen_data.csv").Close();
 
             LoadDataToArtikelArray();
+            FillListOption1WithValues();
             LoadOptionenDataToArtikelArray();
 
             // FOR DEBUG ONLY
@@ -136,7 +137,10 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                     {
                         if (row.Contains('[') && row.Contains(']')) break;
                         if (row.Contains("OptionName:")) 
-                        { Option1CB.SelectedValue = row.Substring(row.IndexOf(":") + 1); continue; }
+                        { 
+                            Option1CB.SelectedValue = row.Substring(row.IndexOf(":") + 1);
+                            continue; 
+                        }
                         artikel.Add(row);
                     }
                 }
@@ -165,8 +169,8 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         private void Option1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (listOption1 == null || Option1CB.SelectedValue == null) return;
             it = new List<items>();
-            if (listOption1 == null) return;
             ohnePreisAlleCheckBoxLeft.IsChecked = false;
             addierenAlleCheckBoxLeft.IsChecked = false;
 
@@ -184,30 +188,34 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
                 listOption1.HeadersVisibility = DataGridHeadersVisibility.All;
                 ohnePreisAlleCheckBoxLeft.IsEnabled = true;
                 addierenAlleCheckBoxLeft.IsEnabled = true;
-
-                int trigger = 0, trigger2 = 0;
-                foreach (string s in optionen)
-                {
-                    if (s.Contains("[" + Option1CB.SelectedItem.ToString() + "]"))
-                    {
-                        trigger = 1;
-                        continue;
-                    }
-                    if (trigger == 1 && s.Contains("Beschreibung,"))
-                    {
-                        trigger2 = 1;
-                        continue;
-                    }
-                    if (trigger == 1 && trigger2 == 1 && s.Contains("Artikel,"))
-                    {
-                        it.Add(new items { option = s.Substring(s.IndexOf(",") + 1).ToString(), preis = "0.00" });
-                    }
-                    else if (it.Count >= 1) break;
-                }
-                Data = it;
-                listOption1.ItemsSource = Data;
-                OrderColumns(listOption1);
+                FillListOption1WithValues();
             }
+        }
+
+        private void FillListOption1WithValues()
+        {
+            int trigger = 0, trigger2 = 0;
+            foreach (string s in optionen)
+            {
+                if (s.Contains("[" + Option1CB.SelectedValue.ToString() + "]"))
+                {
+                    trigger = 1;
+                    continue;
+                }
+                if (trigger == 1 && s.Contains("Beschreibung,"))
+                {
+                    trigger2 = 1;
+                    continue;
+                }
+                if (trigger == 1 && trigger2 == 1 && s.Contains("Artikel,"))
+                {
+                    it.Add(new items { option = s.Substring(s.IndexOf(",") + 1).ToString(), preis = "0.00" });
+                }
+                else if (it.Count >= 1) break;
+            }
+            Data = it;
+            listOption1.ItemsSource = Data;
+            OrderColumns(listOption1);
         }
 
         private void Option2_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -397,43 +405,23 @@ namespace HandelTSE.ViewModels//.Artikelverwaltung
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            int trigger = 0, trigger2 = 0, trigger3 = 0, trigger4 = 0;
-            List<string> data = new List<string>();
+            List <string> options = new List<string>();
             string csvData = File.ReadAllText("artikel_optionen_data.csv");
-            foreach (string row in csvData.Split('\n'))
+            foreach (string row in csvData.Split('\n')) { options.Add(row); }
+            List<string> optionsEdited = new List<string>(options);
+
+            int trigger = 0, trigger2 = 0, n = 0;
+            foreach (string s in options)
             {
-                
-                if (row.Contains("[" + Artikelverwaltung.WG_str + "]")) { trigger = 1; trigger2 = 1; continue; }
-                if (trigger == 1)
-                {
-                    if (row.Contains("Name:" + Artikelverwaltung.ArtikelName))
-                    {
-                        trigger2 = 0;
-                        trigger3 = 0;
-                        trigger4 = 1;
-                        continue;
-                    }
-                    else if (row == "" && trigger2 == 1)
-                    {
-                        trigger3 = 1;
-                        continue;
-                    }
-                    else if (trigger2 == 1 && trigger3 == 1)
-                    {
-                        data.Add("[" + Artikelverwaltung.WG_str + "]");
-                        data.Add(row);
-                        trigger = 0;
-                        trigger2 = 0;
-                        continue;
-                    }
-                    else if (row.Contains("[") && row.Contains("]") && !row.Contains("[" + Artikelverwaltung.WG_str + "]")) { data.Add(row); trigger = 0; trigger2 = 0; continue; };
-                    if (row.Contains("Name:") && !row.Contains(Artikelverwaltung.ArtikelName)) trigger4 = 0;
-                    if (trigger4 == 1) { continue; }
-                }
-                data.Add(row);
+                if (s.Contains('[' + Artikelverwaltung.WG_str + ']')) { trigger = 1; n = optionsEdited.IndexOf(s); continue; }
+                if (trigger == 1 && s.Contains("Name:" + Artikelverwaltung.ArtikelName)) { trigger2 = 1; optionsEdited.RemoveAt(n); optionsEdited.RemoveAt(n); continue; }
+                if (trigger2 == 1 && !(s.Contains("[") && s.Contains("]"))) { optionsEdited.RemoveAt(n); continue; }
+                if (trigger2 == 1 && ((s.Contains("[") && s.Contains("]")) || s == "")) { optionsEdited.RemoveAt(n); break; }
             }
-            File.Delete(@"artikel_optionen_data.csv");
-            foreach (string s in new[] { String.Join("\n", data) }) File.AppendAllText(@"artikel_optionen_data.csv", s);
+
+            File.WriteAllLines(@"artikel_optionen_data.csv", new[] { String.Join("\n", optionsEdited) });
+            Option1CB.SelectedIndex = 0;
+            Option2CB.SelectedIndex = 0;
         }
     }
 
