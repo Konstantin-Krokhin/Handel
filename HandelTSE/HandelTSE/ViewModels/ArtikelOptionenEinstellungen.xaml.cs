@@ -58,7 +58,32 @@ namespace HandelTSE.ViewModels
             it2 = new List<items2>();
             Data2 = it2;
             listArtikelnData.ItemsSource = Data2;
+
+            DeleteOptionSetForEachArtikel();
+
             LoadData();
+        }
+
+        private void DeleteOptionSetForEachArtikel()
+        {
+            List<string> l = new List<string>();
+            string csvData = File.ReadAllText("artikel_optionen_data.csv");
+            foreach (string row in csvData.Split('\n')) { if (row != "\n") l.Add(row); }
+            for (int i = 0; i < l.Count(); i++)
+            {
+                if (l[i].Contains("OptionName:" + ((items)listArtikeln.SelectedItem).artikel))
+                {
+                    int trigger = 0;
+                    for (i -= 3; i >= 0 && i < l.Count();)
+                    {
+                        if (trigger == 1) break;
+                        l.RemoveAt(i);
+                        if (i < l.Count()) if (l[i].Contains("[") && l[i].Contains("]")) trigger = 1;
+                    }
+                }
+            }
+
+            File.WriteAllLines(@"artikel_optionen_data.csv", new[] { String.Join("\n", l) });
         }
 
         private void SpeichernArtikelOption_Click(object sender, RoutedEventArgs e)
@@ -83,7 +108,33 @@ namespace HandelTSE.ViewModels
             File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
             it2 = new List<items2>();
 
+            DeleteOptionAttributeForSpecificArtikel();
+
             LoadAttributen();
+        }
+
+        private void DeleteOptionAttributeForSpecificArtikel()
+        {
+            List<string> l = new List<string>();
+            int trigger = 0;
+            string csvData = File.ReadAllText("artikel_optionen_data.csv");
+            foreach (string row in csvData.Split('\n')) { if (row != "\n") l.Add(row); }
+            for (int i = 0; i < l.Count(); i++)
+            {
+                if (l[i].Contains("OptionName:" + ((items)listArtikeln.SelectedItem).artikel) || trigger == 1)
+                {
+                    if (trigger == 0) { trigger = 1; continue; }
+                    if (l[i].Contains("Option," + ((items2)listArtikelnData.SelectedItem).attribute))
+                    {
+                        l.RemoveAt(i);
+                        if (l[i].Contains("Preis,")) l.RemoveAt(i);
+                        if ((l[i] == "" || l[i] == "\r" || i == l.Count() - 1 || l[i].Contains("[") && l[i].Contains("]")) && l[i-1].Contains("OptionName:")) for (i -= 5; i >= 0 && i < l.Count();) l.RemoveAt(i);
+                        trigger = 0;
+                    }
+                }
+            }
+
+            File.WriteAllLines(@"artikel_optionen_data.csv", new[] { String.Join("\n", l) });
         }
 
         private void SpeichernOptionAttribute_Click(object sender, RoutedEventArgs e)
@@ -94,7 +145,7 @@ namespace HandelTSE.ViewModels
             LoadDataToArtikelArray();
             int n = artikel.FindIndex(x => x.Contains("[" + ((items)listArtikeln.SelectedItem).artikel + "]"));
             if (!artikel[n + 2].Contains("Artikel,")) artikel.Insert(n + 2, "Artikel," + OptionAttribute.Text);
-            else for (int i = n + 3; ; i++) if (!artikel[i].Contains("Artikel,")) { artikel.Insert(i, "Artikel," + OptionAttribute.Text); break; }
+            else for (int i = n + 3; i < artikel.Count(); i++) if (!artikel[i].Contains("Artikel,")) { artikel.Insert(i, "Artikel," + OptionAttribute.Text); break; }
 
             File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
             it2 = new List<items2>();
