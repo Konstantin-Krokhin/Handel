@@ -113,6 +113,7 @@ namespace HandelTSE.ViewModels
             }
         }
 
+        // Add options to array to print on DG and choose appropriate option for selected Artikel on ComboBox
         private void LoadOptionenDataToArtikelArray()
         {
             string row_artikel = "";
@@ -147,6 +148,7 @@ namespace HandelTSE.ViewModels
             }
         }
 
+        // Load and add option names (template names) available for all articles to ComboBox
         private void LoadDataToArtikelArray()
         {
             optionen = new List<string>();

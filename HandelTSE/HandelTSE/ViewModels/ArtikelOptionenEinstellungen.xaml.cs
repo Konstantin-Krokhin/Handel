@@ -45,6 +45,7 @@ namespace HandelTSE.ViewModels
 
         private void NeuArtikelOption_Click(object sender, RoutedEventArgs e) { ArtikelOption.Text = ""; OptionText.Text = ""; }
 
+        // Deleting the whole option set with its attributes
         private void LoschenArtikelOption_Click(object sender, RoutedEventArgs e)
         {
             LoadDataToArtikelArray();
@@ -55,6 +56,8 @@ namespace HandelTSE.ViewModels
             for (int i = n; ; i++) { if (artikel[i].Contains("Artikel,")) artikel.RemoveAt(i--); else break; }
             File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
             it2 = new List<items2>();
+            Data2 = it2;
+            listArtikelnData.ItemsSource = Data2;
             LoadData();
         }
 
@@ -70,9 +73,17 @@ namespace HandelTSE.ViewModels
 
         private void NeuOptionAttribute_Click(object sender, RoutedEventArgs e) { OptionAttribute.Text = ""; }
 
+        // Deleting only one attribute inside the option set
         private void LoschenOptionAttribute_Click(object sender, RoutedEventArgs e)
         {
+            LoadDataToArtikelArray();
 
+            int n = artikel.FindIndex(x => x.Contains("Artikel," + ((items2)listArtikelnData.SelectedItem).attribute));
+            artikel.RemoveAt(n);
+            File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
+            it2 = new List<items2>();
+
+            LoadAttributen();
         }
 
         private void SpeichernOptionAttribute_Click(object sender, RoutedEventArgs e)
@@ -148,6 +159,7 @@ namespace HandelTSE.ViewModels
             listArtikelnData.ItemsSource = Data2;
         }
 
+        // Load all records from DB
         private void LoadDataToArtikelArray()
         {
             artikel = new List<string>();
