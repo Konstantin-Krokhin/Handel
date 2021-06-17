@@ -48,20 +48,35 @@ namespace HandelTSE.ViewModels
         // Deleting the whole option set with its attributes
         private void LoschenArtikelOption_Click(object sender, RoutedEventArgs e)
         {
-            LoadDataToArtikelArray();
+            string messageBoxText = "Achtung!\n\nDie Option wird aus allen Artikeln gelöscht. \nWollen Sie wirklich die Daten löschen?";
+            string caption = "Attribut löschen";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
 
-            int n = artikel.FindIndex(x => x.Contains("[" + ((items)listArtikeln.SelectedItem).artikel + "]"));
-            artikel.RemoveAt(n);
-            artikel.RemoveAt(n);
-            for (int i = n; ; i++) { if (artikel[i].Contains("Artikel,")) artikel.RemoveAt(i--); else break; }
-            File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
-            it2 = new List<items2>();
-            Data2 = it2;
-            listArtikelnData.ItemsSource = Data2;
+            // Process the user choice
+            switch (result)
+            {
+                case MessageBoxResult.OK:
 
-            DeleteOptionSetForEachArtikel();
+                    LoadDataToArtikelArray();
 
-            LoadData();
+                    int n = artikel.FindIndex(x => x.Contains("[" + ((items)listArtikeln.SelectedItem).artikel + "]"));
+                    artikel.RemoveAt(n);
+                    artikel.RemoveAt(n);
+                    for (int i = n; ; i++) { if (artikel[i].Contains("Artikel,")) artikel.RemoveAt(i--); else break; }
+                    File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
+                    it2 = new List<items2>();
+                    Data2 = it2;
+                    listArtikelnData.ItemsSource = Data2;
+
+                    DeleteOptionSetForEachArtikel();
+
+                    LoadData();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
 
         private void DeleteOptionSetForEachArtikel()
@@ -101,16 +116,31 @@ namespace HandelTSE.ViewModels
         // Deleting only one attribute inside the option set
         private void LoschenOptionAttribute_Click(object sender, RoutedEventArgs e)
         {
-            LoadDataToArtikelArray();
+            string messageBoxText = "Achtung!\n\nDas Attribut wird aus allen Artikeln gelöscht. \nWollen Sie wirklich die Daten löschen?";
+            string caption = "Attribut löschen";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
 
-            int n = artikel.FindIndex(x => x.Contains("Artikel," + ((items2)listArtikelnData.SelectedItem).attribute));
-            artikel.RemoveAt(n);
-            File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
-            it2 = new List<items2>();
+            // Process the user choice
+            switch (result)
+            {
+                case MessageBoxResult.OK:
 
-            DeleteOptionAttributeForSpecificArtikel();
+                    LoadDataToArtikelArray();
 
-            LoadAttributen();
+                    int n = artikel.FindIndex(x => x.Contains("Artikel," + ((items2)listArtikelnData.SelectedItem).attribute));
+                    artikel.RemoveAt(n);
+                    File.WriteAllLines("artikel_option_einstellungen_data.csv", new[] { String.Join("\n", artikel) });
+                    it2 = new List<items2>();
+
+                    DeleteOptionAttributeForSpecificArtikel();
+
+                    LoadAttributen();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
 
         private void DeleteOptionAttributeForSpecificArtikel()
