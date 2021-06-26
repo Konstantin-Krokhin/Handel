@@ -113,5 +113,10 @@ namespace HandelTSE
         {
             DataContext = new ArtikelOptionenEinstellungen();
         }
+
+        private void Personalverwaltung_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = new Personalverwaltung();
+        }
     }
 }
