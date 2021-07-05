@@ -34,7 +34,8 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
+            //DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
+            DataContext = new Personalverwaltung();
             //*******************************************
 
             // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)
