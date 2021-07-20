@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,31 +58,24 @@ namespace HandelTSE.ViewModels
 
         private void LoadGrid()
         {
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.CommandText = "select * from [TBL_PERSONAL]";
-            cmd.Connection = con;
+            //OleDbCommand cmd = new OleDbCommand();
+            //cmd.CommandText = ;
+            //cmd.Connection = con;
+
+            OleDbCommand cmd = new OleDbCommand("SELECT Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con); //  temp_tb ; SELECT* FROM temp_tb
+
+            //cmd.ExecuteNonQuery();
             OleDbDataReader rd = cmd.ExecuteReader();
             grid.ItemsSource = rd;
+
+
         }
 
         private void Speichern_Click(object sender, RoutedEventArgs e)
         {
             OleDbCommand cmd = new OleDbCommand();
-            cmd.CommandText = "insert into [TBL_PERSONAL](Name)Values(@nm)";
-            cmd.Parameters.AddWithValue("@nm", Name.Text);
+            cmd.CommandText = "insert into [TBL_PERSONAL](Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text +"', '"+ Login.Text + "', '"+ Passwort.Text +"','"+ Rabatt.Text + "', '"+ Storno.Text + "')";
             cmd.Connection = con;
-
-            cmd.CommandText = "insert into [TBL_PERSONAL](Login)Values(@nm)";
-            cmd.Parameters.AddWithValue("@nm", Login.Text);
-            cmd.Connection = con;
-
-            cmd.CommandText = "insert into [TBL_PERSONAL](Rabatt)Values(@nm)";
-            cmd.Parameters.AddWithValue("@nm", Rabatt.Text);
-            cmd.Connection = con;
-
-            /*cmd.CommandText = "insert into [TBL_PERSONAL](1)Values(@nm)";
-            cmd.Parameters.AddWithValue("@nm", Login.Text);
-            cmd.Connection = con;*/
 
             int result = 0;
             try
@@ -90,9 +84,10 @@ namespace HandelTSE.ViewModels
             }
             catch
             {
-                MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung mit der Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist.");
+                MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt.");
             }
-            
+
+            LoadGrid();
             if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich gespeichert!");
         }
     }

@@ -11,7 +11,8 @@
         mc:Ignorable="d"
         Icon="icon.ico"
         Title="Handel TSE ::: OFFICE" Height="550" Width="830"
-        MinHeight="550" MinWidth="840">
+        MinHeight="550" MinWidth="840" MaxHeight="450" MaxWidth="830">
+        <!-- Comment out MaxHeight/Width to resize all windows -->
 
     <Window.Resources>
         <DataTemplate x:Name="Artikelver" DataType="{x:Type viewmodels:Artikelverwaltung}">

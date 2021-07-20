@@ -29,10 +29,11 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height= "auto"/>
             <RowDefinition Height= "auto"/>
-            <RowDefinition Height= "*"/>
-            <RowDefinition Height="0"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
+        <!-- Panel with Fields, ComboBoxes and Buttons -->
         <DockPanel Grid.Row="0" Grid.RowSpan="5" Height="220" Width="810" Grid.ColumnSpan="13" Grid.Column="0" Margin="10,0,10,0" Background="LightGray">
             <Border DockPanel.Dock="Top"
                 BorderBrush="Gray"
@@ -71,7 +72,7 @@
                 <TextBox Name="Name" Grid.Row="1" Grid.Column="3" Margin="-30, 0, 0, 4"/>
                 <TextBlock Text="Login:" Grid.Row="2" Grid.Column="2"/>
                 <TextBox Name="Login" Grid.Row="2" Grid.Column="3" Margin="-30, 0, 0, 4"/>
-                <TextBox Grid.Row="3" Grid.Column="3" Margin="-30, 0, 0, 4"/>
+                <TextBox Name ="Passwort" Grid.Row="3" Grid.Column="3" Margin="-30, 0, 0, 4"/>
                 <TextBlock Text="Passwort:" Grid.Row="3" Grid.Column="2"/>
                 <CheckBox Grid.Row="5" Grid.Column="2" Margin="0, 20"/>
                     <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="2" Margin="20, 10">
@@ -102,7 +103,7 @@
 
                             <StackPanel Orientation="Vertical" Margin="5, 5">
 
-                                <ComboBox Width="50" Height="18" Margin="0,2" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Storno" Width="50" Height="18" Margin="0,2" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
@@ -267,7 +268,9 @@
             </Border>
         </DockPanel>
 
-        <DataGrid Name="grid" Grid.Row="6" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="10">
+        <DataGrid Name="grid" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Auto"    
+                              ScrollViewer.IsDeferredScrollingEnabled="True" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible">
             
         </DataGrid>
 

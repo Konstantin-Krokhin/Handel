@@ -51,7 +51,7 @@
 
         <DataGrid Name="listArtikelnData" IsReadOnly="True" Loaded="listOptionAttributenLoaded" HeadersVisibility="None" CanUserAddRows="False" Width="300" Height="335" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="0">
 
-                </DataGrid>
+        </DataGrid>
         
 
         <Button Width="70" Content="neu" Height="30" Grid.Column="10" Grid.Row="3" Margin="10, 0" Click="NeuOptionAttribute_Click"/>
