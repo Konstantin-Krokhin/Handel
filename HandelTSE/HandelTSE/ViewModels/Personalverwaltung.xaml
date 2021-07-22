@@ -28,7 +28,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height= "auto"/>
-            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "290"/>
             <RowDefinition Height= "auto"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
@@ -108,32 +108,32 @@
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Gutschein" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="SofortStorno" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Office" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Buchhaltung" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="AdminStorno" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="PreisF6" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
@@ -154,37 +154,37 @@
 
                             <StackPanel Orientation="Vertical" Margin="5, 5">
 
-                                <ComboBox Width="50" Height="18" Margin="0,2" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Warenverwaltung" Width="50" Height="18" Margin="0,2" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="GutscheinStorno" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="PlusMinusFunk" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="EinAusnahme" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="XAbschlag" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Warenbestand" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Berichte" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
@@ -205,37 +205,37 @@
 
                             <StackPanel Orientation="Vertical" Margin="5, 5">
 
-                                <ComboBox Width="50" Height="18" Margin="0,2" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Artikelrabatt" Width="50" Height="18" Margin="0,2" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="ZAbschlag" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="LetzterBon" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Einstellungen" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Kassenlade" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Inventur" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
 
-                                <ComboBox Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
+                                <ComboBox Name="Wareneingang" Width="50" Height="18" Margin="0,3" FontSize="10" SelectedIndex="0">
                                     <ComboBoxItem>nein</ComboBoxItem>
                                     <ComboBoxItem>ja</ComboBoxItem>
                                 </ComboBox>
@@ -268,7 +268,7 @@
             </Border>
         </DockPanel>
 
-        <DataGrid Name="grid" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Auto"    
+        <DataGrid Name="grid" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible"    
                               ScrollViewer.IsDeferredScrollingEnabled="True" 
                               ScrollViewer.HorizontalScrollBarVisibility="Visible">
             
