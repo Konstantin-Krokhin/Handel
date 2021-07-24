@@ -253,7 +253,7 @@
 
                                 <Button Content="speichern" Margin="0, 5" Height="30" Click="Speichern_Click" />
 
-                                <Button Content="löschen" Margin="0, 5" Height="30" />
+                                <Button Content="löschen" Margin="0, 5" Height="30" Click="Loschen_Click" />
 
                                 <Button Content="neu" Margin="0, 5" Height="30" />
 
@@ -268,7 +268,7 @@
             </Border>
         </DockPanel>
 
-        <DataGrid Name="grid" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible"    
+        <DataGrid Name="grid" Loaded="gridLoaded" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible"    
                               ScrollViewer.IsDeferredScrollingEnabled="True" 
                               ScrollViewer.HorizontalScrollBarVisibility="Visible">
             

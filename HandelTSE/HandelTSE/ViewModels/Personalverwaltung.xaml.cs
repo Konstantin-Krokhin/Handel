@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
@@ -24,6 +25,17 @@ namespace HandelTSE.ViewModels
     public partial class Personalverwaltung : UserControl
     {
         OleDbConnection con = new OleDbConnection();
+
+        List<MyData> list = new List<MyData>();
+        List<MyData> SubstituteList = new List<MyData>();
+        public List<MyData> Data { get; set; }
+        public class MyData
+        {
+            public int Identyfikator { get; set; }
+            public string Name { get; set; }
+            //not sure what finalconc type would be, so here just using string
+            public string Login { get; set; }
+        }
 
         public Personalverwaltung()
         {
@@ -58,23 +70,39 @@ namespace HandelTSE.ViewModels
 
         private void LoadGrid()
         {
-            //OleDbCommand cmd = new OleDbCommand();
-            //cmd.CommandText = ;
-            //cmd.Connection = con;
+            //OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con); //  temp_tb ; SELECT* FROM temp_tb
 
-            OleDbCommand cmd = new OleDbCommand("SELECT Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con); //  temp_tb ; SELECT* FROM temp_tb
+            ///OleDbDataReader rd = cmd.ExecuteReader();
 
-            //cmd.ExecuteNonQuery();
-            OleDbDataReader rd = cmd.ExecuteReader();
-            grid.ItemsSource = rd;
+            ///grid.ItemsSource = rd;
 
+            OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator, Name, Login FROM [TBL_PERSONAL];", con);
 
+            OleDbDataReader myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            
+            MyData data = new MyData();
+            while (myReader.Read())
+            {
+                data = new MyData();
+                data.Identyfikator = (int)myReader["Identyfikator"];
+                data.Name = (string)myReader["Name"];
+                data.Login = (string)myReader["Login"]; // or whatever the type should be
+                list.Add(data);
+                if (list.Count == 3) break;
+            }
+            Data = list;
+            grid.ItemsSource = Data;
+
+            //grid.ItemsSource = (IEnumerable<string>)data;
         }
 
-        private void Speichern_Click(object sender, RoutedEventArgs e)
+        private void Speichern_Click(object sender, RoutedEventArgs e) { SaveToDB(); }
+
+        void SaveToDB()
         {
             OleDbCommand cmd = new OleDbCommand();
-            cmd.CommandText = "insert into [TBL_PERSONAL](Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text +"','"+ Login.Text + "','"+ Passwort.Text +"','"+ Rabatt.Text + "','"+ Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "')";
+            cmd.CommandText = "insert into [TBL_PERSONAL](Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "')";
             cmd.Connection = con;
 
             int result = 0;
@@ -90,5 +118,23 @@ namespace HandelTSE.ViewModels
             LoadGrid();
             if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich gespeichert!");
         }
+
+        private void Loschen_Click(object sender, RoutedEventArgs e)
+        {
+            var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
+            var item = row.Item as MyData;
+
+            SubstituteList.AddRange(list);
+            SubstituteList.Remove(item);
+            list = new List<MyData>();
+            list.AddRange(SubstituteList);
+
+            Data = list;
+            grid.ItemsSource = Data;
+
+            grid.Columns[0].Visibility = Visibility.Collapsed;
+        }
+
+        private void gridLoaded(object sender, RoutedEventArgs e) { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; }
     }
 }
