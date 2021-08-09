@@ -268,7 +268,7 @@
             </Border>
         </DockPanel>
 
-        <DataGrid Name="grid" Loaded="gridLoaded" AutoGeneratingColumn = "CustomizeHeaders" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible"    
+        <DataGrid Name="grid" CanUserAddRows="False" Loaded="gridLoaded" SelectionMode="Single" SelectionChanged="RecordSelected" AutoGeneratingColumn = "CustomizeHeaders" Grid.Row="5" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="13" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible"    
                               ScrollViewer.IsDeferredScrollingEnabled="True" 
                               ScrollViewer.HorizontalScrollBarVisibility="Visible">
             

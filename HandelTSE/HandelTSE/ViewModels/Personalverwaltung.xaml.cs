@@ -31,12 +31,18 @@ namespace HandelTSE.ViewModels
         List<MyData> SubstituteList = new List<MyData>();
         public List<MyData> Data { get; set; }
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
+
+        OleDbCommand cmd;
+        OleDbDataReader myReader;
+        MyData data = new MyData();
+
         public class MyData
         {
             public int Identyfikator { get; set; }
             public string Name { get; set; }
             //not sure what finalconc type would be, so here just using string
             public string Login { get; set; }
+            public string Passwort { get; set; }
             public string Rabatt { get; set; }
             public string one { get; set; }
             public string two { get; set; }
@@ -89,29 +95,20 @@ namespace HandelTSE.ViewModels
                 }
 
             }
+            cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
+            myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             LoadGrid();
         }
 
         private void LoadGrid()
         {
-            //OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con); //  temp_tb ; SELECT* FROM temp_tb
-
-            ///OleDbDataReader rd = cmd.ExecuteReader();
-
-            ///grid.ItemsSource = rd;
-
-            //"SELECT Identyfikator, Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]"
-            
-            OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
-
-            OleDbDataReader myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            MyData data = new MyData();
             while (myReader.Read())
             {
                 if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)myReader["Identyfikator"]; else data.Identyfikator = 0;
                 if (myReader["Name"] != DBNull.Value) data.Name = (string)myReader["Name"]; else data.Name = "";
                 if (myReader["Login"] != DBNull.Value) data.Login = (string)myReader["Login"]; else data.Login = "";
-                if (myReader["Rabatt"] != DBNull.Value) data.Rabatt = (string)myReader["Rabatt"]; else data.Rabatt = "";
+                if (myReader["Passwort"] != DBNull.Value) data.Passwort = (string)myReader["Passwort"]; else data.Passwort = "";
+                if (myReader["Rabatt"] != DBNull.Value) data.Rabatt = (string)myReader["Rabatt"] + "%"; else data.Rabatt = "";
                 if (myReader["1"] != DBNull.Value) data.one = (string)myReader["1"] == "ja" ? " X" : " -"; else data.one = "";
                 if (myReader["2"] != DBNull.Value) data.two = (string)myReader["2"] == "ja" ? " X" : " -"; else data.two = "";
                 if (myReader["3"] != DBNull.Value) data.three = (string)myReader["3"] == "ja" ? " X" : " -"; else data.three = "";
@@ -133,7 +130,7 @@ namespace HandelTSE.ViewModels
                 if (myReader["19"] != DBNull.Value) data.nineteen = (string)myReader["19"] == "ja" ? " X" : " -"; else data.nineteen = "";
                 if (myReader["20"] != DBNull.Value) data.twenty = (string)myReader["20"] == "ja" ? " X" : " -"; else data.twenty = "";
                 if (myReader["21"] != DBNull.Value) data.twentyone = (string)myReader["21"] == "ja" ? " X" : " -"; else data.twentyone = "";
-                list.Add(new MyData { Identyfikator = data.Identyfikator, Name = data.Name, Login = data.Login, Rabatt = data.Rabatt, one = data.one, two = data.two, three = data.three, four = data.four, five = data.five, six = data.six, seven = data.seven, eight = data.eight, nine = data.nine, ten = data.ten, eleven = data.eleven, twelve = data.twelve, thirteen = data.thirteen, fourteen = data.fourteen, fifteen = data.fifteen, sixteen = data.sixteen, seventeen = data.seventeen, eighteen = data.eighteen, nineteen = data.nineteen, twenty = data.twenty, twentyone = data.twentyone});
+                list.Add(new MyData { Identyfikator = data.Identyfikator, Name = data.Name, Login = data.Login, Passwort = data.Passwort, Rabatt = data.Rabatt, one = data.one, two = data.two, three = data.three, four = data.four, five = data.five, six = data.six, seven = data.seven, eight = data.eight, nine = data.nine, ten = data.ten, eleven = data.eleven, twelve = data.twelve, thirteen = data.thirteen, fourteen = data.fourteen, fifteen = data.fifteen, sixteen = data.sixteen, seventeen = data.seventeen, eighteen = data.eighteen, nineteen = data.nineteen, twenty = data.twenty, twentyone = data.twentyone});
             }
             Data = list;
             grid.ItemsSource = Data;
@@ -186,7 +183,7 @@ namespace HandelTSE.ViewModels
             LoadGrid();
         }
 
-        private void gridLoaded(object sender, RoutedEventArgs e) { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; }
+        private void gridLoaded(object sender, RoutedEventArgs e) { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; }
 
         private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
@@ -218,5 +215,39 @@ namespace HandelTSE.ViewModels
         private void LoginTextChanged(object sender, TextChangedEventArgs e) { if (Login.Background == brush_red) Login.Background = Brushes.Transparent; }
 
         private void PasswordTextChanged(object sender, TextChangedEventArgs e) { if (Passwort.Background == brush_red) Passwort.Background = Brushes.Transparent; }
+
+        private void RecordSelected(object sender, SelectionChangedEventArgs e)
+        {
+            var dg = sender as System.Windows.Controls.DataGrid;
+            if (dg == null) return;
+            var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(dg.SelectedIndex);
+            if (row == null) return;
+
+            Name.Text = ((MyData)row.Item).Name;
+            Login.Text = ((MyData)row.Item).Login;
+            Passwort.Text = ((MyData)row.Item).Passwort;
+            Rabatt.Text = ((MyData)row.Item).Rabatt.Substring(0, ((MyData)row.Item).Rabatt.IndexOf("%"));
+            Storno.SelectedIndex = ((MyData)row.Item).one == " X" ?  1 : 0;
+            Warenverwaltung.SelectedIndex = ((MyData)row.Item).two == " X" ? 1 : 0;
+            Artikelrabatt.SelectedIndex = ((MyData)row.Item).three == " X" ? 1 : 0;
+            Gutschein.SelectedIndex = ((MyData)row.Item).four == " X" ? 1 : 0;
+            GutscheinStorno.SelectedIndex = ((MyData)row.Item).five == " X" ? 1 : 0;
+            ZAbschlag.SelectedIndex = ((MyData)row.Item).six == " X" ? 1 : 0;
+            SofortStorno.SelectedIndex = ((MyData)row.Item).seven == " X" ? 1 : 0;
+            PlusMinusFunk.SelectedIndex = ((MyData)row.Item).eight == " X" ? 1 : 0;
+            LetzterBon.SelectedIndex = ((MyData)row.Item).nine == " X" ? 1 : 0;
+            Office.SelectedIndex = ((MyData)row.Item).ten == " X" ? 1 : 0;
+            EinAusnahme.SelectedIndex = ((MyData)row.Item).eleven == " X" ? 1 : 0;
+            Einstellungen.SelectedIndex = ((MyData)row.Item).twelve == " X" ? 1 : 0;
+            Buchhaltung.SelectedIndex = ((MyData)row.Item).thirteen == " X" ? 1 : 0;
+            XAbschlag.SelectedIndex = ((MyData)row.Item).fourteen == " X" ? 1 : 0;
+            Kassenlade.SelectedIndex = ((MyData)row.Item).fifteen == " X" ? 1 : 0;
+            AdminStorno.SelectedIndex = ((MyData)row.Item).sixteen == " X" ? 1 : 0;
+            Warenbestand.SelectedIndex = ((MyData)row.Item).seventeen == " X" ? 1 : 0;
+            Inventur.SelectedIndex = ((MyData)row.Item).eighteen == " X" ? 1 : 0;
+            PreisF6.SelectedIndex = ((MyData)row.Item).nineteen == " X" ? 1 : 0;
+            Berichte.SelectedIndex = ((MyData)row.Item).twenty == " X" ? 1 : 0;
+            Wareneingang.SelectedIndex = ((MyData)row.Item).twentyone == " X" ? 1 : 0;
+        }
     }
 }
