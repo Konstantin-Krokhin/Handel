@@ -184,15 +184,9 @@ namespace HandelTSE.ViewModels
         }
 
 
-        private void listArtikelnOptionenLoaded(object sender, RoutedEventArgs e)
-        {
+        private void listArtikelnOptionenLoaded(object sender, RoutedEventArgs e) { }
 
-        }
-
-        private void listOptionAttributenLoaded(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void listOptionAttributenLoaded(object sender, RoutedEventArgs e) { }
 
         private void LoadData()
         {

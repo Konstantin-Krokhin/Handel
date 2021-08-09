@@ -26,15 +26,39 @@ namespace HandelTSE.ViewModels
     {
         OleDbConnection con = new OleDbConnection();
 
+        public BrushConverter bc = new BrushConverter();
         List<MyData> list = new List<MyData>();
         List<MyData> SubstituteList = new List<MyData>();
         public List<MyData> Data { get; set; }
+        Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
         public class MyData
         {
             public int Identyfikator { get; set; }
             public string Name { get; set; }
             //not sure what finalconc type would be, so here just using string
             public string Login { get; set; }
+            public string Rabatt { get; set; }
+            public string one { get; set; }
+            public string two { get; set; }
+            public string three { get; set; }
+            public string four { get; set; }
+            public string five { get; set; }
+            public string six { get; set; }
+            public string seven { get; set; }
+            public string eight { get; set; }
+            public string nine { get; set; }
+            public string ten { get; set; }
+            public string eleven { get; set; }
+            public string twelve { get; set; }
+            public string thirteen { get; set; }
+            public string fourteen { get; set; }
+            public string fifteen { get; set; }
+            public string sixteen { get; set; }
+            public string seventeen { get; set; }
+            public string eighteen{ get; set; }
+            public string nineteen { get; set; }
+            public string twenty { get; set; }
+            public string twentyone { get; set; }
         }
 
         public Personalverwaltung()
@@ -50,7 +74,6 @@ namespace HandelTSE.ViewModels
             try
             {
                 con.Open();
-                LoadGrid();
             }
             catch
             {
@@ -66,6 +89,7 @@ namespace HandelTSE.ViewModels
                 }
 
             }
+            LoadGrid();
         }
 
         private void LoadGrid()
@@ -76,28 +100,54 @@ namespace HandelTSE.ViewModels
 
             ///grid.ItemsSource = rd;
 
-            OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator, Name, Login FROM [TBL_PERSONAL];", con);
+            //"SELECT Identyfikator, Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]"
+            
+            OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
 
             OleDbDataReader myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            
             MyData data = new MyData();
             while (myReader.Read())
             {
-                data = new MyData();
-                data.Identyfikator = (int)myReader["Identyfikator"];
-                data.Name = (string)myReader["Name"];
-                data.Login = (string)myReader["Login"]; // or whatever the type should be
-                list.Add(data);
-                if (list.Count == 3) break;
+                if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)myReader["Identyfikator"]; else data.Identyfikator = 0;
+                if (myReader["Name"] != DBNull.Value) data.Name = (string)myReader["Name"]; else data.Name = "";
+                if (myReader["Login"] != DBNull.Value) data.Login = (string)myReader["Login"]; else data.Login = "";
+                if (myReader["Rabatt"] != DBNull.Value) data.Rabatt = (string)myReader["Rabatt"]; else data.Rabatt = "";
+                if (myReader["1"] != DBNull.Value) data.one = (string)myReader["1"] == "ja" ? " X" : " -"; else data.one = "";
+                if (myReader["2"] != DBNull.Value) data.two = (string)myReader["2"] == "ja" ? " X" : " -"; else data.two = "";
+                if (myReader["3"] != DBNull.Value) data.three = (string)myReader["3"] == "ja" ? " X" : " -"; else data.three = "";
+                if (myReader["4"] != DBNull.Value) data.four = (string)myReader["4"] == "ja" ? " X" : " -"; else data.four = "";
+                if (myReader["5"] != DBNull.Value) data.five = (string)myReader["5"] == "ja" ? " X" : " -"; else data.five = "";
+                if (myReader["6"] != DBNull.Value) data.six = (string)myReader["6"] == "ja" ? " X" : " -"; else data.six = "";
+                if (myReader["7"] != DBNull.Value) data.seven = (string)myReader["7"] == "ja" ? " X" : " -"; else data.seven = "";
+                if (myReader["8"] != DBNull.Value) data.eight = (string)myReader["8"] == "ja" ? " X" : " -"; else data.eight = "";
+                if (myReader["9"] != DBNull.Value) data.nine = (string)myReader["9"] == "ja" ? " X" : " -"; else data.nine = "";
+                if (myReader["10"] != DBNull.Value) data.ten = (string)myReader["10"] == "ja" ? " X" : " -"; else data.ten = "";
+                if (myReader["11"] != DBNull.Value) data.eleven = (string)myReader["11"] == "ja" ? " X" : " -"; else data.eleven = "";
+                if (myReader["12"] != DBNull.Value) data.twelve = (string)myReader["12"] == "ja" ? " X" : " -"; else data.twelve = "";
+                if (myReader["13"] != DBNull.Value) data.thirteen = (string)myReader["13"] == "ja" ? " X" : " -"; else data.thirteen = "";
+                if (myReader["14"] != DBNull.Value) data.fourteen = (string)myReader["14"] == "ja" ? " X" : " -"; else data.fourteen = "";
+                if (myReader["15"] != DBNull.Value) data.fifteen = (string)myReader["15"] == "ja" ? " X" : " -"; else data.fifteen = "";
+                if (myReader["16"] != DBNull.Value) data.sixteen = (string)myReader["16"] == "ja" ? " X" : " -"; else data.sixteen = "";
+                if (myReader["17"] != DBNull.Value) data.seventeen = (string)myReader["17"] == "ja" ? " X" : " -"; else data.seventeen = "";
+                if (myReader["18"] != DBNull.Value) data.eighteen = (string)myReader["18"] == "ja" ? " X" : " -"; else data.eighteen = "";
+                if (myReader["19"] != DBNull.Value) data.nineteen = (string)myReader["19"] == "ja" ? " X" : " -"; else data.nineteen = "";
+                if (myReader["20"] != DBNull.Value) data.twenty = (string)myReader["20"] == "ja" ? " X" : " -"; else data.twenty = "";
+                if (myReader["21"] != DBNull.Value) data.twentyone = (string)myReader["21"] == "ja" ? " X" : " -"; else data.twentyone = "";
+                list.Add(new MyData { Identyfikator = data.Identyfikator, Name = data.Name, Login = data.Login, Rabatt = data.Rabatt, one = data.one, two = data.two, three = data.three, four = data.four, five = data.five, six = data.six, seven = data.seven, eight = data.eight, nine = data.nine, ten = data.ten, eleven = data.eleven, twelve = data.twelve, thirteen = data.thirteen, fourteen = data.fourteen, fifteen = data.fifteen, sixteen = data.sixteen, seventeen = data.seventeen, eighteen = data.eighteen, nineteen = data.nineteen, twenty = data.twenty, twentyone = data.twentyone});
             }
             Data = list;
             grid.ItemsSource = Data;
-
-            //grid.ItemsSource = (IEnumerable<string>)data;
+            list = new List<MyData>();
         }
 
-        private void Speichern_Click(object sender, RoutedEventArgs e) { SaveToDB(); }
+        private void Speichern_Click(object sender, RoutedEventArgs e)
+        {
+            int k = 0;
+            if (Name.Text == "") { Name.Background = brush_red; k = 1; }
+            if (Login.Text == "") { Login.Background = brush_red; k = 1; }
+            if (Passwort.Text == "") { Passwort.Background = brush_red; k = 1; }
+            if (k == 0) SaveToDB();
+        }
 
         void SaveToDB()
         {
@@ -133,8 +183,40 @@ namespace HandelTSE.ViewModels
             grid.ItemsSource = Data;
 
             grid.Columns[0].Visibility = Visibility.Collapsed;
+            LoadGrid();
         }
 
         private void gridLoaded(object sender, RoutedEventArgs e) { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; }
+
+        private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "one") e.Column.Header = "1.";
+            if (e.Column.Header.ToString() == "two") e.Column.Header = "2.";
+            if (e.Column.Header.ToString() == "three") e.Column.Header = "3.";
+            if (e.Column.Header.ToString() == "four") e.Column.Header = "4.";
+            if (e.Column.Header.ToString() == "five") e.Column.Header = "5.";
+            if (e.Column.Header.ToString() == "six") e.Column.Header = "6.";
+            if (e.Column.Header.ToString() == "seven") e.Column.Header = "7.";
+            if (e.Column.Header.ToString() == "eight") e.Column.Header = "8.";
+            if (e.Column.Header.ToString() == "nine") e.Column.Header = "9.";
+            if (e.Column.Header.ToString() == "ten") e.Column.Header = "10.";
+            if (e.Column.Header.ToString() == "eleven") e.Column.Header = "11.";
+            if (e.Column.Header.ToString() == "twelve") e.Column.Header = "12.";
+            if (e.Column.Header.ToString() == "thirteen") e.Column.Header = "13.";
+            if (e.Column.Header.ToString() == "fourteen") e.Column.Header = "14.";
+            if (e.Column.Header.ToString() == "fifteen") e.Column.Header = "15.";
+            if (e.Column.Header.ToString() == "sixteen") e.Column.Header = "16.";
+            if (e.Column.Header.ToString() == "seventeen") e.Column.Header = "17.";
+            if (e.Column.Header.ToString() == "eighteen") e.Column.Header = "18.";
+            if (e.Column.Header.ToString() == "nineteen") e.Column.Header = "19.";
+            if (e.Column.Header.ToString() == "twenty") e.Column.Header = "20.";
+            if (e.Column.Header.ToString() == "twentyone") e.Column.Header = "21.";
+        }
+
+        private void NameTextChanged(object sender, TextChangedEventArgs e) { if (Name.Background == brush_red) Name.Background = Brushes.Transparent; }
+
+        private void LoginTextChanged(object sender, TextChangedEventArgs e) { if (Login.Background == brush_red) Login.Background = Brushes.Transparent; }
+
+        private void PasswordTextChanged(object sender, TextChangedEventArgs e) { if (Passwort.Background == brush_red) Passwort.Background = Brushes.Transparent; }
     }
 }
