@@ -74,7 +74,7 @@
                 <TextBox Name="Login" TextChanged="LoginTextChanged" Grid.Row="2" Grid.Column="3" Margin="-30, 0, 0, 4"/>
                 <TextBox Name ="Passwort" TextChanged="PasswordTextChanged" Grid.Row="3" Grid.Column="3" Margin="-30, 0, 0, 4"/>
                 <TextBlock Text="Passwort:" Grid.Row="3" Grid.Column="2"/>
-                <CheckBox Grid.Row="5" Grid.Column="2" Margin="0, 20"/>
+                <CheckBox Name="OfficeStartenCheck" Grid.Row="5" Grid.Column="2" Margin="0, 20"/>
                     <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="2" Margin="20, 10">
                         Nach Anmeldung
                         <LineBreak />
@@ -255,7 +255,7 @@
 
                                 <Button Content="löschen" Margin="0, 5" Height="30" Click="Loschen_Click" />
 
-                                <Button Content="neu" Margin="0, 5" Height="30" />
+                                <Button Content="neu" Margin="0, 5" Height="30" Click="New_Click" />
 
                             </StackPanel>
 

@@ -33,7 +33,6 @@ namespace HandelTSE.ViewModels
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
 
         OleDbCommand cmd;
-        OleDbDataReader myReader;
         MyData data = new MyData();
 
         public class MyData
@@ -96,12 +95,14 @@ namespace HandelTSE.ViewModels
 
             }
             cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
-            myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            
             LoadGrid();
         }
 
         private void LoadGrid()
         {
+            OleDbDataReader myReader;
+            myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             while (myReader.Read())
             {
                 if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)myReader["Identyfikator"]; else data.Identyfikator = 0;
@@ -143,7 +144,63 @@ namespace HandelTSE.ViewModels
             if (Name.Text == "") { Name.Background = brush_red; k = 1; }
             if (Login.Text == "") { Login.Background = brush_red; k = 1; }
             if (Passwort.Text == "") { Passwort.Background = brush_red; k = 1; }
-            if (k == 0) SaveToDB();
+
+            if (k == 1) return;
+
+            if (grid.SelectedItem == null) SaveToDB();
+            else UpdateDB();
+            //var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
+            //var item = row.Item as MyData;
+        }
+
+        void UpdateDB()
+        {
+            var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
+            var item = row.Item as MyData;
+
+            OleDbCommand cmd = new OleDbCommand("UPDATE [TBL_PERSONAL] SET Name = @Name, Login = @Login, Passwort = @Passwort, Rabatt = @Rabatt, 1 = @1, 2 = @2, 3 = @3, 4 = @4, 5 = @5, 6 = @6, 7 = @7, 8 = @8, 9 = @9, 10 = @10, 11 = @11, 12 = @12, 13 = @13, 14 = @14, 15 = @15, 16 = @16, 17 = @17, 18 = @18, 19 = @19, 20 = @20, 21 = @21 WHERE Identyfikator = @ID", con);
+
+            cmd.Parameters.Add(new OleDbParameter("@Name", Name.Text));
+            cmd.Parameters.Add(new OleDbParameter("@Login", Login.Text));
+            cmd.Parameters.Add(new OleDbParameter("@Passwort", Passwort.Text));
+            cmd.Parameters.Add(new OleDbParameter("@Rabatt", Rabatt.Text));
+            cmd.Parameters.Add(new OleDbParameter("@1", Storno.Text));
+            cmd.Parameters.Add(new OleDbParameter("@2", Warenverwaltung.Text));
+            cmd.Parameters.Add(new OleDbParameter("@3", Artikelrabatt.Text));
+            cmd.Parameters.Add(new OleDbParameter("@4", Gutschein.Text));
+            cmd.Parameters.Add(new OleDbParameter("@5", GutscheinStorno.Text));
+            cmd.Parameters.Add(new OleDbParameter("@6", ZAbschlag.Text));
+            cmd.Parameters.Add(new OleDbParameter("@7", SofortStorno.Text));
+            cmd.Parameters.Add(new OleDbParameter("@8", PlusMinusFunk.Text));
+            cmd.Parameters.Add(new OleDbParameter("@9", LetzterBon.Text));
+            cmd.Parameters.Add(new OleDbParameter("@10", Office.Text));
+            cmd.Parameters.Add(new OleDbParameter("@11", EinAusnahme.Text));
+            cmd.Parameters.Add(new OleDbParameter("@12", Einstellungen.Text));
+            cmd.Parameters.Add(new OleDbParameter("@13", Buchhaltung.Text));
+            cmd.Parameters.Add(new OleDbParameter("@14", XAbschlag.Text));
+            cmd.Parameters.Add(new OleDbParameter("@15", Kassenlade.Text));
+            cmd.Parameters.Add(new OleDbParameter("@16", AdminStorno.Text));
+            cmd.Parameters.Add(new OleDbParameter("@17", Warenbestand.Text));
+            cmd.Parameters.Add(new OleDbParameter("@18", Inventur.Text));
+            cmd.Parameters.Add(new OleDbParameter("@19", PreisF6.Text));
+            cmd.Parameters.Add(new OleDbParameter("@20", Berichte.Text));
+            cmd.Parameters.Add(new OleDbParameter("@21", Wareneingang.Text));
+            cmd.Parameters.Add(new OleDbParameter("@ID", item.Identyfikator));
+
+            //"UPDATE [TBL_PERSONAL] SET (Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "') WHERE Identyfikator = " + item.Identyfikator
+            int result = 0;
+            try
+            {
+                result = cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt.");
+            }
+
+            LoadGrid();
+            con.Close();
+            if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich UPDATED!");
         }
 
         void SaveToDB()
@@ -168,6 +225,7 @@ namespace HandelTSE.ViewModels
 
         private void Loschen_Click(object sender, RoutedEventArgs e)
         {
+            if (grid.SelectedItem == null) { MessageBox.Show("Bitte wählen Sie den Datensatz in der Tabelle aus!"); return; }
             var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
             var item = row.Item as MyData;
 
@@ -210,14 +268,15 @@ namespace HandelTSE.ViewModels
             if (e.Column.Header.ToString() == "twentyone") e.Column.Header = "21.";
         }
 
-        private void NameTextChanged(object sender, TextChangedEventArgs e) { if (Name.Background == brush_red) Name.Background = Brushes.Transparent; }
+        private void NameTextChanged(object sender, TextChangedEventArgs e) { if (Name.Background == brush_red) Name.Background = Brushes.White; }
 
-        private void LoginTextChanged(object sender, TextChangedEventArgs e) { if (Login.Background == brush_red) Login.Background = Brushes.Transparent; }
+        private void LoginTextChanged(object sender, TextChangedEventArgs e) { if (Login.Background == brush_red) Login.Background = Brushes.White; }
 
-        private void PasswordTextChanged(object sender, TextChangedEventArgs e) { if (Passwort.Background == brush_red) Passwort.Background = Brushes.Transparent; }
+        private void PasswordTextChanged(object sender, TextChangedEventArgs e) { if (Passwort.Background == brush_red) Passwort.Background = Brushes.White; }
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e)
         {
+            if (grid.SelectedItem == null) return;
             var dg = sender as System.Windows.Controls.DataGrid;
             if (dg == null) return;
             var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(dg.SelectedIndex);
@@ -226,7 +285,7 @@ namespace HandelTSE.ViewModels
             Name.Text = ((MyData)row.Item).Name;
             Login.Text = ((MyData)row.Item).Login;
             Passwort.Text = ((MyData)row.Item).Passwort;
-            Rabatt.Text = ((MyData)row.Item).Rabatt.Substring(0, ((MyData)row.Item).Rabatt.IndexOf("%"));
+            Rabatt.Text = ((MyData)row.Item).Rabatt != "" ? ((MyData)row.Item).Rabatt.Substring(0, ((MyData)row.Item).Rabatt.IndexOf("%")) : "";
             Storno.SelectedIndex = ((MyData)row.Item).one == " X" ?  1 : 0;
             Warenverwaltung.SelectedIndex = ((MyData)row.Item).two == " X" ? 1 : 0;
             Artikelrabatt.SelectedIndex = ((MyData)row.Item).three == " X" ? 1 : 0;
@@ -248,6 +307,23 @@ namespace HandelTSE.ViewModels
             PreisF6.SelectedIndex = ((MyData)row.Item).nineteen == " X" ? 1 : 0;
             Berichte.SelectedIndex = ((MyData)row.Item).twenty == " X" ? 1 : 0;
             Wareneingang.SelectedIndex = ((MyData)row.Item).twentyone == " X" ? 1 : 0;
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+            Login.Text = "";
+            Name.Text = "";
+            Passwort.Text = "";
+            Rabatt.Text = "0";
+            if (Name.Background == brush_red) Name.Background = Brushes.White;
+            if (Login.Background == brush_red) Login.Background = Brushes.White;
+            if (Passwort.Background == brush_red) Passwort.Background = Brushes.White;
+            OfficeStartenCheck.IsChecked = false;
+            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
+            {
+                cb.SelectedIndex = 0;
+            }
+            grid.SelectedItem = null;
         }
     }
 }
