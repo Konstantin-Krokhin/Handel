@@ -149,8 +149,6 @@ namespace HandelTSE.ViewModels
 
             if (grid.SelectedItem == null) SaveToDB();
             else UpdateDB();
-            //var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
-            //var item = row.Item as MyData;
         }
 
         void UpdateDB()
@@ -189,18 +187,14 @@ namespace HandelTSE.ViewModels
 
             //"UPDATE [TBL_PERSONAL] SET (Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "') WHERE Identyfikator = " + item.Identyfikator
             int result = 0;
-            try
-            {
-                result = cmd.ExecuteNonQuery();
-            }
+            try { result = cmd.ExecuteNonQuery(); }
             catch
-            {
-                MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt.");
-            }
+            { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
             LoadGrid();
-            con.Close();
-            if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich UPDATED!");
+            HideColumns();
+            
+            if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich aktualisiert!");
         }
 
         void SaveToDB()
@@ -229,17 +223,22 @@ namespace HandelTSE.ViewModels
             var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
             var item = row.Item as MyData;
 
-            SubstituteList.AddRange(list);
-            SubstituteList.Remove(item);
-            list = new List<MyData>();
-            list.AddRange(SubstituteList);
+            OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PERSONAL] where Identyfikator = @ID", con);
 
-            Data = list;
-            grid.ItemsSource = Data;
+            cmd.Parameters.Add(new OleDbParameter("@ID", item.Identyfikator));
 
-            grid.Columns[0].Visibility = Visibility.Collapsed;
+            int result = 0;
+            try { result = cmd.ExecuteNonQuery(); }
+            catch
+            { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+
+
             LoadGrid();
+            HideColumns();
+            if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich erloscht!");
         }
+
+        private void HideColumns() { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; }
 
         private void gridLoaded(object sender, RoutedEventArgs e) { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; }
 
