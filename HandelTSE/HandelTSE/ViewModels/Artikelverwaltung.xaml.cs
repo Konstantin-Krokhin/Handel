@@ -18,6 +18,7 @@ namespace HandelTSE.ViewModels
     static class Globals
     {
         public static int high = 0;
+        public static int opened = 0;
     }
     public partial class Artikelverwaltung
     {

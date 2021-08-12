@@ -212,3 +212,5 @@ C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\ArtikelOptionenEinstellungen.baml
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Personalverwaltung.g.cs
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Personalverwaltung.baml
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\LoginScreen.g.cs
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\LoginScreen.baml
