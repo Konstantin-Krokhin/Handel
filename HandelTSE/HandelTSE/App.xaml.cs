@@ -13,5 +13,6 @@ namespace HandelTSE
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

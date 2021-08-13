@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -20,6 +21,7 @@ namespace HandelTSE
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
     public partial class MainWindow : Window
     {
         List<items> it = new List<items>();
@@ -123,5 +125,7 @@ namespace HandelTSE
         {
             DataContext = new Personalverwaltung();
         }
+
+        private void Close_Clicked(object sender, EventArgs e) { HandelTSE.ViewModels.Personalverwaltung.con.Close(); }
     }
 }

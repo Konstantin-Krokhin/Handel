@@ -24,8 +24,7 @@ namespace HandelTSE.ViewModels
     /// </summary>
     public partial class Personalverwaltung : UserControl
     {
-        OleDbConnection con = new OleDbConnection();
-
+        public static OleDbConnection con = new OleDbConnection();
         public BrushConverter bc = new BrushConverter();
         List<MyData> list = new List<MyData>();
         List<MyData> SubstituteList = new List<MyData>();

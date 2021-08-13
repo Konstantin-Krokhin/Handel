@@ -62,7 +62,7 @@ namespace HandelTSE.ViewModels
             OleDbDataReader d = cmd.ExecuteReader();
             
             if (d.Read()) { Globals.opened++; }
-            
+
             if (Globals.opened > 0)
             {
                 MainWindow m = new MainWindow();
@@ -70,7 +70,11 @@ namespace HandelTSE.ViewModels
                 m.Show();
                 Close();
             }
-            else MessageBox.Show("Felsche Passwort!");
+            else FelschePass.Visibility = Visibility.Visible;
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e) { Close(); }
+
+        public void Close_Clicked(object sender, EventArgs e) { con.Close(); }
     }
 }
