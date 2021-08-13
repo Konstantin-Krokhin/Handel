@@ -144,6 +144,13 @@ namespace HandelTSE.ViewModels
             if (Login.Text == "") { Login.Background = brush_red; k = 1; }
             if (Passwort.Text == "") { Passwort.Background = brush_red; k = 1; }
 
+            // Checking on whether the password exists in DB
+            OleDbCommand cmd = new OleDbCommand("SELECT COUNT(1) FROM TBL_PERSONAL WHERE Passwort = @Passwort", con);
+            cmd.Parameters.Add(new OleDbParameter("@Passwort", Passwort.Text));
+            int result = Convert.ToInt32(cmd.ExecuteScalar());
+            if (result > 0) { PasswordWarning.Visibility = Visibility.Visible; k = 1; }
+            else { PasswordWarning.Visibility = Visibility.Hidden; }
+
             if (k == 1) return;
 
             if (grid.SelectedItem == null) SaveToDB();
@@ -213,6 +220,7 @@ namespace HandelTSE.ViewModels
             }
 
             LoadGrid();
+            HideColumns();
             if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich gespeichert!");
         }
 
@@ -239,7 +247,7 @@ namespace HandelTSE.ViewModels
 
         private void HideColumns() { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; }
 
-        private void gridLoaded(object sender, RoutedEventArgs e) { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; }
+        private void gridLoaded(object sender, RoutedEventArgs e) { HideColumns(); }
 
         private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {

@@ -68,8 +68,8 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Anmeldedaten" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1" Margin="30, 5, 30, 0"/>
-                <TextBlock Text="Name:" Grid.Row="1" Grid.Column="1"/>
-                <TextBox Name="Name" TextChanged="NameTextChanged" MaxLength="32" Width="80" Grid.Row="1" Grid.Column="2" Margin="0, 0, 0, 4"/>
+                <TextBlock Text="Name:" Grid.Row="1" Grid.Column="1" Margin="0, 5, 0, 0"/>
+                <TextBox Name="Name" TextChanged="NameTextChanged" MaxLength="32" Width="80" Grid.Row="1" Grid.Column="2" Margin="0, 5, 0, 4"/>
                 <TextBlock Text="Login:" Grid.Row="2" Grid.Column="1"/>
                     <TextBox Name="Login" TextChanged="LoginTextChanged" Width="80" Grid.Row="2" Grid.Column="2" Margin="0, 0, 0, 4"/>
                     <TextBox Name ="Passwort" TextChanged="PasswordTextChanged" Width="80" Grid.Row="3" Grid.Column="2" Margin="0, 0, 0, 4"/>
@@ -81,8 +81,9 @@
                         Office starten
                     </TextBlock>
 
-                    
-                    <GroupBox Width="630" Height="200" Grid.Row="0" Grid.Column="4" Grid.RowSpan="10" Grid.ColumnSpan="10" Margin="10, 2, 0, 2">
+                    <TextBlock Name="PasswordWarning" Text="Bitte wählen Sie ein&#x0a;eindeutiges Passwort" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Heavy"  Margin="5, 65, 0, 0" Visibility="Hidden" />
+
+                    <GroupBox Width="630" Height="200" Grid.Row="0" Grid.Column="4" Grid.RowSpan="10" Grid.ColumnSpan="10" Margin="10, 10, 0, 2">
                         <GroupBox.Header>
                             Berechtigungen
                         </GroupBox.Header>

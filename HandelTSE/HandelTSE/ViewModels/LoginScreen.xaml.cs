@@ -56,8 +56,8 @@ namespace HandelTSE.ViewModels
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM TBL_PERSONAL WHERE Name = @Name", con);
-            cmd.Parameters.Add(new OleDbParameter("@Name", LoginField.Text));
+            OleDbCommand cmd = new OleDbCommand("SELECT * FROM TBL_PERSONAL WHERE Passwort = @Passwort", con);
+            cmd.Parameters.Add(new OleDbParameter("@Passwort", LoginField.Text));
 
             OleDbDataReader d = cmd.ExecuteReader();
             
