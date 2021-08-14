@@ -9,7 +9,9 @@ dist/
 
 .vs
 
-Debug/
+Debug/.dll
+
+**/HandelTSE/obj/Debug/
 
 # Compiled Java class files
 *.class

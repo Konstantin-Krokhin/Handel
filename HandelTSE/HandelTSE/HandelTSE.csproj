@@ -280,5 +280,10 @@
   <ItemGroup>
     <Resource Include="img\grayMagnifier.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\db_handel.accdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
