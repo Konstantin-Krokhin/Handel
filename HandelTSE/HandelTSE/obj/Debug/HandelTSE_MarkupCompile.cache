@@ -11,7 +11,7 @@ false
 DEBUG;TRACE
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\App.xaml
 141704696929
-
+1-1490492923
 25-1513724455
 25371500199
 MainWindow.xaml;ViewModels\ArtikelOptionen.xaml;ViewModels\ArtikelOptionenEinstellungen.xaml;ViewModels\Artikelverwaltung.xaml;ViewModels\EanEinstellungen.xaml;ViewModels\Kasse.xaml;ViewModels\LoginScreen.xaml;ViewModels\Personalverwaltung.xaml;ViewModels\SetArtikel.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;

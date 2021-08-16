@@ -19,6 +19,8 @@ namespace HandelTSE.ViewModels
     {
         public static int high = 0;
         public static int opened = 0;
+        public static int Training_mode = 0;
+        public static int Admin_mode = 0;
     }
     public partial class Artikelverwaltung
     {
@@ -759,7 +761,7 @@ namespace HandelTSE.ViewModels
             if (!File.Exists(@"data_colors.csv")) File.Create(@"data_colors.csv").Close();
             cp.Visibility = Visibility.Collapsed;
         }
-
+        
         // Looks for children of the element (Control)
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
         {

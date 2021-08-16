@@ -22,7 +22,7 @@ namespace HandelTSE.ViewModels
     /// <summary>
     /// Interaction logic for Personalverwaltung.xaml
     /// </summary>
-    public partial class Personalverwaltung : UserControl
+    public partial class Personalverwaltung
     {
         public static OleDbConnection con = new OleDbConnection();
         public BrushConverter bc = new BrushConverter();
@@ -100,8 +100,7 @@ namespace HandelTSE.ViewModels
 
         private void LoadGrid()
         {
-            OleDbDataReader myReader;
-            myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            OleDbDataReader myReader = cmd.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)myReader["Identyfikator"]; else data.Identyfikator = 0;
@@ -135,6 +134,8 @@ namespace HandelTSE.ViewModels
             Data = list;
             grid.ItemsSource = Data;
             list = new List<MyData>();
+            if (Globals.Training_mode == 1) LimitForTrainingMode();
+            if (Globals.Admin_mode == 1) LimitForAdminMode();
         }
 
         private void Speichern_Click(object sender, RoutedEventArgs e)
@@ -330,6 +331,23 @@ namespace HandelTSE.ViewModels
                 cb.SelectedIndex = 0;
             }
             grid.SelectedItem = null;
+        }
+
+        // Disabling all controls in case user ID = 1 (Training mode)
+        private void LimitForTrainingMode()
+        {
+            foreach (TextBox cb in Artikelverwaltung.FindVisualChildren<TextBox>(MainPanel)) { cb.IsEnabled = false; }
+            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(BerechtigungenPanel)) { cb.IsEnabled = false; }
+            foreach (Button cb in Artikelverwaltung.FindVisualChildren<Button>(BerechtigungenPanel)) { cb.IsEnabled = false; }
+            foreach (CheckBox cb in Artikelverwaltung.FindVisualChildren<CheckBox>(MainPanel)) { cb.IsEnabled = false; }
+            Rabatt.IsEnabled = false;
+        }
+
+        // Disabling some controls in case user ID = 2 (Admin mode)
+        private void LimitForAdminMode()
+        {
+            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(BerechtigungenPanel)) { cb.IsEnabled = false; }
+            DeleteButton.IsEnabled = false;
         }
     }
 }
