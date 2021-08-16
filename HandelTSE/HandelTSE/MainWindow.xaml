@@ -107,7 +107,7 @@
                     <MenuItem Header="TSE-Export" IsEnabled="False"/>
                 </MenuItem>
                 <MenuItem Header="_Einstellungen">
-                    <MenuItem Header="Programm - Einstellungen" />
+                    <MenuItem Header="Programm - Einstellungen" Click="MenuItem_Click" />
                     <MenuItem Header="Funktionseinstellungen" />
                     <MenuItem Header="Personalverwaltung" Click="Personalverwaltung_Click" />
                     <MenuItem Header="Artikel-Optionen" Name="ArtikelOptionen" Click="ArtikelOptionen_Click" />

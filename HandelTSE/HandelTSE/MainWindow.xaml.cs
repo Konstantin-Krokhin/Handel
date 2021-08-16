@@ -71,30 +71,15 @@ namespace HandelTSE
             public string geld { get; set; }
         }
 
-        private void StatTable_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new StatTableModel();
-        }
+        private void StatTable_Clicked(object sender, RoutedEventArgs e) { DataContext = new StatTableModel(); }
 
-        private void StatGraph_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new StatisticsGraphViewModel();
-        }
+        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { DataContext = new StatisticsGraphViewModel(); }
 
-        private void TransParking_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new TransactionParkingViewModel();
-        }
+        private void TransParking_Clicked(object sender, RoutedEventArgs e) { DataContext = new TransactionParkingViewModel(); }
 
-        private void MwStTool_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new MwStTool();
-        }
+        private void MwStTool_Clicked(object sender, RoutedEventArgs e) { DataContext = new MwStTool(); }
 
-        private void MainWindow_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new Main();
-        }
+        private void MainWindow_Clicked(object sender, RoutedEventArgs e) { DataContext = new Main(); }
 
         private void Artikelverwaltung_Click(object sender, RoutedEventArgs e)
         {
@@ -111,21 +96,14 @@ namespace HandelTSE
             kasse.Show();
         }
 
-        private void EanEinstellungen_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = new EanEinstellungen();
-        }
+        private void EanEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new EanEinstellungen(); }
 
-        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = new ArtikelOptionenEinstellungen();
-        }
+        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e) { DataContext = new ArtikelOptionenEinstellungen(); }
 
-        private void Personalverwaltung_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = new Personalverwaltung();
-        }
+        private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { DataContext = new Personalverwaltung(); }
 
         private void Close_Clicked(object sender, EventArgs e) { HandelTSE.ViewModels.Personalverwaltung.con.Close(); }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
     }
 }

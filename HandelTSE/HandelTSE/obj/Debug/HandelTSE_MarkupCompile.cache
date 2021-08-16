@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\App.xaml
-141704696929
+15603241613
 1-1490492923
-25-1513724455
+26303832466
 25371500199
-MainWindow.xaml;ViewModels\ArtikelOptionen.xaml;ViewModels\ArtikelOptionenEinstellungen.xaml;ViewModels\Artikelverwaltung.xaml;ViewModels\EanEinstellungen.xaml;ViewModels\Kasse.xaml;ViewModels\LoginScreen.xaml;ViewModels\Personalverwaltung.xaml;ViewModels\SetArtikel.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;
+MainWindow.xaml;ProgramEinstellungen.xaml;ViewModels\ArtikelOptionen.xaml;ViewModels\ArtikelOptionenEinstellungen.xaml;ViewModels\Artikelverwaltung.xaml;ViewModels\EanEinstellungen.xaml;ViewModels\Kasse.xaml;ViewModels\LoginScreen.xaml;ViewModels\Personalverwaltung.xaml;ViewModels\SetArtikel.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;
 
 False
 

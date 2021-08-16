@@ -216,3 +216,5 @@ C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.pdb
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\bin\Debug\bin\Debug\db_handel.accdb
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE_Content.g.cs
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ProgramEinstellungen.g.cs
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\ProgramEinstellungen.baml

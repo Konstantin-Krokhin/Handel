@@ -67,7 +67,7 @@ namespace HandelTSE.ViewModels
             if (Globals.opened > 0)
             {
                 MainWindow m = new MainWindow();
-                m.DataContext = new Personalverwaltung();
+                m.DataContext = new ProgramEinstellungen();
                 m.Show();
                 Close();
             }
