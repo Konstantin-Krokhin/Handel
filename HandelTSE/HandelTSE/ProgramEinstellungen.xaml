@@ -241,10 +241,10 @@
                                 <TextBlock Text="Die markierten Daten für Bonkopfzeile und Berichte übernehmen" Grid.Column="3" Grid.Row="12" Margin="10, -5,0,0" Padding="0,0,0,4" />
                                 <TextBlock Text="mit * gekennzeichnete Felder sind Pflichtfelder" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="10, 5,0,0"/>
 
-                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
                                 <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" />
-                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" />
-                                <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
                                 <CheckBox Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" />
                                 <CheckBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" />
                                 <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center" />
@@ -296,6 +296,64 @@
                         <RowDefinition Height= "*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
+
+                    <DockPanel Name="KassendatenPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
+                        <Border DockPanel.Dock="Top"
+                                BorderBrush="LightGray"
+                                Background="White"
+                                BorderThickness="2"
+                                Padding="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height="35"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Kassennummer*:" FontWeight="Bold" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
+                                <TextBlock Text="Marke der Kasse*:" Grid.Column="1" Grid.Row="2" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="Modellbezeichnung*:" Grid.Column="1" Grid.Row="3" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="Seriennummer*:" Grid.Column="1" Grid.Row="4" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="Kassensoftware*:" Grid.Column="1" Grid.Row="5" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="Version der Software*:" Grid.Column="1" Grid.Row="6" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="Währung der Kasse*:" Grid.Column="1" Grid.Row="7" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="Basiswährung Code*:" Grid.Column="1" Grid.Row="8" Margin="0, 8, 0, 8" />
+                                <TextBlock Text="DSFinV-K Version:" FontWeight="Bold" Grid.Column="1" Grid.Row="9" Margin="0, 8, 20, 8" />
+                                <TextBlock Text="Deutschland EUR" Grid.Column="3" Grid.Row="8" Margin="190, 0" Padding="10,7,0,0" />
+                                <TextBlock Text="mit * gekennzeichnete Felder sind Pflichtfelder" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="10, 5,0,0"/>
+
+                                <TextBox Text="1" Grid.Row="1" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Grid.Row="3" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Grid.Row="4" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Text="POSprom Handel Plus TSE" Grid.Row="5" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Text="4.5" Grid.Row="6" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Text="EURO" Grid.Row="7" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Text="EUR" Grid.Row="8" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Text="2.2" Grid.Row="9" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
+
+                            </Grid>
+                        </Border>
+                    </DockPanel>
 
                 </Grid>
 
