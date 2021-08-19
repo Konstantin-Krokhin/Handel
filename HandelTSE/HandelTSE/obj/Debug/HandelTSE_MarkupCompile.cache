@@ -16,5 +16,5 @@ C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\App.xaml
 25371500199
 MainWindow.xaml;ProgramEinstellungen.xaml;ViewModels\ArtikelOptionen.xaml;ViewModels\ArtikelOptionenEinstellungen.xaml;ViewModels\Artikelverwaltung.xaml;ViewModels\EanEinstellungen.xaml;ViewModels\Kasse.xaml;ViewModels\LoginScreen.xaml;ViewModels\Personalverwaltung.xaml;ViewModels\SetArtikel.xaml;Views\Main.xaml;Views\MwStTool.xaml;Views\StatisticsGraph.xaml;Views\StatTable.xaml;TransactionParking.xaml;
 
-False
+True
 

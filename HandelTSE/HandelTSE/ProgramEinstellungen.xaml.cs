@@ -20,6 +20,14 @@ namespace HandelTSE
     /// </summary>
     public partial class ProgramEinstellungen : UserControl
     {
+
+        List<items> it = new List<items>();
+
+        public class items
+        {
+            public string Terminal_ID { get; set; }
+            public string Marke { get; set; }
+        }
         public ProgramEinstellungen()
         {
             InitializeComponent();
@@ -52,5 +60,7 @@ namespace HandelTSE
         {
 
         }
+
+        private void CustomizeHeaders(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e) { if (e.Column.Header.ToString() == "Terminal_ID") e.Column.Header = "Terminal-ID"; }
     }
 }

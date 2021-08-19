@@ -90,7 +90,7 @@
 
                     <DockPanel Name="DarstellungPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="6" Grid.Column="0" Background="LightGray">
                         <Border DockPanel.Dock="Top"
-                                BorderBrush="Gray"
+                                BorderBrush="LightGray"
                                 Background="White"
                                 BorderThickness="2"
                                 Padding="0">
@@ -194,7 +194,7 @@
 
                     <DockPanel Name="FirmendatenPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
                         <Border DockPanel.Dock="Top"
-                                BorderBrush="Gray"
+                                BorderBrush="LightGray"
                                 Background="White"
                                 BorderThickness="2"
                                 Padding="0">
@@ -365,24 +365,129 @@
                 </TabItem.Header>
 
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height= "*"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height= "auto"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
 
+                <DockPanel Name="KassennetzPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
+                    <Border DockPanel.Dock="Top"
+                            BorderBrush="LightGray"
+                            Background="White"
+                            BorderThickness="2"
+                            Padding="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height="35"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Liste der einzelnen Erfassungs-Terminal (sog. Slave-Kassen)" FontSize="13" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
+                                <DataGrid Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.Row="2" Height="400">
+                                    <DataGrid.Columns>
+
+                                        <DataGridTemplateColumn x:Name="Terminal_ID" Header="Terminal-ID">
+
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn x:Name="Marke" Header="Marke">
+
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <CheckBox Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="150, 0" />
+                                <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="Netzwerk - Datenbank" Margin="0, 0, 50, 2" />
+
+                                <DockPanel Name="TerminalIDPanel" Grid.Row="2" Grid.RowSpan="2" Height="260" Width="440" Grid.ColumnSpan="2" Grid.Column="2" VerticalAlignment="Top" Margin="10,1" HorizontalAlignment="Center" Background="LightGray">
+                                    <Border DockPanel.Dock="Top"
+                                            BorderBrush="LightGray"
+                                            Background="White"
+                                            BorderThickness="2"
+                                            Padding="0">    
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="0"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height= "auto"/>
+                                                <RowDefinition Height="35"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="mit * gekennzeichnete Felder sind Pflichtfelder" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="-17, 5,0,0"/>
+                                            <TextBlock Text="Terminal - ID*:" FontWeight="Bold" Grid.ColumnSpan="1" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
+                                            <TextBlock Text="Marke des Terminals*:" Grid.Column="1" Grid.Row="2" Margin="0, 8, 0, 8" />
+                                            <TextBlock Text="Modellbezeichnung*:" Grid.Column="1" Grid.Row="3" Margin="0, 8, 0, 8" />
+                                            <TextBlock Text="Seriennummer*:" Grid.Column="1" Grid.Row="4" Margin="0, 8, 0, 8" />
+                                            <TextBlock Text="Kassensoftware*:" Grid.Column="1" Grid.Row="5" Margin="0, 8, 0, 8" />
+                                            <TextBlock Text="Version der Software*:" Grid.Column="1" Grid.Row="6" Margin="0, 8, 0, 8" />
+
+                                            <TextBox Grid.Row="1" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Grid.Row="2" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Grid.Row="3" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Grid.Row="4" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Text="POSprom Handel Plus TSE" Grid.Row="5" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Text="4.5" Grid.Row="6" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+
+                                        </Grid>
+                                    </Border>
+                                </DockPanel>
+
+                            </Grid>
+
+
+                        </Border>
+                    </DockPanel>
                 </Grid>
 
             </TabItem>
