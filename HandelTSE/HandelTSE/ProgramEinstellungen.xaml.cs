@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandelTSE.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace HandelTSE
     {
 
         List<items> it = new List<items>();
+        BrushConverter converter = new System.Windows.Media.BrushConverter();
+        Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
 
         public class items
         {
@@ -39,6 +42,11 @@ namespace HandelTSE
             {
                 Color C = cp1.SelectedColor.Value;
                 long colorVal = Convert.ToInt64(C.B * (Math.Pow(256, 0)) + C.G * (Math.Pow(256, 1)) + C.R * (Math.Pow(256, 2)));
+
+                string colorString = cp1.SelectedColor.Value.ToString();
+
+                Farbauswahl1.Style = (Style)FindResource("BlueButton");
+                Farbauswahl1.Background = (Brush)converter.ConvertFromString(colorString);
             }
             cp1.Visibility = Visibility.Collapsed;
         }
@@ -49,6 +57,11 @@ namespace HandelTSE
             {
                 Color C = cp2.SelectedColor.Value;
                 long colorVal = Convert.ToInt64(C.B * (Math.Pow(256, 0)) + C.G * (Math.Pow(256, 1)) + C.R * (Math.Pow(256, 2)));
+
+                string colorString = cp2.SelectedColor.Value.ToString();
+
+                Farbauswahl2.Style = (Style)FindResource("BlueButton");
+                Farbauswahl2.Background = (Brush)converter.ConvertFromString(colorString);
             }
             cp2.Visibility = Visibility.Collapsed;
         }
@@ -62,5 +75,15 @@ namespace HandelTSE
         }
 
         private void CustomizeHeaders(object sender, System.Windows.Controls.DataGridAutoGeneratingColumnEventArgs e) { if (e.Column.Header.ToString() == "Terminal_ID") e.Column.Header = "Terminal-ID"; }
+
+        private void Speichern_Click(object sender, RoutedEventArgs e)
+        {
+            int k = 0;
+            foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(TerminalIDPanel)) { if (tb.Text == "") { tb.Background = brush_red; k = 1; } }
+
+            if (k == 1) return;
+        }
+
+        private void TextChanged(object sender, TextChangedEventArgs e) { if (((TextBox)sender).Background == brush_red) ((TextBox)sender).Background = Brushes.White; }
     }
 }

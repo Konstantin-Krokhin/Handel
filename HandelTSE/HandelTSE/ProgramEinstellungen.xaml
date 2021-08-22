@@ -117,11 +117,11 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="Hintergrundfarbe" Grid.Column="1" Grid.Row="1" Margin="0" />
-                                <Button Content="Farbauswahl" Grid.Column="2" Grid.Row="1" Width="120" Height="30" Margin="20,-10" Click="Color1Change" />
+                                <Button Name="Farbauswahl1" Content="Farbauswahl" Grid.Column="2" Grid.Row="1" Width="120" Height="30" Margin="20,-10" Click="Color1Change" />
                                 <xctk1:ColorPicker Name="cp1" Visibility="Hidden" Grid.Column="2" DisplayColorAndName="True" SelectedColorChanged="cp1_SelectedColorChanged" AvailableColorsSortingMode="HueSaturationBrightness" ></xctk1:ColorPicker>
 
                                 <TextBlock Text="Programm-Oberfläche" Grid.Column="3" Grid.Row="1" Margin="60, 0" />
-                                <Button Content="Farbauswahl" Style="{StaticResource CornBlueButton}" Click="Color2Change" Grid.Column="4" Grid.Row="1" Width="120" Height="30" Margin="-30,-10" />
+                                <Button x:Name="Farbauswahl2" Content="Farbauswahl" Style="{StaticResource CornBlueButton}" Click="Color2Change" Grid.Column="4" Grid.Row="1" Width="120" Height="30" Margin="-30,-10" />
                                 <xctk1:ColorPicker Name="cp2" Visibility="Hidden" Grid.Column="4" DisplayColorAndName="True" SelectedColorChanged="cp2_SelectedColorChanged" AvailableColorsSortingMode="HueSaturationBrightness" Margin="-50,0"></xctk1:ColorPicker>
 
                                 <TextBlock Text="Programm-Größe" Grid.Column="1" Grid.Row="2" Margin="0, 35" />
@@ -472,12 +472,12 @@
                                             <TextBlock Text="Kassensoftware*:" Grid.Column="1" Grid.Row="5" Margin="0, 8, 0, 8" />
                                             <TextBlock Text="Version der Software*:" Grid.Column="1" Grid.Row="6" Margin="0, 8, 0, 8" />
 
-                                            <TextBox Grid.Row="1" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
-                                            <TextBox Grid.Row="2" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
-                                            <TextBox Grid.Row="3" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
-                                            <TextBox Grid.Row="4" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
-                                            <TextBox Text="POSprom Handel Plus TSE" Grid.Row="5" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
-                                            <TextBox Text="4.5" Grid.Row="6" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox x:Name="TerminalID" TextChanged="TextChanged" Grid.Row="1" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Name="MarkeDesTermin" TextChanged="TextChanged" Grid.Row="2" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Name="Modellbezeichnung" TextChanged="TextChanged" Grid.Row="3" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox x:Name="Seriennummer" Grid.Row="4" Grid.Column="3" TextChanged="TextChanged" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox x:Name="KassenSoftware" Text="POSprom Handel Plus TSE" Grid.Row="5" TextChanged="TextChanged" Grid.Column="3" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
+                                            <TextBox Name="VersionDerSoftware" Text="4.5" Grid.Row="6" Grid.Column="3" TextChanged="TextChanged" Height="25" Width="240" HorizontalAlignment="Left" Margin="10, 0"/>
 
                                         </Grid>
 
@@ -487,7 +487,7 @@
 
                                 <Button Content="neues Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" />
                                 <Button Content="löschen Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                                <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" VerticalAlignment="Top" Margin="10, 0, 10, 0" />
+                                <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" VerticalAlignment="Top" Margin="10, 0, 10, 0" Click="Speichern_Click" />
 
                             </Grid>
 
