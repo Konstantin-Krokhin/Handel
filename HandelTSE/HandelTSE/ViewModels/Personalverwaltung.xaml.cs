@@ -211,14 +211,8 @@ namespace HandelTSE.ViewModels
             cmd.Connection = con;
 
             int result = 0;
-            try
-            {
-                result = cmd.ExecuteNonQuery();
-            }
-            catch
-            {
-                MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt.");
-            }
+            try { result = cmd.ExecuteNonQuery(); }
+            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
             LoadGrid();
             HideColumns();
@@ -232,13 +226,11 @@ namespace HandelTSE.ViewModels
             var item = row.Item as MyData;
 
             OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PERSONAL] where Identyfikator = @ID", con);
-
             cmd.Parameters.Add(new OleDbParameter("@ID", item.Identyfikator));
 
             int result = 0;
             try { result = cmd.ExecuteNonQuery(); }
-            catch
-            { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
 
             LoadGrid();
