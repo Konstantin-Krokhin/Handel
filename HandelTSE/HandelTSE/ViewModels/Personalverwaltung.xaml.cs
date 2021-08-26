@@ -38,7 +38,6 @@ namespace HandelTSE.ViewModels
         {
             public int Identyfikator { get; set; }
             public string Name { get; set; }
-            //not sure what finalconc type would be, so here just using string
             public string Login { get; set; }
             public string Passwort { get; set; }
             public string Rabatt { get; set; }
@@ -75,10 +74,7 @@ namespace HandelTSE.ViewModels
 
             con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
 
-            try
-            {
-                con.Open();
-            }
+            try { con.Open(); }
             catch
             {
                 MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
@@ -87,11 +83,7 @@ namespace HandelTSE.ViewModels
                     System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
                     MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
                 }
-                else if (result == MessageBoxResult.No)
-                {
-                    MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können.");
-                }
-
+                else if (result == MessageBoxResult.No) { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
             }
             cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
             
@@ -232,7 +224,6 @@ namespace HandelTSE.ViewModels
             try { result = cmd.ExecuteNonQuery(); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
-
             LoadGrid();
             HideColumns();
             if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich erloscht!");
@@ -318,10 +309,7 @@ namespace HandelTSE.ViewModels
             if (Login.Background == brush_red) Login.Background = Brushes.White;
             if (Passwort.Background == brush_red) Passwort.Background = Brushes.White;
             OfficeStartenCheck.IsChecked = false;
-            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this))
-            {
-                cb.SelectedIndex = 0;
-            }
+            foreach (ComboBox cb in Artikelverwaltung.FindVisualChildren<ComboBox>(this)) { cb.SelectedIndex = 0; }
             grid.SelectedItem = null;
         }
 

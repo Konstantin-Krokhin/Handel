@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HandelTSE"
              xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="550" d:DesignWidth="830" Background="LightGray">
     <Grid>
 
-        <TabControl Name="EinstellungenTabs">
+        <TabControl Name="EinstellungenTabs" SelectedIndex="3">
 
             <TabControl.Template>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -55,6 +55,15 @@
 
             <TabControl.Resources>
                 <Style TargetType="TextBlock" x:Key="HeaderTextBlockStyle">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected,
+                          RelativeSource={RelativeSource AncestorType=TabItem}}"
+                         Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="Label" x:Key="HeaderLabelStyle">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsSelected,
                           RelativeSource={RelativeSource AncestorType=TabItem}}"
@@ -361,29 +370,31 @@
 
             <TabItem Name="KassennetzTabItem" FontSize="16">
                 <TabItem.Header>
-                    <TextBlock Text="Kassennetz" Style="{StaticResource HeaderTextBlockStyle}"/>
+
+                    <Label Content="Kassennetz" HorizontalAlignment="Stretch" Style="{StaticResource HeaderLabelStyle}"/>
+                   
                 </TabItem.Header>
 
                 <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height= "auto"/>
-                                <RowDefinition Height="20"/>
-                            </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height= "auto"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
 
-                <DockPanel Name="KassennetzPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
+                    <DockPanel Name="KassennetzPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
                     <Border DockPanel.Dock="Top"
                             BorderBrush="LightGray"
                             Background="White"
@@ -416,21 +427,11 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="Liste der einzelnen Erfassungs-Terminal (sog. Slave-Kassen)" FontSize="13" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
-                                <DataGrid Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="400">
-                                    <DataGrid.Columns>
-
-                                        <DataGridTemplateColumn x:Name="Terminal_ID" Header="Terminal-ID">
-
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTemplateColumn x:Name="Marke" Header="Marke">
-
-                                        </DataGridTemplateColumn>
-                                    </DataGrid.Columns>
+                                <DataGrid Name = "TerminalenDataGrid" IsReadOnly="True" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="400">
                                 </DataGrid>
 
-                                <CheckBox Name="NetzwerkDatenbank" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="150, 0" />
-                                <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="Netzwerk - Datenbank" Margin="0, 0, 25, 2" />
+                                <CheckBox Name="NetzwerkDatenbank" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="169, 0" />
+                                <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="Netzwerk - Datenbank" Margin="0, 0, 35, 2" />
 
                                 <DockPanel Name="TerminalIDPanel" Grid.Row="2" Grid.RowSpan="1" Height="260" Width="440" Grid.ColumnSpan="2" Grid.Column="2" VerticalAlignment="Top" Margin="10,1" HorizontalAlignment="Center" Background="LightGray">
                                     <Border DockPanel.Dock="Top"
@@ -486,8 +487,8 @@
                                 </DockPanel>
 
                                 <Button Content="neues Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Click="NeuesTerminal_Click" />
-                                <Button Content="löschen Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                                <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" VerticalAlignment="Top" Margin="10, 0, 10, 0" Click="Speichern_Click" />
+                                <Button Content="löschen Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Loschen_Click" />
+                                <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" Width="95" VerticalAlignment="Top" Margin="10, 0, 10, 0" Click="Speichern_Click" />
 
                             </Grid>
 
