@@ -92,11 +92,7 @@ namespace HandelTSE
             DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
         }
 
-        private void Kasse_Click(object sender, RoutedEventArgs e)
-        {
-            Kasse kasse = new Kasse();
-            kasse.Show();
-        }
+        private void Kasse_Click(object sender, RoutedEventArgs e) { Kasse kasse = new Kasse(); kasse.Show(); }
 
         private void EanEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new EanEinstellungen(); }
 
@@ -104,7 +100,8 @@ namespace HandelTSE
 
         private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { DataContext = new Personalverwaltung(); }
 
-        private void Close_Clicked(object sender, EventArgs e) { HandelTSE.ViewModels.Personalverwaltung.con.Close(); }
+        // Close all the connections made in User Control Interfaces
+        private void Close_Clicked(object sender, EventArgs e) { Personalverwaltung.con.Close(); ProgramEinstellungen.con.Close(); }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
     }

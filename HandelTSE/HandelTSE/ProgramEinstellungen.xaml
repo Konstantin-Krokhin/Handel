@@ -9,7 +9,7 @@
              d:DesignHeight="550" d:DesignWidth="830" Background="LightGray">
     <Grid>
 
-        <TabControl Name="EinstellungenTabs" SelectedIndex="3">
+        <TabControl Name="EinstellungenTabs" SelectedIndex="3" SelectionChanged="TabControlSelectionChanged">
 
             <TabControl.Template>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -593,7 +593,7 @@
 
             </TabItem>
 
-            <TabItem HorizontalAlignment="Right" DockPanel.Dock="Right">
+            <TabItem Name="speichernCommonButton" HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <TabItem.Template>
                     <ControlTemplate>
                         <Button Padding="10, 5" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right">speichern</Button>

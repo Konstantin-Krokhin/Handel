@@ -222,5 +222,11 @@ namespace HandelTSE
                     break;
             }
         }
+
+        private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EinstellungenTabs.SelectedIndex == 4) speichernCommonButton.IsEnabled = false;
+            else if (EinstellungenTabs.IsLoaded && speichernCommonButton.IsEnabled == false) speichernCommonButton.IsEnabled = true;
+        }
     }
 }
