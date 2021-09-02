@@ -289,8 +289,59 @@ namespace HandelTSE
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
+            else if (EinstellungenTabs.SelectedIndex == 1)
+            {
+                int k = 0;
+                foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(FirmendatenPanel)) { if ((tb.Name == "FirmaField" || tb.Name == "StrasseField" || tb.Name == "PLZField" || tb.Name == "OrtField" || tb.Name == "LandField" || tb.Name == "SteuerField" || tb.Name == "USTIDField") && tb.Text == "") { tb.Background = brush_red; k = 1; } }
+                if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; };
+
+                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] COUNTER, [Firma] TEXT(55),[Inhaber] TEXT(55),[Strasse] TEXT(55),[PLZ] TEXT(55),[Ort] TEXT(55),[Land] TEXT(55),[Telefon] TEXT(55),[Fax] TEXT(55), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
+                try { cmd.ExecuteNonQuery(); } catch { }
+
+                int result = 0, counter = 0;
+                int[] Checkboxes = new int[11];
+                Int32 Id = -1; 
+                foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
+
+                OleDbCommand cmd2;
+
+                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenFirmendaten", con);
+                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+
+                if (Id == 0)
+                {
+                    cmd2 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET Firma = @Firma, Inhaber = @Inhaber, Strasse = @Strasse, PLZ = @PLZ, Ort = @Ort, Land = @Land, Telefon = @Telefon, Fax = @Fax, E-mail = @E-mail, Steuernummer = @Steuernummer, USTID = @USTID, 1 = @1, 2 = @2, 3 = @3, 4 = @4, 5 = @5, 6 = @6, 7 = @7, 8 = @8, 9 = @9, 10 = @10, 11 = @11 WHERE Id = @ID", con);
+
+                    cmd2.Parameters.Add(new OleDbParameter("@Firma", FirmaField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Inhaber", InhaberField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Strasse", StrasseField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@PLZ", PLZField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Ort", OrtField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Land", LandField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Telefon", TelefonField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Fax", FaxField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@E-mail", EmailField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Steuernummer", SteuerField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@USTID", USTIDField.Text));
+
+                    for (int i = 1; i < 12; i++) { cmd2.Parameters.Add(new OleDbParameter("@" + i, Checkboxes[i - 1])); }
+                }
+                else
+                {
+                    string checkboxes = "";
+                    for (int i = 1; i < 12; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
+                    cmd2 = new OleDbCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + 0 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
+                }
+                try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+
+            }
         }
 
         private void SchnellDruckBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (darstellung_loaded == true) started = false; }
+
+        private void AlleCheckBox_Checked(object sender, RoutedEventArgs e) { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) ch.IsChecked = true; }
+
+        private void AlleCheckBox_Unchecked(object sender, RoutedEventArgs e) { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) ch.IsChecked = false; }
     }
 }

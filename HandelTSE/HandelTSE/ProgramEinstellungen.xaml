@@ -260,19 +260,19 @@
                                 <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" />
                                 <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" />
                                 <CheckBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" />
-                                <CheckBox Grid.Row="11" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" />
+                                <CheckBox Grid.Row="11" Checked="AlleCheckBox_Checked" Unchecked="AlleCheckBox_Unchecked" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" />
 
-                                <TextBox Grid.Row="1" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="2" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="3" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Name="PLZ" Grid.Row="4" Grid.Column="3" Height="25" Width="80" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Name ="Ort" Grid.Row="4" Grid.Column="3" Height="25" Width="235" HorizontalAlignment="Left" Margin="91, 0"/>
-                                <TextBox Grid.Row="5" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="6" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="7" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="8" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="9" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
-                                <TextBox Grid.Row="10" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="FirmaField" TextChanged="TextChanged" Grid.Row="1" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="InhaberField" Grid.Row="2" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="StrasseField" TextChanged="TextChanged" Grid.Row="3" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="PLZField" TextChanged="TextChanged" Grid.Row="4" Grid.Column="3" Height="25" Width="80" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="OrtField" TextChanged="TextChanged" Grid.Row="4" Grid.Column="3" Height="25" Width="235" HorizontalAlignment="Left" Margin="91, 0"/>
+                                <TextBox Name="LandField" TextChanged="TextChanged" Grid.Row="5" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox x:Name="TelefonField" Grid.Row="6" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name ="FaxField" Grid.Row="7" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="EmailField" Grid.Row="8" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="SteuerField" TextChanged="TextChanged" Grid.Row="9" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
+                                <TextBox Name="USTIDField" TextChanged="TextChanged" Grid.Row="10" Grid.Column="3" Height="25" Width="180" HorizontalAlignment="Left" Margin="10, 0"/>
 
                             </Grid>
                         </Border>
