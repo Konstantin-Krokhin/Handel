@@ -151,9 +151,8 @@ namespace HandelTSE
             int NetzwerkDatenbankValue = 0;
             if (NetzwerkDatenbank.IsChecked == true) NetzwerkDatenbankValue = -1;
             OleDbCommand cmd = new OleDbCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('"+ ++maxID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
-            try { result = cmd.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
-            LoadGrid();
         }
 
         private void TextChanged(object sender, TextChangedEventArgs e) { if (((TextBox)sender).Background == brush_red) ((TextBox)sender).Background = Brushes.White; }
@@ -251,6 +250,27 @@ namespace HandelTSE
                 }
                 darstellung_loaded = true;
             }
+            if (EinstellungenTabs.SelectedIndex == 1)
+            {
+                OleDbCommand cmd3 = new OleDbCommand("SELECT Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11] FROM [TBL_ProgramEinstellungenFirmendaten]", con);
+                OleDbDataReader myReader = cmd3.ExecuteReader();
+                while (myReader.Read())
+                {
+                    if (myReader["Firma"] != DBNull.Value) { FirmaField.Text = (string)myReader["Firma"]; }
+                    if (myReader["Inhaber"] != DBNull.Value) { InhaberField.Text = (string)myReader["Inhaber"]; }
+                    if (myReader["Strasse"] != DBNull.Value) StrasseField.Text = (string)myReader["Strasse"];
+                    if (myReader["PLZ"] != DBNull.Value) PLZField.Text = (string)myReader["PLZ"];
+                    if (myReader["Ort"] != DBNull.Value) OrtField.Text = (string)myReader["Ort"];
+                    if (myReader["Land"] != DBNull.Value) LandField.Text = (string)myReader["Land"];
+                    if (myReader["Telefon"] != DBNull.Value) TelefonField.Text = (string)myReader["Telefon"];
+                    if (myReader["Fax"] != DBNull.Value) FaxField.Text = (string)myReader["Fax"];
+                    if (myReader["E-mail"] != DBNull.Value) EmailField.Text = (string)myReader["E-mail"];
+                    if (myReader["Steuernummer"] != DBNull.Value) SteuerField.Text = (string)myReader["Steuernummer"];
+                    if (myReader["USTID"] != DBNull.Value) USTIDField.Text = (string)myReader["USTID"];
+                    int i = 1;
+                    foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { ch.IsChecked = (bool)(Boolean)myReader[i.ToString()]; i++; }
+                }
+            }
         }
 
         private void speichernCommonButton_Click(object sender, RoutedEventArgs e)
@@ -303,38 +323,72 @@ namespace HandelTSE
                 Int32 Id = -1; 
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
 
-                OleDbCommand cmd2;
+                OleDbCommand cmd4;
 
                 OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenFirmendaten", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd2 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET Firma = @Firma, Inhaber = @Inhaber, Strasse = @Strasse, PLZ = @PLZ, Ort = @Ort, Land = @Land, Telefon = @Telefon, Fax = @Fax, E-mail = @E-mail, Steuernummer = @Steuernummer, USTID = @USTID, 1 = @1, 2 = @2, 3 = @3, 4 = @4, 5 = @5, 6 = @6, 7 = @7, 8 = @8, 9 = @9, 10 = @10, 11 = @11 WHERE Id = @ID", con);
+                    cmd4 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET [Firma] = @Firma, [Inhaber] = @Inhaber, [Strasse] = @Strasse, [PLZ] = @PLZ, [Ort] = @Ort, [Land] = @Land, [Telefon] = @Telefon, [Fax] = @Fax, [E-mail] = @Email, [Steuernummer] = @Steuernummer, [USTID] = @USTID, [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11 WHERE [Id] = @ID", con);
 
-                    cmd2.Parameters.Add(new OleDbParameter("@Firma", FirmaField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Inhaber", InhaberField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Strasse", StrasseField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@PLZ", PLZField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Ort", OrtField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Land", LandField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Telefon", TelefonField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Fax", FaxField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@E-mail", EmailField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Steuernummer", SteuerField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@USTID", USTIDField.Text));
-
-                    for (int i = 1; i < 12; i++) { cmd2.Parameters.Add(new OleDbParameter("@" + i, Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new OleDbParameter("@Firma", FirmaField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Inhaber", InhaberField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Strasse", StrasseField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@PLZ", PLZField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Ort", OrtField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Land", LandField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Telefon", TelefonField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Fax", FaxField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Email", EmailField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@Steuernummer", SteuerField.Text));
+                    cmd4.Parameters.Add(new OleDbParameter("@USTID", USTIDField.Text));
+                    for (int i = 1; i < 12; i++) { cmd4.Parameters.Add(new OleDbParameter("@" + i.ToString(), Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
                 }
                 else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 12; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd2 = new OleDbCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + 0 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
+                    cmd4 = new OleDbCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + 0 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
                 }
-                try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+                try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
+            }
+            else if (EinstellungenTabs.SelectedIndex == 2)
+            {
+                int k = 0;
+                foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(KassendatenPanel)) { if (tb.Text == "" && tb.Name != "DSFinField") { tb.Background = brush_red; k = 1; } }
+                if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; }; 
+                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] COUNTER, [Kassennummer] TEXT(55),[MarkederKasse] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55),[WahrungDerKasse] TEXT(55),[BasiswahrungCode] TEXT(55), [Dsfinv-k] TEXT(55))", con);
+                try { cmd.ExecuteNonQuery(); } catch { }
+
+                int result = 0;
+                Int32 Id = -1;
+                OleDbCommand cmd2;
+
+                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassendaten", con);
+                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+
+                if (Id == 0)
+                {
+                    cmd2 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenKassendaten] SET Kassennummer = @Kassennummer, MarkederKasse = @MarkederKasse, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, WahrungDerKasse = @WahrungDerKasse, BasiswahrungCode = @BasiswahrungCode, [Dsfinv-k] = @Dsfinvk WHERE Id = @ID", con);
+
+                    cmd2.Parameters.Add(new OleDbParameter("@Kassennummer", Kassennummer.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@MarkederKasse", MarkederKasse.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Modellbezeichnung", Modellbezeichnung_Kassendaten.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Seriennummer", Seriennummer_Kassendaten.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Kassensoftware", KassenSoftware_Kassendaten.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@VersionDerSoftware", VersionDerSoftware_Kassendaten.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@WahrungDerKasse", WahrungDerKasse.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@BasiswahrungCode", BasiswahrungCode.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@Dsfinvk", DSFinField.Text));
+                    cmd2.Parameters.Add(new OleDbParameter("@ID", Id));
+                }
+                else cmd2 = new OleDbCommand("insert into [TBL_ProgramEinstellungenKassendaten](Id, Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k])Values('" + 0 + "','" + Kassennummer.Text + "','" + MarkederKasse.Text + "','" + Modellbezeichnung_Kassendaten.Text + "','" + Seriennummer_Kassendaten.Text + "','" + KassenSoftware_Kassendaten.Text + "','" + VersionDerSoftware_Kassendaten.Text + "','" + WahrungDerKasse.Text + "','" + BasiswahrungCode.Text + "','" + DSFinField.Text + "')", con);
+                try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
         }
 
