@@ -52,24 +52,28 @@ namespace HandelTSE
         {
             InitializeComponent();
 
-            con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
-
-            try { con.Open(); }
-            catch
+            // If the menu ProgramEinstellungen is being open multiple times
+            if (con.ConnectionString.Length == 0)
             {
-                MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                    MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
-                }
-                else if (result == MessageBoxResult.No)
-                { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
-            }
+                con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
 
-            OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
+                try { con.Open(); }
+                catch
+                {
+                    MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
+                        MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
+                    }
+                    else if (result == MessageBoxResult.No)
+                    { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
+                }
+
+                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
+                try { cmd.ExecuteNonQuery(); }
+                catch { }
+            }
 
             cmd2 = new OleDbCommand("SELECT Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank FROM [TBL_ProgramEinstellungenKassennetz]", con);
 
@@ -229,8 +233,9 @@ namespace HandelTSE
 
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (EinstellungenTabs.SelectedIndex == 4) speichernCommonButton.IsEnabled = false;
+            if (EinstellungenTabs.SelectedIndex == 4 || EinstellungenTabs.SelectedIndex == 3) speichernCommonButton.IsEnabled = false;
             else if (EinstellungenTabs.IsLoaded && speichernCommonButton.IsEnabled == false) speichernCommonButton.IsEnabled = true;
+
             if (EinstellungenTabs.SelectedIndex == 0 && started == true)
             {
                 OleDbCommand cmd3 = new OleDbCommand("SELECT Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck FROM [TBL_ProgramEinstellungenDarstellung]", con);
@@ -250,7 +255,7 @@ namespace HandelTSE
                 }
                 darstellung_loaded = true;
             }
-            if (EinstellungenTabs.SelectedIndex == 1)
+            else if (EinstellungenTabs.SelectedIndex == 1)
             {
                 OleDbCommand cmd3 = new OleDbCommand("SELECT Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11] FROM [TBL_ProgramEinstellungenFirmendaten]", con);
                 OleDbDataReader myReader = cmd3.ExecuteReader();
@@ -269,6 +274,23 @@ namespace HandelTSE
                     if (myReader["USTID"] != DBNull.Value) USTIDField.Text = (string)myReader["USTID"];
                     int i = 1;
                     foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { ch.IsChecked = (bool)(Boolean)myReader[i.ToString()]; i++; }
+                }
+            }
+            else if (EinstellungenTabs.SelectedIndex == 2)
+            {
+                OleDbCommand cmd3 = new OleDbCommand("SELECT Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k] FROM [TBL_ProgramEinstellungenKassendaten]", con);
+                OleDbDataReader myReader = cmd3.ExecuteReader();
+                while (myReader.Read())
+                {
+                    if (myReader["Kassennummer"] != DBNull.Value) { Kassennummer.Text = (string)myReader["Kassennummer"]; }
+                    if (myReader["MarkederKasse"] != DBNull.Value) { MarkederKasse.Text = (string)myReader["MarkederKasse"]; }
+                    if (myReader["Modellbezeichnung"] != DBNull.Value) Modellbezeichnung_Kassendaten.Text = (string)myReader["Modellbezeichnung"];
+                    if (myReader["Seriennummer"] != DBNull.Value) Seriennummer_Kassendaten.Text = (string)myReader["Seriennummer"];
+                    if (myReader["Kassensoftware"] != DBNull.Value) KassenSoftware_Kassendaten.Text = (string)myReader["Kassensoftware"];
+                    if (myReader["VersionDerSoftware"] != DBNull.Value) VersionDerSoftware_Kassendaten.Text = (string)myReader["VersionDerSoftware"];
+                    if (myReader["WahrungDerKasse"] != DBNull.Value) WahrungDerKasse.Text = (string)myReader["WahrungDerKasse"];
+                    if (myReader["BasiswahrungCode"] != DBNull.Value) BasiswahrungCode.Text = (string)myReader["BasiswahrungCode"];
+                    if (myReader["Dsfinv-k"] != DBNull.Value) DSFinField.Text = (string)myReader["Dsfinv-k"];
                 }
             }
         }
@@ -397,5 +419,7 @@ namespace HandelTSE
         private void AlleCheckBox_Checked(object sender, RoutedEventArgs e) { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) ch.IsChecked = true; }
 
         private void AlleCheckBox_Unchecked(object sender, RoutedEventArgs e) { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) ch.IsChecked = false; }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e) { }
     }
 }
