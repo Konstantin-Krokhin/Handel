@@ -90,6 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FunktionsEinstellungen.xaml.cs">
+      <DependentUpon>FunktionsEinstellungen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProgramEinstellungen.xaml.cs">
       <DependentUpon>ProgramEinstellungen.xaml</DependentUpon>
     </Compile>
@@ -143,6 +146,10 @@
     <Compile Include="TransactionParking.xaml.cs">
       <DependentUpon>TransactionParking.xaml</DependentUpon>
     </Compile>
+    <Page Include="FunktionsEinstellungen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -292,5 +299,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

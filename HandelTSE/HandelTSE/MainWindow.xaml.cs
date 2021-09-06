@@ -103,6 +103,8 @@ namespace HandelTSE
         // Close all the connections made in User Control Interfaces
         private void Close_Clicked(object sender, EventArgs e) { Personalverwaltung.con.Close(); ProgramEinstellungen.con.Close(); }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
+        private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
+
+        private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new FunktionsEinstellungen(); }
     }
 }
