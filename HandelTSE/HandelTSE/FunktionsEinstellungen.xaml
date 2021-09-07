@@ -114,18 +114,66 @@
                                     <ColumnDefinition Width="0"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="5"/>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height= "auto"/>
                                     <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height= "auto"/>
+                                    <RowDefinition Height= "auto"/>
                                     <RowDefinition Height= "auto"/>
                                     <RowDefinition Height= "auto"/>
                                     <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
 
-                                
+                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True" Unchecked="CheckBox_Unchecked" IsEnabled="False" Margin="25,5"/>
+                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
+                                <CheckBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
+                                <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
+                                <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
+                                <CheckBox Grid.Row="11" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0"/>
+                                <CheckBox Grid.Row="12" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" IsChecked="True" />
+                                <CheckBox Grid.Row="13" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0"/>
+                                <CheckBox Grid.Row="14" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" IsChecked="True" />
+                                <CheckBox Grid.Row="15" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" />
+                                <CheckBox Grid.Row="16" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" />
+
+
+                                <TextBlock Text="Einmannbetrieb (nur ein Bediener möglich)" Grid.Column="2" Grid.Row="1" Margin="20,0,20,0" />
+                                <TextBlock Text="Anmeldung mit Passwort ist notwendig" Grid.Column="2" Grid.Row="2" Margin="45,3" IsEnabled="False" />
+                                <TextBlock Text = "Terminaplaner als Startmodus" Grid.Column="2" Grid.Row="3" Margin="20,0,20,5" />
+                                <TextBlock Text ="Kassenbestand beim Start abfragen" Grid.Column="2" Grid.Row="4" Margin="20,3" />
+                                <TextBlock Text ="&quot;sonstige Artikel&quot; anzeigen" Grid.Column="2" Grid.Row="5" Margin="20,3" />
+                                <TextBlock Text ="&quot;MwSt. separieren&quot; - Funktion anzeigen" Grid.Column="2" Grid.Row="6" Margin="20,3" />
+                                <TextBlock Text ="Scheine und Münzen anzeigen" Grid.Column="2" Grid.Row="7" Margin="20,3" />
+                                <TextBlock Text ="Bedienernamen (Login) auf dem Bon" Grid.Column="2" Grid.Row="8" Margin="20,3" />
+                                <TextBlock Text ="Artikel - Optionen auf dem Bon anzeigen" Grid.Column="2" Grid.Row="9" Margin="20,3" />
+                                <TextBlock Text ="Pfand/Leergut - Funktionen anzeigen" Grid.Column="2" Grid.Row="10" Margin="20,3" />
+                                <TextBlock Text ="&quot;außer Haus&quot; - Funktion anzeigen" Grid.Column="2" Grid.Row="11" Margin="20,3" />
+                                <TextBlock Text ="Lieferschein - Taste anzeigen" Grid.Column="2" Grid.Row="12" Margin="20,3" />
+                                <TextBlock Text ="Talon anzeigen (Bondrucker)" Grid.Column="2" Grid.Row="13" Margin="20,3" />
+                                <TextBlock Text ="Bewirtungsbeleg - Taste anzeigen" Grid.Column="2" Grid.Row="14" Margin="20,3" />
+                                <TextBlock Text ="Bonnummer - Barcode anzeigen" Grid.Column="2" Grid.Row="15" Margin="20,3" />
+                                <TextBlock Text ="Einzelpreis anzeigen" Grid.Column="2" Grid.Row="16" Margin="20,3" />
+
+
+                                <TextBlock Text="Sonstige Artikel - Text:" Grid.Column="3" Grid.Row="3" Margin="40,0,0,0" />
+                                <TextBlock Text="Kassenbestand (aktuell):" Grid.Column="3" Grid.Row="4" Margin="40,0,5,0" />
+                                <TextBox Text="Diverse Artikel" Width="180" Grid.Column="4" Grid.Row="3" Margin="10,0" />
+                                <TextBox Text="0.00" IsEnabled="False" Width="100" HorizontalAlignment="Left" Margin="10,0" Grid.Column="4" Grid.Row="4" />
 
                             </Grid>
                         </Border>

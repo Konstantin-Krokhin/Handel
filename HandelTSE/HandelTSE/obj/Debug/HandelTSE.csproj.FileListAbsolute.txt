@@ -219,3 +219,4 @@ C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.pdb
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\FunktionsEinstellungen.g.cs
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\FunktionsEinstellungen.baml
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache

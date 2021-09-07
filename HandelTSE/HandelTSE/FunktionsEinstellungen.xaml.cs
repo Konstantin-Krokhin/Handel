@@ -34,5 +34,10 @@ namespace HandelTSE
         {
 
         }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
