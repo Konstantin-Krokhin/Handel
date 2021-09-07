@@ -134,8 +134,8 @@
                                     <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
 
-                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
-                                <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True" Unchecked="CheckBox_Unchecked" IsEnabled="False" Margin="25,5"/>
+                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Checked="EinmannbetriebCheckBox_Checked" Unchecked="EinmannbetriebCheckBox_Unchecked"/>
+                                <CheckBox Name="AnmeldungMitPasswortCheckbox" Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True" Unchecked="CheckBox_Unchecked" IsEnabled="False" Margin="25,5"/>
                                 <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
                                 <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
                                 <CheckBox Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
@@ -153,7 +153,7 @@
 
 
                                 <TextBlock Text="Einmannbetrieb (nur ein Bediener möglich)" Grid.Column="2" Grid.Row="1" Margin="20,0,20,0" />
-                                <TextBlock Text="Anmeldung mit Passwort ist notwendig" Grid.Column="2" Grid.Row="2" Margin="45,3" IsEnabled="False" />
+                                <TextBlock Name="AnmeldungMitPasswortTextBlock" Text="Anmeldung mit Passwort ist notwendig" Opacity ="0.5" Grid.Column="2" Grid.Row="2" Margin="45,3" IsEnabled="False" />
                                 <TextBlock Text = "Terminaplaner als Startmodus" Grid.Column="2" Grid.Row="3" Margin="20,0,20,5" />
                                 <TextBlock Text ="Kassenbestand beim Start abfragen" Grid.Column="2" Grid.Row="4" Margin="20,3" />
                                 <TextBlock Text ="&quot;sonstige Artikel&quot; anzeigen" Grid.Column="2" Grid.Row="5" Margin="20,3" />
@@ -239,24 +239,35 @@
                                     <RowDefinition Height="35"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="Firma*:" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
-                                <TextBlock Text="Inhaber:" Grid.Column="1" Grid.Row="2" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Straße*:" Grid.Column="1" Grid.Row="3" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="PLZ*/Ort*:" Grid.Column="1" Grid.Row="4" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Land*:" Grid.Column="1" Grid.Row="5" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Telefon:" Grid.Column="1" Grid.Row="6" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Fax:" Grid.Column="1" Grid.Row="7" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="E-Mail:" Grid.Column="1" Grid.Row="8" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Steuernummer*:" Grid.Column="1" Grid.Row="9" Margin="0, 8, 20, 8" />
-                                <TextBlock Text="USTID*:" Grid.Column="1" Grid.Row="10" Margin="0, 8" />
-                                <TextBlock Text="alle" Grid.Column="3" Grid.Row="11" Margin="0, 0" Padding="10,5,0,5" />
-                                <TextBlock Text="Deutschland - DEU" Grid.Column="3" Grid.Row="5" Margin="184, 0" Padding="10,7,0,0" />
-                                <TextBlock Text="z.B. 111/222/33333" Grid.Column="3" Grid.Row="9" Margin="184, 0" Padding="10,7,0,0" />
-                                <TextBlock Text="z.B. DE444444444" Grid.Column="3" Grid.Row="10" Margin="184, 0" Padding="10,7,0,0" />
-                                <TextBlock Text="Die markierten Daten für Bonkopfzeile und Berichte übernehmen" Grid.Column="3" Grid.Row="12" Margin="10, -5,0,0" Padding="0,0,0,4" />
-                                <TextBlock Text="mit * gekennzeichnete Felder sind Pflichtfelder" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="10, 5,0,0"/>
-
+                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center"/>
+                                <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center"  IsChecked="True"/>
+                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox x:Name="AbholscheineCheckbox" Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Checked="AbholscheineCheckbox_Checked" Unchecked="AbholscheineCheckbox_Unchecked"/>
+                                <CheckBox Name="AbholdatumCheckbox" Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" IsEnabled="False" />
+                                <CheckBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center"  IsChecked="True"/>
+                                <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center"  />
+                                <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" />
                                 
+                                <CheckBox Name="VollstandigCheckbox" Grid.Row="4" Grid.Column="3" VerticalContentAlignment="Center" Checked="VollstandigCheckbox_Checked" IsEnabled="False" />
+                                <CheckBox Name="KleinerZettelCheckbox" Grid.Row="4" Grid.Column="5" IsEnabled="False" VerticalContentAlignment="Center" Checked="KleinerZettelCheckbox_Checked" IsChecked="true" />
+
+                                <TextBox Grid.Column="3" Grid.Row="3" Width="60" />
+
+                                <TextBlock Text="Meldung, wenn Artikel nicht gefunden" Grid.Column="2" Grid.Row="1" Margin="20,5" />
+                                <TextBlock Text="Signalton, wenn Artikel nicht gefunden" Grid.Column="2" Grid.Row="2" Margin="20,5"/>
+                                <TextBlock Text = "Benachrichtigen wenn Warenbestand weniger als " Grid.Column="2" Grid.Row="3" Margin="20,0,5,5" />
+                                <TextBlock Text = "Stück" Grid.Column="4" Grid.Row="3" Margin="5,0,20,5" />
+                                <TextBlock Text ="Abholscheine drucken (Bondrucker)" Grid.Column="2" Grid.Row="4" Margin="20,5" />
+                                <TextBlock Name="AbholdatumTextBlock" Text ="Abholdatum - Angabe" Opacity="0.5" IsEnabled="False" Grid.Column="2" Grid.Row="5" Margin="20,5" />
+                                <TextBlock Text ="Rappenrundung (Schweiz)" Grid.Column="2" Grid.Row="6" Margin="20,5" />
+                                <TextBlock Text ="Rabatte auf einzelne Artikel" Grid.Column="2" Grid.Row="7" Margin="20,5" />
+                                <TextBlock Text ="Bei Preiseingabe statt&quot;00&quot; ein Komma verwenden" Grid.Column="2" Grid.Row="8" Margin="20,5" />
+                                <TextBlock Text ="Storno (Rückgabe) als Gutschein" Grid.Column="2" Grid.Row="9" Margin="20,5" />
+
+                                <TextBlock Text ="vollständig" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4" Margin="20,5" />
+                                <TextBlock Text ="kleiner Zettel" Grid.Column="5" Grid.Row="4" Margin="20,5" />
+
                             </Grid>
                         </Border>
                     </DockPanel>

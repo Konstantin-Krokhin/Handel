@@ -39,5 +39,17 @@ namespace HandelTSE
         {
 
         }
+
+        private void EinmannbetriebCheckBox_Unchecked(object sender, RoutedEventArgs e) { AnmeldungMitPasswortCheckbox.IsEnabled = false; if (AnmeldungMitPasswortCheckbox.IsChecked == false) AnmeldungMitPasswortCheckbox.IsChecked = true; AnmeldungMitPasswortTextBlock.Opacity = 0.5; }
+
+        private void EinmannbetriebCheckBox_Checked(object sender, RoutedEventArgs e) { AnmeldungMitPasswortCheckbox.IsEnabled = true; AnmeldungMitPasswortTextBlock.Opacity = 1; }
+
+        private void AbholscheineCheckbox_Checked(object sender, RoutedEventArgs e) { AbholdatumCheckbox.IsEnabled = true; AbholdatumTextBlock.Opacity = 1; VollstandigCheckbox.IsEnabled = true; KleinerZettelCheckbox.IsEnabled = true; }
+
+        private void AbholscheineCheckbox_Unchecked(object sender, RoutedEventArgs e) { AbholdatumCheckbox.IsEnabled = false; AbholdatumCheckbox.IsChecked = false; AbholdatumTextBlock.Opacity = 0.5; VollstandigCheckbox.IsEnabled = false; KleinerZettelCheckbox.IsEnabled = false; if (VollstandigCheckbox.IsChecked == true) KleinerZettelCheckbox.IsChecked = true; }
+
+        private void VollstandigCheckbox_Checked(object sender, RoutedEventArgs e) { if (KleinerZettelCheckbox.IsChecked == true) KleinerZettelCheckbox.IsChecked = false; }
+
+        private void KleinerZettelCheckbox_Checked(object sender, RoutedEventArgs e) { if (VollstandigCheckbox.IsChecked == true) VollstandigCheckbox.IsChecked = false; }
     }
 }
