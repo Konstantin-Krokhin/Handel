@@ -170,10 +170,10 @@
                                 <TextBlock Text ="Einzelpreis anzeigen" Grid.Column="2" Grid.Row="16" Margin="20,3" />
 
 
-                                <TextBlock Text="Sonstige Artikel - Text:" Grid.Column="3" Grid.Row="3" Margin="40,0,0,0" />
-                                <TextBlock Text="Kassenbestand (aktuell):" Grid.Column="3" Grid.Row="4" Margin="40,0,5,0" />
-                                <TextBox Text="Diverse Artikel" Width="180" Grid.Column="4" Grid.Row="3" Margin="10,0" />
-                                <TextBox Text="0.00" IsEnabled="False" Width="100" HorizontalAlignment="Left" Margin="10,0" Grid.Column="4" Grid.Row="4" />
+                                <TextBlock Text="Sonstige Artikel - Text:" VerticalAlignment="Center" Grid.Column="3" Grid.Row="3" Margin="40,0,0,0" />
+                                <TextBlock Text="Kassenbestand (aktuell):" VerticalAlignment="Center" Grid.Column="3" Grid.Row="4" Margin="40,0,5,0" />
+                                <TextBox Text="Diverse Artikel" Width="180" Height="25" Grid.Column="4" Grid.Row="3" Margin="10,0" />
+                                <TextBox Text="0.00" IsEnabled="False" Height="25" Width="100" HorizontalAlignment="Left" Margin="10,0" Grid.Column="4" Grid.Row="4" />
 
                             </Grid>
                         </Border>
@@ -248,21 +248,21 @@
                                 <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center"  IsChecked="True"/>
                                 <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center"  />
                                 <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" />
-                                
-                                <CheckBox Name="VollstandigCheckbox" Grid.Row="4" Grid.Column="3" VerticalContentAlignment="Center" Checked="VollstandigCheckbox_Checked" IsEnabled="False" />
-                                <CheckBox Name="KleinerZettelCheckbox" Grid.Row="4" Grid.Column="5" IsEnabled="False" VerticalContentAlignment="Center" Checked="KleinerZettelCheckbox_Checked" IsChecked="true" />
 
-                                <TextBox Grid.Column="3" Grid.Row="3" Width="60" />
+                                <CheckBox Name="VollstandigCheckbox" Unchecked="VollstandigCheckbox_Unchecked" Grid.Row="4" Grid.Column="3" VerticalContentAlignment="Center" Checked="VollstandigCheckbox_Checked" IsEnabled="False" />
+                                <CheckBox Name="KleinerZettelCheckbox" Unchecked="KleinerZettelCheckbox_Unchecked" Grid.Row="4" Grid.Column="5" IsEnabled="False" VerticalContentAlignment="Center" Checked="KleinerZettelCheckbox_Checked" IsChecked="true" />
+
+                                <TextBox Grid.Column="3" Grid.Row="3" Width="60" VerticalAlignment="Center" Height="23" />
 
                                 <TextBlock Text="Meldung, wenn Artikel nicht gefunden" Grid.Column="2" Grid.Row="1" Margin="20,5" />
                                 <TextBlock Text="Signalton, wenn Artikel nicht gefunden" Grid.Column="2" Grid.Row="2" Margin="20,5"/>
                                 <TextBlock Text = "Benachrichtigen wenn Warenbestand weniger als " Grid.Column="2" Grid.Row="3" Margin="20,0,5,5" />
-                                <TextBlock Text = "Stück" Grid.Column="4" Grid.Row="3" Margin="5,0,20,5" />
+                                <TextBlock Text = "Stück" VerticalAlignment="Center" Grid.Column="4" Grid.Row="3" Margin="5,0,20,5" />
                                 <TextBlock Text ="Abholscheine drucken (Bondrucker)" Grid.Column="2" Grid.Row="4" Margin="20,5" />
                                 <TextBlock Name="AbholdatumTextBlock" Text ="Abholdatum - Angabe" Opacity="0.5" IsEnabled="False" Grid.Column="2" Grid.Row="5" Margin="20,5" />
                                 <TextBlock Text ="Rappenrundung (Schweiz)" Grid.Column="2" Grid.Row="6" Margin="20,5" />
                                 <TextBlock Text ="Rabatte auf einzelne Artikel" Grid.Column="2" Grid.Row="7" Margin="20,5" />
-                                <TextBlock Text ="Bei Preiseingabe statt&quot;00&quot; ein Komma verwenden" Grid.Column="2" Grid.Row="8" Margin="20,5" />
+                                <TextBlock Text ="Bei Preiseingabe statt &quot;00&quot; ein Komma verwenden" Grid.Column="2" Grid.Row="8" Margin="20,5" />
                                 <TextBlock Text ="Storno (Rückgabe) als Gutschein" Grid.Column="2" Grid.Row="9" Margin="20,5" />
 
                                 <TextBlock Text ="vollständig" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="4" Margin="20,5" />
@@ -332,18 +332,40 @@
                                     <RowDefinition Height="35"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="Kassennummer*:" FontWeight="Bold" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
-                                <TextBlock Text="Marke der Kasse*:" Grid.Column="1" Grid.Row="2" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Modellbezeichnung*:" Grid.Column="1" Grid.Row="3" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Seriennummer*:" Grid.Column="1" Grid.Row="4" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Kassensoftware*:" Grid.Column="1" Grid.Row="5" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Version der Software*:" Grid.Column="1" Grid.Row="6" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Währung der Kasse*:" Grid.Column="1" Grid.Row="7" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="Basiswährung Code*:" Grid.Column="1" Grid.Row="8" Margin="0, 8, 0, 8" />
-                                <TextBlock Text="DSFinV-K Version:" FontWeight="Bold" Grid.Column="1" Grid.Row="9" Margin="0, 8, 20, 8" />
-                                <TextBlock Text="Deutschland EUR" Grid.Column="3" Grid.Row="8" Margin="190, 0" Padding="10,7,0,0" />
-                                <TextBlock Text="mit * gekennzeichnete Felder sind Pflichtfelder" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="10, 5,0,0"/>
+                                <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Checked="ZAbschlagSenden_Checked" Unchecked="ZAbschlagSenden_Unchecked"/>
+                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center"  IsChecked="True"/>
+                                <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center"  IsChecked="True"/>
+                                <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="11" Grid.Column="2" VerticalContentAlignment="Center" />
 
+                                <CheckBox Name="A4DruckerCheckbox" Grid.Row="1" Unchecked="A4Drucker_Unchecked" Grid.Column="5" VerticalContentAlignment="Center" Checked="A4Drucker_Checked" />
+                                <CheckBox Name="BondruckerCheckbox" Grid.Row="1" Unchecked="Bondrucker_Unchecked" Grid.Column="3" VerticalContentAlignment="Center" Checked="Bondrucker_Checked" IsChecked="true" />
+
+                                <TextBox x:Name="AbschlagSendenTextBox" Grid.Column="3" Height="25" Grid.Row="2" Width="180" IsEnabled="False" />
+
+                                <TextBlock Text="Z-Abschlag drucken automatisch über" Grid.Column="2" Grid.Row="1" Margin="20,5" />
+                                <TextBlock Text="Z-Abschlag senden automatisch per E-mail:" Grid.Column="2" Grid.Row="2" Margin="20,5"/>
+                                <TextBlock Text = "Warengruppenabrechnung" Grid.Column="2" Grid.Row="3" Margin="20,0,5,5" />
+                                
+                                <TextBlock Text ="PRESSE" Grid.Column="2" Grid.Row="4" Margin="20,5"/>
+                                <TextBlock Text ="Zahlungen" Grid.Column="2" Grid.Row="5" Margin="20,5" />
+                                <TextBlock Text ="Pfand/Leergut" Grid.Column="2" Grid.Row="6" Margin="20,5" />
+                                <TextBlock Text ="Gutscheine" Grid.Column="2" Grid.Row="7" Margin="20,5" />
+                                <TextBlock Text ="geparkte Bestellungen" Grid.Column="2" Grid.Row="8" Margin="20,5" />
+                                <TextBlock Text ="Zählprotokoll" Grid.Column="2" Grid.Row="9" Margin="20,5" />
+                                <TextBlock Text ="Bediener-Selbstabrechnung" Grid.Column="2" Grid.Row="10" Margin="20,5" />
+                                <TextBlock Text ="Zahlungen mit MwSt.-Abrechnung" Grid.Column="2" Grid.Row="11" Margin="20,5" />
+
+                                <TextBlock Name="BondruckerTextBlock" Text ="Bondrucker" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Margin="20,5" />
+                                <TextBlock Name="A4DruckerTextBlock" Text ="A-4 Drucker" Grid.Column="5" Grid.Row="1" Margin="20,5" />
+
+                                <CheckBox Name="ZAbschlagDrucken" Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True" Checked="ZAbschlagDrucken_Checked" Unchecked="ZAbschlagDrucken_Unchecked"/>
+                                
                             </Grid>
                         </Border>
                     </DockPanel>
@@ -378,7 +400,7 @@
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
-                    <DockPanel Name="BondruckerPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
+                    <DockPanel Name="BondruckerPanel" Height="450" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
                         <Border DockPanel.Dock="Top"
                             BorderBrush="LightGray"
                             Background="White"
@@ -387,6 +409,9 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
@@ -410,52 +435,53 @@
                                     <RowDefinition Height="35"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="Liste" FontSize="13" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
-                                
+                                <GroupBox Width="350" Height="440" Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="4">
+                                    <GroupBox.Header> Kasse </GroupBox.Header>
 
-                                <CheckBox Name="NetzwerkDatenbank" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="169, 0" />
-                                <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="Netzwerk - Datenbank" Margin="0, 0, 35, 2" />
+                                    <StackPanel Orientation="Vertical" Margin="5, 5">
+                                        <TextBlock Text="Bondrucker:" Margin="10, 5"/>
+                                        <CheckBox Content="Rechnung, Gutschein, Storno" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 5,20,2" />
+                                        <CheckBox Content="Talon" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        <CheckBox Content="Abholschein" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        <CheckBox Content="Berichte (Z-Abschlag, etc.)" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        
+                                        <TextBlock Text="Bondrucker 2:" Margin="10, 5"/>
+                                        <CheckBox Content="Rechnung, Gutschein, Storno" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 5,20,2" />
+                                        <CheckBox Content="Talon" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        <CheckBox Content="Abholschein" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        <CheckBox Content="Berichte (Z-Abschlag, etc.)" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
 
-                                <DockPanel Name="TerminalIDPanel" Grid.Row="2" Grid.RowSpan="1" Height="260" Width="440" Grid.ColumnSpan="2" Grid.Column="2" VerticalAlignment="Top" Margin="10,1" HorizontalAlignment="Center" Background="LightGray">
-                                    <Border DockPanel.Dock="Top"
-                                            BorderBrush="LightGray"
-                                            Background="White"
-                                            BorderThickness="2"
-                                            Padding="0">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="0"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="20"/>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height= "auto"/>
-                                                <RowDefinition Height="35"/>
-                                            </Grid.RowDefinitions>
+                                        <TextBlock Text="Bondrucker 3:" Margin="10, 5"/>
+                                        <CheckBox Content="Rechnung, Gutschein, Storno" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 5,20,2" />
+                                        <CheckBox Content="Talon" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        <CheckBox Content="Abholschein" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+                                        <CheckBox Content="Berichte (Z-Abschlag, etc.)" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
 
-                                            
-                                        </Grid>
+                                    </StackPanel>
 
-                                    </Border>
+                                </GroupBox>
 
-                                </DockPanel>
+                                <GroupBox Width="350" Height="440" Grid.Row="0" Grid.Column="5" Grid.RowSpan="4" Grid.ColumnSpan="4">
+                                    <GroupBox.Header> Office </GroupBox.Header>
 
-                                
+                                    <StackPanel Orientation="Vertical" Margin="5, 5">
+                                        <TextBlock Text="Bondrucker:" Margin="10, 5"/>
+                                        <CheckBox Content="Rechnung" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 5,20,2" />
+                                        <CheckBox Content="Berichte" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+
+                                        <TextBlock Text="Bondrucker 2:" Margin="10, 5"/>
+                                        <CheckBox Content="Rechnung" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 5,20,2" />
+                                        <CheckBox Content="Berichte" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+
+                                        <TextBlock Text="Bondrucker 3:" Margin="10, 5"/>
+                                        <CheckBox Content="Rechnung" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 5,20,2" />
+                                        <CheckBox Content="Berichte" VerticalContentAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Margin="20, 2" />
+
+                                    </StackPanel>
+
+                                </GroupBox>
+
+
 
                             </Grid>
 

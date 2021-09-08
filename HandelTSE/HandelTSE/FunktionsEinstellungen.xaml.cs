@@ -51,5 +51,37 @@ namespace HandelTSE
         private void VollstandigCheckbox_Checked(object sender, RoutedEventArgs e) { if (KleinerZettelCheckbox.IsChecked == true) KleinerZettelCheckbox.IsChecked = false; }
 
         private void KleinerZettelCheckbox_Checked(object sender, RoutedEventArgs e) { if (VollstandigCheckbox.IsChecked == true) VollstandigCheckbox.IsChecked = false; }
+
+        private void Bondrucker_Checked(object sender, RoutedEventArgs e) { if (A4DruckerCheckbox.IsChecked == true) A4DruckerCheckbox.IsChecked = false; }
+        private void A4Drucker_Checked(object sender, RoutedEventArgs e) { if (BondruckerCheckbox.IsChecked == true) BondruckerCheckbox.IsChecked = false; }
+
+        private void ZAbschlagSenden_Checked(object sender, RoutedEventArgs e) { AbschlagSendenTextBox.IsEnabled = true; }
+        private void ZAbschlagSenden_Unchecked(object sender, RoutedEventArgs e) { AbschlagSendenTextBox.Text = ""; AbschlagSendenTextBox.IsEnabled = false; }
+
+        private void ZAbschlagDrucken_Checked(object sender, RoutedEventArgs e)
+        {
+            BondruckerCheckbox.IsChecked = true;
+            A4DruckerCheckbox.IsChecked = false;
+            BondruckerCheckbox.IsEnabled = true;
+            A4DruckerCheckbox.IsEnabled = true;
+            BondruckerTextBlock.Opacity = 1;
+            A4DruckerTextBlock.Opacity = 1;
+        }
+
+        private void ZAbschlagDrucken_Unchecked(object sender, RoutedEventArgs e)
+        {
+            BondruckerCheckbox.IsChecked = false;
+            A4DruckerCheckbox.IsChecked = false;
+            BondruckerCheckbox.IsEnabled = false;
+            A4DruckerCheckbox.IsEnabled = false;
+            BondruckerTextBlock.Opacity = 0.5;
+            A4DruckerTextBlock.Opacity = 0.5;
+        }
+
+        private void A4Drucker_Unchecked(object sender, RoutedEventArgs e) { if (BondruckerCheckbox.IsChecked == false && ZAbschlagDrucken.IsChecked == true) A4DruckerCheckbox.IsChecked = true; }
+        private void Bondrucker_Unchecked(object sender, RoutedEventArgs e) { if (A4DruckerCheckbox.IsChecked == false && ZAbschlagDrucken.IsChecked == true) BondruckerCheckbox.IsChecked = true; }
+
+        private void VollstandigCheckbox_Unchecked(object sender, RoutedEventArgs e) { if (KleinerZettelCheckbox.IsChecked == false && AbholscheineCheckbox.IsChecked == true) VollstandigCheckbox.IsChecked = true; }
+        private void KleinerZettelCheckbox_Unchecked(object sender, RoutedEventArgs e) { if (VollstandigCheckbox.IsChecked == false && AbholscheineCheckbox.IsChecked == true) KleinerZettelCheckbox.IsChecked = true; }
     }
 }
