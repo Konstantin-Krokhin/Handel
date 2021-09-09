@@ -83,5 +83,17 @@ namespace HandelTSE
 
         private void VollstandigCheckbox_Unchecked(object sender, RoutedEventArgs e) { if (KleinerZettelCheckbox.IsChecked == false && AbholscheineCheckbox.IsChecked == true) VollstandigCheckbox.IsChecked = true; }
         private void KleinerZettelCheckbox_Unchecked(object sender, RoutedEventArgs e) { if (VollstandigCheckbox.IsChecked == false && AbholscheineCheckbox.IsChecked == true) KleinerZettelCheckbox.IsChecked = true; }
+
+        private void EinzweckRadioButton_Checked(object sender, RoutedEventArgs e) { EinzweckComboBox.IsEnabled = true; EinzweckComboBox.Opacity = 1; }
+
+        private void MehrzweckRadioButton_Checked(object sender, RoutedEventArgs e) { EinzweckComboBox.IsEnabled = false; EinzweckComboBox.Opacity = 0.7; }
+
+        private void GutscheinSystem_Unchecked(object sender, RoutedEventArgs e) { GutscheinTextBox.IsEnabled = false; }
+
+        private void GutscheinSystem_Checked(object sender, RoutedEventArgs e) { GutscheinTextBox.IsEnabled = true; }
+
+        private void InfoButton_Clicked(object sender, RoutedEventArgs e) { if (InfoWindow.Visibility == Visibility.Collapsed) { InfoWindow.Visibility = Visibility.Visible; return; } else if (InfoWindow.Visibility == Visibility.Visible) InfoWindow.Visibility = Visibility.Collapsed; }
+
+        private void InfoWindow_CloseButtonClicked(object sender, RoutedEventArgs e) { InfoWindow.Visibility = Visibility.Collapsed; }
     }
 }

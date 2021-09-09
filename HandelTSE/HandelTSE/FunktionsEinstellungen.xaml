@@ -548,7 +548,33 @@
                                     <RowDefinition Height="35"/>
                                 </Grid.RowDefinitions>
 
+                                <TextBox Name="GutscheinTextBox" Width="60" Height="23" Text="25" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" Margin="20, 10" />
+                                <CheckBox Content="Gutschein-System aktivieren" Checked="GutscheinSystem_Checked" Unchecked="GutscheinSystem_Unchecked" VerticalContentAlignment="Center" IsChecked="True" Grid.Row="1" Grid.Column="1" />
+                                <Button Content="Info" Click="InfoButton_Clicked" Grid.Row="1" Grid.Column="2" Width="50" VerticalContentAlignment="Center" Margin="10" HorizontalAlignment="Left" />
                                 
+                                <TextBlock Text = "Gutscheine:" Grid.Row="2" Grid.Column="1"  Margin="20, 0"/>
+                                <ComboBox Name="EinzweckComboBox" Grid.Row="2" SelectedIndex="4" Opacity="0.7" IsEnabled="False" Height="28" Width="50" VerticalAlignment="Center" Grid.Column="4">
+                                    <ComboBoxItem Content="19" />
+                                    <ComboBoxItem Content="7" />
+                                    <ComboBoxItem Content="10.7" />
+                                    <ComboBoxItem Content="5.5" />
+                                    <ComboBoxItem Content="0" />
+                                </ComboBox>
+                                
+                                <RadioButton Content="Einzweck (MwSt. %)" Checked="EinzweckRadioButton_Checked" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="3" Margin="10, 0" />
+                                <RadioButton Content="Mehrzweck (MwSt. 0%)" Checked="MehrzweckRadioButton_Checked" IsChecked="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="10, 0" />
+                                
+                                <TextBlock Text="Gutschein - Kennung (2 Ziffer, z.B. 25)" Grid.Row="3" Grid.Column="1" Margin="90, 0" VerticalAlignment="Center" Grid.ColumnSpan="3" />
+                                <xctk1:WindowControl Name="InfoWindow" CloseButtonClicked="InfoWindow_CloseButtonClicked"  Grid.Row="3" Height="335" Visibility="Collapsed" Width="628" Grid.Column="1" Grid.ColumnSpan="6" Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Center">
+                                        <Bold>Gutschein-Richtlinie (EU) 2016/1065 ab 01.01.2019</Bold><LineBreak/><LineBreak/>
+                                            Einzweckgutscheine liegen vor, wenn im Zeitpunkt der Ausstellung des Gutscheins<LineBreak/>feststeht an welchem Ort und mit welchem Steuersatz die dem Gutschein zugrunde<LineBreak/>liegende Leistung zu besteuern ist (vgl. § 3 Abs. 14 S.1 UStG).<LineBreak/><LineBreak/>
+                                            Mehrzweckgutscheine sind Gutscheine, die keine Einzweckgutscheine sind (§ 3<LineBreak/>Abs. 15 S. 1 UStG); Leistungsort und/oder die geschuldete Steuer dürfen dafür im<LineBreak/>Ausstellungszeitpunkt nicht feststehen. Eine Vorverlagerung der Besteuerung findet<LineBreak/>hier nicht statt.
+                                            Vielmehr ist der Besteuerungszeitpunkt die tatsächliche<LineBreak/>Leistungserbringung (§ 3 Abs. 15 S. 2 UStG). Im Falle der Nichteinlösung unterbleibt<LineBreak/>die Besteuerung beim Unternehmer.<LineBreak/><LineBreak/>
+                                            <Bold>Wenden Sie sich bei Fragen an Ihren Steuerberater.</Bold>
+                                    </TextBlock>
+                                </xctk1:WindowControl>
+
                             </Grid>
                         </Border>
                     </DockPanel>
