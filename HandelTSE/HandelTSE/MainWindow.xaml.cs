@@ -101,7 +101,7 @@ namespace HandelTSE
         private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { DataContext = new Personalverwaltung(); }
 
         // Close all the connections made in User Control Interfaces
-        private void Close_Clicked(object sender, EventArgs e) { Personalverwaltung.con.Close(); ProgramEinstellungen.con.Close(); }
+        private void Close_Clicked(object sender, EventArgs e) { if (Personalverwaltung.con.ConnectionString.Length > 0) Personalverwaltung.con.Close(); if (ProgramEinstellungen.con.ConnectionString.Length > 0) ProgramEinstellungen.con.Close(); if (FunktionsEinstellungen.con.ConnectionString.Length > 0) FunktionsEinstellungen.con.Close(); }
 
         private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
 
