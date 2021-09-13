@@ -220,3 +220,5 @@ C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\FunktionsEinstellungen.g.cs
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\FunktionsEinstellungen.baml
 C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\HandelTSE.csprojAssemblyReference.cache
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\Umsatzsteuer.g.cs
+C:\Users\Konstantin\source\repos\handel\HandelTSE\HandelTSE\obj\Debug\Umsatzsteuer.baml

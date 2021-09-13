@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.OleDb;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -26,17 +27,32 @@ namespace HandelTSE
     {
         List<items> it = new List<items>();
         List<items> it2 = new List<items>();
-        //List<items> ArtikelData = new List<items>();
+        public static OleDbConnection con = new OleDbConnection();
         public MainWindow()
         {
             InitializeComponent();
+
+            con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
+
+            try { con.Open(); }
+            catch
+            {
+                MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
+                    MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
+                }
+                else if (result == MessageBoxResult.No)
+                { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
+            }
 
             // FOR DEV/TEST Purposes ONLY********************
             ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new FunktionsEinstellungen();
+            DataContext = new Umsatzsteuer();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
@@ -101,10 +117,12 @@ namespace HandelTSE
         private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { DataContext = new Personalverwaltung(); }
 
         // Close all the connections made in User Control Interfaces
-        private void Close_Clicked(object sender, EventArgs e) { if (Personalverwaltung.con.ConnectionString.Length > 0) Personalverwaltung.con.Close(); if (ProgramEinstellungen.con.ConnectionString.Length > 0) ProgramEinstellungen.con.Close(); if (FunktionsEinstellungen.con.ConnectionString.Length > 0) FunktionsEinstellungen.con.Close(); }
+        private void Close_Clicked(object sender, EventArgs e) { con.Close(); }
 
         private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
 
         private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new FunktionsEinstellungen(); }
+
+        private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { DataContext = new Umsatzsteuer(); }
     }
 }

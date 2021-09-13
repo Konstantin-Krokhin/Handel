@@ -29,7 +29,6 @@ namespace HandelTSE.ViewModels
         public static List<string> WGs = new List<string>();
         public static TreeView TV = new TreeView();
         List<string> artikel = new List<string>();
-        int n_size = 20;
 
         public class items
         {

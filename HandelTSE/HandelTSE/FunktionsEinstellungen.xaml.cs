@@ -29,23 +29,7 @@ namespace HandelTSE
             InitializeComponent();
 
             // If the menu ProgramEinstellungen is being open multiple times
-            if (con.ConnectionString.Length == 0)
-            {
-                con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
-
-                try { con.Open(); }
-                catch
-                {
-                    MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                        MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
-                    }
-                    else if (result == MessageBoxResult.No)
-                    { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
-                }
-            }
+            if (con.ConnectionString.Length == 0) { con = MainWindow.con; }
             LoadData();
             if (EinmannbetriebCheckbox.IsChecked == false && AnmeldungMitPasswortCheckbox.IsChecked == false) AnmeldungMitPasswortCheckbox.IsChecked = true;
         }

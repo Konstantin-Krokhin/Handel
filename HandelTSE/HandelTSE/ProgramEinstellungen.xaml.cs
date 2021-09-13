@@ -55,21 +55,7 @@ namespace HandelTSE
             // If the menu ProgramEinstellungen is being open multiple times
             if (con.ConnectionString.Length == 0)
             {
-                con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
-
-                try { con.Open(); }
-                catch
-                {
-                    MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                        MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
-                    }
-                    else if (result == MessageBoxResult.No)
-                    { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
-                }
-
+                con = MainWindow.con;
                 OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); }
                 catch { }
@@ -146,15 +132,20 @@ namespace HandelTSE
             foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(TerminalIDPanel)) { if (tb.Text == "") { tb.Background = brush_red; k = 1; } }
             if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; };
 
-            Int32 maxID = 0;
-            OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
-            try { maxID = (Int32)maxCommand.ExecuteScalar(); }
-            catch { }
-
+            Int32 ID = 0;
             int result = 0;
+            OleDbCommand cmd = new OleDbCommand();
             int NetzwerkDatenbankValue = 0;
             if (NetzwerkDatenbank.IsChecked == true) NetzwerkDatenbankValue = -1;
-            OleDbCommand cmd = new OleDbCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('"+ ++maxID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
+            if (TerminalenDataGrid.SelectedItem != null) ID = ((Terminalen)TerminalenDataGrid.SelectedItem).Id;
+            else
+            {
+                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
+                try { ID = (Int32)maxCommand.ExecuteScalar(); }
+                catch { }
+                cmd = new OleDbCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('" + ++ID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
+            }
+
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
         }

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="HandelTSE.Umsatzsteuer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HandelTSE"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="840" Background="LightGray">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="neu Umsatzsteuer" Width="115" Grid.Row="1" Grid.Column="3" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="0,10,0,0" Click="NeuUmsatzsteuer_Click"/>
+        <Button Content="löschen Umsatzsteuer" Width="140" Grid.Row="1" Grid.Column="4" Margin="0,10,0,0" />
+        <Button Content="speichern" Width="70" Grid.Row="1" Grid.Column="5" Margin="0.2,10,1,0" Height="30" VerticalAlignment="Top" Click="speichern_Click" />
+
+        <GroupBox Width="825" Height="500" Grid.Row="2" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="10" Margin="5, 0, 0, 2">
+            <GroupBox.Header>
+                Umsatzsteuer - Einstellungen
+            </GroupBox.Header>
+
+            <DataGrid Name = "UmsatzsteuerDataGrid" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="460" Margin="10,0"/>
+
+
+        </GroupBox>
+    </Grid>
+</UserControl>

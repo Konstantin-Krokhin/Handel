@@ -72,19 +72,7 @@ namespace HandelTSE.ViewModels
             string path = (System.IO.Path.GetDirectoryName(executable));
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
 
-            con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
-
-            try { con.Open(); }
-            catch
-            {
-                MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                    MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
-                }
-                else if (result == MessageBoxResult.No) { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
-            }
+            con = MainWindow.con;
             cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
             
             LoadGrid();
@@ -266,6 +254,7 @@ namespace HandelTSE.ViewModels
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e)
         {
+            if (PasswordWarning.Visibility == Visibility.Visible) PasswordWarning.Visibility = Visibility.Hidden;
             if (grid.SelectedItem == null) return;
             var dg = sender as System.Windows.Controls.DataGrid;
             if (dg == null) return;
