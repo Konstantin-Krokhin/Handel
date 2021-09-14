@@ -250,16 +250,16 @@
                                 <TextBlock Text="Die markierten Daten für Bonkopfzeile und Berichte übernehmen" Grid.Column="3" Grid.Row="12" Margin="10, -5,0,0" Padding="0,0,0,4" />
                                 <TextBlock Text="mit * gekennzeichnete Felder sind Pflichtfelder" FontSize="12" FontWeight="Bold" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="10, 5,0,0"/>
 
-                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
-                                <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" />
-                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
-                                <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
-                                <CheckBox Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
-                                <CheckBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
-                                <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
-                                <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
-                                <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
-                                <CheckBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="True"/>
+                                <CheckBox Grid.Row="5" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="7" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="9" Grid.Column="2" VerticalContentAlignment="Center" />
+                                <CheckBox Grid.Row="10" Grid.Column="2" VerticalContentAlignment="Center" />
                                 <CheckBox Grid.Row="11" Checked="AlleCheckBox_Checked" Unchecked="AlleCheckBox_Unchecked" Grid.Column="2" VerticalContentAlignment="Center" Margin="0,0,10,0" />
 
                                 <TextBox Name="FirmaField" TextChanged="TextChanged" Grid.Row="1" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 0"/>

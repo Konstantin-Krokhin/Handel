@@ -26,16 +26,16 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <Button Content="neu Umsatzsteuer" Width="115" Grid.Row="1" Grid.Column="3" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="0,10,0,0" Click="NeuUmsatzsteuer_Click"/>
+        <Button Name="NeuUmsatzsteuerButton" Content="neu Umsatzsteuer" Width="115" Grid.Row="1" Grid.Column="3" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="0,10,0,0" Click="NeuUmsatzsteuer_Click"/>
         <Button Content="löschen Umsatzsteuer" Width="140" Grid.Row="1" Grid.Column="4" Margin="0,10,0,0" />
-        <Button Content="speichern" Width="70" Grid.Row="1" Grid.Column="5" Margin="0.2,10,1,0" Height="30" VerticalAlignment="Top" Click="speichern_Click" />
+        <Button Name="SpeichernButton" Content="speichern" Width="70" Grid.Row="1" Grid.Column="5" Margin="0.2,10,1,0" Height="30" VerticalAlignment="Top" Click="speichern_Click" />
 
-        <GroupBox Width="825" Height="500" Grid.Row="2" Grid.Column="0" Grid.RowSpan="10" Grid.ColumnSpan="10" Margin="5, 0, 0, 2">
+        <GroupBox Width="815" Height="480" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.RowSpan="10" Grid.ColumnSpan="10" Margin="5, 0, 0, 2">
             <GroupBox.Header>
                 Umsatzsteuer - Einstellungen
             </GroupBox.Header>
 
-            <DataGrid Name = "UmsatzsteuerDataGrid" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="460" Margin="10,0"/>
+            <DataGrid Name = "UmsatzsteuerDataGrid" BeginningEdit="UmsatzsteuerDataGrid_BeginningEdit" Loaded="UmsatzsteuerDataGrid_Loaded" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="460" Margin="5,5"/>
 
 
         </GroupBox>

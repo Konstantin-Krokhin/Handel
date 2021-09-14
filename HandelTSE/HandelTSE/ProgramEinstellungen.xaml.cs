@@ -137,7 +137,20 @@ namespace HandelTSE
             OleDbCommand cmd = new OleDbCommand();
             int NetzwerkDatenbankValue = 0;
             if (NetzwerkDatenbank.IsChecked == true) NetzwerkDatenbankValue = -1;
-            if (TerminalenDataGrid.SelectedItem != null) ID = ((Terminalen)TerminalenDataGrid.SelectedItem).Id;
+            if (TerminalenDataGrid.SelectedItem != null)
+            {
+                ID = ((Terminalen)TerminalenDataGrid.SelectedItem).Id;
+                cmd = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenKassennetz] SET TerminalID = @TerminalID, MarkeDesTerminals = @MarkeDesTerminals, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, NetzwerkDatenbank = @NetzwerkDatenbank WHERE Id = @ID", con);
+
+                cmd.Parameters.Add(new OleDbParameter("@TerminalID", TerminalID.Text));
+                cmd.Parameters.Add(new OleDbParameter("@MarkeDesTerminals", MarkeDesTermin.Text));
+                cmd.Parameters.Add(new OleDbParameter("@Modellbezeichnung", Modellbezeichnung.Text));
+                cmd.Parameters.Add(new OleDbParameter("@Seriennummer", Seriennummer.Text));
+                cmd.Parameters.Add(new OleDbParameter("@Kassensoftware", KassenSoftware.Text));
+                cmd.Parameters.Add(new OleDbParameter("@VersionDerSoftware", VersionDerSoftware.Text));
+                cmd.Parameters.Add(new OleDbParameter("@NetzwerkDatenbank", NetzwerkDatenbankValue));
+                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+            }
             else
             {
                 OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
@@ -410,7 +423,5 @@ namespace HandelTSE
         private void AlleCheckBox_Checked(object sender, RoutedEventArgs e) { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) ch.IsChecked = true; }
 
         private void AlleCheckBox_Unchecked(object sender, RoutedEventArgs e) { foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) ch.IsChecked = false; }
-
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e) { }
     }
 }
