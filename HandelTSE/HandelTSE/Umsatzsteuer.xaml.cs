@@ -92,7 +92,7 @@ namespace HandelTSE
         {
             int k = 0;
             Umsatz item = ((Umsatz)UmsatzsteuerDataGrid.SelectedItem);
-            if (item == null || item.MwSt == "" || item.Bezeich == "" || !item.MwSt.All(char.IsDigit)) k = 1;
+            if (item == null || item.MwSt == null || item.Bezeich == null || item.MwSt == "" || item.Bezeich == "" || !item.MwSt.All(char.IsDigit)) k = 1;
             if (k == 1) { MessageBox.Show("Überprüfen Sie bitte die Steuerndaten (Steuersatz und Bezeichnung)!"); return; }
             SpeichernButton.IsEnabled = false;
             SpeichernButton.Opacity = 0.7;
@@ -131,7 +131,35 @@ namespace HandelTSE
 
         private void UmsatzsteuerDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) { }
 
-        private void UmsatzsteuerDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Loschen_Click(object sender, RoutedEventArgs e)
+        {
+            if (UmsatzsteuerDataGrid.SelectedItem == null) { MessageBox.Show("Bitte wählen Sie den Datensatz in der Tabelle aus!"); return; }
+
+            string caption = "Datensatz entfernen...";
+            string messageBoxText = "Wollen Sie wirklich entfernen?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_Umsatzsteuer] where Id = @ID", con);
+                    cmd.Parameters.Add(new OleDbParameter("@ID", ((Umsatz)UmsatzsteuerDataGrid.SelectedItem).Id));
+                    int result = 0;
+                    try { result = cmd.ExecuteNonQuery(); }
+                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+
+                    LoadGrid();
+                    HideColumns();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+
+        private void UmsatzsteuerDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
         }
