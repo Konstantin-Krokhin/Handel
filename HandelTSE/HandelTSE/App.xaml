@@ -6,7 +6,7 @@
     <!-- StartupUri="ViewModels\LoginScreen.xaml" FOR STARTUP LOGIN WINDOW -->
     <Application.Resources>
         <DropShadowEffect x:Key="MyEffect" ShadowDepth="1" BlurRadius="20" Color="LightGray"/>
-        
+
         <Style TargetType="FrameworkElement" x:Key="VisibleAnimation">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Opacity" Value="10"/>

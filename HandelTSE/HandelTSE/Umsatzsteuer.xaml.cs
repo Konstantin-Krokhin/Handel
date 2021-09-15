@@ -25,6 +25,7 @@ namespace HandelTSE
         List<Umsatz> list = new List<Umsatz>();
         public static OleDbConnection con = new OleDbConnection();
         public List<Umsatz> Data { get; set; }
+        int maxSchlussel = 0;
 
         public class Umsatz
         {
@@ -50,8 +51,8 @@ namespace HandelTSE
                 try 
                 { 
                     cmd.ExecuteNonQuery();
-                    //Create first empty record with the proper starting ID = 1
-                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id)Values('" + 1 + "')", con);
+                    //Create first empty record with the proper starting ID and Schlussel starting from 1
+                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, Schlussel)Values('" + 1 + "','" + 1 + "')", con);
                     try { cmd2.ExecuteNonQuery(); }
                     catch { }
                 }
@@ -84,9 +85,9 @@ namespace HandelTSE
 
         private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e) { if (e.Column.Header.ToString() == "MwSt") e.Column.Header = "MwSt%"; if (e.Column.Header.ToString() == "GKonto") e.Column.Header = "G.Konto"; }
 
-        private void RecordSelected(object sender, SelectionChangedEventArgs e) { NeuUmsatzsteuerButton.IsEnabled = true; SpeichernButton.IsEnabled = true; SpeichernButton.Opacity = 1; }
+        private void RecordSelected(object sender, SelectionChangedEventArgs e) { if (UmsatzsteuerDataGrid.SelectedItem != null && UmsatzsteuerDataGrid.SelectedIndex != UmsatzsteuerDataGrid.Items.Count - 1 && ((Umsatz)UmsatzsteuerDataGrid.Items[UmsatzsteuerDataGrid.Items.Count - 1]).Schlussel == null) {Data.RemoveAt(UmsatzsteuerDataGrid.Items.Count-1); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); NeuUmsatzsteuerButton.IsEnabled = true; } }
 
-        private void NeuUmsatzsteuer_Click(object sender, RoutedEventArgs e) { SpeichernButton.IsEnabled = true; SpeichernButton.Opacity = 1; UmsatzsteuerDataGrid.SelectedItem = new DataGridRow(); NeuUmsatzsteuerButton.Opacity = 0.7; NeuUmsatzsteuerButton.IsEnabled = false; }
+        private void NeuUmsatzsteuer_Click(object sender, RoutedEventArgs e) { Data.Add(new Umsatz { }); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); UmsatzsteuerDataGrid.SelectedIndex = UmsatzsteuerDataGrid.Items.Count - 1; NeuUmsatzsteuerButton.IsEnabled = false; }
 
         private void speichern_Click(object sender, RoutedEventArgs e)
         {
@@ -94,8 +95,7 @@ namespace HandelTSE
             Umsatz item = ((Umsatz)UmsatzsteuerDataGrid.SelectedItem);
             if (item == null || item.MwSt == null || item.Bezeich == null || item.MwSt == "" || item.Bezeich == "" || !item.MwSt.All(char.IsDigit)) k = 1;
             if (k == 1) { MessageBox.Show("Überprüfen Sie bitte die Steuerndaten (Steuersatz und Bezeichnung)!"); return; }
-            SpeichernButton.IsEnabled = false;
-            SpeichernButton.Opacity = 0.7;
+            NeuUmsatzsteuerButton.IsEnabled = true;
 
             Int32 ID = 0;
             int result = 0;
@@ -116,16 +116,18 @@ namespace HandelTSE
             }
             else
             {
+                int currentSchlussel = 0;
                 OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_Umsatzsteuer", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                cmd = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + item.Bezeich + "','" + item.Schlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
+                foreach (var i in UmsatzsteuerDataGrid.Items) { if (((Umsatz)i).Schlussel == null) break; currentSchlussel = int.Parse(((Umsatz)i).Schlussel); if (currentSchlussel > maxSchlussel) maxSchlussel = currentSchlussel; }
+                cmd = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + item.Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
         }
 
-        private void HideColumns() { if (UmsatzsteuerDataGrid.Items.Count > 0 && UmsatzsteuerDataGrid.Columns.Count > 0) UmsatzsteuerDataGrid.Columns[0].Visibility = Visibility.Collapsed; }
+        private void HideColumns() { if (UmsatzsteuerDataGrid.Items.Count > 0 && UmsatzsteuerDataGrid.Columns.Count > 0) foreach (var item in UmsatzsteuerDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; if (item.Header.ToString() == "Schlussel") item.IsReadOnly = true; } }
 
         private void UmsatzsteuerDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumns(); }
 
@@ -157,11 +159,6 @@ namespace HandelTSE
                 case MessageBoxResult.Cancel:
                     break;
             }
-        }
-
-        private void UmsatzsteuerDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-
         }
     }
 }
