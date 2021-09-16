@@ -93,12 +93,14 @@ namespace HandelTSE
         {
             int k = 0;
             Umsatz item = ((Umsatz)UmsatzsteuerDataGrid.SelectedItem);
-            if (item == null || item.MwSt == null || item.Bezeich == null || item.MwSt == "" || item.Bezeich == "" || !item.MwSt.All(char.IsDigit)) k = 1;
+            if (item == null || item.MwSt == null || item.MwSt == "" || (!item.MwSt.All(char.IsDigit) && !Double.TryParse(item.MwSt, out _))) k = 1;
             if (k == 1) { MessageBox.Show("Überprüfen Sie bitte die Steuerndaten (Steuersatz und Bezeichnung)!"); return; }
             NeuUmsatzsteuerButton.IsEnabled = true;
 
             Int32 ID = 0;
             int result = 0;
+            string Bezeich = "";
+            if (item.MwSt.Contains(".") || item.MwSt.Contains(",")) Bezeich = item.MwSt + "%"; else Bezeich = item.MwSt + ".00" + "%";
             OleDbCommand cmd = new OleDbCommand();
             if (item.Id != 0) 
             { 
@@ -106,7 +108,7 @@ namespace HandelTSE
                 cmd = new OleDbCommand("UPDATE [TBL_Umsatzsteuer] SET MwSt = @MwSt, Bezeich = @Bezeich, Schlussel = @Schlussel, Beschreibung = @Beschreibung, Konto = @Konto, GKonto = @GKonto, Kennzeich = @Kennzeich WHERE Id = @ID", con);
 
                 cmd.Parameters.Add(new OleDbParameter("@MwSt", item.MwSt));
-                cmd.Parameters.Add(new OleDbParameter("@Bezeich", item.Bezeich));
+                cmd.Parameters.Add(new OleDbParameter("@Bezeich", Bezeich));
                 cmd.Parameters.Add(new OleDbParameter("@Schlussel", item.Schlussel));
                 cmd.Parameters.Add(new OleDbParameter("@Beschreibung", item.Beschreibung));
                 cmd.Parameters.Add(new OleDbParameter("@Konto", item.Konto));
@@ -120,14 +122,14 @@ namespace HandelTSE
                 OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_Umsatzsteuer", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
                 foreach (var i in UmsatzsteuerDataGrid.Items) { if (((Umsatz)i).Schlussel == null) break; currentSchlussel = int.Parse(((Umsatz)i).Schlussel); if (currentSchlussel > maxSchlussel) maxSchlussel = currentSchlussel; }
-                cmd = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + item.Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
+                cmd = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
         }
 
-        private void HideColumns() { if (UmsatzsteuerDataGrid.Items.Count > 0 && UmsatzsteuerDataGrid.Columns.Count > 0) foreach (var item in UmsatzsteuerDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; if (item.Header.ToString() == "Schlussel") item.IsReadOnly = true; } }
+        private void HideColumns() { if (UmsatzsteuerDataGrid.Items.Count > 0 && UmsatzsteuerDataGrid.Columns.Count > 0) foreach (var item in UmsatzsteuerDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; if (item.Header.ToString() == "Schlussel") item.IsReadOnly = true; if (item.Header.ToString() == "Bezeich") item.IsReadOnly = true; } }
 
         private void UmsatzsteuerDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumns(); }
 
