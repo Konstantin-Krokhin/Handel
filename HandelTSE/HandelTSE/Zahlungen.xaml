@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="HandelTSE.Zahlungen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HandelTSE" xmlns:xctk1="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="840" Background="LightGray">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button Name="NeuZahlungsmethodeButton" Content="neu Zahlungsmethode" Width="135" Grid.Row="1" Grid.Column="1" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="0,10,0,0" Click="NeuZahlungsmethode_Click"/>
+
+        <GroupBox Width="815" Height="450" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.RowSpan="10" Grid.ColumnSpan="10" Margin="5, 0, 0, 2">
+            <GroupBox.Header>
+                Zahlungsmethoden
+            </GroupBox.Header>
+
+            <DataGrid Name = "ZahlungenDataGrid" CanUserAddRows="False" HorizontalContentAlignment="Center" Loaded="ZahlungenDataGrid_Loaded" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="420" Margin="5,5">
+
+            </DataGrid>
+
+        </GroupBox>
+
+        <xctk1:WindowControl Name="NeuZahlungWindow" Visibility="Visible" CloseButtonClicked="NeuZahlungWindow_CloseButtonClicked" Grid.Row="3" Height="270" Width="340" Grid.Column="6" Grid.ColumnSpan="6" Margin="-100,-50,0,0">
+            <StackPanel  Orientation="Vertical">
+
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock Text="Zahlungsname:" Width="90" Margin="20,10,20,0" />
+                    <TextBox x:Name="Zahlungsname"  Width="188" Margin="0,10,0,0" Height="20" />
+                </StackPanel>
+
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock Text="Zahlungsart:" Width="90" Margin="20,10" />
+                    <ComboBox Name="Zahlungsart" Width="188" SelectedIndex="4" Margin="0,10">
+                        <ComboBoxItem Content="Bar" />
+                        <ComboBoxItem Content="Unbar" />
+                        <ComboBoxItem Content="Keine" />
+                        <ComboBoxItem Content="ECKarte" />
+                        <ComboBoxItem Content="Kreditkarte" />
+                        <ComboBoxItem Content="ElZahlungsdienstleister" />
+                        <ComboBoxItem Content="Guthabenkarte" />
+                    </ComboBox>
+                </StackPanel>
+                
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock Text="Bemerkung für&#10;Rechnung:" Width="90" Margin="20,0" />
+                    <TextBox x:Name="Bemerkung"  Width="188" Margin="0,0,0,10" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible" />
+                </StackPanel>
+
+                
+                <CheckBox Margin="130,0,5,10" Content="Bargeld" />
+                <CheckBox Margin="130,0,5,10" Content="Kassenlade öffnen" IsChecked = "True" />
+                <CheckBox Margin="130,0,5,10" Content="Abfrage bei der Kaufabwicklung" />
+
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock Text="Status:" Width="90" Margin="20,10" />
+                    <Button Name="StatusButton" Content="aktiv" Height="30" Width="90" Margin="0,0,10,0" />
+                    <Button Content="speichern" ClickMode="Press" Height="30" Width="90" Click="speichern_Click" />
+                </StackPanel>
+
+
+            </StackPanel>
+        </xctk1:WindowControl>
+        
+        
+
+    </Grid>
+</UserControl>

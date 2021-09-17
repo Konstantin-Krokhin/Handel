@@ -52,7 +52,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new Umsatzsteuer();
+            DataContext = new Zahlungen();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
@@ -124,5 +124,7 @@ namespace HandelTSE
         private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new FunktionsEinstellungen(); }
 
         private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { DataContext = new Umsatzsteuer(); }
+
+        private void Zahlungen_Click(object sender, RoutedEventArgs e) { DataContext = new Zahlungen(); }
     }
 }

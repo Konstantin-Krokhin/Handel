@@ -149,6 +149,9 @@
     <Compile Include="TransactionParking.xaml.cs">
       <DependentUpon>TransactionParking.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zahlungen.xaml.cs">
+      <DependentUpon>Zahlungen.xaml</DependentUpon>
+    </Compile>
     <Page Include="FunktionsEinstellungen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TransactionParking.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zahlungen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -112,7 +112,7 @@
                     <MenuItem Header="Personalverwaltung" Click="Personalverwaltung_Click" />
                     <MenuItem Header="Artikel-Optionen" Name="ArtikelOptionen" Click="ArtikelOptionen_Click" />
                     <MenuItem Header="Umsatzsteuer" Click="Umsatzsteuer_Click" />
-                    <MenuItem Header="Zahlungen" />
+                    <MenuItem Header="Zahlungen" Click="Zahlungen_Click" />
                     <MenuItem Header="EAN-Einstellungen" Name="EanEinstellungen" Click="EanEinstellungen_Click"/>
                     <MenuItem Header="Stornogründe" />
                     <MenuItem Header="Presse und VMP" />
