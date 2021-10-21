@@ -37,7 +37,7 @@ namespace HandelTSE
         public Zahlungen()
         {
             InitializeComponent();
-
+            
             // If the menu ProgramEinstellungen is being open multiple times
             if (con.ConnectionString.Length == 0)
             {
@@ -54,7 +54,7 @@ namespace HandelTSE
                 catch { }
             }
 
-            LoadGrid();
+            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
             HideColumns();
         }
 

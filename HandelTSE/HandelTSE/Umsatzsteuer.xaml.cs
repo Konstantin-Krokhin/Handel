@@ -59,7 +59,7 @@ namespace HandelTSE
                 catch { }
             }
 
-            LoadGrid();
+            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
         }
 
         private void LoadGrid()
@@ -87,7 +87,7 @@ namespace HandelTSE
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e) { if (UmsatzsteuerDataGrid.SelectedItem != null && UmsatzsteuerDataGrid.SelectedIndex != UmsatzsteuerDataGrid.Items.Count - 1 && ((Umsatz)UmsatzsteuerDataGrid.Items[UmsatzsteuerDataGrid.Items.Count - 1]).Schlussel == null) {Data.RemoveAt(UmsatzsteuerDataGrid.Items.Count-1); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); NeuUmsatzsteuerButton.IsEnabled = true; } }
 
-        private void NeuUmsatzsteuer_Click(object sender, RoutedEventArgs e) { Data.Add(new Umsatz { }); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); UmsatzsteuerDataGrid.SelectedIndex = UmsatzsteuerDataGrid.Items.Count - 1; NeuUmsatzsteuerButton.IsEnabled = false; }
+        private void NeuUmsatzsteuer_Click(object sender, RoutedEventArgs e) { if(Data != null) Data.Add(new Umsatz { }); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); UmsatzsteuerDataGrid.SelectedIndex = UmsatzsteuerDataGrid.Items.Count - 1; NeuUmsatzsteuerButton.IsEnabled = false; }
 
         private void speichern_Click(object sender, RoutedEventArgs e)
         {

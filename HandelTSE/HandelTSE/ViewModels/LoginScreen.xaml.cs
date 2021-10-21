@@ -45,7 +45,7 @@ namespace HandelTSE.ViewModels
                 if (result == MessageBoxResult.Yes)
                 {
                     System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                    MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
+                    MessageBox.Show("Nach der Installation des Treibers öffnen Sie bitte das Programm erneut, falls erforderlich. ");
                 }
                 else if (result == MessageBoxResult.No)
                 {

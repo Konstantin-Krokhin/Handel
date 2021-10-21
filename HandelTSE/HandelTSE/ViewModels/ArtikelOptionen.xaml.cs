@@ -345,7 +345,7 @@ namespace HandelTSE.ViewModels
 
         private void Speichern(object sender, RoutedEventArgs e, DataGrid dg)
         {
-            int i = 1, trigger1 = 0, trigger = 0, trigger2 = 0, trigger3 = 0, t = 0;
+            int i = 1, trigger = 0, trigger2 = 0, trigger3 = 0, t = 0;
             List<string> optionenToSave = new List<string>();
             List<string> optionenToSubstitute = new List<string>();
             optionenToSave.Add("\n\n[" + Artikelverwaltung.WG_str + "]");

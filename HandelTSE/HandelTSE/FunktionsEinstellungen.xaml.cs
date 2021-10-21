@@ -30,7 +30,7 @@ namespace HandelTSE
 
             // If the menu ProgramEinstellungen is being open multiple times
             if (con.ConnectionString.Length == 0) { con = MainWindow.con; }
-            LoadData();
+            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadData();
             if (EinmannbetriebCheckbox.IsChecked == false && AnmeldungMitPasswortCheckbox.IsChecked == false) AnmeldungMitPasswortCheckbox.IsChecked = true;
         }
 
@@ -50,6 +50,7 @@ namespace HandelTSE
 
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (MainWindow.con.State == System.Data.ConnectionState.Closed) return;
             if (EinstellungenTabs.SelectedIndex == 1)
             {
                 OleDbCommand cmd2 = new OleDbCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], BenachrichtigenStuck  FROM [TBL_FunktionsEinstellungenFunktionen]", con);

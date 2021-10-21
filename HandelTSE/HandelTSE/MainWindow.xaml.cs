@@ -41,7 +41,7 @@ namespace HandelTSE
                 if (result == MessageBoxResult.Yes)
                 {
                     System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                    MessageBox.Show("Nach der Installation des Treibers laden Sie bitte das Menü Personalverwaltung oder den Computer neu, falls erforderlich. ");
+                    MessageBox.Show("Nach der Installation des Treibers öffnen Sie bitte das Programm erneut, falls erforderlich. ");
                 }
                 else if (result == MessageBoxResult.No)
                 { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
@@ -126,5 +126,7 @@ namespace HandelTSE
         private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { DataContext = new Umsatzsteuer(); }
 
         private void Zahlungen_Click(object sender, RoutedEventArgs e) { DataContext = new Zahlungen(); }
+
+        private void ProgramBeenden_Click(object sender, RoutedEventArgs e) { this.Close(); }
     }
 }

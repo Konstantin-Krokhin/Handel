@@ -41,12 +41,12 @@ namespace HandelTSE.ViewModels
             {
                 int x = 0;
                 string csvData = File.ReadAllText("data.csv");
-                string prevNode = "", row_artikel = "";
+                //string prevNode = "", row_artikel = "";
                 foreach (string row in csvData.Split('\n'))
                 {
                     if (!string.IsNullOrEmpty(row))
                     {
-                        row_artikel = row;
+                        //row_artikel = row;
                         if (row.Contains("["))
                         {
                             Button newChild = new Button() { Content = row.Trim('[', ']') };

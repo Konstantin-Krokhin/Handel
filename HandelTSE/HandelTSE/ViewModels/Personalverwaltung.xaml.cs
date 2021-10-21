@@ -74,8 +74,8 @@ namespace HandelTSE.ViewModels
 
             con = MainWindow.con;
             cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
-            
-            LoadGrid();
+
+            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
         }
 
         private void LoadGrid()
@@ -120,6 +120,7 @@ namespace HandelTSE.ViewModels
 
         private void Speichern_Click(object sender, RoutedEventArgs e)
         {
+            if (MainWindow.con.State == System.Data.ConnectionState.Closed) return;
             int k = 0;
             if (Name.Text == "") { Name.Background = brush_red; k = 1; }
             if (Login.Text == "") { Login.Background = brush_red; k = 1; }
@@ -217,7 +218,7 @@ namespace HandelTSE.ViewModels
             if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich erloscht!");
         }
 
-        private void HideColumns() { if (grid.Items.Count > 0) grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; }
+        private void HideColumns() { if (grid.Items.Count > 0) { grid.Columns[0].Visibility = Visibility.Collapsed; grid.Columns[3].Visibility = Visibility.Collapsed; } }
 
         private void gridLoaded(object sender, RoutedEventArgs e) { HideColumns(); }
 

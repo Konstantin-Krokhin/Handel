@@ -72,7 +72,7 @@
                     <Separator />
                     <MenuItem Header="Inventur"/>
                     <Separator />
-                    <MenuItem Header="Program beenden"/>
+                    <MenuItem Header="Program beenden" Click="ProgramBeenden_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Buchhaltung">
                     <MenuItem Header="Rechnungswesen"/>

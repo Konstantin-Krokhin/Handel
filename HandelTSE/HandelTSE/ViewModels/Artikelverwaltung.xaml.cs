@@ -630,7 +630,7 @@ namespace HandelTSE.ViewModels
             eanSuchenTrigger = 1;
             if (SearchBoxArtikel.Text == "") return;
             string csvData = File.ReadAllText("data.csv");
-            int trigger = 0, trigger2 = 0, n = 0;
+            int trigger = 0, trigger2 = 0;
             List<string> artikel = new List<string>();
 
             foreach (TreeViewItem t in TreeView.Items)
@@ -667,7 +667,6 @@ namespace HandelTSE.ViewModels
                                         artikel.Add(row);
                                         trigger = 0;
                                         trigger2 = 0;
-                                        n = 0;
                                         break;
                                     }
                                 }
@@ -702,7 +701,7 @@ namespace HandelTSE.ViewModels
             eanSuchenTrigger = 1;
             if (SearchBoxArtikel.Text == "") return;
             string csvData = File.ReadAllText("data.csv");
-            int trigger = 0, trigger2 = 0, n = 0;
+            int trigger = 0, trigger2 = 0;
             List<string> artikel = new List<string>();
             string WG = "", ArtikelName = "";
 

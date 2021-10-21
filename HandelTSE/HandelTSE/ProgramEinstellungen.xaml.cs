@@ -63,7 +63,7 @@ namespace HandelTSE
 
             cmd2 = new OleDbCommand("SELECT Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank FROM [TBL_ProgramEinstellungenKassennetz]", con);
 
-            LoadGrid();
+            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
             Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => { EinstellungenTabs.SelectedIndex = 0; HideColumns(); }));
         }
 
@@ -237,6 +237,7 @@ namespace HandelTSE
 
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (MainWindow.con.State == System.Data.ConnectionState.Closed) return;
             if (EinstellungenTabs.SelectedIndex == 4 || EinstellungenTabs.SelectedIndex == 3) speichernCommonButton.IsEnabled = false;
             else if (EinstellungenTabs.IsLoaded && speichernCommonButton.IsEnabled == false) speichernCommonButton.IsEnabled = true;
 
