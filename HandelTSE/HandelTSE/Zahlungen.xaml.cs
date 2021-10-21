@@ -55,7 +55,6 @@ namespace HandelTSE
             }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
-            HideColumns();
         }
 
         private void LoadGrid()
@@ -81,17 +80,31 @@ namespace HandelTSE
 
         private void NeuZahlungsmethode_Click(object sender, RoutedEventArgs e) { NeuZahlungWindow.Visibility = Visibility.Visible; ZahlungenDataGrid.SelectedItem = null; NeuZahlungsmethodeButton.IsEnabled = false; }
 
-        private void ZahlungenDataGrid_Loaded(object sender, RoutedEventArgs e) { }
+        private void ZahlungenDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumns(); }
 
         private void HideColumns() { if (ZahlungenDataGrid.Items.Count > 0 && ZahlungenDataGrid.Columns.Count > 0) foreach (var item in ZahlungenDataGrid.Columns) if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; }
 
-        private void RecordSelected(object sender, SelectionChangedEventArgs e) { NeuZahlungsmethodeButton.IsEnabled = false; if (NeuZahlungWindow.Visibility != Visibility.Visible) NeuZahlungWindow.Visibility = Visibility.Visible; ZahlungenDataGrid.IsEnabled = false; }
+        private void RecordSelected(object sender, SelectionChangedEventArgs e) 
+        {
+            NeuZahlungsmethodeButton.IsEnabled = false; 
+            if (NeuZahlungWindow.Visibility != Visibility.Visible) NeuZahlungWindow.Visibility = Visibility.Visible; 
+            ZahlungenDataGrid.IsEnabled = false;
+
+            if (ZahlungenDataGrid.SelectedItem != null)
+            {
+                Zahlung item = ((Zahlung)ZahlungenDataGrid.SelectedItem);
+                Zahlungsname.Text = item.Zahlungsmethode;
+                Zahlungsart.Text = item.ZArt;
+                Bemerkung.Text = item.Bemerkung;
+            }
+        }
 
         private void NeuZahlungWindow_CloseButtonClicked(object sender, RoutedEventArgs e) { NeuZahlungWindow.Visibility = Visibility.Collapsed; NeuZahlungsmethodeButton.IsEnabled = true; ZahlungenDataGrid.IsEnabled = true; }
 
         private void speichern_Click(object sender, RoutedEventArgs e)
         {
             Int32 ID = 0;
+            Int32 Nr = 0;
             int result = 0;
             Zahlung item = null;
             if (ZahlungenDataGrid.SelectedItem != null) item = ((Zahlung)ZahlungenDataGrid.SelectedItem);
@@ -102,22 +115,26 @@ namespace HandelTSE
                 cmd = new OleDbCommand("UPDATE [TBL_Zahlungen] SET Nr = @Nr, Zahlungsmethode = @Zahlungsmethode, Status = @Status, ZArt = @ZArt, Bemerkung = @Bemerkung WHERE Id = @ID", con);
 
                 cmd.Parameters.Add(new OleDbParameter("@Nr", item.Nr));
-                cmd.Parameters.Add(new OleDbParameter("@Zahlungsmethode", item.Zahlungsmethode));
+                cmd.Parameters.Add(new OleDbParameter("@Zahlungsmethode", Zahlungsname.Text));
                 cmd.Parameters.Add(new OleDbParameter("@Status", item.Status));
-                cmd.Parameters.Add(new OleDbParameter("@ZArt", item.ZArt));
-                cmd.Parameters.Add(new OleDbParameter("@Bemerkung", item.Bemerkung));
+                cmd.Parameters.Add(new OleDbParameter("@ZArt", Zahlungsart.Text));
+                cmd.Parameters.Add(new OleDbParameter("@Bemerkung", Bemerkung.Text));
                 cmd.Parameters.Add(new OleDbParameter("@ID", ID));
             }
             else
             {
                 OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_Zahlungen", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                cmd = new OleDbCommand("insert into [TBL_Zahlungen](Id, Nr, Zahlungsmethode, Status, ZArt, Bemerkung)Values('" + ++ID + "','" + 0 + "','" + Zahlungsname.Text + "','"  + StatusButton.Content + "','" + Zahlungsart.Text  + "','" + Bemerkung.Text + "')", con);
+                maxCommand = new OleDbCommand("SELECT max(Nr) from TBL_Zahlungen", con);
+                try { Nr = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                cmd = new OleDbCommand("insert into [TBL_Zahlungen](Id, Nr, Zahlungsmethode, Status, ZArt, Bemerkung)Values('" + ++ID + "','" + ++Nr + "','" + Zahlungsname.Text + "','"  + StatusButton.Content + "','" + Zahlungsart.Text  + "','" + Bemerkung.Text + "')", con);
             }
 
-            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
+            if (NeuZahlungWindow.Visibility == Visibility.Visible) NeuZahlungWindow.Visibility = Visibility.Collapsed;
+            ZahlungenDataGrid.IsEnabled = true;
             NeuZahlungsmethodeButton.IsEnabled = true;
         }
     }
