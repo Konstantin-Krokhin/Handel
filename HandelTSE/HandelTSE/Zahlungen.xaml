@@ -32,14 +32,14 @@
                 Zahlungsmethoden
             </GroupBox.Header>
 
-            <DataGrid Name = "ZahlungenDataGrid" CanUserAddRows="False" HorizontalContentAlignment="Center" Loaded="ZahlungenDataGrid_Loaded" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="420" Margin="5,5">
+            <DataGrid Name = "ZahlungenDataGrid" CanUserAddRows="False" IsReadOnly="true" HorizontalContentAlignment="Center" Loaded="ZahlungenDataGrid_Loaded" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="420" Margin="5,5">
 
             </DataGrid>
 
         </GroupBox>
 
         <!-- Edit Window Shown when records managed -->
-        <xctk1:WindowControl Name="NeuZahlungWindow" Visibility="Collapsed" CloseButtonClicked="NeuZahlungWindow_CloseButtonClicked" Grid.Row="3" Height="270" Width="340" Grid.Column="6" Grid.ColumnSpan="6" Margin="-100,-50,0,0">
+        <xctk1:WindowControl Name="NeuZahlungWindow" Visibility="Visible" CloseButtonClicked="NeuZahlungWindow_CloseButtonClicked" Grid.Row="3" Height="270" Width="340" Grid.Column="6" Grid.ColumnSpan="6" Margin="-100,-50,0,0">
             <StackPanel  Orientation="Vertical">
 
                 <StackPanel  Orientation="Horizontal">
@@ -49,7 +49,7 @@
 
                 <StackPanel  Orientation="Horizontal">
                     <TextBlock Text="Zahlungsart:" Width="90" Margin="20,10" />
-                    <ComboBox Name="Zahlungsart" Width="188" SelectedIndex="4" Margin="0,10">
+                    <ComboBox Name="Zahlungsart" Width="188" SelectedIndex="0" Margin="0,10">
                         <ComboBoxItem Content="Bar" />
                         <ComboBoxItem Content="Unbar" />
                         <ComboBoxItem Content="Keine" />
@@ -65,14 +65,14 @@
                     <TextBox x:Name="Bemerkung"  Width="188" Margin="0,0,0,10" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible" />
                 </StackPanel>
 
-                
-                <CheckBox Margin="130,0,5,10" Content="Bargeld" />
-                <CheckBox Margin="130,0,5,10" Content="Kassenlade öffnen" IsChecked = "True" />
-                <CheckBox Margin="130,0,5,10" Content="Abfrage bei der Kaufabwicklung" />
+
+                <CheckBox Name="BargeldCheckbox" Margin="130,0,5,10" Content="Bargeld" />
+                <CheckBox Name="KassenladeCheckbox" Margin="130,0,5,10" Content="Kassenlade öffnen" />
+                <CheckBox Name="AbfrageCheckbox" Margin="130,0,5,10" Content="Abfrage bei der Kaufabwicklung" />
 
                 <StackPanel  Orientation="Horizontal">
                     <TextBlock Text="Status:" Width="90" Margin="20,10" />
-                    <Button Name="StatusButton" Content="aktiv" Height="30" Width="90" Margin="0,0,10,0" />
+                    <Button Name="StatusButton" Content="aktivieren" Height="30" Width="90" Margin="0,0,10,0" Click="StatusButton_Click" />
                     <Button Content="speichern" ClickMode="Press" Height="30" Width="90" Click="speichern_Click" />
                 </StackPanel>
 
