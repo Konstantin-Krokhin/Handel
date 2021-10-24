@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="HandelTSE.Stornogrunde"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HandelTSE"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="840" Background="LightGray">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button Name="NeuButton" Content="neu" Width="115" Grid.Row="2" Grid.Column="7" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="10,10,0,0" Click="Neu_Click"/>
+        <Button Name="EntfernenButton" IsEnabled="False" Content="entfernen" Width="115" Grid.Row="2" Grid.Column="7" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="10,50,0,0" Click="Loschen_Click" />
+        <Button Name="SpeichernButton" Content="speichern" Width="115" Grid.Row="2" Grid.Column="7" Height="30" VerticalAlignment="Top" Grid.RowSpan="1" Margin="10,90,0,0" Click="speichern_Click" />
+
+        <GroupBox Width="500" Height="450" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.RowSpan="10" Grid.ColumnSpan="6" Margin="5, 0, 0, 2">
+            <GroupBox.Header>
+                Stornogründe
+            </GroupBox.Header>
+
+            <DataGrid Name = "StornogrundeDataGrid" Loaded="StornogrundeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="420" Margin="5,5">
+
+            </DataGrid>
+
+
+        </GroupBox>
+
+    </Grid>
+</UserControl>
+

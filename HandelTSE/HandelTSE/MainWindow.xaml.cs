@@ -52,7 +52,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new Zahlungen();
+            DataContext = new Stornogrunde();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
@@ -128,5 +128,7 @@ namespace HandelTSE
         private void Zahlungen_Click(object sender, RoutedEventArgs e) { DataContext = new Zahlungen(); }
 
         private void ProgramBeenden_Click(object sender, RoutedEventArgs e) { this.Close(); }
+
+        private void Stornogrunde_Click(object sender, RoutedEventArgs e) { DataContext = new Stornogrunde(); }
     }
 }

@@ -43,7 +43,7 @@ namespace HandelTSE
         {
             InitializeComponent();
 
-            // If the menu ProgramEinstellungen is being open multiple times
+            // If the menu Umsatzsteuer is being open multiple times
             if (con.ConnectionString.Length == 0)
             {
                 con = MainWindow.con;

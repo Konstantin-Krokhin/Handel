@@ -317,3 +317,5 @@ D:\Handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\LoginScreen.baml
 D:\Handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\Personalverwaltung.baml
 D:\Handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\SetArtikel.baml
 D:\Handel\HandelTSE\HandelTSE\obj\Debug\Zahlungen.baml
+D:\Handel\HandelTSE\HandelTSE\obj\Debug\Stornogrunde.g.cs
+D:\Handel\HandelTSE\HandelTSE\obj\Debug\Stornogrunde.baml

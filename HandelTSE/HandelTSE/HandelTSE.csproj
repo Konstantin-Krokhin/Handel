@@ -96,6 +96,9 @@
     <Compile Include="ProgramEinstellungen.xaml.cs">
       <DependentUpon>ProgramEinstellungen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stornogrunde.xaml.cs">
+      <DependentUpon>Stornogrunde.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Umsatzsteuer.xaml.cs">
       <DependentUpon>Umsatzsteuer.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProgramEinstellungen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stornogrunde.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
