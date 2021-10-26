@@ -69,7 +69,7 @@ namespace HandelTSE
             list = new List<Storno>();
         }
 
-        private void HideColumn() { if (StornogrundeDataGrid.Items.Count > 0 && StornogrundeDataGrid.Columns.Count > 0) foreach (var item in StornogrundeDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; } }
+        private void HideColumn() { if (StornogrundeDataGrid.Items.Count > 0 && StornogrundeDataGrid.Columns.Count > 0) { foreach (var item in StornogrundeDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; } StornogrundeDataGrid.Columns[1].Width = 400; } }
 
         private void Neu_Click(object sender, RoutedEventArgs e) { if (Data != null) { Data.Add(new Storno { }); StornogrundeDataGrid.ItemsSource = Data; StornogrundeDataGrid.Items.Refresh(); StornogrundeDataGrid.SelectedIndex = StornogrundeDataGrid.Items.Count - 1; } NeuButton.IsEnabled = false; EntfernenButton.IsEnabled = false; }
 
