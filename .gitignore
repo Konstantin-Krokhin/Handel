@@ -7,11 +7,13 @@
 node_modules/
 dist/
 
-.vs
+.vs/
+
+HandelTSE/.vs/
 
 Debug/.dll
 
-**/HandelTSE/obj/Debug/
+HandelTSE/HandelTSE/obj/Debug/
 
 # Compiled Java class files
 *.class
@@ -53,4 +55,4 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-
+*.pdb
