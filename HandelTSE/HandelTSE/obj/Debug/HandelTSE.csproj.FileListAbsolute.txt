@@ -319,3 +319,5 @@ D:\Handel\HandelTSE\HandelTSE\obj\Debug\ViewModels\SetArtikel.baml
 D:\Handel\HandelTSE\HandelTSE\obj\Debug\Zahlungen.baml
 D:\Handel\HandelTSE\HandelTSE\obj\Debug\Stornogrunde.g.cs
 D:\Handel\HandelTSE\HandelTSE\obj\Debug\Stornogrunde.baml
+D:\Handel\HandelTSE\HandelTSE\obj\Debug\PresseUndVMP.g.cs
+D:\Handel\HandelTSE\HandelTSE\obj\Debug\PresseUndVMP.baml
