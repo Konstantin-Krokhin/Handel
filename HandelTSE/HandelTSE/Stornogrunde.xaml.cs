@@ -43,7 +43,7 @@ namespace HandelTSE
                 try
                 {
                     cmd.ExecuteNonQuery();
-                    //Create first empty record with the proper starting ID and Schlussel starting from 1
+                    //Create first empty record with the proper starting ID starting from 1
                     OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_Stornogrunde](Id)Values('" + 1 + "')", con);
                     try { cmd2.ExecuteNonQuery(); }
                     catch { }
