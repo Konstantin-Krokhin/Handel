@@ -72,14 +72,29 @@ namespace HandelTSE.ViewModels
             string path = (System.IO.Path.GetDirectoryName(executable));
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
 
-            con = MainWindow.con;
-            cmd = new OleDbCommand("SELECT Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21] FROM [TBL_PERSONAL]", con);
+            // If the menu Personalverwaltung is being open multiple times
+            if (con.ConnectionString.Length == 0)
+            {
+                con = MainWindow.con;
+                cmd = new OleDbCommand("CREATE TABLE [TBL_PERSONAL] ([Identyfikator] COUNTER, [Name] TEXT(55), [Login] TEXT(55), [Passwort] TEXT(55), [Rabatt] TEXT(55), [1] TEXT(55), [2] TEXT(55), [3] TEXT(55), [4] TEXT(55), [5] TEXT(55), [6] TEXT(55), [7] TEXT(55), [8] TEXT(55), [9] TEXT(55), [10] TEXT(55), [11] TEXT(55), [12] TEXT(55), [13] TEXT(55), [14] TEXT(55), [15] TEXT(55), [16] TEXT(55), [17] TEXT(55), [18] TEXT(55), [19] TEXT(55), [20] TEXT(55), [21] TEXT(55))", con);
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    //Create first empty record with the proper starting ID starting from 1
+                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_PERSONAL](Identyfikator)Values('" + 1 + "')", con);
+                    try { cmd2.ExecuteNonQuery(); }
+                    catch { }
+                }
+                catch { }
+            }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
         }
 
         private void LoadGrid()
         {
+            OleDbCommand cmd = new OleDbCommand("SELECT * FROM [TBL_PERSONAL]", con);
             OleDbDataReader myReader = cmd.ExecuteReader();
             while (myReader.Read())
             {

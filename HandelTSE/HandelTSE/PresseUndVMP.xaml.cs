@@ -105,7 +105,20 @@ namespace HandelTSE
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e)
         {
+            if (EANDataGrid.SelectedItem == null) return;
+            var dg = sender as System.Windows.Controls.DataGrid;
+            if (dg == null) return;
+            var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(dg.SelectedIndex);
+            if (row == null) return;
 
+            EANZeitungTextBox.Text = ((Presse)row.Item).CEAN;
+            BezeichnungZeitungTextBox.Text = ((Presse)row.Item).CNAME;
+
+            EANZeitungTextBox.IsEnabled = true;
+            BezeichnungZeitungTextBox.IsEnabled = true;
+
+            if (LoschenZeitungButton.IsEnabled == false) LoschenZeitungButton.IsEnabled = true;
+            if (SpeichernZeitungButton.IsEnabled == false) SpeichernZeitungButton.IsEnabled = true;
         }
 
         private void NeuPresseCode_Click(object sender, RoutedEventArgs e)
@@ -120,12 +133,62 @@ namespace HandelTSE
 
         private void speichernPresseCode_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void NeuZeitung_Click(object sender, RoutedEventArgs e)
         {
-            LoschenButton.IsEnabled = false;
+            EANDataGrid.SelectedItem = null;
+            if (LoschenZeitungButton.IsEnabled == true) LoschenZeitungButton.IsEnabled = false;
+            SpeichernZeitungButton.IsEnabled = true;
+            EANZeitungTextBox.Text = "";
+            BezeichnungZeitungTextBox.Text = "";
+            EANZeitungTextBox.IsEnabled = true;
+            BezeichnungZeitungTextBox.IsEnabled = true;
+        }
+
+        private void SpeichernZeitungButton_Click(object sender, RoutedEventArgs e)
+        {
+            EANDataGrid.SelectedItem = null;
+            LoschenZeitungButton.IsEnabled = false;
+            SpeichernZeitungButton.IsEnabled = false;
+            EANZeitungTextBox.Text = "";
+            BezeichnungZeitungTextBox.Text = "";
+            EANZeitungTextBox.IsEnabled = false;
+            BezeichnungZeitungTextBox.IsEnabled = false;
+        }
+
+        private void LoschenZeitungButton_Click(object sender, RoutedEventArgs e)
+        {
+            string caption = "Datensatz löschen...";
+            string messageBoxText = "Wollen Sie wirklich löschen?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PRESSE] where CEAN = @CEAN", con);
+                    cmd.Parameters.Add(new OleDbParameter("@CEAN", ((Presse)EANDataGrid.SelectedItem).CEAN));
+                    int result = 0;
+                    try { result = cmd.ExecuteNonQuery(); }
+                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+
+                    LoadGrid();
+
+                    EANDataGrid.SelectedItem = null;
+                    EANZeitungTextBox.Text = "";
+                    EANZeitungTextBox.IsEnabled = false;
+                    BezeichnungZeitungTextBox.Text = "";
+                    BezeichnungZeitungTextBox.IsEnabled = false;
+                    LoschenZeitungButton.IsEnabled = false;
+                    SpeichernZeitungButton.IsEnabled = false;
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
     }
 }
