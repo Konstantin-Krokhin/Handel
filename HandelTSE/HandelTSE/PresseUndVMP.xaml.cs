@@ -26,9 +26,11 @@ namespace HandelTSE
         List<Presse> list = new List<Presse>();
         public static OleDbConnection con = new OleDbConnection();
         public List<Presse> Data { get; set; }
+        Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
 
         public class Presse
         {
+            public Int32 Id { get; set; }
             public string CEAN { get; set; }
             public string CNAME { get; set; }
         }
@@ -42,7 +44,7 @@ namespace HandelTSE
             {
                 string str = "";
                 con = MainWindow.con;
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([CEAN] TEXT(55), [CNAME] TEXT(55))", con);
+                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -89,19 +91,17 @@ namespace HandelTSE
             OleDbDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
+                if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
                 if (myReader["CEAN"] != DBNull.Value) data.CEAN= (string)myReader["CEAN"]; else data.CEAN = "";
                 if (myReader["CNAME"] != DBNull.Value) data.CNAME = (string)myReader["CNAME"]; else data.CNAME = "";
-                list.Add(new Presse { CEAN = data.CEAN, CNAME = data.CNAME });
+                list.Add(new Presse { Id = data.Id, CEAN = data.CEAN, CNAME = data.CNAME });
             }
             Data = list;
             EANDataGrid.ItemsSource = Data;
             list = new List<Presse>();
         }
 
-        private void EANPressecodeDataGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void EANPressecodeDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumn(); }
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e)
         {
@@ -147,8 +147,37 @@ namespace HandelTSE
             BezeichnungZeitungTextBox.IsEnabled = true;
         }
 
+        // ------------------------- SAVING PART --------------------------------------------
         private void SpeichernZeitungButton_Click(object sender, RoutedEventArgs e)
         {
+            int k = 0;
+            if (EANZeitungTextBox.Text == "") { EANZeitungTextBox.Background = brush_red; k = 1; }
+            if (BezeichnungZeitungTextBox.Text == "") { BezeichnungZeitungTextBox.Background = brush_red; k = 1; }
+            if (k == 1) return;
+
+            Int32 ID = 0;
+            int result = 0;
+            Presse item = (Presse)EANDataGrid.SelectedItem;
+            OleDbCommand cmd = new OleDbCommand();
+            if (item != null)
+            {
+                ID = item.Id;
+                cmd = new OleDbCommand("UPDATE [TBL_PRESSE] SET CEAN = @CEAN, CNAME = @CNAME WHERE Id = @ID", con);
+
+                cmd.Parameters.Add(new OleDbParameter("@CEAN", EANZeitungTextBox.Text));
+                cmd.Parameters.Add(new OleDbParameter("@CNAME", BezeichnungZeitungTextBox.Text));
+                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+            }
+            else
+            {
+                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_PRESSE", con);
+                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + EANZeitungTextBox.Text + "','" + BezeichnungZeitungTextBox.Text + "')", con);
+            }
+
+            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            
             EANDataGrid.SelectedItem = null;
             LoschenZeitungButton.IsEnabled = false;
             SpeichernZeitungButton.IsEnabled = false;
@@ -157,6 +186,8 @@ namespace HandelTSE
             EANZeitungTextBox.IsEnabled = false;
             BezeichnungZeitungTextBox.IsEnabled = false;
         }
+
+        // -------------------------------------------------------------------------------------
 
         private void LoschenZeitungButton_Click(object sender, RoutedEventArgs e)
         {
@@ -170,13 +201,14 @@ namespace HandelTSE
             switch (messageResult)
             {
                 case MessageBoxResult.OK:
-                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PRESSE] where CEAN = @CEAN", con);
-                    cmd.Parameters.Add(new OleDbParameter("@CEAN", ((Presse)EANDataGrid.SelectedItem).CEAN));
-                    int result = 0;
-                    try { result = cmd.ExecuteNonQuery(); }
+                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PRESSE] where Id = @Id", con);
+                    cmd.Parameters.Add(new OleDbParameter("@Id", ((Presse)EANDataGrid.SelectedItem).Id));
+
+                    try { cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
                     LoadGrid();
+                    HideColumn();
 
                     EANDataGrid.SelectedItem = null;
                     EANZeitungTextBox.Text = "";
@@ -190,5 +222,10 @@ namespace HandelTSE
                     break;
             }
         }
+
+        private void EANZeitungTextBox_TextChanged(object sender, TextChangedEventArgs e) { if (EANZeitungTextBox.Background == brush_red) EANZeitungTextBox.Background = Brushes.White; }
+
+        private void BezeichnungZeitungTextBox_TextChanged(object sender, TextChangedEventArgs e) { if (BezeichnungZeitungTextBox.Background == brush_red) BezeichnungZeitungTextBox.Background = Brushes.White; }
+        private void HideColumn() { if (EANDataGrid.Items.Count > 0 && EANDataGrid.Columns.Count > 0) { foreach (var item in EANDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; } EANDataGrid.Columns[1].Width = 120; EANDataGrid.Columns[2].Width = 260; } }
     }
 }
