@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.IO;
@@ -66,7 +67,7 @@ namespace HandelTSE
 
                     // Separate SQL commands from each other
                     string[] sqlStatements = str.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    
+
                     // Run all commands for inserting the records
                     if (con.State == System.Data.ConnectionState.Closed) con.Open();
                     OleDbTransaction transaction = con.BeginTransaction();
@@ -82,7 +83,7 @@ namespace HandelTSE
                 catch { }
             }
 
-            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid(); 
+            if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
         }
 
         private void LoadGrid()
@@ -92,7 +93,7 @@ namespace HandelTSE
             while (myReader.Read())
             {
                 if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
-                if (myReader["CEAN"] != DBNull.Value) data.CEAN= (string)myReader["CEAN"]; else data.CEAN = "";
+                if (myReader["CEAN"] != DBNull.Value) data.CEAN = (string)myReader["CEAN"]; else data.CEAN = "";
                 if (myReader["CNAME"] != DBNull.Value) data.CNAME = (string)myReader["CNAME"]; else data.CNAME = "";
                 list.Add(new Presse { Id = data.Id, CEAN = data.CEAN, CNAME = data.CNAME });
             }
@@ -133,7 +134,7 @@ namespace HandelTSE
 
         private void speichernPresseCode_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void NeuZeitung_Click(object sender, RoutedEventArgs e)
@@ -177,7 +178,7 @@ namespace HandelTSE
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
-            
+
             EANDataGrid.SelectedItem = null;
             LoschenZeitungButton.IsEnabled = false;
             SpeichernZeitungButton.IsEnabled = false;
@@ -227,5 +228,28 @@ namespace HandelTSE
 
         private void BezeichnungZeitungTextBox_TextChanged(object sender, TextChangedEventArgs e) { if (BezeichnungZeitungTextBox.Background == brush_red) BezeichnungZeitungTextBox.Background = Brushes.White; }
         private void HideColumn() { if (EANDataGrid.Items.Count > 0 && EANDataGrid.Columns.Count > 0) { foreach (var item in EANDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; } EANDataGrid.Columns[1].Width = 120; EANDataGrid.Columns[2].Width = 260; } }
+
+        private void CSVExportieren_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Ausgabedatei wählen";
+            saveFileDialog.FileName = "Presse";
+            saveFileDialog.Filter = "csv (*.csv)|*.csv";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, "EAN;Bezeichnung;\n");
+                for (int i = 0; i < Data.Count; i++)
+                {
+                    File.AppendAllText(saveFileDialog.InitialDirectory + saveFileDialog.FileName, Data[i].CEAN + ";" + Data[i].CNAME + ";\n");
+                }
+            }
+
+        }
+
+        private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "CEAN") e.Column.Header = "EAN";
+            if (e.Column.Header.ToString() == "CNAME") e.Column.Header = "Bezeichnung";
+        }
     }
 }
