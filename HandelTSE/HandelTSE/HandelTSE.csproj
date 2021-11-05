@@ -38,6 +38,10 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Syncfusion.Licensing, Version=18.2460.0.59, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.Licensing.18.2.0.59\lib\net46\Syncfusion.Licensing.dll</HintPath>
     </Reference>
@@ -90,10 +94,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\CSVImportieren.xaml.cs">
+      <DependentUpon>CSVImportieren.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FunktionsEinstellungen.xaml.cs">
       <DependentUpon>FunktionsEinstellungen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PresseUndVMP.xaml.cs">
+    <Compile Include="ViewModels\PresseUndVMP.xaml.cs">
       <DependentUpon>PresseUndVMP.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgramEinstellungen.xaml.cs">
@@ -158,6 +165,10 @@
     <Compile Include="Zahlungen.xaml.cs">
       <DependentUpon>Zahlungen.xaml</DependentUpon>
     </Compile>
+    <Page Include="ViewModels\CSVImportieren.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FunktionsEinstellungen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,7 +185,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PresseUndVMP.xaml">
+    <Page Include="ViewModels\PresseUndVMP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

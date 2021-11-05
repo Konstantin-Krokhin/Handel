@@ -21,6 +21,7 @@ namespace HandelTSE.ViewModels
         public static int opened = 0;
         public static int Training_mode = 0;
         public static int Admin_mode = 0;
+        public static string CsvZeitungenFilePath = "";
     }
     public partial class Artikelverwaltung
     {

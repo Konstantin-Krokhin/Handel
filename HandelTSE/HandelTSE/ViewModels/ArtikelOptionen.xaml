@@ -99,7 +99,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Grid.Column="10" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Click="CloseButton_Clicked" Width="30" Height="30" Margin="15, 0, 0, -10">
+        <Button Grid.Column="10" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Width="30" Height="30" Margin="15, 0, 0, -10" Click="CloseButton_Clicked">
             <StackPanel>
                 <Image Source="/img/close_btn.png" />
             </StackPanel>

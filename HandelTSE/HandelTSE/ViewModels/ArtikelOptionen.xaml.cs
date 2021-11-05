@@ -165,7 +165,7 @@ namespace HandelTSE.ViewModels
             }
         }
 
-        // *************LOADING PART END****************
+        // ************* LOADING PART END ****************
 
         private void CloseButton_Clicked(object sender, RoutedEventArgs e) { Content = new Artikelverwaltung(); }
 

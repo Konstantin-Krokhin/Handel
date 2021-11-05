@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="HandelTSE.ViewModels.CSVImportieren"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HandelTSE"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="840" Background="LightGray">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="zurück" Grid.Row="1" Grid.Column="2" Width="150" Height="28" HorizontalAlignment="Left" Margin="25, 0" Click="ZuruckButton_Click"/>
+        <Button Content="importieren" Grid.Row="1" Grid.Column="3" Width="150" HorizontalAlignment="Right" Margin="25, 0" Click="ImportierenButton_Click"/>
+
+        <GroupBox Width="810" Height="80" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="0, 0, 0, 0">
+            <GroupBox.Header>
+                Wählen Sie die Feldernummer, die folgenden Daten entspricht
+            </GroupBox.Header>
+
+            <StackPanel Name="EanPressecodeStackPanel" Orientation="Horizontal" Margin="5, 0">
+
+                <StackPanel Orientation="Vertical" Margin="5, 5">
+                    <TextBlock Text="EAN" />
+                    <TextBlock Text="Bezeichnung" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="5, 5">
+                    <ComboBox Width="60" SelectedItem="1">
+                        <ComboBoxItem Content="....." />
+                        <ComboBoxItem Content="1" />
+                        <ComboBoxItem Content="2" />
+                        <ComboBoxItem Content="3" />
+                    </ComboBox>
+                    <ComboBox Width="60" SelectedItem="2">
+                        <ComboBoxItem Content="....." />
+                        <ComboBoxItem Content="1" />
+                        <ComboBoxItem Content="2" />
+                        <ComboBoxItem Content="3" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="20, 5">
+                    <CheckBox Content="Keine Kopfzeile" VerticalContentAlignment="Center" IsChecked="True" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="5, 5">
+                    <TextBlock Text="Insgesamt:" />
+                    <TextBlock Name="SpaltenTitle" />
+                    <TextBlock x:Name="ZeilenTitle" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="122, 0"/>
+
+                <StackPanel Orientation="Vertical" Margin="5, 5">
+                    <Button Content="abbrechen" Width="90" Height="30" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="5, 5">
+                    <Button Content="zuordnen" Width="90" Height="30" />
+                </StackPanel>
+
+            </StackPanel>
+
+        </GroupBox>
+
+        <DataGrid Name="ZeitungenDataGrid" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="15">
+
+        </DataGrid>
+
+    </Grid>
+</UserControl>
