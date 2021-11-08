@@ -37,7 +37,7 @@
         <Button Content="zurück" Grid.Row="1" Grid.Column="2" Width="150" Height="28" HorizontalAlignment="Left" Margin="25, 0" Click="ZuruckButton_Click"/>
         <Button Content="importieren" Grid.Row="1" Grid.Column="3" Width="150" HorizontalAlignment="Right" Margin="25, 0" Click="ImportierenButton_Click"/>
 
-        <GroupBox Width="810" Height="80" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="0, 0, 0, 0">
+        <GroupBox Width="810" Height="80" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="0, 0, 0, 5">
             <GroupBox.Header>
                 Wählen Sie die Feldernummer, die folgenden Daten entspricht
             </GroupBox.Header>
@@ -77,19 +77,29 @@
                 <StackPanel Orientation="Vertical" Margin="122, 0"/>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
-                    <Button Content="abbrechen" Width="90" Height="30" />
+                    <Button Name="AbbrechenButton" Content="abbrechen" Width="90" Height="30" Click="AbbrechenButton_Click" />
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
-                    <Button Content="zuordnen" Width="90" Height="30" />
+                    <Button Content="zuordnen" Width="90" Height="30" Click="ZuordnenButton_Click" />
                 </StackPanel>
 
             </StackPanel>
 
         </GroupBox>
 
-        <DataGrid Name="ZeitungenDataGrid" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="15">
+        <CheckBox Name="AlleArtikelCheckbox" Content="alle Artikel auswählen" Grid.Row="3" Grid.Column="2" Margin="22, 0" Visibility="Collapsed" Checked="AlleArtikelCheckbox_Checked" Unchecked="AlleArtikelCheckbox_Unchecked" />
 
+        <DataGrid Name="ZeitungenDataGrid" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="15, 20, 15, 15">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn x:Name="temp" Visibility="Collapsed">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Name="checkbox" Unchecked="UncheckedBox" IsChecked="False" Checked="CheckedBox"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
 
     </Grid>

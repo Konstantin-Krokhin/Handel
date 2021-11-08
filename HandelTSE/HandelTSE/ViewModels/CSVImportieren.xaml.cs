@@ -82,5 +82,29 @@ namespace HandelTSE.ViewModels
         {
             Content = new PresseUndVMP();
         }
+
+        private void ZuordnenButton_Click(object sender, RoutedEventArgs e) { AlleArtikelCheckbox.Visibility = Visibility.Visible; ZeitungenDataGrid.Columns[0].Visibility = Visibility.Visible; }
+
+        private void AbbrechenButton_Click(object sender, RoutedEventArgs e) { AlleArtikelCheckbox.Visibility = Visibility.Collapsed; ZeitungenDataGrid.Columns[0].Visibility = Visibility.Collapsed; if (AlleArtikelCheckbox.IsChecked == true) AlleArtikelCheckbox.IsChecked = false; }
+
+        private void UncheckedBox(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckedBox(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AlleArtikelCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(ZeitungenDataGrid)) { x.IsChecked = true; }
+        }
+
+        private void AlleArtikelCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(ZeitungenDataGrid)) { x.IsChecked = false; }
+        }
     }
 }
