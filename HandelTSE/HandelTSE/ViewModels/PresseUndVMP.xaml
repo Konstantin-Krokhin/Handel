@@ -59,8 +59,8 @@
         <DataGrid x:Name = "EANDataGrid" AutoGeneratingColumn = "CustomizeHeaders" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Grid.RowSpan="13" Grid.ColumnSpan="1" Loaded="EANPressecodeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="300" Width="450" Margin="10,10"/>
         
         <TextBlock Text="EHASTRA-Kundennummer:" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Margin="10"/>
-        <TextBox Grid.Row="2" Grid.Column="3" Height="20" Margin="10" />
-        <Button Content="speichern" Grid.Row="3" Grid.Column="3" Height="30" Width="120" HorizontalAlignment="Right" Margin="10, 0" />
+        <TextBox Name="EhastraKundennummerTextBox" Grid.Row="2" Grid.Column="3" Height="20" Margin="10" />
+        <Button Content="speichern" Grid.Row="3" Grid.Column="3" Height="30" Width="120" HorizontalAlignment="Right" Margin="10, 0" Click="EhastraKundennummerButton_Click" />
         <Separator Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="10, 10" />
 
         <TextBlock Text="CSV-Datei" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Margin="10,0, 10, 0"/>

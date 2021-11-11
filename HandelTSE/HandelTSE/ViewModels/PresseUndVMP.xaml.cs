@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HandelTSE.ViewModels;
+using System.Xml;
+using System.Configuration;
 
 namespace HandelTSE.ViewModels
 {
@@ -43,6 +45,8 @@ namespace HandelTSE.ViewModels
             InitializeComponent();
 
             CSVDateiPath.Text = Globals.CsvZeitungenFilePath;
+
+            EhastraKundennummerTextBox.Text = Properties.Settings.Default.EhastraKundennummer;
 
             // If the menu PresseUndVMP is being open multiple times
             if (con.ConnectionString.Length == 0)
@@ -267,6 +271,12 @@ namespace HandelTSE.ViewModels
                 Globals.CsvZeitungenFilePath = CSVDateiPath.Text;
                 Content = new CSVImportieren();
             }
+        }
+
+        private void EhastraKundennummerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.EhastraKundennummer = EhastraKundennummerTextBox.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }
