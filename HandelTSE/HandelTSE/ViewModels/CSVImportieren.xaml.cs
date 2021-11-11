@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,17 @@ namespace HandelTSE.ViewModels
     /// </summary>
     public partial class CSVImportieren : UserControl
     {
+        public static OleDbConnection con = MainWindow.con;
+        List<Presse> list = new List<Presse>();
+        public List<Presse> Data { get; set; }
+        Presse KopfzeilItem = new Presse();
+        int KopfzeileAdded_flag = 0;
+
+        public class Presse
+        {
+            public string CEAN { get; set; }
+            public string CNAME { get; set; }
+        }
         public CSVImportieren()
         {
             InitializeComponent();
@@ -35,18 +47,41 @@ namespace HandelTSE.ViewModels
             Microsoft.Office.Interop.Excel.Range excelRange = excelSheet.UsedRange;
 
             string strCellData = "";
-            double douCellData;
             int rowCnt = 0;
             int colCnt = 0;
 
             DataTable dt = new DataTable();
             for (colCnt = 1; colCnt <= 3; colCnt++) { dt.Columns.Add(colCnt.ToString(), typeof(string)); }
 
-                /*string strColumn = "";
-                strColumn = (string)(excelRange.Cells[1, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
-                dt.Columns.Add(strColumn, typeof(string));*/
+            /*string strColumn = "";
+            strColumn = (string)(excelRange.Cells[1, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
+            dt.Columns.Add(strColumn, typeof(string));*/
+            SpaltenTitle.Text = colCnt - 1 + " Spalten";
+            SpaltenTitle.Visibility = Visibility.Visible;
 
-            for (rowCnt = 2; rowCnt <= excelRange.Rows.Count; rowCnt++)
+            colCnt = 1;
+            string cean = "", cname = "";
+            for (rowCnt = 1; rowCnt <= excelRange.Rows.Count; rowCnt++)
+            {
+                strCellData = (string)(excelRange.Cells[rowCnt, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
+
+                cean = strCellData.Substring(0, strCellData.IndexOf(";"));
+                cname = strCellData.Substring(strCellData.IndexOf(";") + 1);
+
+                if (cname.Contains(";"))
+                {
+                    int i = cname.Length - cname.IndexOf(";");
+                    if (i < 1) i = 1;
+                    cname = cname.Remove(cname.IndexOf(";"), i);
+                }
+
+                if (rowCnt == 1) { KopfzeilItem = new Presse { CEAN = cean, CNAME = cname }; continue; }
+                list.Add(new Presse { CEAN = cean, CNAME = cname});
+            }
+            ZeilenTitle.Text = list.Count + " Zeilen";
+            ZeilenTitle.Visibility = Visibility.Visible;
+
+            /*for (rowCnt = 2; rowCnt <= excelRange.Rows.Count; rowCnt++)
             {
                 string strData = "";
                 for (colCnt = 1; colCnt <= excelRange.Columns.Count; colCnt++)
@@ -64,9 +99,12 @@ namespace HandelTSE.ViewModels
                 }
                 strData = strData.Remove(strData.Length - 1, 1);
                 dt.Rows.Add(strData.Split('|'));
-            }
+            }*/
 
-            ZeitungenDataGrid.ItemsSource = dt.DefaultView;
+            Data = list;
+            ZeitungenDataGrid.ItemsSource = Data;
+            list = new List<Presse>();
+            //ZeitungenDataGrid.ItemsSource = dt.DefaultView;
 
             excelBook.Close(true, null, null);
             excelApp.Quit();
@@ -75,15 +113,66 @@ namespace HandelTSE.ViewModels
         private void ImportierenButton_Click(object sender, RoutedEventArgs e)
         {
             Globals.CsvZeitungenFilePath = "";
+            OleDbCommand cmd = new OleDbCommand();
+            Int32 ID = 0;
+            int chosen = 0;
+
+            foreach (CheckBox x in Artikelverwaltung.FindVisualChildren<CheckBox>(ZeitungenDataGrid))
+            {
+                if (x.IsChecked == true)
+                {
+                    if (chosen == 0)
+                    {
+                        chosen = 1;
+                        OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_PRESSE", con);
+                        try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                    }
+                    DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(x);
+
+                    var data = dataGridRow.Item as Presse;
+                    if (data == null) break;
+                    
+                    cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CEAN + "','" + data.CNAME + "')", con);
+                    try { cmd.ExecuteNonQuery(); }
+                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                }
+            }
+
             Content = new PresseUndVMP();
         }
 
-        private void ZuruckButton_Click(object sender, RoutedEventArgs e)
+        private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            Content = new PresseUndVMP();
+            if (e.Column.Header.ToString() == "CEAN") e.Column.Header = "1";
+            if (e.Column.Header.ToString() == "CNAME") e.Column.Header = "2";
         }
 
-        private void ZuordnenButton_Click(object sender, RoutedEventArgs e) { AlleArtikelCheckbox.Visibility = Visibility.Visible; ZeitungenDataGrid.Columns[0].Visibility = Visibility.Visible; }
+        private void ZuruckButton_Click(object sender, RoutedEventArgs e) { Content = new PresseUndVMP(); }
+
+        private void ZuordnenButton_Click(object sender, RoutedEventArgs e) 
+        { 
+            AlleArtikelCheckbox.Visibility = Visibility.Visible; 
+            ZeitungenDataGrid.Columns[0].Visibility = Visibility.Visible;
+            if (KopfzeileCheckbox.IsChecked == false && KopfzeileAdded_flag == 0)
+            {
+                list.AddRange(Data);
+                list.Insert(0, KopfzeilItem);
+                Data = list;
+                ZeitungenDataGrid.ItemsSource = Data;
+                list = new List<Presse>();
+                KopfzeileAdded_flag = 1;
+            }
+            else if (KopfzeileCheckbox.IsChecked == true && KopfzeileAdded_flag == 1)
+            {
+                list.AddRange(Data);
+                list.Remove(KopfzeilItem);
+                Data = list;
+                ZeitungenDataGrid.ItemsSource = Data;
+                list = new List<Presse>();
+                KopfzeileAdded_flag = 0;
+            }
+            importierenButton.IsEnabled = true;
+        }
 
         private void AbbrechenButton_Click(object sender, RoutedEventArgs e) { AlleArtikelCheckbox.Visibility = Visibility.Collapsed; ZeitungenDataGrid.Columns[0].Visibility = Visibility.Collapsed; if (AlleArtikelCheckbox.IsChecked == true) AlleArtikelCheckbox.IsChecked = false; }
 

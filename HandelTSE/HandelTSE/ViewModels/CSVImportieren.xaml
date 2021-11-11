@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
 
         <Button Content="zurück" Grid.Row="1" Grid.Column="2" Width="150" Height="28" HorizontalAlignment="Left" Margin="25, 0" Click="ZuruckButton_Click"/>
-        <Button Content="importieren" Grid.Row="1" Grid.Column="3" Width="150" HorizontalAlignment="Right" Margin="25, 0" Click="ImportierenButton_Click"/>
+        <Button x:Name="importierenButton" Content="importieren" IsEnabled="False" Grid.Row="1" Grid.Column="3" Width="150" HorizontalAlignment="Right" Margin="25, 0" Click="ImportierenButton_Click"/>
 
         <GroupBox Width="810" Height="80" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="0, 0, 0, 5">
             <GroupBox.Header>
@@ -50,13 +50,13 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
-                    <ComboBox Width="60" SelectedItem="1">
+                    <ComboBox Width="60" SelectedIndex="1">
                         <ComboBoxItem Content="....." />
                         <ComboBoxItem Content="1" />
                         <ComboBoxItem Content="2" />
                         <ComboBoxItem Content="3" />
                     </ComboBox>
-                    <ComboBox Width="60" SelectedItem="2">
+                    <ComboBox Width="60" SelectedIndex="2">
                         <ComboBoxItem Content="....." />
                         <ComboBoxItem Content="1" />
                         <ComboBoxItem Content="2" />
@@ -65,7 +65,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="20, 5">
-                    <CheckBox Content="Keine Kopfzeile" VerticalContentAlignment="Center" IsChecked="True" />
+                    <CheckBox x:Name="KopfzeileCheckbox" Content="Keine Kopfzeile" VerticalContentAlignment="Center" IsChecked="True" />
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
@@ -90,7 +90,7 @@
 
         <CheckBox Name="AlleArtikelCheckbox" Content="alle Artikel auswählen" Grid.Row="3" Grid.Column="2" Margin="22, 0" Visibility="Collapsed" Checked="AlleArtikelCheckbox_Checked" Unchecked="AlleArtikelCheckbox_Unchecked" />
 
-        <DataGrid Name="ZeitungenDataGrid" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="15, 20, 15, 15">
+        <DataGrid Name="ZeitungenDataGrid" IsReadOnly="True" AutoGeneratingColumn="CustomizeHeaders" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="15, 20, 15, 15">
             <DataGrid.Columns>
                 <DataGridTemplateColumn x:Name="temp" Visibility="Collapsed">
                     <DataGridTemplateColumn.CellTemplate>
