@@ -27,17 +27,29 @@ namespace HandelTSE.ViewModels
     public partial class PresseUndVMP : UserControl
     {
         Presse data = new Presse();
+        EANCode data2 = new EANCode();
         List<Presse> list = new List<Presse>();
+        List<EANCode> list2 = new List<EANCode>();
         public static OleDbConnection con = new OleDbConnection();
         public List<Presse> Data { get; set; }
+        public List<EANCode> Data2 { get; set; }
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
-
 
         public class Presse
         {
             public Int32 Id { get; set; }
             public string CEAN { get; set; }
             public string CNAME { get; set; }
+        }
+
+        public class EANCode
+        {
+            public Int32 Id { get; set; }
+            public string Landprafix { get; set; }
+            public string PresseKZ { get; set; }
+            public string VDZ { get; set; }
+            public string Verkaufspreis { get; set; }
+            public string Bezeichnung { get; set; }
         }
 
         public PresseUndVMP()
@@ -54,6 +66,7 @@ namespace HandelTSE.ViewModels
                 string str = "";
                 con = MainWindow.con;
                 OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
+                OleDbCommand cmd2 = new OleDbCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -81,13 +94,15 @@ namespace HandelTSE.ViewModels
                     OleDbTransaction transaction = con.BeginTransaction();
                     foreach (string statement in sqlStatements)
                     {
-                        using (OleDbCommand cmd2 = new OleDbCommand(statement, con, transaction))
+                        using (OleDbCommand cmd0 = new OleDbCommand(statement, con, transaction))
                         {
-                            cmd2.ExecuteNonQuery();
+                            cmd0.ExecuteNonQuery();
                         }
                     }
                     transaction.Commit();
                 }
+                catch { }
+                try { cmd2.ExecuteNonQuery(); }
                 catch { }
             }
 
@@ -108,6 +123,22 @@ namespace HandelTSE.ViewModels
             Data = list;
             EANDataGrid.ItemsSource = Data;
             list = new List<Presse>();
+
+            OleDbCommand cmd3 = new OleDbCommand("SELECT * FROM [TBL_EANCode]", con);
+            OleDbDataReader myReader3 = cmd3.ExecuteReader();
+            while (myReader3.Read())
+            {
+                if (myReader3["Id"] != DBNull.Value) data2.Id = (Int32)myReader3["Id"]; else data2.Id = -1;
+                if (myReader3["Landprafix"] != DBNull.Value) data2.Landprafix = (string)myReader3["Landprafix"]; else data2.Landprafix = "";
+                if (myReader3["PresseKZ"] != DBNull.Value) data2.PresseKZ = (string)myReader3["PresseKZ"]; else data2.PresseKZ = "";
+                if (myReader3["VDZ"] != DBNull.Value) data2.VDZ = (string)myReader3["VDZ"]; else data2.VDZ = "";
+                if (myReader3["Verkaufspreis"] != DBNull.Value) data2.Verkaufspreis = (string)myReader3["Verkaufspreis"]; else data2.Verkaufspreis = "";
+                if (myReader3["Bezeichnung"] != DBNull.Value) data2.Bezeichnung = (string)myReader3["Bezeichnung"]; else data2.Bezeichnung = "";
+                list2.Add(new EANCode { Id = data2.Id, Landprafix = data2.Landprafix, PresseKZ = data2.PresseKZ, VDZ = data2.VDZ, Verkaufspreis = data2.Verkaufspreis, Bezeichnung = data2.Bezeichnung });
+            }
+            Data2 = list2;
+            EANPressecodeDataGrid.ItemsSource = Data2;
+            list2 = new List<EANCode>();
         }
 
         private void EANPressecodeDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumn(); }
