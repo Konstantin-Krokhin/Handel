@@ -141,7 +141,8 @@ namespace HandelTSE.ViewModels
             list2 = new List<EANCode>();
         }
 
-        private void EANPressecodeDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumn(); }
+        private void EANPressecodeDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumn2(); }
+        private void EANDataGrid_Loaded(object sender, RoutedEventArgs e) { HideColumn(); }
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e)
         {
@@ -159,21 +160,6 @@ namespace HandelTSE.ViewModels
 
             if (LoschenZeitungButton.IsEnabled == false) LoschenZeitungButton.IsEnabled = true;
             if (SpeichernZeitungButton.IsEnabled == false) SpeichernZeitungButton.IsEnabled = true;
-        }
-
-        private void NeuPresseCode_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void LoschenPresseCode_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void speichernPresseCode_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void NeuZeitung_Click(object sender, RoutedEventArgs e)
@@ -267,7 +253,7 @@ namespace HandelTSE.ViewModels
 
         private void BezeichnungZeitungTextBox_TextChanged(object sender, TextChangedEventArgs e) { if (BezeichnungZeitungTextBox.Background == brush_red) BezeichnungZeitungTextBox.Background = Brushes.White; }
         private void HideColumn() { if (EANDataGrid.Items.Count > 0 && EANDataGrid.Columns.Count > 0) { foreach (var item in EANDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; } EANDataGrid.Columns[1].Width = 120; EANDataGrid.Columns[2].Width = 260; } }
-
+        private void HideColumn2() { EANPressecodeDataGrid.Columns[0].Visibility = Visibility.Collapsed; }
         private void CSVExportieren_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -290,6 +276,13 @@ namespace HandelTSE.ViewModels
             if (e.Column.Header.ToString() == "CEAN") e.Column.Header = "EAN";
             if (e.Column.Header.ToString() == "CNAME") e.Column.Header = "Bezeichnung";
         }
+        private void CustomizeEANHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "Landprafix") e.Column.Header = "     Landpräfix\nDeutschland - 41";
+            if (e.Column.Header.ToString() == "PresseKZ") e.Column.Header = "Presse-KZ (MwSt.)\n        4 (19%)";
+            if (e.Column.Header.ToString() == "VDZ") e.Column.Header = "VDZ - Nr.\n  XXXXX";
+            if (e.Column.Header.ToString() == "Verkaufspreis") e.Column.Header = "Verkaufspreis\n       XXXX";
+        }
 
         private void CSVImportieren_Click(object sender, RoutedEventArgs e)
         {
@@ -308,6 +301,32 @@ namespace HandelTSE.ViewModels
         {
             Properties.Settings.Default.EhastraKundennummer = EhastraKundennummerTextBox.Text;
             Properties.Settings.Default.Save();
+        }
+
+        private void RecordSelected2(object sender, SelectionChangedEventArgs e)
+        {
+            SpeichernButton.IsEnabled = true;
+            EntfernenButton.IsEnabled = true;
+            Int32 id = ((EANCode)EANPressecodeDataGrid.Items[EANPressecodeDataGrid.Items.Count - 1]).Id;
+            if (EANPressecodeDataGrid.SelectedItem != null && EANPressecodeDataGrid.SelectedIndex != EANPressecodeDataGrid.Items.Count - 1 && !(id > 0 && id <= int.MaxValue)) { Data2.RemoveAt(EANPressecodeDataGrid.Items.Count - 1); EANPressecodeDataGrid.ItemsSource = Data2; EANPressecodeDataGrid.Items.Refresh(); NeuButton.IsEnabled = true; }
+        }
+
+        private void NeuPresseCode_Click(object sender, RoutedEventArgs e)
+        {
+            if (Data2 != null) Data2.Add(new EANCode { }); EANPressecodeDataGrid.ItemsSource = Data2; EANPressecodeDataGrid.Items.Refresh(); EANPressecodeDataGrid.SelectedIndex = EANPressecodeDataGrid.Items.Count - 1;
+            SpeichernButton.IsEnabled = true;
+            NeuButton.IsEnabled = false;
+            EntfernenButton.IsEnabled = false;
+        }
+
+        private void EntfernenPresseCode_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SpeichernPresseCode_Click(object sender, RoutedEventArgs e)
+        {
+            NeuButton.IsEnabled = true;
         }
     }
 }
