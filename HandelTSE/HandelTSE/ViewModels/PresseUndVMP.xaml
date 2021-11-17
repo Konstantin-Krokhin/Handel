@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:HandelTSE"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="840" Background="LightGray">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
@@ -38,12 +39,18 @@
             <GroupBox.Header>
                 EAN-Pressecode
             </GroupBox.Header>
+            <GroupBox.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </GroupBox.Resources>
 
             <StackPanel Name="EanPressecodeStackPanel" Orientation="Horizontal" Margin="5, 0">
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
                     <TextBlock Text="Erkennung von Zeitschriften-EAN" Margin="5,0" />
-                    <DataGrid Name = "EANPressecodeDataGrid" AutoGeneratingColumn = "CustomizeEANHeaders" Loaded="EANPressecodeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected2" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="150" Width="630" Margin="5,5"/>
+                    <DataGrid Name = "EANPressecodeDataGrid" AutoGeneratingColumn = "CustomizeEANHeaders" Loaded="EANPressecodeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected2" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="150" Width="630" Margin="5,5">
+                    </DataGrid>
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
@@ -56,7 +63,7 @@
 
         </GroupBox>
 
-        <DataGrid x:Name = "EANDataGrid" FontSize="12" VerticalContentAlignment="Top" AutoGeneratingColumn = "CustomizeHeaders" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Grid.RowSpan="13" Grid.ColumnSpan="1" Loaded="EANDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="270" Width="450" Margin="10,10"/>
+        <DataGrid x:Name = "EANDataGrid" FontSize="11" VerticalContentAlignment="Top" AutoGeneratingColumn = "CustomizeHeaders" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Grid.RowSpan="13" Grid.ColumnSpan="1" Loaded="EANDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="270" Width="450" Margin="10,10"/>
         
         <TextBlock Text="EHASTRA-Kundennummer:" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Margin="10"/>
         <TextBox Name="EhastraKundennummerTextBox" Grid.Row="2" Grid.Column="3" Height="20" Margin="10" />
@@ -77,8 +84,6 @@
         <Button Name="LoschenZeitungButton" Content="löschen" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2" Height="30" Width="110" IsEnabled="False" HorizontalAlignment="Center" Margin="10, 0" Click="LoschenZeitungButton_Click" />
         <Button Name="SpeichernZeitungButton" Content="speichern" Grid.Row="11" Grid.Column="3" Height="30" Width="110" HorizontalAlignment="Right" Margin="10, 0" IsEnabled="False" Click="SpeichernZeitungButton_Click" />
         
-
-
     </Grid>
 
 </UserControl>

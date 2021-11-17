@@ -201,7 +201,7 @@ namespace HandelTSE.ViewModels
                 cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + EANZeitungTextBox.Text + "','" + BezeichnungZeitungTextBox.Text + "')", con);
             }
 
-            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); HideColumn2(); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
             EANDataGrid.SelectedItem = null;
@@ -321,12 +321,66 @@ namespace HandelTSE.ViewModels
 
         private void EntfernenPresseCode_Click(object sender, RoutedEventArgs e)
         {
+            if (EANPressecodeDataGrid.SelectedItem == null) { MessageBox.Show("Bitte wählen Sie den Datensatz in der Tabelle aus!"); return; }
 
+            string caption = "Datensatz entfernen...";
+            string messageBoxText = "Wollen Sie wirklich entfernen?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_EANCode] where Id = @ID", con);
+                    cmd.Parameters.Add(new OleDbParameter("@ID", ((EANCode)EANPressecodeDataGrid.SelectedItem).Id));
+                    try { cmd.ExecuteNonQuery(); }
+                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+
+                    LoadGrid();
+                    HideColumn();
+                    HideColumn2();
+                    //EANPressecodeDataGrid.SelectedItem = null;
+                    EntfernenButton.IsEnabled = false;
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
 
         private void SpeichernPresseCode_Click(object sender, RoutedEventArgs e)
         {
+            EANCode item = ((EANCode)EANPressecodeDataGrid.SelectedItem);
+            if (item == null || item.Landprafix == null || item.PresseKZ == "" || item.VDZ == "" || item.Verkaufspreis == "" || item.Bezeichnung == "" || (!item.Landprafix.All(char.IsDigit) && !Double.TryParse(item.Landprafix, out _)) || (!item.PresseKZ.All(char.IsDigit) && !Double.TryParse(item.PresseKZ, out _)) || item.VDZ.Length != 5 || item.Verkaufspreis.Length != 4) { MessageBox.Show("Überprüfen Sie bitte Ihre Daten!"); return; }
             NeuButton.IsEnabled = true;
+
+            Int32 ID = 0;
+            OleDbCommand cmd = new OleDbCommand();
+            if (item.Id != 0)
+            {
+                ID = item.Id;
+                cmd = new OleDbCommand("UPDATE [TBL_EANCode] SET Landprafix = @Landprafix, PresseKZ = @PresseKZ, VDZ = @VDZ, Verkaufspreis = @Verkaufspreis, Bezeichnung = @Bezeichnung WHERE Id = @ID", con);
+
+                cmd.Parameters.Add(new OleDbParameter("@Landprafix", item.Landprafix));
+                cmd.Parameters.Add(new OleDbParameter("@PresseKZ", item.PresseKZ));
+                cmd.Parameters.Add(new OleDbParameter("@VDZ", item.VDZ));
+                cmd.Parameters.Add(new OleDbParameter("@Verkaufspreis", item.Verkaufspreis));
+                cmd.Parameters.Add(new OleDbParameter("@Bezeichnung", item.Bezeichnung));
+                
+                cmd.Parameters.Add(new OleDbParameter("@ID", item.Id));
+            }
+            else
+            {
+                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_EANCode", con);
+                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                
+                cmd = new OleDbCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, VDZ, Verkaufspreis, Bezeichnung)Values('" + ++ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
+            }
+
+            try { cmd.ExecuteNonQuery(); LoadGrid(); HideColumn2(); HideColumn(); }
+            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+
         }
     }
 }
