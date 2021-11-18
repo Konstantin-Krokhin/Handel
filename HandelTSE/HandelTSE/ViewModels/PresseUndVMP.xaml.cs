@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using HandelTSE.ViewModels;
 using System.Xml;
 using System.Configuration;
+using System.Windows.Threading;
 
 namespace HandelTSE.ViewModels
 {
@@ -58,7 +59,6 @@ namespace HandelTSE.ViewModels
             InitializeComponent();
 
             CSVDateiPath.Text = Globals.CsvZeitungenFilePath;
-
             EhastraKundennummerTextBox.Text = Properties.Settings.Default.EhastraKundennummer;
 
             // If the menu PresseUndVMP is being open multiple times
@@ -297,6 +297,15 @@ namespace HandelTSE.ViewModels
             {
                 CSVDateiPath.Text = openFileDialog.FileName;
                 Globals.CsvZeitungenFilePath = CSVDateiPath.Text;
+
+                Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => {
+                    ProgressBarWindow tempWindow = new ProgressBarWindow();
+                    tempWindow.DataContext = this;
+                    tempWindow.Show();
+                    System.Windows.Threading.Dispatcher.Run();
+                }));
+
+
                 Content = new CSVImportieren();
             }
         }

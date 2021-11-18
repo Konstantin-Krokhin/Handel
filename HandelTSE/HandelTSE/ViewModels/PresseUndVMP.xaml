@@ -44,7 +44,7 @@
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
                     <TextBlock Text="Erkennung von Zeitschriften-EAN" Margin="5,0" />
-                    <DataGrid Name = "EANPressecodeDataGrid" AutoGeneratingColumn = "CustomizeEANHeaders" Loaded="EANPressecodeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected2" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="150" Width="630" Margin="5,5">
+                    <DataGrid Name = "EANPressecodeDataGrid" AutoGeneratingColumn = "CustomizeEANHeaders" Loaded="EANPressecodeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="150" Width="630" Margin="5,5">
                         <DataGrid.CellStyle>
                             <Style x:Name="style" TargetType="DataGridCell">
                                 <Setter Property="HorizontalContentAlignment" Value="Right" />
@@ -63,7 +63,7 @@
 
         </GroupBox>
 
-        <DataGrid x:Name = "EANDataGrid" FontSize="11" VerticalContentAlignment="Top" AutoGeneratingColumn = "CustomizeHeaders" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Grid.RowSpan="13" Grid.ColumnSpan="1" Loaded="EANDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="270" Width="450" Margin="10,10"/>
+        <DataGrid x:Name = "EANDataGrid" FontSize="11" VerticalContentAlignment="Top" AutoGeneratingColumn = "CustomizeHeaders" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Grid.RowSpan="13" Grid.ColumnSpan="1" Loaded="EANDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="270" Width="450" Margin="10,10"/>
         
         <TextBlock Text="EHASTRA-Kundennummer:" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Margin="10"/>
         <TextBox Name="EhastraKundennummerTextBox" Grid.Row="2" Grid.Column="3" Height="20" Margin="10" />
@@ -72,6 +72,7 @@
 
         <TextBlock Text="CSV-Datei" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Margin="10, 0, 10, 0"/>
         <TextBox Name="CSVDateiPath" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Height="20" Margin="10" />
+
         <Button Name="CSVImportieren" Content="importieren" Grid.Row="7" Grid.Column="3" Height="30" Width="120" HorizontalAlignment="Right" Margin="10, 0, 10, 5" Click="CSVImportieren_Click" />
         <Button Name="CSVExportieren" Content="als CSV exportieren" Grid.Row="7" Grid.Column="2" Height="30" Width="120" HorizontalAlignment="Left" Margin="10, 0, 10, 5" Click="CSVExportieren_Click" />
         <Separator Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Margin="10, 5" />

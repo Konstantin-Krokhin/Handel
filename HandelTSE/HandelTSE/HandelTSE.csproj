@@ -138,6 +138,9 @@
     <Compile Include="ViewModels\Personalverwaltung.xaml.cs">
       <DependentUpon>Personalverwaltung.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ProgressBarWindow.xaml.cs">
+      <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\SetArtikel.xaml.cs">
       <DependentUpon>SetArtikel.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewModels\Personalverwaltung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\ProgressBarWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -37,7 +37,7 @@
                 Stornogründe
             </GroupBox.Header>
 
-            <DataGrid Name = "StornogrundeDataGrid" Loaded="StornogrundeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="420" Margin="5,5">
+            <DataGrid Name = "StornogrundeDataGrid" Loaded="StornogrundeDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="5" Grid.Row="1" Height="420" Margin="5,5">
 
             </DataGrid>
 

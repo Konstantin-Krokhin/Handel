@@ -32,7 +32,7 @@
                 Zahlungsmethoden
             </GroupBox.Header>
 
-            <DataGrid Name = "ZahlungenDataGrid" CanUserAddRows="False" IsReadOnly="true" HorizontalContentAlignment="Center" Loaded="ZahlungenDataGrid_Loaded" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.IsDeferredScrollingEnabled="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="420" Margin="5,5">
+            <DataGrid Name = "ZahlungenDataGrid" CanUserAddRows="False" IsReadOnly="true" HorizontalContentAlignment="Center" Loaded="ZahlungenDataGrid_Loaded" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="420" Margin="5,5">
 
             </DataGrid>
 

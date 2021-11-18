@@ -272,9 +272,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto" MaxWidth="825" MaxHeight="300"
               VerticalScrollBarVisibility="Disabled" Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="12">
 
-            <DataGrid Name="grid" IsReadOnly="True" MaxWidth="805" MaxHeight="300" CanUserAddRows="True" Loaded="gridLoaded" SelectionMode="Single" SelectionChanged="RecordSelected" AutoGeneratingColumn = "CustomizeHeaders" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible"    
-                              ScrollViewer.IsDeferredScrollingEnabled="True" 
-                              ScrollViewer.HorizontalScrollBarVisibility="Visible">
+            <DataGrid Name="grid" IsReadOnly="True" MaxWidth="805" MaxHeight="300" CanUserAddRows="True" Loaded="gridLoaded" SelectionMode="Single" SelectionChanged="RecordSelected" AutoGeneratingColumn = "CustomizeHeaders" Margin="11,10,9.4,9.8" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
             
             </DataGrid>
         
