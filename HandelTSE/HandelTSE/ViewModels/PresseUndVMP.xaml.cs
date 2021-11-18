@@ -47,6 +47,7 @@ namespace HandelTSE.ViewModels
             public Int32 Id { get; set; }
             public string Landprafix { get; set; }
             public string PresseKZ { get; set; }
+            public string MwSt { get; set; }
             public string VDZ { get; set; }
             public string Verkaufspreis { get; set; }
             public string Bezeichnung { get; set; }
@@ -66,7 +67,7 @@ namespace HandelTSE.ViewModels
                 string str = "";
                 con = MainWindow.con;
                 OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
-                OleDbCommand cmd2 = new OleDbCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
+                OleDbCommand cmd2 = new OleDbCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -131,13 +132,15 @@ namespace HandelTSE.ViewModels
                 if (myReader3["Id"] != DBNull.Value) data2.Id = (Int32)myReader3["Id"]; else data2.Id = -1;
                 if (myReader3["Landprafix"] != DBNull.Value) data2.Landprafix = (string)myReader3["Landprafix"]; else data2.Landprafix = "";
                 if (myReader3["PresseKZ"] != DBNull.Value) data2.PresseKZ = (string)myReader3["PresseKZ"]; else data2.PresseKZ = "";
+                if (myReader3["MwSt"] != DBNull.Value) data2.MwSt = (string)myReader3["MwSt"]; else data2.MwSt = "";
                 if (myReader3["VDZ"] != DBNull.Value) data2.VDZ = (string)myReader3["VDZ"]; else data2.VDZ = "";
                 if (myReader3["Verkaufspreis"] != DBNull.Value) data2.Verkaufspreis = (string)myReader3["Verkaufspreis"]; else data2.Verkaufspreis = "";
                 if (myReader3["Bezeichnung"] != DBNull.Value) data2.Bezeichnung = (string)myReader3["Bezeichnung"]; else data2.Bezeichnung = "";
-                list2.Add(new EANCode { Id = data2.Id, Landprafix = data2.Landprafix, PresseKZ = data2.PresseKZ, VDZ = data2.VDZ, Verkaufspreis = data2.Verkaufspreis, Bezeichnung = data2.Bezeichnung });
+                list2.Add(new EANCode { Id = data2.Id, Landprafix = data2.Landprafix, PresseKZ = data2.PresseKZ, MwSt = data2.MwSt, VDZ = data2.VDZ, Verkaufspreis = data2.Verkaufspreis, Bezeichnung = data2.Bezeichnung });
             }
             Data2 = list2;
             EANPressecodeDataGrid.ItemsSource = Data2;
+            
             list2 = new List<EANCode>();
         }
 
@@ -265,9 +268,9 @@ namespace HandelTSE.ViewModels
                 File.WriteAllText(saveFileDialog.FileName, "EAN;Bezeichnung;\n");
                 for (int i = 0; i < Data.Count; i++)
                 {
-                    File.AppendAllText(saveFileDialog.InitialDirectory + saveFileDialog.FileName, Data[i].CEAN + ";" + Data[i].CNAME + ";\n", Encoding.Unicode);
+                    File.AppendAllText(saveFileDialog.FileName, Data[i].CEAN + ";" + Data[i].CNAME + ";\n", Encoding.Unicode);
                 }
-                MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!");
+                MessageBox.Show("Ihre Daten wurden erfolgreich in '" + saveFileDialog.FileName + "' exportiert.");
             }
         }
 
@@ -279,7 +282,8 @@ namespace HandelTSE.ViewModels
         private void CustomizeEANHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.Column.Header.ToString() == "Landprafix") e.Column.Header = "     Landpräfix\nDeutschland - 41";
-            if (e.Column.Header.ToString() == "PresseKZ") e.Column.Header = "Presse-KZ (MwSt.)\n        4 (19%)";
+            if (e.Column.Header.ToString() == "PresseKZ") e.Column.Header = "Presse-KZ\n      (4)";
+            if (e.Column.Header.ToString() == "MwSt") e.Column.Header = "MwSt.\n(19%)";
             if (e.Column.Header.ToString() == "VDZ") e.Column.Header = "VDZ - Nr.\n  XXXXX";
             if (e.Column.Header.ToString() == "Verkaufspreis") e.Column.Header = "Verkaufspreis\n       XXXX";
         }
@@ -352,7 +356,7 @@ namespace HandelTSE.ViewModels
         private void SpeichernPresseCode_Click(object sender, RoutedEventArgs e)
         {
             EANCode item = ((EANCode)EANPressecodeDataGrid.SelectedItem);
-            if (item == null || item.Landprafix == null || item.PresseKZ == "" || item.VDZ == "" || item.Verkaufspreis == "" || item.Bezeichnung == "" || (!item.Landprafix.All(char.IsDigit) && !Double.TryParse(item.Landprafix, out _)) || (!item.PresseKZ.All(char.IsDigit) && !Double.TryParse(item.PresseKZ, out _)) || item.VDZ.Length != 5 || item.Verkaufspreis.Length != 4) { MessageBox.Show("Überprüfen Sie bitte Ihre Daten!"); return; }
+            if (item == null || item.Landprafix == null || item.PresseKZ == "" || item.MwSt == "" || item.VDZ == "" || item.Verkaufspreis == "" || item.Bezeichnung == "" || (!item.Landprafix.All(char.IsDigit) && !Double.TryParse(item.Landprafix, out _)) || (!item.PresseKZ.All(char.IsDigit) && !Double.TryParse(item.PresseKZ, out _)) || (!item.MwSt.All(char.IsDigit) && !Double.TryParse(item.MwSt, out _)) || item.VDZ.Length != 5 || item.Verkaufspreis.Length != 4) { MessageBox.Show("Überprüfen Sie bitte Ihre Daten!"); return; }
             NeuButton.IsEnabled = true;
 
             Int32 ID = 0;
@@ -360,10 +364,11 @@ namespace HandelTSE.ViewModels
             if (item.Id != 0)
             {
                 ID = item.Id;
-                cmd = new OleDbCommand("UPDATE [TBL_EANCode] SET Landprafix = @Landprafix, PresseKZ = @PresseKZ, VDZ = @VDZ, Verkaufspreis = @Verkaufspreis, Bezeichnung = @Bezeichnung WHERE Id = @ID", con);
+                cmd = new OleDbCommand("UPDATE [TBL_EANCode] SET Landprafix = @Landprafix, PresseKZ = @PresseKZ, MwSt = @MwSt, VDZ = @VDZ, Verkaufspreis = @Verkaufspreis, Bezeichnung = @Bezeichnung WHERE Id = @ID", con);
 
                 cmd.Parameters.Add(new OleDbParameter("@Landprafix", item.Landprafix));
                 cmd.Parameters.Add(new OleDbParameter("@PresseKZ", item.PresseKZ));
+                cmd.Parameters.Add(new OleDbParameter("@MwSt", item.MwSt));
                 cmd.Parameters.Add(new OleDbParameter("@VDZ", item.VDZ));
                 cmd.Parameters.Add(new OleDbParameter("@Verkaufspreis", item.Verkaufspreis));
                 cmd.Parameters.Add(new OleDbParameter("@Bezeichnung", item.Bezeichnung));
@@ -375,7 +380,7 @@ namespace HandelTSE.ViewModels
                 OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_EANCode", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
                 
-                cmd = new OleDbCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, VDZ, Verkaufspreis, Bezeichnung)Values('" + ++ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
+                cmd = new OleDbCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, MwSt, VDZ, Verkaufspreis, Bezeichnung)Values('" + ++ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.MwSt + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
             }
 
             try { cmd.ExecuteNonQuery(); LoadGrid(); HideColumn2(); HideColumn(); }

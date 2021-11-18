@@ -50,17 +50,15 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
-                    <ComboBox Width="60" SelectedIndex="1">
+                    <ComboBox Name="EANCB" Width="60" SelectedIndex="1">
                         <ComboBoxItem Content="....." />
                         <ComboBoxItem Content="1" />
                         <ComboBoxItem Content="2" />
-                        <ComboBoxItem Content="3" />
                     </ComboBox>
-                    <ComboBox Width="60" SelectedIndex="2">
+                    <ComboBox Name="BezeichnungCB" Width="60" SelectedIndex="2">
                         <ComboBoxItem Content="....." />
                         <ComboBoxItem Content="1" />
                         <ComboBoxItem Content="2" />
-                        <ComboBoxItem Content="3" />
                     </ComboBox>
                 </StackPanel>
 
@@ -74,7 +72,7 @@
                     <TextBlock x:Name="ZeilenTitle" />
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="122, 0"/>
+                <StackPanel Orientation="Vertical" Margin="116, 0"/>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
                     <Button Name="AbbrechenButton" Content="abbrechen" Width="90" Height="30" Click="AbbrechenButton_Click" />

@@ -39,9 +39,6 @@ namespace HandelTSE.ViewModels
             InitializeComponent();
 
             Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
-            //Static File From Base Path...........
-            //Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(AppDomain.CurrentDomain.BaseDirectory + "TestExcel.xlsx", 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-            //Dynamic File Using Uploader...........
             Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(Globals.CsvZeitungenFilePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
             Microsoft.Office.Interop.Excel.Worksheet excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(1); ;
             Microsoft.Office.Interop.Excel.Range excelRange = excelSheet.UsedRange;
@@ -51,13 +48,6 @@ namespace HandelTSE.ViewModels
             int colCnt = 0;
 
             DataTable dt = new DataTable();
-            for (colCnt = 1; colCnt <= 3; colCnt++) { dt.Columns.Add(colCnt.ToString(), typeof(string)); }
-
-            /*string strColumn = "";
-            strColumn = (string)(excelRange.Cells[1, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
-            dt.Columns.Add(strColumn, typeof(string));*/
-            SpaltenTitle.Text = colCnt - 1 + " Spalten";
-            SpaltenTitle.Visibility = Visibility.Visible;
 
             colCnt = 1;
             string cean = "", cname = "";
@@ -81,30 +71,12 @@ namespace HandelTSE.ViewModels
             ZeilenTitle.Text = list.Count + " Zeilen";
             ZeilenTitle.Visibility = Visibility.Visible;
 
-            /*for (rowCnt = 2; rowCnt <= excelRange.Rows.Count; rowCnt++)
-            {
-                string strData = "";
-                for (colCnt = 1; colCnt <= excelRange.Columns.Count; colCnt++)
-                {
-                    try
-                    {
-                        strCellData = (string)(excelRange.Cells[rowCnt, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
-                        strData += strCellData + "|";
-                    }
-                    catch (Exception ex)
-                    {
-                        douCellData = (excelRange.Cells[rowCnt, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
-                        strData += douCellData.ToString() + "|";
-                    }
-                }
-                strData = strData.Remove(strData.Length - 1, 1);
-                dt.Rows.Add(strData.Split('|'));
-            }*/
+            SpaltenTitle.Text = 2 + " Spalten";
+            SpaltenTitle.Visibility = Visibility.Visible;
 
             Data = list;
             ZeitungenDataGrid.ItemsSource = Data;
             list = new List<Presse>();
-            //ZeitungenDataGrid.ItemsSource = dt.DefaultView;
 
             excelBook.Close(true, null, null);
             excelApp.Quit();
@@ -131,8 +103,13 @@ namespace HandelTSE.ViewModels
 
                     var data = dataGridRow.Item as Presse;
                     if (data == null) break;
-                    
-                    cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CEAN + "','" + data.CNAME + "')", con);
+
+                    if (ZeitungenDataGrid.Columns[1].Header.ToString() == "EAN" && ZeitungenDataGrid.Columns[2].Header.ToString() == "Bezeichnung")
+                        cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CEAN + "','" + data.CNAME + "')", con);
+
+                    else if (ZeitungenDataGrid.Columns[1].Header.ToString() == "Bezeichnung" && ZeitungenDataGrid.Columns[2].Header.ToString() == "EAN")
+                        cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CNAME + "','" + data.CEAN + "')", con);
+
                     try { cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
                 }
@@ -149,8 +126,11 @@ namespace HandelTSE.ViewModels
 
         private void ZuruckButton_Click(object sender, RoutedEventArgs e) { Content = new PresseUndVMP(); }
 
-        private void ZuordnenButton_Click(object sender, RoutedEventArgs e) 
-        { 
+        private void ZuordnenButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (EANCB.Text == "1" || EANCB.Text == ".....") { ZeitungenDataGrid.Columns[1].Header = "EAN"; ZeitungenDataGrid.Columns[2].Header = "Bezeichnung"; }
+            else if (EANCB.Text == "2") { ZeitungenDataGrid.Columns[1].Header = "Bezeichnung"; ZeitungenDataGrid.Columns[2].Header = "EAN"; }
+
             AlleArtikelCheckbox.Visibility = Visibility.Visible; 
             ZeitungenDataGrid.Columns[0].Visibility = Visibility.Visible;
             if (KopfzeileCheckbox.IsChecked == false && KopfzeileAdded_flag == 0)
