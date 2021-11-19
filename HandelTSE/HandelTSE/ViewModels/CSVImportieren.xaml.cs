@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft;
 
 namespace HandelTSE.ViewModels
@@ -39,6 +40,15 @@ namespace HandelTSE.ViewModels
         public CSVImportieren()
         {
             InitializeComponent();
+
+            /*Dispatcher.Invoke(new Action(delegate ()
+            {
+                ProgressBarWindow tempWindow = new ProgressBarWindow();
+                tempWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                tempWindow.DataContext = this;
+                tempWindow.Show();
+                System.Windows.Threading.Dispatcher.Run();
+            }));*/
 
             Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(Globals.CsvZeitungenFilePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);

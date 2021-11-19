@@ -297,15 +297,6 @@ namespace HandelTSE.ViewModels
             {
                 CSVDateiPath.Text = openFileDialog.FileName;
                 Globals.CsvZeitungenFilePath = CSVDateiPath.Text;
-
-                Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => {
-                    ProgressBarWindow tempWindow = new ProgressBarWindow();
-                    tempWindow.DataContext = this;
-                    tempWindow.Show();
-                    System.Windows.Threading.Dispatcher.Run();
-                }));
-
-
                 Content = new CSVImportieren();
             }
         }

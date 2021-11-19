@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HandelTSE.ViewModels"
         mc:Ignorable="d"
-        Title="ProgressBarWindow" Height="50" Width="125">
+        Title="ProgressBarWindow" Height="20" Width="120" WindowStyle="None" ResizeMode="NoResize">
     <Grid>
         <ProgressBar Minimum="0" Maximum="100" Name="pbStatus" Visibility="Visible" Height="20" Width="120" IsIndeterminate="True" />
     </Grid>
