@@ -29,7 +29,6 @@ namespace HandelTSE.ViewModels
         public static OleDbConnection con = MainWindow.con;
         List<Presse> list = new List<Presse>();
         public List<Presse> Data { get; set; }
-        Presse KopfzeilItem = new Presse();
         int KopfzeileAdded_flag = 0;
 
         public class Presse
@@ -37,9 +36,20 @@ namespace HandelTSE.ViewModels
             public string CEAN { get; set; }
             public string CNAME { get; set; }
         }
+
         public CSVImportieren()
         {
             InitializeComponent();
+
+            ZeilenTitle.Text = Globals.presseList.Count + " Zeilen";
+            ZeilenTitle.Visibility = Visibility.Visible;
+
+            SpaltenTitle.Text = 2 + " Spalten";
+            SpaltenTitle.Visibility = Visibility.Visible;
+
+            Data = Globals.presseList;
+            ZeitungenDataGrid.ItemsSource = Data;
+            Globals.presseList = new List<Presse>();
 
             /*Dispatcher.Invoke(new Action(delegate ()
             {
@@ -49,49 +59,6 @@ namespace HandelTSE.ViewModels
                 tempWindow.Show();
                 System.Windows.Threading.Dispatcher.Run();
             }));*/
-
-            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(Globals.CsvZeitungenFilePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-            Microsoft.Office.Interop.Excel.Worksheet excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(1); ;
-            Microsoft.Office.Interop.Excel.Range excelRange = excelSheet.UsedRange;
-
-            string strCellData = "";
-            int rowCnt = 0;
-            int colCnt = 0;
-
-            DataTable dt = new DataTable();
-
-            colCnt = 1;
-            string cean = "", cname = "";
-            for (rowCnt = 1; rowCnt <= excelRange.Rows.Count; rowCnt++)
-            {
-                strCellData = (string)(excelRange.Cells[rowCnt, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
-
-                cean = strCellData.Substring(0, strCellData.IndexOf(";"));
-                cname = strCellData.Substring(strCellData.IndexOf(";") + 1);
-
-                if (cname.Contains(";"))
-                {
-                    int i = cname.Length - cname.IndexOf(";");
-                    if (i < 1) i = 1;
-                    cname = cname.Remove(cname.IndexOf(";"), i);
-                }
-
-                if (rowCnt == 1) { KopfzeilItem = new Presse { CEAN = cean, CNAME = cname }; continue; }
-                list.Add(new Presse { CEAN = cean, CNAME = cname});
-            }
-            ZeilenTitle.Text = list.Count + " Zeilen";
-            ZeilenTitle.Visibility = Visibility.Visible;
-
-            SpaltenTitle.Text = 2 + " Spalten";
-            SpaltenTitle.Visibility = Visibility.Visible;
-
-            Data = list;
-            ZeitungenDataGrid.ItemsSource = Data;
-            list = new List<Presse>();
-
-            excelBook.Close(true, null, null);
-            excelApp.Quit();
         }
 
         private void ImportierenButton_Click(object sender, RoutedEventArgs e)
@@ -148,7 +115,7 @@ namespace HandelTSE.ViewModels
             if (KopfzeileCheckbox.IsChecked == false && KopfzeileAdded_flag == 0)
             {
                 list.AddRange(Data);
-                list.Insert(0, KopfzeilItem);
+                list.Insert(0, Globals.KopfzeilItem);
                 Data = list;
                 ZeitungenDataGrid.ItemsSource = Data;
                 list = new List<Presse>();
@@ -157,7 +124,7 @@ namespace HandelTSE.ViewModels
             else if (KopfzeileCheckbox.IsChecked == true && KopfzeileAdded_flag == 1)
             {
                 list.AddRange(Data);
-                list.Remove(KopfzeilItem);
+                list.Remove(Globals.KopfzeilItem);
                 Data = list;
                 ZeitungenDataGrid.ItemsSource = Data;
                 list = new List<Presse>();

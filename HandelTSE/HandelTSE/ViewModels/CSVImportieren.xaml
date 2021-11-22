@@ -72,7 +72,7 @@
                     <TextBlock x:Name="ZeilenTitle" />
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="116, 0"/>
+                <StackPanel Orientation="Vertical" Margin="115, 0"/>
 
                 <StackPanel Orientation="Vertical" Margin="5, 5">
                     <Button Name="AbbrechenButton" Content="abbrechen" Width="90" Height="30" Click="AbbrechenButton_Click" />
@@ -87,7 +87,7 @@
         </GroupBox>
 
         <CheckBox Name="AlleArtikelCheckbox" Content="alle Artikel auswählen" Grid.Row="3" Grid.Column="2" Margin="22, 0" Visibility="Collapsed" Checked="AlleArtikelCheckbox_Checked" Unchecked="AlleArtikelCheckbox_Unchecked" />
-        
+
         <DataGrid Name="ZeitungenDataGrid" IsReadOnly="True" AutoGeneratingColumn="CustomizeHeaders" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="15, 20, 15, 15">
             <DataGrid.Columns>
                 <DataGridTemplateColumn x:Name="temp" Visibility="Collapsed">

@@ -11,7 +11,6 @@ using System.Windows.Media;
 using DataGridRow = System.Windows.Controls.DataGridRow;
 using Color = System.Windows.Media.Color;
 using System.Windows.Controls.Primitives;
-using System.Threading;
 
 namespace HandelTSE.ViewModels
 {
@@ -23,6 +22,8 @@ namespace HandelTSE.ViewModels
         public static int Admin_mode = 0;
         public static string CsvZeitungenFilePath = "";
         public static PresseUndVMP p = new PresseUndVMP();
+        public static List<CSVImportieren.Presse> presseList = new List<CSVImportieren.Presse>();
+        public static CSVImportieren.Presse KopfzeilItem = new CSVImportieren.Presse();
     }
     public partial class Artikelverwaltung
     {

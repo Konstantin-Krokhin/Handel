@@ -126,7 +126,7 @@ namespace HandelTSE
                 cmd = new OleDbCommand("insert into [TBL_Stornogrunde](Id, Stornogrund)Values('" + ++ID + "','" + item.Stornogrund + "')", con);
             }
 
-            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
+            try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
         }
 

@@ -19,6 +19,7 @@ using HandelTSE.ViewModels;
 using System.Xml;
 using System.Configuration;
 using System.Windows.Threading;
+using System.Data;
 
 namespace HandelTSE.ViewModels
 {
@@ -288,7 +289,7 @@ namespace HandelTSE.ViewModels
             if (e.Column.Header.ToString() == "Verkaufspreis") e.Column.Header = "Verkaufspreis\n       XXXX";
         }
 
-        private void CSVImportieren_Click(object sender, RoutedEventArgs e)
+        private async void CSVImportieren_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Offen";
@@ -297,8 +298,49 @@ namespace HandelTSE.ViewModels
             {
                 CSVDateiPath.Text = openFileDialog.FileName;
                 Globals.CsvZeitungenFilePath = CSVDateiPath.Text;
+                // show progress bar
+                progressBar.Visibility = Visibility.Visible;
+                await Task.Run(() => LoadData());
+                // hide progress bar
+                progressBar.Visibility = Visibility.Collapsed;
+
                 Content = new CSVImportieren();
             }
+        }
+
+        public async Task LoadData()
+        {
+            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(Globals.CsvZeitungenFilePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+            Microsoft.Office.Interop.Excel.Worksheet excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(1); ;
+            Microsoft.Office.Interop.Excel.Range excelRange = excelSheet.UsedRange;
+
+            string strCellData = "";
+            int rowCnt = 0;
+            int colCnt = 0;
+
+            colCnt = 1;
+            string cean = "", cname = "";
+            for (rowCnt = 1; rowCnt <= excelRange.Rows.Count; rowCnt++)
+            {
+                strCellData = (string)(excelRange.Cells[rowCnt, colCnt] as Microsoft.Office.Interop.Excel.Range).Value2;
+
+                cean = strCellData.Substring(0, strCellData.IndexOf(";"));
+                cname = strCellData.Substring(strCellData.IndexOf(";") + 1);
+
+                if (cname.Contains(";"))
+                {
+                    int i = cname.Length - cname.IndexOf(";");
+                    if (i < 1) i = 1;
+                    cname = cname.Remove(cname.IndexOf(";"), i);
+                }
+
+                if (rowCnt == 1) { Globals.KopfzeilItem = new CSVImportieren.Presse { CEAN = cean, CNAME = cname }; continue; }
+                Globals.presseList.Add(new CSVImportieren.Presse { CEAN = cean, CNAME = cname });
+            }
+
+            excelBook.Close(true, null, null);
+            excelApp.Quit();
         }
 
         private void EhastraKundennummerButton_Click(object sender, RoutedEventArgs e)
