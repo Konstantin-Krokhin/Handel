@@ -50,15 +50,6 @@ namespace HandelTSE.ViewModels
             Data = Globals.presseList;
             ZeitungenDataGrid.ItemsSource = Data;
             Globals.presseList = new List<Presse>();
-
-            /*Dispatcher.Invoke(new Action(delegate ()
-            {
-                ProgressBarWindow tempWindow = new ProgressBarWindow();
-                tempWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                tempWindow.DataContext = this;
-                tempWindow.Show();
-                System.Windows.Threading.Dispatcher.Run();
-            }));*/
         }
 
         private void ImportierenButton_Click(object sender, RoutedEventArgs e)
@@ -90,7 +81,7 @@ namespace HandelTSE.ViewModels
                         cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CNAME + "','" + data.CEAN + "')", con);
 
                     try { cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); break; }
                 }
             }
 

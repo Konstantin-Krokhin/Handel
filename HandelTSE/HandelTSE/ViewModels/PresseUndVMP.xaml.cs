@@ -59,54 +59,9 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
 
+            con = Globals.PresseCon;
             CSVDateiPath.Text = Globals.CsvZeitungenFilePath;
             EhastraKundennummerTextBox.Text = Properties.Settings.Default.EhastraKundennummer;
-
-            // If the menu PresseUndVMP is being open multiple times
-            if (con.ConnectionString.Length == 0)
-            {
-                string str = "";
-                con = MainWindow.con;
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
-                OleDbCommand cmd2 = new OleDbCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
-                try
-                {
-                    cmd.ExecuteNonQuery();
-
-                    // Create a table with almost all existing German newspapers and their EAN codes from Presse_liste file with SQL commands inside
-                    int i = 0;
-                    string commands = File.ReadAllText("../Debug/Presse_liste.txt");
-                    while (i < commands.Length)
-                    {
-                        // Delete \r and \n from the string
-                        if (commands[i] == '\r' || commands[i] == '\n')
-                        {
-                            commands = commands.Remove(i, 1);
-                            continue;
-                        }
-                        i++;
-                    }
-                    str = commands;
-
-                    // Separate SQL commands from each other
-                    string[] sqlStatements = str.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    // Run all commands for inserting the records
-                    if (con.State == System.Data.ConnectionState.Closed) con.Open();
-                    OleDbTransaction transaction = con.BeginTransaction();
-                    foreach (string statement in sqlStatements)
-                    {
-                        using (OleDbCommand cmd0 = new OleDbCommand(statement, con, transaction))
-                        {
-                            cmd0.ExecuteNonQuery();
-                        }
-                    }
-                    transaction.Commit();
-                }
-                catch { }
-                try { cmd2.ExecuteNonQuery(); }
-                catch { }
-            }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
         }
@@ -298,17 +253,19 @@ namespace HandelTSE.ViewModels
             {
                 CSVDateiPath.Text = openFileDialog.FileName;
                 Globals.CsvZeitungenFilePath = CSVDateiPath.Text;
-                // show progress bar
+                
                 progressBar.Visibility = Visibility.Visible;
-                await Task.Run(() => LoadData());
-                // hide progress bar
+                CSVImportieren.Visibility = Visibility.Collapsed;
+                await Task.Run(() => LoadImportData());
+                CSVImportieren.Visibility = Visibility.Visible;
                 progressBar.Visibility = Visibility.Collapsed;
 
                 Content = new CSVImportieren();
             }
         }
 
-        public async Task LoadData()
+        // Loads the data to pass to the CSVImportieren window DataGrid
+        public async Task LoadImportData()
         {
             Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(Globals.CsvZeitungenFilePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);

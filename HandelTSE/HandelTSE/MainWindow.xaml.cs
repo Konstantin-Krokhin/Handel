@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -27,6 +28,7 @@ namespace HandelTSE
     {
         List<items> it = new List<items>();
         List<items> it2 = new List<items>();
+        ProgressBarWindow pb = null;
         public static OleDbConnection con = new OleDbConnection();
         public MainWindow()
         {
@@ -47,12 +49,14 @@ namespace HandelTSE
                 { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
             }
 
+            Globals.PresseCon = con;
+
             // FOR DEV/TEST Purposes ONLY********************
             ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new PresseUndVMP();
+            DataContext = new Artikelverwaltung();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
@@ -131,6 +135,73 @@ namespace HandelTSE
 
         private void Stornogrunde_Click(object sender, RoutedEventArgs e) { DataContext = new Stornogrunde(); }
 
-        private void PresseUndVMP_Click(object sender, RoutedEventArgs e) { DataContext = new PresseUndVMP(); }
+        private async void PresseUndVMP_Click(object sender, RoutedEventArgs e) 
+        {
+            if (pb == null) pb = new ProgressBarWindow();
+            pb.Owner = this;
+            pb.Visibility = Visibility.Visible;
+            Globals.PresseCon = con;
+
+            await Task.Run(() => LoadImportData());
+
+            pb.Visibility = Visibility.Collapsed;
+
+            DataContext = new PresseUndVMP(); 
+        }
+
+        public async Task LoadImportData()
+        {
+            string str = "";
+            OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
+            OleDbCommand cmd2 = new OleDbCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
+            try
+            {
+                cmd.ExecuteNonQuery();
+
+                // Create a table with almost all existing German newspapers and their EAN codes from Presse_liste file with SQL commands inside
+                int i = 0;
+                string commands = File.ReadAllText("../Debug/Presse_liste.txt");
+                while (i < commands.Length)
+                {
+                    // Delete \r and \n from the string
+                    if (commands[i] == '\r' || commands[i] == '\n')
+                    {
+                        commands = commands.Remove(i, 1);
+                        continue;
+                    }
+                    i++;
+                }
+                str = commands;
+
+                // Separate SQL commands from each other
+                string[] sqlStatements = str.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // Run all commands for inserting the records
+                if (con.State == System.Data.ConnectionState.Closed) con.Open();
+                OleDbTransaction transaction = con.BeginTransaction();
+                foreach (string statement in sqlStatements)
+                {
+                    using (OleDbCommand cmd0 = new OleDbCommand(statement, con, transaction))
+                    {
+                        cmd0.ExecuteNonQuery();
+                    }
+                }
+                transaction.Commit();
+            }
+            catch { }
+            try { cmd2.ExecuteNonQuery(); }
+            catch { }
+        }
+
+
+        // Use If constant positioning of the loading ProgressBar needs to be centered inside the Ownder (add LocationChanged="Window_LocationChanged")
+        /*private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            if (pb != null)
+            {
+                pb.Left = (this.Left + this.Width)/2;
+                pb.Top = (this.Top + this.Height)/2;
+            }
+        }*/
     }
 }

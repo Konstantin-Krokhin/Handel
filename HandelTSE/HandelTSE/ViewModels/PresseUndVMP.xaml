@@ -65,8 +65,6 @@
 
         <DataGrid x:Name = "EANDataGrid" FontSize="11" VerticalContentAlignment="Top" AutoGeneratingColumn = "CustomizeHeaders" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Grid.RowSpan="13" Grid.ColumnSpan="1" Loaded="EANDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="270" Width="450" Margin="10,10"/>
 
-        <ProgressBar Name="progressBar" Grid.Row="3" Margin="-80, 0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Visibility="Collapsed" Height="17" IsIndeterminate="True" />
-
         <TextBlock Text="EHASTRA-Kundennummer:" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Margin="10"/>
         <TextBox Name="EhastraKundennummerTextBox" Grid.Row="2" Grid.Column="3" Height="20" Margin="10" />
         <Button Content="speichern" Grid.Row="3" Grid.Column="3" Height="30" Width="120" HorizontalAlignment="Right" Margin="10, 0, 10, 5" Click="EhastraKundennummerButton_Click" />
@@ -74,6 +72,8 @@
 
         <TextBlock Text="CSV-Datei" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Margin="10, 0, 10, 0"/>
         <TextBox Name="CSVDateiPath" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Height="20" Margin="10" />
+
+        <ProgressBar Name="progressBar" Visibility="Collapsed" Grid.Row="7" Margin="11, 8" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="17" IsIndeterminate="True" />
 
         <Button Name="CSVImportieren" Content="importieren" Grid.Row="7" Grid.Column="3" Height="30" Width="120" HorizontalAlignment="Right" Margin="10, 0, 10, 5" Click="CSVImportieren_Click" />
         <Button Name="CSVExportieren" Content="als CSV exportieren" Grid.Row="7" Grid.Column="2" Height="30" Width="120" HorizontalAlignment="Left" Margin="10, 0, 10, 5" Click="CSVExportieren_Click" />
