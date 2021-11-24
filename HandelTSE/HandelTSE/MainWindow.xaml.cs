@@ -56,7 +56,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new Artikelverwaltung();
+            DataContext = new Datensicherung();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
