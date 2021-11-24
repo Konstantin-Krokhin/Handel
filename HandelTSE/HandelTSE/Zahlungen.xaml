@@ -39,7 +39,7 @@
         </GroupBox>
 
         <!-- Edit Window Shown when records managed -->
-        <xctk1:WindowControl Name="NeuZahlungWindow"  Visibility="Collapsed" CloseButtonClicked="NeuZahlungWindow_CloseButtonClicked" Grid.Row="3" Height="270" Width="340" Grid.Column="6" Grid.ColumnSpan="6" Margin="-100,-50,0,0">
+        <xctk1:WindowControl Name="NeuZahlungWindow" WindowBackground="LightGray" Visibility="Collapsed" CloseButtonClicked="NeuZahlungWindow_CloseButtonClicked" Grid.Row="3" Height="270" Width="340" Grid.Column="6" Grid.ColumnSpan="6" Margin="-100,-50,0,0">
             <StackPanel  Orientation="Vertical">
 
                 <StackPanel  Orientation="Horizontal">

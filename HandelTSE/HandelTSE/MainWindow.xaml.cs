@@ -142,14 +142,17 @@ namespace HandelTSE
             pb.Visibility = Visibility.Visible;
             Globals.PresseCon = con;
 
-            await Task.Run(() => LoadImportData());
+            await Task.Run(() => LoadData());
 
             pb.Visibility = Visibility.Collapsed;
 
             DataContext = new PresseUndVMP(); 
         }
 
-        public async Task LoadImportData()
+        private void Datensicherung_Click(object sender, RoutedEventArgs e) { DataContext = new Datensicherung(); }
+
+        // Loading all newspapers from the list and creating tables in DB
+        public async Task LoadData()
         {
             string str = "";
             OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
@@ -192,7 +195,6 @@ namespace HandelTSE
             try { cmd2.ExecuteNonQuery(); }
             catch { }
         }
-
 
         // Use If constant positioning of the loading ProgressBar needs to be centered inside the Ownder (add LocationChanged="Window_LocationChanged")
         /*private void Window_LocationChanged(object sender, EventArgs e)

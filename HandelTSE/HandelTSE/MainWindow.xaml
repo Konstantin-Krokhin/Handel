@@ -116,7 +116,7 @@
                     <MenuItem Header="EAN-Einstellungen" Name="EanEinstellungen" Click="EanEinstellungen_Click"/>
                     <MenuItem Header="Stornogründe" Click="Stornogrunde_Click" />
                     <MenuItem Header="Presse und VMP" Click="PresseUndVMP_Click" />
-                    <MenuItem Header="Datensicherung" />
+                    <MenuItem Header="Datensicherung" Click="Datensicherung_Click" />
                     <MenuItem Header="Geräte Manager" />
                     <MenuItem Header="Bon / Rechnung" />
                     <MenuItem Header="A4-Dokumente" />

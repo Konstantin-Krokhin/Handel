@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="HandelTSE.Datensicherung"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HandelTSE"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="LightGray">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height= "auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="Standard" HorizontalAlignment="Left" Width="120" Height="30" Grid.Row="1" Grid.Column="2" />
+        <Button Content="ODBC" Background="DarkGray" HorizontalAlignment="Center" Width="120" Height="30" Grid.Row="1" Grid.Column="2" Margin="15, 5" />
+        <Button Content="speichern" HorizontalAlignment="Right" Width="120" Height="30" Grid.Row="1" Grid.Column="2" />
+        
+        <GroupBox Width="810" Height="85" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="5, 0, 5, 0">
+            <GroupBox.Header>
+                Datenbank - Einstellungen
+            </GroupBox.Header>
+
+            <StackPanel Name="DatenbankEinstellungenStackPanel" Orientation="Vertical" Margin="5, 0">
+                <StackPanel Name="Row1DatenbankEinstellungenStackPanel" Orientation="Horizontal" Margin="5, 0">
+                    <TextBlock Text="Datenbank:" Margin="5" />
+                    <TextBox Width="570" Margin="5" />
+                    <Button Content="suchen..." Width="120"/>
+                </StackPanel>
+                <StackPanel Name="Row2DatenbankEinstellungenStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15, 0">
+                    <Button Content="Datenbank komprimieren" Padding="25, 5" Margin="0, 5" />
+                    <Button Content="Verbindung testen" Padding="25, 5" Margin="10, 5, 10, 5" />
+                    <Button Content="speichern" Width="120" Padding="25, 5" Margin="0, 5" />
+                </StackPanel>
+            </StackPanel>
+
+        </GroupBox>
+
+        <GroupBox Width="810" Height="85" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="5, 5, 5, 0">
+            <GroupBox.Header>
+                Sicherungseinstellungen
+            </GroupBox.Header>
+
+            <StackPanel Name="SicherungEinstellungenStackPanel" Orientation="Vertical" Margin="5, 0">
+
+                <StackPanel Name="Row1SicherungEinstellungenStackPanel" Orientation="Horizontal" Margin="5, 0">
+
+                    <CheckBox Content="Datenbank sichern beim Programmschluss" IsChecked="True" />
+
+                </StackPanel>
+
+                <StackPanel Name="Row2SicherungEinstellungenStackPanel" Orientation="Horizontal" Margin="5, 0">
+
+
+
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Width="810" Height="85" Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="5, 5, 5, 0">
+            <GroupBox.Header>
+                Sonderfunktionen
+            </GroupBox.Header>
+
+            <StackPanel Orientation="Horizontal" Margin="5, 0">
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Width="810" Height="85" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="3" Margin="5, 5, 5, 0">
+            <GroupBox.Header>
+                Basiseinstellungen
+            </GroupBox.Header>
+
+            <StackPanel Orientation="Horizontal" Margin="5, 0">
+            </StackPanel>
+        </GroupBox>
+
+    </Grid>
+</UserControl>
