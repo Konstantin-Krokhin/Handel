@@ -94,8 +94,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Datensicherung.xaml.cs">
+    <Compile Include="DatensicherungEinstellungen\Datensicherung.xaml.cs">
       <DependentUpon>Datensicherung.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DatensicherungEinstellungen\ODBCDatensicherung.xaml.cs">
+      <DependentUpon>ODBCDatensicherung.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CSVImportieren.xaml.cs">
       <DependentUpon>CSVImportieren.xaml</DependentUpon>
@@ -171,7 +174,11 @@
     <Compile Include="Zahlungen.xaml.cs">
       <DependentUpon>Zahlungen.xaml</DependentUpon>
     </Compile>
-    <Page Include="Datensicherung.xaml">
+    <Page Include="DatensicherungEinstellungen\Datensicherung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DatensicherungEinstellungen\ODBCDatensicherung.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
