@@ -52,7 +52,7 @@
                 <StackPanel Name="Row2DatenbankEinstellungenStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15, 0">
                     <Button Content="Datenbank komprimieren" Padding="25, 5" Margin="0, 3" />
                     <Button Content="Verbindung testen" Padding="25, 5" Margin="10, 3, 10, 3" />
-                    <Button Content="speichern" Width="120" Padding="25, 5" Margin="0, 3" />
+                    <Button Content="speichern" Width="120" Padding="25, 5" Margin="0, 3" Click="DatenbankSpeichernButton_Click" />
                 </StackPanel>
             </StackPanel>
 
@@ -78,12 +78,12 @@
                             <TextBlock Text="Verzeichnis:" Margin="5" />
                             <TextBox Name="SaveDirectoryTextBox" Width="560" Height="20" />
                         </StackPanel>
-                        <DataGrid Name="DatenbankDataGrid" Height="150" IsReadOnly="True" Loaded="DatenbankDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+                        <DataGrid Name="DatenbankDataGrid" Height="150" AutoGeneratingColumn="CustomizeHeaders" IsReadOnly="True" Loaded="DatenbankDataGrid_Loaded" CanUserSortColumns="False" CanUserAddRows="False" HorizontalContentAlignment="Center" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="0, 0">
                         <Button Content="suchen..." Width="120" Height="25" Margin="0, 2, 0, 0" Click="SaveDirectory_Click" />
-                        <Button Content="speichern" Padding="0, 6" Width="120" Margin="0, 5" />
+                        <Button Content="speichern" Padding="0, 6" Width="120" Margin="0, 5" Click="VerzeichnisSpeichernButton_Click" />
                         <Button Content="Datei entfernen" Padding="0, 6" IsEnabled="False" Width="120" Margin="10, 0, 10, 0" />
                         <Button Content="Verzeichnis leeren" Padding="0, 6" Width="120" Margin="0, 5" />
                     </StackPanel>

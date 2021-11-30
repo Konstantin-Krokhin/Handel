@@ -34,5 +34,29 @@ namespace HandelTSE.Properties {
                 this["EhastraKundennummer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Datenbank {
+            get {
+                return ((string)(this["Datenbank"]));
+            }
+            set {
+                this["Datenbank"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Verzeichnis {
+            get {
+                return ((string)(this["Verzeichnis"]));
+            }
+            set {
+                this["Verzeichnis"] = value;
+            }
+        }
     }
 }

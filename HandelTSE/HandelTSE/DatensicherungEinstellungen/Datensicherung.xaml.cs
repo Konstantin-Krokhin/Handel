@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using HandelTSE.DatensicherungEinstellungen;
+using System.IO;
 
 namespace HandelTSE
 {
@@ -22,9 +23,24 @@ namespace HandelTSE
     /// </summary>
     public partial class Datensicherung : UserControl
     {
+        List<Files> list = new List<Files>();
+        public List<Files> Data { get; set; }
+
+        public class Files
+        {
+            public string Datenbank { get; set; }
+            public string Grosse { get; set; }
+            public string Datum { get; set; }
+        }
+
         public Datensicherung()
         {
             InitializeComponent();
+
+            DatenbankDirectoryTextBox.Text = Properties.Settings.Default.Datenbank;
+            SaveDirectoryTextBox.Text = Properties.Settings.Default.Verzeichnis;
+
+            ListFilesUnderDirectoryOnDG();
 
             var image = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(System.Drawing.SystemIcons.Information.Handle,
                 Int32Rect.Empty,
@@ -79,6 +95,54 @@ namespace HandelTSE
                 case MessageBoxResult.Cancel:
                     break;
             }
+        }
+
+        private void DatenbankSpeichernButton_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Datenbank = DatenbankDirectoryTextBox.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void CustomizeHeaders(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "Grosse") e.Column.Header = "Gr. KB";
+        }
+
+        private void VerzeichnisSpeichernButton_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Verzeichnis = SaveDirectoryTextBox.Text;
+            Properties.Settings.Default.Save();
+
+            ListFilesUnderDirectoryOnDG();
+        }
+
+        public void ListFilesUnderDirectoryOnDG()
+        {
+            string[] files = GetFileNames(SaveDirectoryTextBox.Text, "*.mdb|*.zip", SearchOption.TopDirectoryOnly);
+            string[] date = new string[files.Length];
+            string[] size = GetFileSize(SaveDirectoryTextBox.Text, "*.mdb|*.zip", SearchOption.TopDirectoryOnly, date);
+
+            if (files != null)
+            {
+                for (int i = 0; i < files.Length; i++) list.Add(new Files { Datenbank = files[i], Grosse = size[i], Datum = date[i] });
+                Data = list;
+                DatenbankDataGrid.ItemsSource = Data;
+                list = new List<Files>();
+            }
+        }
+
+        private static string[] GetFileNames(string sourceFolder, string filters, System.IO.SearchOption searchOption)
+        {
+            return filters.Split('|').SelectMany(filter => Directory.EnumerateFiles(sourceFolder, filter, searchOption)).Select(System.IO.Path.GetFileName).ToArray();
+        }
+
+        private string[] GetFileSize(string sourceFolder, string filters, System.IO.SearchOption searchOption, string[] date)
+        {
+            string[] info = filters.Split('|').SelectMany(filter => Directory.EnumerateFiles(sourceFolder, filter, searchOption)).ToArray();
+
+            long holder;
+            for (int i = 0; i < info.Length; i++) { date[i] = new FileInfo(info[i]).CreationTime.ToString(); holder = new FileInfo(info[i]).Length; holder /= 1000; info[i] = holder.ToString(); }
+            return info;
         }
     }
 }
