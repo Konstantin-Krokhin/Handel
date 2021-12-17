@@ -82,10 +82,10 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Margin="0, 0">
-                        <Button Content="suchen..." Width="120" Height="25" Margin="0, 2, 0, 0" Click="SaveDirectory_Click" />
+                        <Button Content="suchen..." Width="120" Height="25" Margin="0, 2, 0, 0" Click="SearchDirectory_Click" />
                         <Button Content="speichern" Padding="0, 6" Width="120" Margin="0, 5" Click="VerzeichnisSpeichernButton_Click" />
                         <Button Content="Datei entfernen" Padding="0, 6" IsEnabled="False" Width="120" Margin="10, 0, 10, 0" />
-                        <Button Content="Verzeichnis leeren" Padding="0, 6" Width="120" Margin="0, 5" />
+                        <Button Content="Verzeichnis leeren" Padding="0, 6" Width="120" Margin="0, 5" Click="VerzeichnisLeeren_Clicked" />
                     </StackPanel>
 
                 </StackPanel>

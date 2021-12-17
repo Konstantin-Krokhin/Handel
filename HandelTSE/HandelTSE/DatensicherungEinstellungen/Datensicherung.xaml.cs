@@ -69,7 +69,7 @@ namespace HandelTSE
             }
         }
 
-        private void SaveDirectory_Click(object sender, RoutedEventArgs e)
+        private void SearchDirectory_Click(object sender, RoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
@@ -147,5 +147,27 @@ namespace HandelTSE
             for (int i = 0; i < info.Length; i++) { date[i] = new FileInfo(info[i]).CreationTime.ToString(); holder = new FileInfo(info[i]).Length; holder /= 1000; info[i] = holder.ToString(); }
             return info;
         }
+
+        private void VerzeichnisLeeren_Clicked(object sender, RoutedEventArgs e)
+        {
+            string caption = "Datei entfernen...";
+            string messageBoxText = "Wollen Sie wirklich alle Daten entfernen?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    var files = Directory.GetFiles(Properties.Settings.Default.Verzeichnis, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".mdb") || s.EndsWith(".zip"));
+                    foreach (string file in files) { File.Delete(file); }
+                    ListFilesUnderDirectoryOnDG();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+
     }
 }
