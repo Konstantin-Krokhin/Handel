@@ -101,7 +101,7 @@
             <StackPanel Orientation="Horizontal" Margin="5, 0" HorizontalAlignment="Center">
                 <Image Name="icon" />
                 <Button Content="Datenbank für den Erstbetrieb vorbereiten" Padding="15, 0" Margin="5" />
-                <Button Content="Datenbank-Sicherungskopie erstellen" Padding="15, 0" Margin="5" />
+                <Button Content="Datenbank-Sicherungskopie erstellen" Padding="15, 0" Margin="5" Click="DatenbankSicherungskopieClicked" />
             </StackPanel>
         </GroupBox>
 

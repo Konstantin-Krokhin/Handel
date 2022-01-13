@@ -169,5 +169,11 @@ namespace HandelTSE
             }
         }
 
+        private void DatenbankSicherungskopieClicked(object sender, RoutedEventArgs e)
+        {
+            Datenbank_Sicherungskopie window = new Datenbank_Sicherungskopie();
+
+            window.Show();
+        }
     }
 }

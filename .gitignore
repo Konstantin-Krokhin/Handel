@@ -11,6 +11,8 @@ dist/
 
 HandelTSE/.vs/
 
+HandelTSE/HandelTSE/obj/Debug/
+
 *.suo
 
 Debug/.dll

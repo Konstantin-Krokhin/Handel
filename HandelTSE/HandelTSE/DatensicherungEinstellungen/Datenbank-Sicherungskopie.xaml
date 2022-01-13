@@ -1,0 +1,41 @@
+﻿<Window x:Class="HandelTSE.DatensicherungEinstellungen.Datenbank_Sicherungskopie"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HandelTSE.DatensicherungEinstellungen"
+        mc:Ignorable="d"
+        Title="Datenbank_Sicherungskopie" Height="250" Width="400" Icon="../img/lock_icon.jpg" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Letzte Datensicherung:" Grid.Column="1" Grid.Row="1" Margin="0, 0"/>
+        <TextBlock Name="Datum" Text="nicht vorhanden" Grid.Column="2" Grid.Row="1" Margin="-20, 0" />
+
+        <TextBlock Text="Backup - Verzeichnis:" Grid.Column="1" Grid.Row="2" Margin="0, 5" />
+        <TextBlock Name="VerzeichnisTextBlock" Text="" Grid.Column="1" Grid.Row="3" Margin="5, 0" />
+        <Button Content="Einstellungen" Padding="5, 2" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1" />
+
+        <CheckBox Name="DBkomprimieren" IsChecked = "True" Content="Datenbank komprimieren und im Backup-Verzeichnis sichern" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4" Margin="0, 10" />
+        
+        <Button Name="SicherungButton" Content="Sicherung beginnen" VerticalAlignment="Bottom" Margin="0, 40" Padding="15, 2" Grid.Row="7" Grid.Column="1" />
+        <Button Name="BeendenButton" Content="Programm beenden" VerticalAlignment="Bottom" Margin="0, 40" Padding="10, 2" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="1" Click="ProgrammBeenden_Click" />
+    </Grid>
+</Window>

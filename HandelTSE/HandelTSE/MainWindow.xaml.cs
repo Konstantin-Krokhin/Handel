@@ -49,6 +49,10 @@ namespace HandelTSE
                 { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
             }
 
+            // Creation of the backup folder (default for db backups)
+            var str = "../../backupdata/";
+            if (!Directory.Exists(str)) { Directory.CreateDirectory(str); }
+
             Globals.PresseCon = con;
 
             // FOR DEV/TEST Purposes ONLY********************
