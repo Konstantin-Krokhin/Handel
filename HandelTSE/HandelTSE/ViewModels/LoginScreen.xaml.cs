@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace HandelTSE.ViewModels
     /// </summary>
     public partial class LoginScreen : Window
     {
-        OleDbConnection con = new OleDbConnection();
+        SQLiteConnection con = new SQLiteConnection();
         public LoginScreen()
         {
             InitializeComponent();
@@ -57,10 +57,10 @@ namespace HandelTSE.ViewModels
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT Identyfikator FROM [TBL_PERSONAL] WHERE Passwort = @Passwort", con);
-            cmd.Parameters.Add(new OleDbParameter("@Passwort", LoginField.Text));
+            SQLiteCommand cmd = new SQLiteCommand("SELECT Identyfikator FROM [TBL_PERSONAL] WHERE Passwort = @Passwort", con);
+            cmd.Parameters.Add(new SQLiteParameter("@Passwort", LoginField.Text));
 
-            OleDbDataReader myReader = cmd.ExecuteReader();
+            SQLiteDataReader myReader = cmd.ExecuteReader();
 
             while (myReader.Read()) { Globals.opened++; if ((int)myReader["Identyfikator"] == 1) Globals.Training_mode = 1; else if ((int)myReader["Identyfikator"] == 2) Globals.Admin_mode = 1; }
 

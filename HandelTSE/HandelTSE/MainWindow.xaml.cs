@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -29,7 +29,7 @@ namespace HandelTSE
         List<items> it = new List<items>();
         List<items> it2 = new List<items>();
         ProgressBarWindow pb = null;
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public MainWindow()
         {
             InitializeComponent();
@@ -159,8 +159,8 @@ namespace HandelTSE
         public async Task LoadData()
         {
             string str = "";
-            OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
-            OleDbCommand cmd2 = new OleDbCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
+            SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
+            SQLiteCommand cmd2 = new SQLiteCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
             try
             {
                 cmd.ExecuteNonQuery();
@@ -185,10 +185,10 @@ namespace HandelTSE
 
                 // Run all commands for inserting the records
                 if (con.State == System.Data.ConnectionState.Closed) con.Open();
-                OleDbTransaction transaction = con.BeginTransaction();
+                SQLiteTransaction transaction = con.BeginTransaction();
                 foreach (string statement in sqlStatements)
                 {
-                    using (OleDbCommand cmd0 = new OleDbCommand(statement, con, transaction))
+                    using (SQLiteCommand cmd0 = new SQLiteCommand(statement, con, transaction))
                     {
                         cmd0.ExecuteNonQuery();
                     }

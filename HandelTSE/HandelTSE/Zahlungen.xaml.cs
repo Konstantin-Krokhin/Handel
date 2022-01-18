@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace HandelTSE
     {
         Zahlung data = new Zahlung();
         List<Zahlung> list = new List<Zahlung>();
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public List<Zahlung> Data { get; set; }
         public class Zahlung
         {
@@ -45,12 +45,12 @@ namespace HandelTSE
             if (con.ConnectionString.Length == 0)
             {
                 con = MainWindow.con;
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_Zahlungen] ([Id] COUNTER, [Nr] INT,[Zahlungsmethode] TEXT(55),[Status] TEXT(55),[ZArt] TEXT(55),[Bemerkung] TEXT(55), [BargeldCheck] TEXT(1), [KassenladeCheck] TEXT(1), [AbfrageCheck] TEXT(1))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Zahlungen] ([Id] COUNTER, [Nr] INT,[Zahlungsmethode] TEXT(55),[Status] TEXT(55),[ZArt] TEXT(55),[Bemerkung] TEXT(55), [BargeldCheck] TEXT(1), [KassenladeCheck] TEXT(1), [AbfrageCheck] TEXT(1))", con);
                 try
                 {
                     cmd.ExecuteNonQuery();
                     //Create first empty record with the proper starting ID starting from 1
-                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_Zahlungen](Id, Nr)Values('" + 1 + "','" + 1 + "')", con);
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_Zahlungen](Id, Nr)Values('" + 1 + "','" + 1 + "')", con);
                     try { cmd2.ExecuteNonQuery(); }
                     catch { }
                 }
@@ -62,8 +62,8 @@ namespace HandelTSE
 
         private void LoadGrid()
         {
-            OleDbCommand cmd2 = new OleDbCommand("SELECT * FROM [TBL_Zahlungen]", con);
-            OleDbDataReader myReader = cmd2.ExecuteReader();
+            SQLiteCommand cmd2 = new SQLiteCommand("SELECT * FROM [TBL_Zahlungen]", con);
+            SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
@@ -125,30 +125,30 @@ namespace HandelTSE
             if (AbfrageCheckbox.IsChecked == true) abfragecheck = "1";
             if (StatusButton.Content.ToString() == "deaktivieren") buttonstatus = "aktiv";
             if (ZahlungenDataGrid.SelectedItem != null) item = ((Zahlung)ZahlungenDataGrid.SelectedItem);
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             if (item != null)
             {
                 ID = item.Id;
-                cmd = new OleDbCommand("UPDATE [TBL_Zahlungen] SET Nr = @Nr, Zahlungsmethode = @Zahlungsmethode, Status = @Status, ZArt = @ZArt, Bemerkung = @Bemerkung, BargeldCheck = @BargeldCheck, KassenladeCheck = @KassenladeCheck, AbfrageCheck = @AbfrageCheck WHERE Id = @ID", con);
+                cmd = new SQLiteCommand("UPDATE [TBL_Zahlungen] SET Nr = @Nr, Zahlungsmethode = @Zahlungsmethode, Status = @Status, ZArt = @ZArt, Bemerkung = @Bemerkung, BargeldCheck = @BargeldCheck, KassenladeCheck = @KassenladeCheck, AbfrageCheck = @AbfrageCheck WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new OleDbParameter("@Nr", item.Nr));
-                cmd.Parameters.Add(new OleDbParameter("@Zahlungsmethode", Zahlungsname.Text));
-                cmd.Parameters.Add(new OleDbParameter("@Status", buttonstatus));
-                cmd.Parameters.Add(new OleDbParameter("@ZArt", Zahlungsart.Text));
-                cmd.Parameters.Add(new OleDbParameter("@Bemerkung", Bemerkung.Text));
-                cmd.Parameters.Add(new OleDbParameter("@BargeldCheck", bargeldcheck));
-                cmd.Parameters.Add(new OleDbParameter("@KassenladeCheck", kassenladecheck));
-                cmd.Parameters.Add(new OleDbParameter("@AbfrageCheck", abfragecheck));
+                cmd.Parameters.Add(new SQLiteParameter("@Nr", item.Nr));
+                cmd.Parameters.Add(new SQLiteParameter("@Zahlungsmethode", Zahlungsname.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@Status", buttonstatus));
+                cmd.Parameters.Add(new SQLiteParameter("@ZArt", Zahlungsart.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@Bemerkung", Bemerkung.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@BargeldCheck", bargeldcheck));
+                cmd.Parameters.Add(new SQLiteParameter("@KassenladeCheck", kassenladecheck));
+                cmd.Parameters.Add(new SQLiteParameter("@AbfrageCheck", abfragecheck));
                 
-                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+                cmd.Parameters.Add(new SQLiteParameter("@ID", ID));
             }
             else
             {
-                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_Zahlungen", con);
+                SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Zahlungen", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                OleDbCommand maxCommand2 = new OleDbCommand("SELECT max(Nr) from TBL_Zahlungen", con);
+                SQLiteCommand maxCommand2 = new SQLiteCommand("SELECT max(Nr) from TBL_Zahlungen", con);
                 try { Nr = (Int32)maxCommand2.ExecuteScalar(); } catch { }
-                cmd = new OleDbCommand("insert into [TBL_Zahlungen](Id, Nr, Zahlungsmethode, Status, ZArt, Bemerkung, BargeldCheck, KassenladeCheck, AbfrageCheck)Values('" + ++ID + "','" + ++Nr + "','" + Zahlungsname.Text + "','"  + buttonstatus + "','" + Zahlungsart.Text  + "','" + Bemerkung.Text + "','" + bargeldcheck + "','" + kassenladecheck + "','" + abfragecheck + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_Zahlungen](Id, Nr, Zahlungsmethode, Status, ZArt, Bemerkung, BargeldCheck, KassenladeCheck, AbfrageCheck)Values('" + ++ID + "','" + ++Nr + "','" + Zahlungsname.Text + "','"  + buttonstatus + "','" + Zahlungsart.Text  + "','" + Bemerkung.Text + "','" + bargeldcheck + "','" + kassenladecheck + "','" + abfragecheck + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); }

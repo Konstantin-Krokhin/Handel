@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -24,14 +24,14 @@ namespace HandelTSE.ViewModels
     /// </summary>
     public partial class Personalverwaltung
     {
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public BrushConverter bc = new BrushConverter();
         List<MyData> list = new List<MyData>();
         List<MyData> SubstituteList = new List<MyData>();
         public List<MyData> Data { get; set; }
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
 
-        OleDbCommand cmd;
+        SQLiteCommand cmd;
         MyData data = new MyData();
 
         public class MyData
@@ -76,13 +76,13 @@ namespace HandelTSE.ViewModels
             if (con.ConnectionString.Length == 0)
             {
                 con = MainWindow.con;
-                cmd = new OleDbCommand("CREATE TABLE [TBL_PERSONAL] ([Identyfikator] COUNTER, [Name] TEXT(55), [Login] TEXT(55), [Passwort] TEXT(55), [Rabatt] TEXT(55), [1] TEXT(55), [2] TEXT(55), [3] TEXT(55), [4] TEXT(55), [5] TEXT(55), [6] TEXT(55), [7] TEXT(55), [8] TEXT(55), [9] TEXT(55), [10] TEXT(55), [11] TEXT(55), [12] TEXT(55), [13] TEXT(55), [14] TEXT(55), [15] TEXT(55), [16] TEXT(55), [17] TEXT(55), [18] TEXT(55), [19] TEXT(55), [20] TEXT(55), [21] TEXT(55))", con);
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_PERSONAL] ([Identyfikator] COUNTER, [Name] TEXT(55), [Login] TEXT(55), [Passwort] TEXT(55), [Rabatt] TEXT(55), [1] TEXT(55), [2] TEXT(55), [3] TEXT(55), [4] TEXT(55), [5] TEXT(55), [6] TEXT(55), [7] TEXT(55), [8] TEXT(55), [9] TEXT(55), [10] TEXT(55), [11] TEXT(55), [12] TEXT(55), [13] TEXT(55), [14] TEXT(55), [15] TEXT(55), [16] TEXT(55), [17] TEXT(55), [18] TEXT(55), [19] TEXT(55), [20] TEXT(55), [21] TEXT(55))", con);
 
                 try
                 {
                     cmd.ExecuteNonQuery();
                     //Create first empty record with the proper starting ID starting from 1
-                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_PERSONAL](Identyfikator)Values('" + 1 + "')", con);
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_PERSONAL](Identyfikator)Values('" + 1 + "')", con);
                     try { cmd2.ExecuteNonQuery(); }
                     catch { }
                 }
@@ -94,8 +94,8 @@ namespace HandelTSE.ViewModels
 
         private void LoadGrid()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM [TBL_PERSONAL]", con);
-            OleDbDataReader myReader = cmd.ExecuteReader();
+            SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM [TBL_PERSONAL]", con);
+            SQLiteDataReader myReader = cmd.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)myReader["Identyfikator"]; else data.Identyfikator = 0;
@@ -142,8 +142,8 @@ namespace HandelTSE.ViewModels
             if (Passwort.Text == "") { Passwort.Background = brush_red; k = 1; }
 
             // Checking on whether the password exists in DB
-            OleDbCommand cmd = new OleDbCommand("SELECT COUNT(1) FROM TBL_PERSONAL WHERE Passwort = @Passwort", con);
-            cmd.Parameters.Add(new OleDbParameter("@Passwort", Passwort.Text));
+            SQLiteCommand cmd = new SQLiteCommand("SELECT COUNT(1) FROM TBL_PERSONAL WHERE Passwort = @Passwort", con);
+            cmd.Parameters.Add(new SQLiteParameter("@Passwort", Passwort.Text));
             int result = Convert.ToInt32(cmd.ExecuteScalar());
             if (result > 0) { PasswordWarning.Visibility = Visibility.Visible; k = 1; }
             else { PasswordWarning.Visibility = Visibility.Hidden; }
@@ -159,34 +159,34 @@ namespace HandelTSE.ViewModels
             var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
             var item = row.Item as MyData;
 
-            OleDbCommand cmd = new OleDbCommand("UPDATE [TBL_PERSONAL] SET Name = @Name, Login = @Login, Passwort = @Passwort, Rabatt = @Rabatt, 1 = @1, 2 = @2, 3 = @3, 4 = @4, 5 = @5, 6 = @6, 7 = @7, 8 = @8, 9 = @9, 10 = @10, 11 = @11, 12 = @12, 13 = @13, 14 = @14, 15 = @15, 16 = @16, 17 = @17, 18 = @18, 19 = @19, 20 = @20, 21 = @21 WHERE Identyfikator = @ID", con);
+            SQLiteCommand cmd = new SQLiteCommand("UPDATE [TBL_PERSONAL] SET Name = @Name, Login = @Login, Passwort = @Passwort, Rabatt = @Rabatt, 1 = @1, 2 = @2, 3 = @3, 4 = @4, 5 = @5, 6 = @6, 7 = @7, 8 = @8, 9 = @9, 10 = @10, 11 = @11, 12 = @12, 13 = @13, 14 = @14, 15 = @15, 16 = @16, 17 = @17, 18 = @18, 19 = @19, 20 = @20, 21 = @21 WHERE Identyfikator = @ID", con);
 
-            cmd.Parameters.Add(new OleDbParameter("@Name", Name.Text));
-            cmd.Parameters.Add(new OleDbParameter("@Login", Login.Text));
-            cmd.Parameters.Add(new OleDbParameter("@Passwort", Passwort.Text));
-            cmd.Parameters.Add(new OleDbParameter("@Rabatt", Rabatt.Text));
-            cmd.Parameters.Add(new OleDbParameter("@1", Storno.Text));
-            cmd.Parameters.Add(new OleDbParameter("@2", Warenverwaltung.Text));
-            cmd.Parameters.Add(new OleDbParameter("@3", Artikelrabatt.Text));
-            cmd.Parameters.Add(new OleDbParameter("@4", Gutschein.Text));
-            cmd.Parameters.Add(new OleDbParameter("@5", GutscheinStorno.Text));
-            cmd.Parameters.Add(new OleDbParameter("@6", ZAbschlag.Text));
-            cmd.Parameters.Add(new OleDbParameter("@7", SofortStorno.Text));
-            cmd.Parameters.Add(new OleDbParameter("@8", PlusMinusFunk.Text));
-            cmd.Parameters.Add(new OleDbParameter("@9", LetzterBon.Text));
-            cmd.Parameters.Add(new OleDbParameter("@10", Office.Text));
-            cmd.Parameters.Add(new OleDbParameter("@11", EinAusnahme.Text));
-            cmd.Parameters.Add(new OleDbParameter("@12", Einstellungen.Text));
-            cmd.Parameters.Add(new OleDbParameter("@13", Buchhaltung.Text));
-            cmd.Parameters.Add(new OleDbParameter("@14", XAbschlag.Text));
-            cmd.Parameters.Add(new OleDbParameter("@15", Kassenlade.Text));
-            cmd.Parameters.Add(new OleDbParameter("@16", AdminStorno.Text));
-            cmd.Parameters.Add(new OleDbParameter("@17", Warenbestand.Text));
-            cmd.Parameters.Add(new OleDbParameter("@18", Inventur.Text));
-            cmd.Parameters.Add(new OleDbParameter("@19", PreisF6.Text));
-            cmd.Parameters.Add(new OleDbParameter("@20", Berichte.Text));
-            cmd.Parameters.Add(new OleDbParameter("@21", Wareneingang.Text));
-            cmd.Parameters.Add(new OleDbParameter("@ID", item.Identyfikator));
+            cmd.Parameters.Add(new SQLiteParameter("@Name", Name.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@Login", Login.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@Passwort", Passwort.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@Rabatt", Rabatt.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@1", Storno.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@2", Warenverwaltung.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@3", Artikelrabatt.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@4", Gutschein.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@5", GutscheinStorno.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@6", ZAbschlag.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@7", SofortStorno.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@8", PlusMinusFunk.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@9", LetzterBon.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@10", Office.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@11", EinAusnahme.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@12", Einstellungen.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@13", Buchhaltung.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@14", XAbschlag.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@15", Kassenlade.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@16", AdminStorno.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@17", Warenbestand.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@18", Inventur.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@19", PreisF6.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@20", Berichte.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@21", Wareneingang.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@ID", item.Identyfikator));
 
             //"UPDATE [TBL_PERSONAL] SET (Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "') WHERE Identyfikator = " + item.Identyfikator
             int result = 0;
@@ -202,7 +202,7 @@ namespace HandelTSE.ViewModels
 
         void SaveToDB()
         {
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             cmd.CommandText = "insert into [TBL_PERSONAL](Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "')";
             cmd.Connection = con;
 
@@ -221,8 +221,8 @@ namespace HandelTSE.ViewModels
             var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
             var item = row.Item as MyData;
 
-            OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PERSONAL] where Identyfikator = @ID", con);
-            cmd.Parameters.Add(new OleDbParameter("@ID", item.Identyfikator));
+            SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_PERSONAL] where Identyfikator = @ID", con);
+            cmd.Parameters.Add(new SQLiteParameter("@ID", item.Identyfikator));
 
             int result = 0;
             try { result = cmd.ExecuteNonQuery(); }

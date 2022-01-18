@@ -1,8 +1,8 @@
 ﻿using HandelTSE.ViewModels;
-using System;
+using System;using System.Data.SQLite;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace HandelTSE
     /// </summary>
     public partial class FunktionsEinstellungen : UserControl
     {
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public FunktionsEinstellungen()
         {
             InitializeComponent();
@@ -36,8 +36,8 @@ namespace HandelTSE
 
         void LoadData()
         {
-            OleDbCommand cmd1 = new OleDbCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], SonstigeArtikel, Kassenbestand FROM [TBL_FunktionsEinstellungenProgramm]", con);
-            OleDbDataReader myReader = cmd1.ExecuteReader();
+            SQLiteCommand cmd1 = new SQLiteCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], SonstigeArtikel, Kassenbestand FROM [TBL_FunktionsEinstellungenProgramm]", con);
+            SQLiteDataReader myReader = cmd1.ExecuteReader();
             while (myReader.Read())
             {
                 int i = 1;
@@ -53,8 +53,8 @@ namespace HandelTSE
             if (MainWindow.con.State == System.Data.ConnectionState.Closed) return;
             if (EinstellungenTabs.SelectedIndex == 1)
             {
-                OleDbCommand cmd2 = new OleDbCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], BenachrichtigenStuck  FROM [TBL_FunktionsEinstellungenFunktionen]", con);
-                OleDbDataReader myReader = cmd2.ExecuteReader();
+                SQLiteCommand cmd2 = new SQLiteCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], BenachrichtigenStuck  FROM [TBL_FunktionsEinstellungenFunktionen]", con);
+                SQLiteDataReader myReader = cmd2.ExecuteReader();
                 while (myReader.Read())
                 {
                     int i = 1;
@@ -65,8 +65,8 @@ namespace HandelTSE
             } 
             else if (EinstellungenTabs.SelectedIndex == 2)
             {
-                OleDbCommand cmd2 = new OleDbCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], AbschlagSendenTextBox  FROM [TBL_FunktionsEinstellungenAbschlag]", con);
-                OleDbDataReader myReader = cmd2.ExecuteReader();
+                SQLiteCommand cmd2 = new SQLiteCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], AbschlagSendenTextBox  FROM [TBL_FunktionsEinstellungenAbschlag]", con);
+                SQLiteDataReader myReader = cmd2.ExecuteReader();
                 while (myReader.Read())
                 {
                     int i = 1;
@@ -79,8 +79,8 @@ namespace HandelTSE
             }
             else if (EinstellungenTabs.SelectedIndex == 3)
             {
-                OleDbCommand cmd2 = new OleDbCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18] FROM [TBL_FunktionsEinstellungenBondrucker]", con);
-                OleDbDataReader myReader = cmd2.ExecuteReader();
+                SQLiteCommand cmd2 = new SQLiteCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18] FROM [TBL_FunktionsEinstellungenBondrucker]", con);
+                SQLiteDataReader myReader = cmd2.ExecuteReader();
                 while (myReader.Read()) 
                 { 
                     int i = 1; 
@@ -90,8 +90,8 @@ namespace HandelTSE
             }
             else if(EinstellungenTabs.SelectedIndex == 4 && EinzweckComboBox.IsEnabled == false)
             {
-                OleDbCommand cmd2 = new OleDbCommand("SELECT [GutscheinSystemAktivCheckbox], [MehrzweckRadioButton], [EinzweckComboBox], [GutscheinTextBox] FROM [TBL_FunktionsEinstellungenGutscheine]", con);
-                OleDbDataReader myReader = cmd2.ExecuteReader();
+                SQLiteCommand cmd2 = new SQLiteCommand("SELECT [GutscheinSystemAktivCheckbox], [MehrzweckRadioButton], [EinzweckComboBox], [GutscheinTextBox] FROM [TBL_FunktionsEinstellungenGutscheine]", con);
+                SQLiteDataReader myReader = cmd2.ExecuteReader();
                 while (myReader.Read())
                 {
                     GutscheinSystemAktivCheckbox.IsChecked = (bool)(Boolean)myReader["GutscheinSystemAktivCheckbox"];
@@ -106,7 +106,7 @@ namespace HandelTSE
         {
             if (EinstellungenTabs.SelectedIndex == 0)
             {
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_FunktionsEinstellungenProgramm] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [14] YESNO, [15] YESNO, [16] YESNO, [SonstigeArtikel] TEXT(55), [Kassenbestand] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenProgramm] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [14] YESNO, [15] YESNO, [16] YESNO, [SonstigeArtikel] TEXT(55), [Kassenbestand] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, counter = 0;
@@ -114,32 +114,32 @@ namespace HandelTSE
                 Int32 Id = -1;
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(ProgrammPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
 
-                OleDbCommand cmd4;
+                SQLiteCommand cmd4;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_FunktionsEinstellungenProgramm", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenProgramm", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd4 = new OleDbCommand("UPDATE [TBL_FunktionsEinstellungenProgramm] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [SonstigeArtikel] = @SonstigeArtikel, [Kassenbestand] = @Kassenbestand WHERE [Id] = @ID", con);
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenProgramm] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [SonstigeArtikel] = @SonstigeArtikel, [Kassenbestand] = @Kassenbestand WHERE [Id] = @ID", con);
 
-                    for (int i = 1; i < 17; i++) { cmd4.Parameters.Add(new OleDbParameter("@" + i.ToString(), Checkboxes[i - 1])); }
-                    cmd4.Parameters.Add(new OleDbParameter("@SonstigeArtikel", SonstigeArtikel.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Kassenbestand", Kassenbestand.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
+                    for (int i = 1; i < 17; i++) { cmd4.Parameters.Add(new SQLiteParameter("@" + i.ToString(), Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new SQLiteParameter("@SonstigeArtikel", SonstigeArtikel.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Kassenbestand", Kassenbestand.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
                 else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 17; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new OleDbCommand("insert into [TBL_FunktionsEinstellungenProgramm](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [SonstigeArtikel], [Kassenbestand])Values('" + 0 + checkboxes + "','" + SonstigeArtikel.Text + "','" + Kassenbestand.Text + "')", con);
+                    cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenProgramm](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [SonstigeArtikel], [Kassenbestand])Values('" + 0 + checkboxes + "','" + SonstigeArtikel.Text + "','" + Kassenbestand.Text + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
             else if (EinstellungenTabs.SelectedIndex == 1)
             {
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_FunktionsEinstellungenFunktionen] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [BenachrichtigenStuck] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenFunktionen] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [BenachrichtigenStuck] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, counter = 0;
@@ -147,31 +147,31 @@ namespace HandelTSE
                 Int32 Id = -1;
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FunktionenPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
 
-                OleDbCommand cmd4;
+                SQLiteCommand cmd4;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_FunktionsEinstellungenFunktionen", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenFunktionen", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd4 = new OleDbCommand("UPDATE [TBL_FunktionsEinstellungenFunktionen] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [BenachrichtigenStuck] = @BenachrichtigenStuck WHERE [Id] = @ID", con);
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenFunktionen] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [BenachrichtigenStuck] = @BenachrichtigenStuck WHERE [Id] = @ID", con);
 
-                    for (int i = 1; i < 12; i++) { cmd4.Parameters.Add(new OleDbParameter("@" + i.ToString(), Checkboxes[i - 1])); }
-                    cmd4.Parameters.Add(new OleDbParameter("@BenachrichtigenStuck", BenachrichtigenStuck.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
+                    for (int i = 1; i < 12; i++) { cmd4.Parameters.Add(new SQLiteParameter("@" + i.ToString(), Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new SQLiteParameter("@BenachrichtigenStuck", BenachrichtigenStuck.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
                 else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 12; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new OleDbCommand("insert into [TBL_FunktionsEinstellungenFunktionen](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [BenachrichtigenStuck])Values('" + 0 + checkboxes + "','" + BenachrichtigenStuck.Text + "')", con);
+                    cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenFunktionen](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [BenachrichtigenStuck])Values('" + 0 + checkboxes + "','" + BenachrichtigenStuck.Text + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
             else if (EinstellungenTabs.SelectedIndex == 2)
             {
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_FunktionsEinstellungenAbschlag] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [AbschlagSendenTextBox] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenAbschlag] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [AbschlagSendenTextBox] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, counter = 0;
@@ -179,31 +179,31 @@ namespace HandelTSE
                 Int32 Id = -1;
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(ZAbschlagPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
 
-                OleDbCommand cmd4;
+                SQLiteCommand cmd4;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_FunktionsEinstellungenAbschlag", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenAbschlag", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd4 = new OleDbCommand("UPDATE [TBL_FunktionsEinstellungenAbschlag] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [AbschlagSendenTextBox] = @AbschlagSendenTextBox WHERE [Id] = @ID", con);
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenAbschlag] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [AbschlagSendenTextBox] = @AbschlagSendenTextBox WHERE [Id] = @ID", con);
 
-                    for (int i = 1; i < 14; i++) { cmd4.Parameters.Add(new OleDbParameter("@" + i.ToString(), Checkboxes[i - 1])); }
-                    cmd4.Parameters.Add(new OleDbParameter("@AbschlagSendenTextBox", AbschlagSendenTextBox.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
+                    for (int i = 1; i < 14; i++) { cmd4.Parameters.Add(new SQLiteParameter("@" + i.ToString(), Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new SQLiteParameter("@AbschlagSendenTextBox", AbschlagSendenTextBox.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
                 else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 14; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new OleDbCommand("insert into [TBL_FunktionsEinstellungenAbschlag](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [AbschlagSendenTextBox])Values('" + 0 + checkboxes + "','" + AbschlagSendenTextBox.Text + "')", con);
+                    cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenAbschlag](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [AbschlagSendenTextBox])Values('" + 0 + checkboxes + "','" + AbschlagSendenTextBox.Text + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
             else if (EinstellungenTabs.SelectedIndex == 3)
             {
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_FunktionsEinstellungenBondrucker] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [14] YESNO, [15] YESNO, [16] YESNO, [17] YESNO, [18] YESNO)", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenBondrucker] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [14] YESNO, [15] YESNO, [16] YESNO, [17] YESNO, [18] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, counter = 0;
@@ -211,30 +211,30 @@ namespace HandelTSE
                 Int32 Id = -1;
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(BondruckerPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
 
-                OleDbCommand cmd4;
+                SQLiteCommand cmd4;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_FunktionsEinstellungenBondrucker", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenBondrucker", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd4 = new OleDbCommand("UPDATE [TBL_FunktionsEinstellungenBondrucker] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [17] = @17, [18] = @18 WHERE [Id] = @ID", con);
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenBondrucker] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [17] = @17, [18] = @18 WHERE [Id] = @ID", con);
 
-                    for (int i = 1; i < 19; i++) { cmd4.Parameters.Add(new OleDbParameter("@" + i.ToString(), Checkboxes[i - 1])); }
-                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
+                    for (int i = 1; i < 19; i++) { cmd4.Parameters.Add(new SQLiteParameter("@" + i.ToString(), Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
                 else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 19; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new OleDbCommand("insert into [TBL_FunktionsEinstellungenBondrucker](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18])Values('" + 0 + checkboxes + "')", con);
+                    cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenBondrucker](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18])Values('" + 0 + checkboxes + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
             else if (EinstellungenTabs.SelectedIndex == 4)
             {
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_FunktionsEinstellungenGutscheine] ([Id] COUNTER, [GutscheinSystemAktivCheckbox] YESNO, [MehrzweckRadioButton] YESNO, [EinzweckComboBox] TEXT(55), [GutscheinTextBox] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenGutscheine] ([Id] COUNTER, [GutscheinSystemAktivCheckbox] YESNO, [MehrzweckRadioButton] YESNO, [EinzweckComboBox] TEXT(55), [GutscheinTextBox] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0;
@@ -242,23 +242,23 @@ namespace HandelTSE
                 int MehrzweckCheckbox = MehrzweckRadioButton.IsChecked == true ? MehrzweckCheckbox = -1 : MehrzweckCheckbox = 0;
                 Int32 Id = -1;
 
-                OleDbCommand cmd4 = new OleDbCommand();
+                SQLiteCommand cmd4 = new SQLiteCommand();
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_FunktionsEinstellungenGutscheine", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenGutscheine", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
                 string EinzweckString = "0";
                 if (MehrzweckRadioButton.IsChecked == false) EinzweckString = EinzweckComboBox.Text;
 
                 if (Id == 0)
                 {
-                    cmd4 = new OleDbCommand("UPDATE [TBL_FunktionsEinstellungenGutscheine] SET [GutscheinSystemAktivCheckbox] = @GutscheinSystemAktivCheckbox, [MehrzweckRadioButton] = @MehrzweckRadioButton, [EinzweckComboBox] = @EinzweckComboBox, [GutscheinTextBox] = @GutscheinTextBox WHERE [Id] = @ID", con);
-                    cmd4.Parameters.Add(new OleDbParameter("@GutscheinSystemAktivCheckbox", GutscheinCheckbox));
-                    cmd4.Parameters.Add(new OleDbParameter("@MehrzweckRadioButton", MehrzweckCheckbox));
-                    cmd4.Parameters.Add(new OleDbParameter("@EinzweckComboBox", EinzweckString));
-                    cmd4.Parameters.Add(new OleDbParameter("@GutscheinTextBox", GutscheinTextBox.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenGutscheine] SET [GutscheinSystemAktivCheckbox] = @GutscheinSystemAktivCheckbox, [MehrzweckRadioButton] = @MehrzweckRadioButton, [EinzweckComboBox] = @EinzweckComboBox, [GutscheinTextBox] = @GutscheinTextBox WHERE [Id] = @ID", con);
+                    cmd4.Parameters.Add(new SQLiteParameter("@GutscheinSystemAktivCheckbox", GutscheinCheckbox));
+                    cmd4.Parameters.Add(new SQLiteParameter("@MehrzweckRadioButton", MehrzweckCheckbox));
+                    cmd4.Parameters.Add(new SQLiteParameter("@EinzweckComboBox", EinzweckString));
+                    cmd4.Parameters.Add(new SQLiteParameter("@GutscheinTextBox", GutscheinTextBox.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
-                else { cmd4 = new OleDbCommand("insert into [TBL_FunktionsEinstellungenGutscheine](Id, [GutscheinSystemAktivCheckbox], [MehrzweckRadioButton], [EinzweckComboBox], [GutscheinTextBox] )Values('" + 0 + "','" + GutscheinCheckbox + "','" + MehrzweckCheckbox + "','" + EinzweckString + "','" + GutscheinTextBox.Text + "')", con); }
+                else { cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenGutscheine](Id, [GutscheinSystemAktivCheckbox], [MehrzweckRadioButton], [EinzweckComboBox], [GutscheinTextBox] )Values('" + 0 + "','" + GutscheinCheckbox + "','" + MehrzweckCheckbox + "','" + EinzweckString + "','" + GutscheinTextBox.Text + "')", con); }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }

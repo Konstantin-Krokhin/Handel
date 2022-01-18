@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -26,7 +26,7 @@ namespace HandelTSE.ViewModels
     /// </summary>
     public partial class CSVImportieren : UserControl
     {
-        public static OleDbConnection con = MainWindow.con;
+        public static SQLiteConnection con = MainWindow.con;
         List<Presse> list = new List<Presse>();
         public List<Presse> Data { get; set; }
         int KopfzeileAdded_flag = 0;
@@ -55,7 +55,7 @@ namespace HandelTSE.ViewModels
         private void ImportierenButton_Click(object sender, RoutedEventArgs e)
         {
             Globals.CsvZeitungenFilePath = "";
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             Int32 ID = 0;
             int chosen = 0;
 
@@ -66,7 +66,7 @@ namespace HandelTSE.ViewModels
                     if (chosen == 0)
                     {
                         chosen = 1;
-                        OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_PRESSE", con);
+                        SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_PRESSE", con);
                         try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
                     }
                     DataGridRow dataGridRow = VisualTreeHelpers.FindAncestor<DataGridRow>(x);
@@ -75,10 +75,10 @@ namespace HandelTSE.ViewModels
                     if (data == null) break;
 
                     if (ZeitungenDataGrid.Columns[1].Header.ToString() == "EAN" && ZeitungenDataGrid.Columns[2].Header.ToString() == "Bezeichnung")
-                        cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CEAN + "','" + data.CNAME + "')", con);
+                        cmd = new SQLiteCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CEAN + "','" + data.CNAME + "')", con);
 
                     else if (ZeitungenDataGrid.Columns[1].Header.ToString() == "Bezeichnung" && ZeitungenDataGrid.Columns[2].Header.ToString() == "EAN")
-                        cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CNAME + "','" + data.CEAN + "')", con);
+                        cmd = new SQLiteCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CNAME + "','" + data.CEAN + "')", con);
 
                     try { cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); break; }

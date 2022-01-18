@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,7 +32,7 @@ namespace HandelTSE.ViewModels
         EANCode data2 = new EANCode();
         List<Presse> list = new List<Presse>();
         List<EANCode> list2 = new List<EANCode>();
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public List<Presse> Data { get; set; }
         public List<EANCode> Data2 { get; set; }
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
@@ -68,8 +68,8 @@ namespace HandelTSE.ViewModels
 
         private void LoadGrid()
         {
-            OleDbCommand cmd2 = new OleDbCommand("SELECT * FROM [TBL_PRESSE]", con);
-            OleDbDataReader myReader = cmd2.ExecuteReader();
+            SQLiteCommand cmd2 = new SQLiteCommand("SELECT * FROM [TBL_PRESSE]", con);
+            SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
@@ -81,8 +81,8 @@ namespace HandelTSE.ViewModels
             EANDataGrid.ItemsSource = Data;
             list = new List<Presse>();
 
-            OleDbCommand cmd3 = new OleDbCommand("SELECT * FROM [TBL_EANCode]", con);
-            OleDbDataReader myReader3 = cmd3.ExecuteReader();
+            SQLiteCommand cmd3 = new SQLiteCommand("SELECT * FROM [TBL_EANCode]", con);
+            SQLiteDataReader myReader3 = cmd3.ExecuteReader();
             while (myReader3.Read())
             {
                 if (myReader3["Id"] != DBNull.Value) data2.Id = (Int32)myReader3["Id"]; else data2.Id = -1;
@@ -143,21 +143,21 @@ namespace HandelTSE.ViewModels
             Int32 ID = 0;
             int result = 0;
             Presse item = (Presse)EANDataGrid.SelectedItem;
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             if (item != null)
             {
                 ID = item.Id;
-                cmd = new OleDbCommand("UPDATE [TBL_PRESSE] SET CEAN = @CEAN, CNAME = @CNAME WHERE Id = @ID", con);
+                cmd = new SQLiteCommand("UPDATE [TBL_PRESSE] SET CEAN = @CEAN, CNAME = @CNAME WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new OleDbParameter("@CEAN", EANZeitungTextBox.Text));
-                cmd.Parameters.Add(new OleDbParameter("@CNAME", BezeichnungZeitungTextBox.Text));
-                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+                cmd.Parameters.Add(new SQLiteParameter("@CEAN", EANZeitungTextBox.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@CNAME", BezeichnungZeitungTextBox.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@ID", ID));
             }
             else
             {
-                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_PRESSE", con);
+                SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_PRESSE", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                cmd = new OleDbCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + EANZeitungTextBox.Text + "','" + BezeichnungZeitungTextBox.Text + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + EANZeitungTextBox.Text + "','" + BezeichnungZeitungTextBox.Text + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); HideColumn2(); }
@@ -186,8 +186,8 @@ namespace HandelTSE.ViewModels
             switch (messageResult)
             {
                 case MessageBoxResult.OK:
-                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_PRESSE] where Id = @Id", con);
-                    cmd.Parameters.Add(new OleDbParameter("@Id", ((Presse)EANDataGrid.SelectedItem).Id));
+                    SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_PRESSE] where Id = @Id", con);
+                    cmd.Parameters.Add(new SQLiteParameter("@Id", ((Presse)EANDataGrid.SelectedItem).Id));
 
                     try { cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
@@ -336,8 +336,8 @@ namespace HandelTSE.ViewModels
             switch (messageResult)
             {
                 case MessageBoxResult.OK:
-                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_EANCode] where Id = @ID", con);
-                    cmd.Parameters.Add(new OleDbParameter("@ID", ((EANCode)EANPressecodeDataGrid.SelectedItem).Id));
+                    SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_EANCode] where Id = @ID", con);
+                    cmd.Parameters.Add(new SQLiteParameter("@ID", ((EANCode)EANPressecodeDataGrid.SelectedItem).Id));
                     try { cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
@@ -359,27 +359,27 @@ namespace HandelTSE.ViewModels
             NeuButton.IsEnabled = true;
 
             Int32 ID = 0;
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             if (item.Id != 0)
             {
                 ID = item.Id;
-                cmd = new OleDbCommand("UPDATE [TBL_EANCode] SET Landprafix = @Landprafix, PresseKZ = @PresseKZ, MwSt = @MwSt, VDZ = @VDZ, Verkaufspreis = @Verkaufspreis, Bezeichnung = @Bezeichnung WHERE Id = @ID", con);
+                cmd = new SQLiteCommand("UPDATE [TBL_EANCode] SET Landprafix = @Landprafix, PresseKZ = @PresseKZ, MwSt = @MwSt, VDZ = @VDZ, Verkaufspreis = @Verkaufspreis, Bezeichnung = @Bezeichnung WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new OleDbParameter("@Landprafix", item.Landprafix));
-                cmd.Parameters.Add(new OleDbParameter("@PresseKZ", item.PresseKZ));
-                cmd.Parameters.Add(new OleDbParameter("@MwSt", item.MwSt));
-                cmd.Parameters.Add(new OleDbParameter("@VDZ", item.VDZ));
-                cmd.Parameters.Add(new OleDbParameter("@Verkaufspreis", item.Verkaufspreis));
-                cmd.Parameters.Add(new OleDbParameter("@Bezeichnung", item.Bezeichnung));
+                cmd.Parameters.Add(new SQLiteParameter("@Landprafix", item.Landprafix));
+                cmd.Parameters.Add(new SQLiteParameter("@PresseKZ", item.PresseKZ));
+                cmd.Parameters.Add(new SQLiteParameter("@MwSt", item.MwSt));
+                cmd.Parameters.Add(new SQLiteParameter("@VDZ", item.VDZ));
+                cmd.Parameters.Add(new SQLiteParameter("@Verkaufspreis", item.Verkaufspreis));
+                cmd.Parameters.Add(new SQLiteParameter("@Bezeichnung", item.Bezeichnung));
                 
-                cmd.Parameters.Add(new OleDbParameter("@ID", item.Id));
+                cmd.Parameters.Add(new SQLiteParameter("@ID", item.Id));
             }
             else
             {
-                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_EANCode", con);
+                SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_EANCode", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
                 
-                cmd = new OleDbCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, MwSt, VDZ, Verkaufspreis, Bezeichnung)Values('" + ++ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.MwSt + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, MwSt, VDZ, Verkaufspreis, Bezeichnung)Values('" + ++ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.MwSt + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
             }
 
             try { cmd.ExecuteNonQuery(); LoadGrid(); HideColumn2(); HideColumn(); }

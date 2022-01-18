@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace HandelTSE
     {
         Storno data = new Storno();
         List<Storno> list = new List<Storno>();
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public List<Storno> Data { get; set; }
 
         public class Storno
@@ -39,12 +39,12 @@ namespace HandelTSE
             if (con.ConnectionString.Length == 0)
             {
                 con = MainWindow.con;
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_Stornogrunde] ([Id] COUNTER, [Stornogrund] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Stornogrunde] ([Id] COUNTER, [Stornogrund] TEXT(55))", con);
                 try
                 {
                     cmd.ExecuteNonQuery();
                     //Create first empty record with the proper starting ID starting from 1
-                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_Stornogrunde](Id)Values('" + 1 + "')", con);
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_Stornogrunde](Id)Values('" + 1 + "')", con);
                     try { cmd2.ExecuteNonQuery(); }
                     catch { }
                 }
@@ -56,8 +56,8 @@ namespace HandelTSE
 
         private void LoadGrid()
         {
-            OleDbCommand cmd2 = new OleDbCommand("SELECT * FROM [TBL_Stornogrunde]", con);
-            OleDbDataReader myReader = cmd2.ExecuteReader();
+            SQLiteCommand cmd2 = new SQLiteCommand("SELECT * FROM [TBL_Stornogrunde]", con);
+            SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
@@ -87,8 +87,8 @@ namespace HandelTSE
             switch (messageResult)
             {
                 case MessageBoxResult.OK:
-                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_Stornogrunde] where Id = @ID", con);
-                    cmd.Parameters.Add(new OleDbParameter("@ID", ((Storno)StornogrundeDataGrid.SelectedItem).Id));
+                    SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_Stornogrunde] where Id = @ID", con);
+                    cmd.Parameters.Add(new SQLiteParameter("@ID", ((Storno)StornogrundeDataGrid.SelectedItem).Id));
                     int result = 0;
                     try { result = cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
@@ -110,20 +110,20 @@ namespace HandelTSE
 
             Int32 ID = 0;
             int result = 0;
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             if (item.Id != 0)
             {
                 ID = item.Id;
-                cmd = new OleDbCommand("UPDATE [TBL_Stornogrunde] SET Stornogrund = @Stornogrund WHERE Id = @ID", con);
+                cmd = new SQLiteCommand("UPDATE [TBL_Stornogrunde] SET Stornogrund = @Stornogrund WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new OleDbParameter("@Stornogrund", item.Stornogrund));
-                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+                cmd.Parameters.Add(new SQLiteParameter("@Stornogrund", item.Stornogrund));
+                cmd.Parameters.Add(new SQLiteParameter("@ID", ID));
             }
             else
             {
-                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_Stornogrunde", con);
+                SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Stornogrunde", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                cmd = new OleDbCommand("insert into [TBL_Stornogrunde](Id, Stornogrund)Values('" + ++ID + "','" + item.Stornogrund + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_Stornogrunde](Id, Stornogrund)Values('" + ++ID + "','" + item.Stornogrund + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); }

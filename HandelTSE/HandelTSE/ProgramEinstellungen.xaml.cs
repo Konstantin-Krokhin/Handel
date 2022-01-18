@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace HandelTSE
     /// </summary>
     public partial class ProgramEinstellungen : UserControl
     {
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         List<items> it = new List<items>();
         BrushConverter converter = new System.Windows.Media.BrushConverter();
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
@@ -32,7 +32,7 @@ namespace HandelTSE
         public List<Terminalen> Data { get; set; }
         Terminalen data = new Terminalen();
         List<Terminalen> list = new List<Terminalen>();
-        OleDbCommand cmd2;
+        SQLiteCommand cmd2;
         bool started = true;
         bool darstellung_loaded = false;
 
@@ -56,12 +56,12 @@ namespace HandelTSE
             if (con.ConnectionString.Length == 0)
             {
                 con = MainWindow.con;
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); }
                 catch { }
             }
 
-            cmd2 = new OleDbCommand("SELECT Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank FROM [TBL_ProgramEinstellungenKassennetz]", con);
+            cmd2 = new SQLiteCommand("SELECT Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank FROM [TBL_ProgramEinstellungenKassennetz]", con);
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
             Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => { EinstellungenTabs.SelectedIndex = 0; HideColumns(); }));
@@ -69,7 +69,7 @@ namespace HandelTSE
 
         private void LoadGrid()
         {
-            OleDbDataReader myReader = cmd2.ExecuteReader();
+            SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
@@ -134,29 +134,29 @@ namespace HandelTSE
 
             Int32 ID = 0;
             int result = 0;
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             int NetzwerkDatenbankValue = 0;
             if (NetzwerkDatenbank.IsChecked == true) NetzwerkDatenbankValue = -1;
             if (TerminalenDataGrid.SelectedItem != null)
             {
                 ID = ((Terminalen)TerminalenDataGrid.SelectedItem).Id;
-                cmd = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenKassennetz] SET TerminalID = @TerminalID, MarkeDesTerminals = @MarkeDesTerminals, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, NetzwerkDatenbank = @NetzwerkDatenbank WHERE Id = @ID", con);
+                cmd = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenKassennetz] SET TerminalID = @TerminalID, MarkeDesTerminals = @MarkeDesTerminals, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, NetzwerkDatenbank = @NetzwerkDatenbank WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new OleDbParameter("@TerminalID", TerminalID.Text));
-                cmd.Parameters.Add(new OleDbParameter("@MarkeDesTerminals", MarkeDesTermin.Text));
-                cmd.Parameters.Add(new OleDbParameter("@Modellbezeichnung", Modellbezeichnung.Text));
-                cmd.Parameters.Add(new OleDbParameter("@Seriennummer", Seriennummer.Text));
-                cmd.Parameters.Add(new OleDbParameter("@Kassensoftware", KassenSoftware.Text));
-                cmd.Parameters.Add(new OleDbParameter("@VersionDerSoftware", VersionDerSoftware.Text));
-                cmd.Parameters.Add(new OleDbParameter("@NetzwerkDatenbank", NetzwerkDatenbankValue));
-                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+                cmd.Parameters.Add(new SQLiteParameter("@TerminalID", TerminalID.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@MarkeDesTerminals", MarkeDesTermin.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@Modellbezeichnung", Modellbezeichnung.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@Seriennummer", Seriennummer.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@Kassensoftware", KassenSoftware.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@VersionDerSoftware", VersionDerSoftware.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@NetzwerkDatenbank", NetzwerkDatenbankValue));
+                cmd.Parameters.Add(new SQLiteParameter("@ID", ID));
             }
             else
             {
-                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
+                SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); }
                 catch { }
-                cmd = new OleDbCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('" + ++ID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('" + ++ID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
@@ -220,8 +220,8 @@ namespace HandelTSE
                     var row = (DataGridRow)TerminalenDataGrid.ItemContainerGenerator.ContainerFromIndex(TerminalenDataGrid.SelectedIndex);
                     var item = row.Item as Terminalen;
 
-                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_ProgramEinstellungenKassennetz] where Id = @ID", con);
-                    cmd.Parameters.Add(new OleDbParameter("@ID", item.Id));
+                    SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_ProgramEinstellungenKassennetz] where Id = @ID", con);
+                    cmd.Parameters.Add(new SQLiteParameter("@ID", item.Id));
 
                     int result = 0;
                     try { result = cmd.ExecuteNonQuery(); }
@@ -243,8 +243,8 @@ namespace HandelTSE
 
             if (EinstellungenTabs.SelectedIndex == 0 && started == true)
             {
-                OleDbCommand cmd3 = new OleDbCommand("SELECT Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck FROM [TBL_ProgramEinstellungenDarstellung]", con);
-                OleDbDataReader myReader = cmd3.ExecuteReader();
+                SQLiteCommand cmd3 = new SQLiteCommand("SELECT Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck FROM [TBL_ProgramEinstellungenDarstellung]", con);
+                SQLiteDataReader myReader = cmd3.ExecuteReader();
                 while (myReader.Read())
                 {
                     if (myReader["Hintergrundfarbe"] != DBNull.Value) { Farbauswahl1.Style = (Style)FindResource("BlueButton"); Farbauswahl1.Background = (Brush)converter.ConvertFromString((string)myReader["Hintergrundfarbe"]); }
@@ -262,8 +262,8 @@ namespace HandelTSE
             }
             else if (EinstellungenTabs.SelectedIndex == 1)
             {
-                OleDbCommand cmd3 = new OleDbCommand("SELECT Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11] FROM [TBL_ProgramEinstellungenFirmendaten]", con);
-                OleDbDataReader myReader = cmd3.ExecuteReader();
+                SQLiteCommand cmd3 = new SQLiteCommand("SELECT Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11] FROM [TBL_ProgramEinstellungenFirmendaten]", con);
+                SQLiteDataReader myReader = cmd3.ExecuteReader();
                 while (myReader.Read())
                 {
                     if (myReader["Firma"] != DBNull.Value) { FirmaField.Text = (string)myReader["Firma"]; }
@@ -283,8 +283,8 @@ namespace HandelTSE
             }
             else if (EinstellungenTabs.SelectedIndex == 2)
             {
-                OleDbCommand cmd3 = new OleDbCommand("SELECT Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k] FROM [TBL_ProgramEinstellungenKassendaten]", con);
-                OleDbDataReader myReader = cmd3.ExecuteReader();
+                SQLiteCommand cmd3 = new SQLiteCommand("SELECT Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k] FROM [TBL_ProgramEinstellungenKassendaten]", con);
+                SQLiteDataReader myReader = cmd3.ExecuteReader();
                 while (myReader.Read())
                 {
                     if (myReader["Kassennummer"] != DBNull.Value) { Kassennummer.Text = (string)myReader["Kassennummer"]; }
@@ -305,34 +305,34 @@ namespace HandelTSE
             if (EinstellungenTabs.SelectedIndex == 0)
             {
                 if (SchriftGrossTasten.Text == "" || Spaltenzahl1.Text == "" || Spaltenzahl2.Text == "" || Zeilenzahl1.Text == "" || Zeilenzahl2.Text == "") { MessageBox.Show("Korrigieren Sie Ihre Daten!"); return; }
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] COUNTER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55),[Spaltenzahl1] TEXT(55),[Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55),[Zeilenzahl2] TEXT(55),[SchriftGross] TEXT(55), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] COUNTER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55),[Spaltenzahl1] TEXT(55),[Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55),[Zeilenzahl2] TEXT(55),[SchriftGross] TEXT(55), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, MenuFunktionenValue = 0;
                 Int32 Id = -1;
                 if (MenuFunktionenCheckbox.IsChecked == true) MenuFunktionenValue = -1;
-                OleDbCommand cmd2;
+                SQLiteCommand cmd2;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenDarstellung", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenDarstellung", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0) 
                 { 
-                    cmd2 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenDarstellung] SET Hintergrundfarbe = @Hintergrundfarbe, ProgrammOberflache = @ProgrammOberflache, ProgrammGrosse = @ProgrammGrosse, Spaltenzahl1 = @Spaltenzahl1, Zeilenzahl1 = @Zeilenzahl1, Spaltenzahl2 = @Spaltenzahl2, Zeilenzahl2 = @Zeilenzahl2, SchriftGross = @SchriftGross, MenuFunktionen = @MenuFunktionen, SchnellDruck = @SchnellDruck WHERE Id = @ID", con);
+                    cmd2 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenDarstellung] SET Hintergrundfarbe = @Hintergrundfarbe, ProgrammOberflache = @ProgrammOberflache, ProgrammGrosse = @ProgrammGrosse, Spaltenzahl1 = @Spaltenzahl1, Zeilenzahl1 = @Zeilenzahl1, Spaltenzahl2 = @Spaltenzahl2, Zeilenzahl2 = @Zeilenzahl2, SchriftGross = @SchriftGross, MenuFunktionen = @MenuFunktionen, SchnellDruck = @SchnellDruck WHERE Id = @ID", con);
 
-                    cmd2.Parameters.Add(new OleDbParameter("@Hintergrundfarbe", Farbauswahl1.Background.ToString()));
-                    cmd2.Parameters.Add(new OleDbParameter("@ProgrammOberflache", Farbauswahl2.Background.ToString()));
-                    cmd2.Parameters.Add(new OleDbParameter("@ProgrammGrosse", ProgramGrosseBox.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Spaltenzahl1", Spaltenzahl1.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Zeilenzahl1", Zeilenzahl1.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Spaltenzahl2", Spaltenzahl2.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Zeilenzahl2", Zeilenzahl2.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@SchriftGross", SchriftGrossTasten.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@MenuFunktionen", MenuFunktionenValue));
-                    cmd2.Parameters.Add(new OleDbParameter("@SchnellDruck", SchnellDruckBox.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@ID", Id));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Hintergrundfarbe", Farbauswahl1.Background.ToString()));
+                    cmd2.Parameters.Add(new SQLiteParameter("@ProgrammOberflache", Farbauswahl2.Background.ToString()));
+                    cmd2.Parameters.Add(new SQLiteParameter("@ProgrammGrosse", ProgramGrosseBox.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Spaltenzahl1", Spaltenzahl1.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Zeilenzahl1", Zeilenzahl1.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Spaltenzahl2", Spaltenzahl2.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Zeilenzahl2", Zeilenzahl2.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@SchriftGross", SchriftGrossTasten.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@MenuFunktionen", MenuFunktionenValue));
+                    cmd2.Parameters.Add(new SQLiteParameter("@SchnellDruck", SchnellDruckBox.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
-                else cmd2 = new OleDbCommand("insert into [TBL_ProgramEinstellungenDarstellung](Id, Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck)Values('" + 0 + "','" + Farbauswahl1.Background.ToString() + "','" + Farbauswahl2.Background.ToString() + "','" + ProgramGrosseBox.Text + "','" + Spaltenzahl1.Text + "','" + Zeilenzahl1.Text + "','" + Spaltenzahl2.Text + "','" + Zeilenzahl2.Text + "','" + SchriftGrossTasten.Text + "','" + MenuFunktionenValue + "','" + SchnellDruckBox.Text + "')", con);
+                else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenDarstellung](Id, Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck)Values('" + 0 + "','" + Farbauswahl1.Background.ToString() + "','" + Farbauswahl2.Background.ToString() + "','" + ProgramGrosseBox.Text + "','" + Spaltenzahl1.Text + "','" + Zeilenzahl1.Text + "','" + Spaltenzahl2.Text + "','" + Zeilenzahl2.Text + "','" + SchriftGrossTasten.Text + "','" + MenuFunktionenValue + "','" + SchnellDruckBox.Text + "')", con);
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
@@ -342,7 +342,7 @@ namespace HandelTSE
                 foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(FirmendatenPanel)) { if ((tb.Name == "FirmaField" || tb.Name == "StrasseField" || tb.Name == "PLZField" || tb.Name == "OrtField" || tb.Name == "LandField" || tb.Name == "SteuerField" || tb.Name == "USTIDField") && tb.Text == "") { tb.Background = brush_red; k = 1; } }
                 if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; };
 
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] COUNTER, [Firma] TEXT(55),[Inhaber] TEXT(55),[Strasse] TEXT(55),[PLZ] TEXT(55),[Ort] TEXT(55),[Land] TEXT(55),[Telefon] TEXT(55),[Fax] TEXT(55), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] COUNTER, [Firma] TEXT(55),[Inhaber] TEXT(55),[Strasse] TEXT(55),[PLZ] TEXT(55),[Ort] TEXT(55),[Land] TEXT(55),[Telefon] TEXT(55),[Fax] TEXT(55), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, counter = 0;
@@ -350,34 +350,34 @@ namespace HandelTSE
                 Int32 Id = -1; 
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
 
-                OleDbCommand cmd4;
+                SQLiteCommand cmd4;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenFirmendaten", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenFirmendaten", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd4 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET [Firma] = @Firma, [Inhaber] = @Inhaber, [Strasse] = @Strasse, [PLZ] = @PLZ, [Ort] = @Ort, [Land] = @Land, [Telefon] = @Telefon, [Fax] = @Fax, [E-mail] = @Email, [Steuernummer] = @Steuernummer, [USTID] = @USTID, [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11 WHERE [Id] = @ID", con);
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET [Firma] = @Firma, [Inhaber] = @Inhaber, [Strasse] = @Strasse, [PLZ] = @PLZ, [Ort] = @Ort, [Land] = @Land, [Telefon] = @Telefon, [Fax] = @Fax, [E-mail] = @Email, [Steuernummer] = @Steuernummer, [USTID] = @USTID, [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11 WHERE [Id] = @ID", con);
 
-                    cmd4.Parameters.Add(new OleDbParameter("@Firma", FirmaField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Inhaber", InhaberField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Strasse", StrasseField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@PLZ", PLZField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Ort", OrtField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Land", LandField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Telefon", TelefonField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Fax", FaxField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Email", EmailField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@Steuernummer", SteuerField.Text));
-                    cmd4.Parameters.Add(new OleDbParameter("@USTID", USTIDField.Text));
-                    for (int i = 1; i < 12; i++) { cmd4.Parameters.Add(new OleDbParameter("@" + i.ToString(), Checkboxes[i - 1])); }
-                    cmd4.Parameters.Add(new OleDbParameter("@ID", Id));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Firma", FirmaField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Inhaber", InhaberField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Strasse", StrasseField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@PLZ", PLZField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Ort", OrtField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Land", LandField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Telefon", TelefonField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Fax", FaxField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Email", EmailField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@Steuernummer", SteuerField.Text));
+                    cmd4.Parameters.Add(new SQLiteParameter("@USTID", USTIDField.Text));
+                    for (int i = 1; i < 12; i++) { cmd4.Parameters.Add(new SQLiteParameter("@" + i.ToString(), Checkboxes[i - 1])); }
+                    cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
                 else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 12; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new OleDbCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + 0 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
+                    cmd4 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + 0 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
@@ -388,32 +388,32 @@ namespace HandelTSE
                 int k = 0;
                 foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(KassendatenPanel)) { if (tb.Text == "" && tb.Name != "DSFinField") { tb.Background = brush_red; k = 1; } }
                 if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; }; 
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] COUNTER, [Kassennummer] TEXT(55),[MarkederKasse] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55),[WahrungDerKasse] TEXT(55),[BasiswahrungCode] TEXT(55), [Dsfinv-k] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] COUNTER, [Kassennummer] TEXT(55),[MarkederKasse] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55),[WahrungDerKasse] TEXT(55),[BasiswahrungCode] TEXT(55), [Dsfinv-k] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0;
                 Int32 Id = -1;
-                OleDbCommand cmd2;
+                SQLiteCommand cmd2;
 
-                OleDbCommand IdCommand = new OleDbCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassendaten", con);
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassendaten", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
-                    cmd2 = new OleDbCommand("UPDATE [TBL_ProgramEinstellungenKassendaten] SET Kassennummer = @Kassennummer, MarkederKasse = @MarkederKasse, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, WahrungDerKasse = @WahrungDerKasse, BasiswahrungCode = @BasiswahrungCode, [Dsfinv-k] = @Dsfinvk WHERE Id = @ID", con);
+                    cmd2 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenKassendaten] SET Kassennummer = @Kassennummer, MarkederKasse = @MarkederKasse, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, WahrungDerKasse = @WahrungDerKasse, BasiswahrungCode = @BasiswahrungCode, [Dsfinv-k] = @Dsfinvk WHERE Id = @ID", con);
 
-                    cmd2.Parameters.Add(new OleDbParameter("@Kassennummer", Kassennummer.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@MarkederKasse", MarkederKasse.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Modellbezeichnung", Modellbezeichnung_Kassendaten.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Seriennummer", Seriennummer_Kassendaten.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Kassensoftware", KassenSoftware_Kassendaten.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@VersionDerSoftware", VersionDerSoftware_Kassendaten.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@WahrungDerKasse", WahrungDerKasse.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@BasiswahrungCode", BasiswahrungCode.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@Dsfinvk", DSFinField.Text));
-                    cmd2.Parameters.Add(new OleDbParameter("@ID", Id));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Kassennummer", Kassennummer.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@MarkederKasse", MarkederKasse.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Modellbezeichnung", Modellbezeichnung_Kassendaten.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Seriennummer", Seriennummer_Kassendaten.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Kassensoftware", KassenSoftware_Kassendaten.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@VersionDerSoftware", VersionDerSoftware_Kassendaten.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@WahrungDerKasse", WahrungDerKasse.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@BasiswahrungCode", BasiswahrungCode.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@Dsfinvk", DSFinField.Text));
+                    cmd2.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
-                else cmd2 = new OleDbCommand("insert into [TBL_ProgramEinstellungenKassendaten](Id, Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k])Values('" + 0 + "','" + Kassennummer.Text + "','" + MarkederKasse.Text + "','" + Modellbezeichnung_Kassendaten.Text + "','" + Seriennummer_Kassendaten.Text + "','" + KassenSoftware_Kassendaten.Text + "','" + VersionDerSoftware_Kassendaten.Text + "','" + WahrungDerKasse.Text + "','" + BasiswahrungCode.Text + "','" + DSFinField.Text + "')", con);
+                else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassendaten](Id, Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k])Values('" + 0 + "','" + Kassennummer.Text + "','" + MarkederKasse.Text + "','" + Modellbezeichnung_Kassendaten.Text + "','" + Seriennummer_Kassendaten.Text + "','" + KassenSoftware_Kassendaten.Text + "','" + VersionDerSoftware_Kassendaten.Text + "','" + WahrungDerKasse.Text + "','" + BasiswahrungCode.Text + "','" + DSFinField.Text + "')", con);
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }

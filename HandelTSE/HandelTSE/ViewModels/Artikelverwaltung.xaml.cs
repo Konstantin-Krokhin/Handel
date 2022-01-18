@@ -11,7 +11,7 @@ using System.Windows.Media;
 using DataGridRow = System.Windows.Controls.DataGridRow;
 using Color = System.Windows.Media.Color;
 using System.Windows.Controls.Primitives;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace HandelTSE.ViewModels
 {
@@ -25,7 +25,7 @@ namespace HandelTSE.ViewModels
         public static PresseUndVMP p = new PresseUndVMP();
         public static List<CSVImportieren.Presse> presseList = new List<CSVImportieren.Presse>();
         public static CSVImportieren.Presse KopfzeilItem = new CSVImportieren.Presse();
-        public static OleDbConnection PresseCon = MainWindow.con;
+        public static SQLiteConnection PresseCon = MainWindow.con;
     }
     public partial class Artikelverwaltung
     {

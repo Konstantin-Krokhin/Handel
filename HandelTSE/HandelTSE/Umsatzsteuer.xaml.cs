@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace HandelTSE
     {
         Umsatz data = new Umsatz();
         List<Umsatz> list = new List<Umsatz>();
-        public static OleDbConnection con = new OleDbConnection();
+        public static SQLiteConnection con = new SQLiteConnection();
         public List<Umsatz> Data { get; set; }
         int maxSchlussel = 0;
 
@@ -47,12 +47,12 @@ namespace HandelTSE
             if (con.ConnectionString.Length == 0)
             {
                 con = MainWindow.con;
-                OleDbCommand cmd = new OleDbCommand("CREATE TABLE [TBL_Umsatzsteuer] ([Id] COUNTER, [MwSt] TEXT(55),[Bezeich] TEXT(55),[Schlussel] TEXT(55),[Beschreibung] TEXT(55),[Konto] TEXT(55),[GKonto] TEXT(55), [Kennzeich] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Umsatzsteuer] ([Id] COUNTER, [MwSt] TEXT(55),[Bezeich] TEXT(55),[Schlussel] TEXT(55),[Beschreibung] TEXT(55),[Konto] TEXT(55),[GKonto] TEXT(55), [Kennzeich] TEXT(55))", con);
                 try 
                 { 
                     cmd.ExecuteNonQuery();
                     //Create first empty record with the proper starting ID and Schlussel starting from 1
-                    OleDbCommand cmd2 = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, Schlussel)Values('" + 1 + "','" + 1 + "')", con);
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_Umsatzsteuer](Id, Schlussel)Values('" + 1 + "','" + 1 + "')", con);
                     try { cmd2.ExecuteNonQuery(); }
                     catch { }
                 }
@@ -64,8 +64,8 @@ namespace HandelTSE
 
         private void LoadGrid()
         {
-            OleDbCommand cmd2 = new OleDbCommand("SELECT * FROM [TBL_Umsatzsteuer]", con);
-            OleDbDataReader myReader = cmd2.ExecuteReader();
+            SQLiteCommand cmd2 = new SQLiteCommand("SELECT * FROM [TBL_Umsatzsteuer]", con);
+            SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
                 if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
@@ -101,28 +101,28 @@ namespace HandelTSE
             int result = 0;
             string Bezeich = "";
             if (item.MwSt.Contains(".") || item.MwSt.Contains(",")) Bezeich = item.MwSt + "%"; else Bezeich = item.MwSt + ".00" + "%";
-            OleDbCommand cmd = new OleDbCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             if (item.Id != 0) 
             { 
                 ID = item.Id;
-                cmd = new OleDbCommand("UPDATE [TBL_Umsatzsteuer] SET MwSt = @MwSt, Bezeich = @Bezeich, Schlussel = @Schlussel, Beschreibung = @Beschreibung, Konto = @Konto, GKonto = @GKonto, Kennzeich = @Kennzeich WHERE Id = @ID", con);
+                cmd = new SQLiteCommand("UPDATE [TBL_Umsatzsteuer] SET MwSt = @MwSt, Bezeich = @Bezeich, Schlussel = @Schlussel, Beschreibung = @Beschreibung, Konto = @Konto, GKonto = @GKonto, Kennzeich = @Kennzeich WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new OleDbParameter("@MwSt", item.MwSt));
-                cmd.Parameters.Add(new OleDbParameter("@Bezeich", Bezeich));
-                cmd.Parameters.Add(new OleDbParameter("@Schlussel", item.Schlussel));
-                cmd.Parameters.Add(new OleDbParameter("@Beschreibung", item.Beschreibung));
-                cmd.Parameters.Add(new OleDbParameter("@Konto", item.Konto));
-                cmd.Parameters.Add(new OleDbParameter("@GKonto", item.GKonto));
-                cmd.Parameters.Add(new OleDbParameter("@Kennzeich", item.Kennzeich));
-                cmd.Parameters.Add(new OleDbParameter("@ID", ID));
+                cmd.Parameters.Add(new SQLiteParameter("@MwSt", item.MwSt));
+                cmd.Parameters.Add(new SQLiteParameter("@Bezeich", Bezeich));
+                cmd.Parameters.Add(new SQLiteParameter("@Schlussel", item.Schlussel));
+                cmd.Parameters.Add(new SQLiteParameter("@Beschreibung", item.Beschreibung));
+                cmd.Parameters.Add(new SQLiteParameter("@Konto", item.Konto));
+                cmd.Parameters.Add(new SQLiteParameter("@GKonto", item.GKonto));
+                cmd.Parameters.Add(new SQLiteParameter("@Kennzeich", item.Kennzeich));
+                cmd.Parameters.Add(new SQLiteParameter("@ID", ID));
             }
             else
             {
                 int currentSchlussel = 0;
-                OleDbCommand maxCommand = new OleDbCommand("SELECT max(Id) from TBL_Umsatzsteuer", con);
+                SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Umsatzsteuer", con);
                 try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
                 foreach (var i in UmsatzsteuerDataGrid.Items) { if (((Umsatz)i).Schlussel == null) break; currentSchlussel = int.Parse(((Umsatz)i).Schlussel); if (currentSchlussel > maxSchlussel) maxSchlussel = currentSchlussel; }
-                cmd = new OleDbCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
@@ -149,8 +149,8 @@ namespace HandelTSE
             switch (messageResult)
             {
                 case MessageBoxResult.OK:
-                    OleDbCommand cmd = new OleDbCommand("DELETE FROM [TBL_Umsatzsteuer] where Id = @ID", con);
-                    cmd.Parameters.Add(new OleDbParameter("@ID", ((Umsatz)UmsatzsteuerDataGrid.SelectedItem).Id));
+                    SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_Umsatzsteuer] where Id = @ID", con);
+                    cmd.Parameters.Add(new SQLiteParameter("@ID", ((Umsatz)UmsatzsteuerDataGrid.SelectedItem).Id));
                     int result = 0;
                     try { result = cmd.ExecuteNonQuery(); }
                     catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
