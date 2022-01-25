@@ -24,7 +24,7 @@ namespace HandelTSE.ViewModels
     /// </summary>
     public partial class Personalverwaltung
     {
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
         public BrushConverter bc = new BrushConverter();
         List<MyData> list = new List<MyData>();
         List<MyData> SubstituteList = new List<MyData>();
@@ -68,12 +68,10 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
 
-            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));
-            AppDomain.CurrentDomain.SetData("DataDirectory", path);
+            AppDomain.CurrentDomain.SetData("DataDirectory", MainWindow.path);
 
             // If the menu Personalverwaltung is being open multiple times
-            if (con.ConnectionString.Length == 0)
+            if (con == null)
             {
                 con = MainWindow.con;
                 cmd = new SQLiteCommand("CREATE TABLE [TBL_PERSONAL] ([Identyfikator] COUNTER, [Name] TEXT(55), [Login] TEXT(55), [Passwort] TEXT(55), [Rabatt] TEXT(55), [1] TEXT(55), [2] TEXT(55), [3] TEXT(55), [4] TEXT(55), [5] TEXT(55), [6] TEXT(55), [7] TEXT(55), [8] TEXT(55), [9] TEXT(55), [10] TEXT(55), [11] TEXT(55), [12] TEXT(55), [13] TEXT(55), [14] TEXT(55), [15] TEXT(55), [16] TEXT(55), [17] TEXT(55), [18] TEXT(55), [19] TEXT(55), [20] TEXT(55), [21] TEXT(55))", con);
@@ -94,11 +92,16 @@ namespace HandelTSE.ViewModels
 
         private void LoadGrid()
         {
-            SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM [TBL_PERSONAL]", con);
-            SQLiteDataReader myReader = cmd.ExecuteReader();
+            SQLiteDataReader myReader;
+            SQLiteCommand cmd;
+            cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT * FROM TBL_PERSONAL";
+
+            myReader = cmd.ExecuteReader();
+
             while (myReader.Read())
             {
-                if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)myReader["Identyfikator"]; else data.Identyfikator = 0;
+                if (myReader["Identyfikator"] != DBNull.Value) data.Identyfikator = (int)(long)myReader["Identyfikator"]; else data.Identyfikator = 0;
                 if (myReader["Name"] != DBNull.Value) data.Name = (string)myReader["Name"]; else data.Name = "";
                 if (myReader["Login"] != DBNull.Value) data.Login = (string)myReader["Login"]; else data.Login = "";
                 if (myReader["Passwort"] != DBNull.Value) data.Passwort = (string)myReader["Passwort"]; else data.Passwort = "";

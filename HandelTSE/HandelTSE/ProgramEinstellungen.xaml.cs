@@ -24,7 +24,7 @@ namespace HandelTSE
     /// </summary>
     public partial class ProgramEinstellungen : UserControl
     {
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
         List<items> it = new List<items>();
         BrushConverter converter = new System.Windows.Media.BrushConverter();
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));
@@ -53,7 +53,7 @@ namespace HandelTSE
             InitializeComponent();
 
             // If the menu ProgramEinstellungen is being open multiple times
-            if (con.ConnectionString.Length == 0)
+            if (con == null)
             {
                 con = MainWindow.con;
                 SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
@@ -61,7 +61,8 @@ namespace HandelTSE
                 catch { }
             }
 
-            cmd2 = new SQLiteCommand("SELECT Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank FROM [TBL_ProgramEinstellungenKassennetz]", con);
+            cmd2 = con.CreateCommand();
+            cmd2.CommandText = "SELECT Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank FROM [TBL_ProgramEinstellungenKassennetz]";
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
             Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => { EinstellungenTabs.SelectedIndex = 0; HideColumns(); }));
@@ -243,8 +244,11 @@ namespace HandelTSE
 
             if (EinstellungenTabs.SelectedIndex == 0 && started == true)
             {
-                SQLiteCommand cmd3 = new SQLiteCommand("SELECT Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck FROM [TBL_ProgramEinstellungenDarstellung]", con);
-                SQLiteDataReader myReader = cmd3.ExecuteReader();
+                SQLiteDataReader myReader;
+                SQLiteCommand cmd3;
+                cmd3 = MainWindow.con.CreateCommand();
+                cmd3.CommandText = "SELECT * FROM [TBL_ProgramEinstellungenDarstellung]";
+                myReader = cmd3.ExecuteReader();
                 while (myReader.Read())
                 {
                     if (myReader["Hintergrundfarbe"] != DBNull.Value) { Farbauswahl1.Style = (Style)FindResource("BlueButton"); Farbauswahl1.Background = (Brush)converter.ConvertFromString((string)myReader["Hintergrundfarbe"]); }
@@ -262,8 +266,11 @@ namespace HandelTSE
             }
             else if (EinstellungenTabs.SelectedIndex == 1)
             {
-                SQLiteCommand cmd3 = new SQLiteCommand("SELECT Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11] FROM [TBL_ProgramEinstellungenFirmendaten]", con);
-                SQLiteDataReader myReader = cmd3.ExecuteReader();
+                SQLiteDataReader myReader;
+                SQLiteCommand cmd;
+                cmd = con.CreateCommand();
+                cmd.CommandText = "SELECT Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11] FROM [TBL_ProgramEinstellungenFirmendaten]";
+                myReader = cmd.ExecuteReader();
                 while (myReader.Read())
                 {
                     if (myReader["Firma"] != DBNull.Value) { FirmaField.Text = (string)myReader["Firma"]; }
@@ -283,8 +290,11 @@ namespace HandelTSE
             }
             else if (EinstellungenTabs.SelectedIndex == 2)
             {
-                SQLiteCommand cmd3 = new SQLiteCommand("SELECT Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k] FROM [TBL_ProgramEinstellungenKassendaten]", con);
-                SQLiteDataReader myReader = cmd3.ExecuteReader();
+                SQLiteDataReader myReader;
+                SQLiteCommand cmd;
+                cmd = con.CreateCommand();
+                cmd.CommandText = "SELECT Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k] FROM [TBL_ProgramEinstellungenKassendaten]";
+                myReader = cmd.ExecuteReader();
                 while (myReader.Read())
                 {
                     if (myReader["Kassennummer"] != DBNull.Value) { Kassennummer.Text = (string)myReader["Kassennummer"]; }

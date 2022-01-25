@@ -29,25 +29,21 @@ namespace HandelTSE
         List<items> it = new List<items>();
         List<items> it2 = new List<items>();
         ProgressBarWindow pb = null;
-        public static SQLiteConnection con = new SQLiteConnection();
+
+
+        static string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        public static string path = @"URI=file:" + (System.IO.Path.GetDirectoryName(executable)) + "\\db_handel.db";
+        
+        public static SQLiteConnection con = new SQLiteConnection(path);
+
         public MainWindow()
         {
             InitializeComponent();
 
-            con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
+            //con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
 
             try { con.Open(); }
-            catch
-            {
-                MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                    MessageBox.Show("Nach der Installation des Treibers öffnen Sie bitte das Programm erneut, falls erforderlich. ");
-                }
-                else if (result == MessageBoxResult.No)
-                { MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können."); }
-            }
+            catch { MessageBox.Show("Opening connection string failed!"); }
 
             // Creation of the backup folder (default for db backups)
             var str = "../../backupdata/";
@@ -60,7 +56,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new Datensicherung();
+            DataContext = new FunktionsEinstellungen();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)

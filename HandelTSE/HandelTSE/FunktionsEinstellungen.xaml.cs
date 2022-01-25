@@ -1,8 +1,8 @@
 ﻿using HandelTSE.ViewModels;
-using System;using System.Data.SQLite;
+using System;
+using System.Data.SQLite;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,24 +23,50 @@ namespace HandelTSE
     /// </summary>
     public partial class FunktionsEinstellungen : UserControl
     {
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
+        SQLiteCommand cmd;
+
         public FunktionsEinstellungen()
         {
             InitializeComponent();
 
             // If the menu ProgramEinstellungen is being open multiple times
-            if (con.ConnectionString.Length == 0) { con = MainWindow.con; }
+            if (con == null)
+            { 
+                con = MainWindow.con;
+
+                //cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenProgram] ([Id] COUNTER, [1] INTEGER, [2] INTEGER, [3] INTEGER, [4] INTEGER, [5] INTEGER, [6] INTEGER, [7] INTEGER, [8] INTEGER, [9] INTEGER, [10] INTEGER, [11] INTEGER, [12] INTEGER, [13] INTEGER, [14] INTEGER, [15] INTEGER, [16] INTEGER, [SonstigeArtikel] TEXT(55), [Kassenbestand] TEXT(55))", con);
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenProgram] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [14] YESNO, [15] YESNO, [16] YESNO, [SonstigeArtikel] TEXT(55), [Kassenbestand] TEXT(55))", con);
+                //cmd = new SQLiteCommand("DROP TABLE [TBL_FunktionsEinstellungenProgram]", con);
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    //Create first empty record with the proper starting ID starting from 1
+                    string checkboxes = "";
+                    for (int i = 1; i < 17; i++) { checkboxes += "','" + "0"; }
+
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenProgram](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [SonstigeArtikel], [Kassenbestand])Values('" + 0 + checkboxes + "','" + "Diverse Artikel" + "','" + "0.00" + "')", con);
+                    try { cmd2.ExecuteNonQuery(); }
+                    catch { }
+                }
+                catch { }
+            }
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadData();
             if (EinmannbetriebCheckbox.IsChecked == false && AnmeldungMitPasswortCheckbox.IsChecked == false) AnmeldungMitPasswortCheckbox.IsChecked = true;
         }
 
         void LoadData()
         {
-            SQLiteCommand cmd1 = new SQLiteCommand("SELECT [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], SonstigeArtikel, Kassenbestand FROM [TBL_FunktionsEinstellungenProgramm]", con);
-            SQLiteDataReader myReader = cmd1.ExecuteReader();
+            SQLiteDataReader myReader;
+            SQLiteCommand cmd;
+            cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT * FROM TBL_FunktionsEinstellungenProgram WHERE Id = 0";
+
+            myReader = cmd.ExecuteReader();
             while (myReader.Read())
             {
                 int i = 1;
+                Int64 minOne = -1;
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(ProgrammPanel)) { ch.IsChecked = (bool)(Boolean)myReader[i.ToString()]; i++; }
 
                 if (myReader["SonstigeArtikel"] != DBNull.Value) SonstigeArtikel.Text = (string)myReader["SonstigeArtikel"]; else SonstigeArtikel.Text = "";
@@ -106,36 +132,40 @@ namespace HandelTSE
         {
             if (EinstellungenTabs.SelectedIndex == 0)
             {
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_FunktionsEinstellungenProgramm] ([Id] COUNTER, [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO, [12] YESNO, [13] YESNO, [14] YESNO, [15] YESNO, [16] YESNO, [SonstigeArtikel] TEXT(55), [Kassenbestand] TEXT(55))", con);
-                try { cmd.ExecuteNonQuery(); } catch { }
-
                 int result = 0, counter = 0;
                 int[] Checkboxes = new int[16];
                 Int32 Id = -1;
-                foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(ProgrammPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
+                foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(ProgrammPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = 1; else Checkboxes[counter] = 0; counter++; }
 
                 SQLiteCommand cmd4;
 
-                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenProgramm", con);
+                /*SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenProgram", con);
                 try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                if (Id != 0) {
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenProgram](Id)Values('" + 0 + "')", con);
+                    try { cmd2.ExecuteNonQuery(); }
+                    catch { }
+                }*/
 
-                if (Id == 0)
+                //if (Id == 0)
                 {
-                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenProgramm] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [SonstigeArtikel] = @SonstigeArtikel, [Kassenbestand] = @Kassenbestand WHERE [Id] = @ID", con);
+                    cmd4 = new SQLiteCommand("UPDATE [TBL_FunktionsEinstellungenProgram] SET [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [SonstigeArtikel] = @SonstigeArtikel, [Kassenbestand] = @Kassenbestand WHERE [Id] = @ID", con);
 
                     for (int i = 1; i < 17; i++) { cmd4.Parameters.Add(new SQLiteParameter("@" + i.ToString(), Checkboxes[i - 1])); }
                     cmd4.Parameters.Add(new SQLiteParameter("@SonstigeArtikel", SonstigeArtikel.Text));
                     cmd4.Parameters.Add(new SQLiteParameter("@Kassenbestand", Kassenbestand.Text));
                     cmd4.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
-                else
+                /*else
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 17; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenProgramm](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [SonstigeArtikel], [Kassenbestand])Values('" + 0 + checkboxes + "','" + SonstigeArtikel.Text + "','" + Kassenbestand.Text + "')", con);
-                }
+                    cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenProgram](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [SonstigeArtikel], [Kassenbestand])Values('" + 0 + checkboxes + "','" + SonstigeArtikel.Text + "','" + Kassenbestand.Text + "')", con);
+                }*/
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch {
+                    
+                }
             }
             else if (EinstellungenTabs.SelectedIndex == 1)
             {
