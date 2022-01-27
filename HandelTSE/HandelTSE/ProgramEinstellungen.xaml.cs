@@ -56,9 +56,21 @@ namespace HandelTSE
             if (con == null)
             {
                 con = MainWindow.con;
+
                 SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); }
                 catch { }
+
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] COUNTER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55), [Spaltenzahl1] TEXT(55), [Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55), [Zeilenzahl2] TEXT(55), [SchriftGross] TEXT(50), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
+                try { cmd.ExecuteNonQuery(); }
+                catch { }
+
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] COUNTER, [Firma] TEXT(55), [Inhaber] TEXT(55), [Strasse] TEXT(55), [PLZ] TEXT(55), [Ort] TEXT(55), [Land] TEXT(55), [Telefon] TEXT(55), [Fax] TEXT(50), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
+                try { cmd.ExecuteNonQuery(); }
+                catch { }
+
+                
+
             }
 
             cmd2 = con.CreateCommand();
