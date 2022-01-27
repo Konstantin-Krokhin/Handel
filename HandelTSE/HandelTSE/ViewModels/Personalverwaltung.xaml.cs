@@ -69,6 +69,7 @@ namespace HandelTSE.ViewModels
             InitializeComponent();
 
             AppDomain.CurrentDomain.SetData("DataDirectory", MainWindow.path);
+            int check = 0;
 
             // If the menu Personalverwaltung is being open multiple times
             if (con == null)
@@ -80,14 +81,15 @@ namespace HandelTSE.ViewModels
                 {
                     cmd.ExecuteNonQuery();
                     //Create first empty record with the proper starting ID starting from 1
-                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_PERSONAL](Identyfikator)Values('" + 1 + "')", con);
-                    try { cmd2.ExecuteNonQuery(); }
+                    SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_PERSONAL](Identyfikator)Values('" + 0 + "')", con);
+                    try { cmd2.ExecuteNonQuery(); check = 1; }
                     catch { }
                 }
                 catch { }
             }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
+            if (check == 1) grid.SelectedIndex = 0;
         }
 
         private void LoadGrid()
@@ -153,16 +155,47 @@ namespace HandelTSE.ViewModels
 
             if (k == 1) return;
 
+            // Create new record or update the existing one if record is selected on DG
             if (grid.SelectedItem == null) SaveToDB();
             else UpdateDB();
         }
 
+        void SaveToDB()
+        {
+            Int32 Id = -1;
+            SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Identyfikator) from TBL_PERSONAL", con);
+            try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
+            if (Id < 0) {
+                SQLiteCommand cmd2 = new SQLiteCommand("insert into [TBL_PERSONAL](Identyfikator)Values('" + 0 + "')", con);
+                try { cmd2.ExecuteNonQuery(); }
+                catch { }
+                LoadGrid();
+                grid.SelectedIndex = 0;
+                UpdateDB();
+                return;
+            }
+
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.CommandText = "insert into [TBL_PERSONAL](Identyfikator, Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + ++Id + "','" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "')";
+            cmd.Connection = con;
+
+            int result = 0;
+            try { result = cmd.ExecuteNonQuery(); }
+            catch { MessageBox.Show("savetodb fail"); }
+
+            LoadGrid();
+            HideColumns();
+            if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich gespeichert!");
+        }
+
         void UpdateDB()
         {
-            var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
-            var item = row.Item as MyData;
+            MyData item = new MyData();
+            try { var row = (DataGridRow)grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex);
+            if (row == null) item.Identyfikator = 0; else item = row.Item as MyData; }
+            catch { }
 
-            SQLiteCommand cmd = new SQLiteCommand("UPDATE [TBL_PERSONAL] SET Name = @Name, Login = @Login, Passwort = @Passwort, Rabatt = @Rabatt, 1 = @1, 2 = @2, 3 = @3, 4 = @4, 5 = @5, 6 = @6, 7 = @7, 8 = @8, 9 = @9, 10 = @10, 11 = @11, 12 = @12, 13 = @13, 14 = @14, 15 = @15, 16 = @16, 17 = @17, 18 = @18, 19 = @19, 20 = @20, 21 = @21 WHERE Identyfikator = @ID", con);
+            cmd = new SQLiteCommand("UPDATE [TBL_PERSONAL] SET Name = @Name, Login = @Login, Passwort = @Passwort, Rabatt = @Rabatt, [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11, [12] = @12, [13] = @13, [14] = @14, [15] = @15, [16] = @16, [17] = @17, [18] = @18, [19] = @19, [20] = @20, [21] = @21 WHERE Identyfikator = @ID", con);
 
             cmd.Parameters.Add(new SQLiteParameter("@Name", Name.Text));
             cmd.Parameters.Add(new SQLiteParameter("@Login", Login.Text));
@@ -191,31 +224,15 @@ namespace HandelTSE.ViewModels
             cmd.Parameters.Add(new SQLiteParameter("@21", Wareneingang.Text));
             cmd.Parameters.Add(new SQLiteParameter("@ID", item.Identyfikator));
 
-            //"UPDATE [TBL_PERSONAL] SET (Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "') WHERE Identyfikator = " + item.Identyfikator
             int result = 0;
             try { result = cmd.ExecuteNonQuery(); }
             catch
-            { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            { MessageBox.Show("updatedb failed"); }
 
             LoadGrid();
             HideColumns();
             
             if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich aktualisiert!");
-        }
-
-        void SaveToDB()
-        {
-            SQLiteCommand cmd = new SQLiteCommand();
-            cmd.CommandText = "insert into [TBL_PERSONAL](Name, Login, Passwort, Rabatt, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21])Values('" + Name.Text + "','" + Login.Text + "','" + Passwort.Text + "','" + Rabatt.Text + "','" + Storno.Text + "','" + Warenverwaltung.Text + "','" + Artikelrabatt.Text + "','" + Gutschein.Text + "','" + GutscheinStorno.Text + "','" + ZAbschlag.Text + "','" + SofortStorno.Text + "','" + PlusMinusFunk.Text + "','" + LetzterBon.Text + "','" + Office.Text + "','" + EinAusnahme.Text + "','" + Einstellungen.Text + "','" + Buchhaltung.Text + "','" + XAbschlag.Text + "','" + Kassenlade.Text + "','" + AdminStorno.Text + "','" + Warenbestand.Text + "','" + Inventur.Text + "','" + PreisF6.Text + "','" + Berichte.Text + "','" + Wareneingang.Text + "')";
-            cmd.Connection = con;
-
-            int result = 0;
-            try { result = cmd.ExecuteNonQuery(); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
-
-            LoadGrid();
-            HideColumns();
-            if (result > 0) MessageBox.Show("Ihre Änderungen wurden erfolgreich gespeichert!");
         }
 
         private void Loschen_Click(object sender, RoutedEventArgs e)
@@ -229,7 +246,7 @@ namespace HandelTSE.ViewModels
 
             int result = 0;
             try { result = cmd.ExecuteNonQuery(); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show(""); }
 
             LoadGrid();
             HideColumns();
