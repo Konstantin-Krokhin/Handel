@@ -57,19 +57,21 @@ namespace HandelTSE
             {
                 con = MainWindow.con;
 
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] COUNTER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassennetz] ([Id] INTEGER, [TerminalID] TEXT(55),[MarkeDesTerminals] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55), [NetzwerkDatenbank] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); }
                 catch { }
 
-                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] COUNTER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55), [Spaltenzahl1] TEXT(55), [Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55), [Zeilenzahl2] TEXT(55), [SchriftGross] TEXT(50), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] INTEGER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55), [Spaltenzahl1] TEXT(55), [Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55), [Zeilenzahl2] TEXT(55), [SchriftGross] TEXT(50), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); }
                 catch { }
 
-                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] COUNTER, [Firma] TEXT(55), [Inhaber] TEXT(55), [Strasse] TEXT(55), [PLZ] TEXT(55), [Ort] TEXT(55), [Land] TEXT(55), [Telefon] TEXT(55), [Fax] TEXT(50), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] INTEGER, [Firma] TEXT(55), [Inhaber] TEXT(55), [Strasse] TEXT(55), [PLZ] TEXT(55), [Ort] TEXT(55), [Land] TEXT(55), [Telefon] TEXT(55), [Fax] TEXT(50), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); }
                 catch { }
 
-                
+                cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] INTEGER, Kassennummer TEXT(55), MarkederKasse TEXT(55), Modellbezeichnung TEXT(55), Seriennummer TEXT(55), Kassensoftware TEXT(55), VersionDerSoftware TEXT(55), WahrungDerKasse TEXT(55), BasiswahrungCode TEXT(55), [Dsfinv-k] TEXT(55))", con);
+                try { cmd.ExecuteNonQuery(); }
+                catch { }
 
             }
 
@@ -85,7 +87,7 @@ namespace HandelTSE
             SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
-                if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
+                //if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
                 if (myReader["TerminalID"] != DBNull.Value) data.Terminal_ID = (string)myReader["TerminalID"]; else data.Terminal_ID = "";
                 if (myReader["MarkeDesTerminals"] != DBNull.Value) data.Marke = (string)myReader["MarkeDesTerminals"]; else data.Marke = "";
                 if (myReader["Modellbezeichnung"] != DBNull.Value) data.Modell = (string)myReader["Modellbezeichnung"]; else data.Modell = "";
@@ -167,9 +169,9 @@ namespace HandelTSE
             else
             {
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar(); }
+                try { ID = (Int32)maxCommand.ExecuteScalar() + 1; }
                 catch { }
-                cmd = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('" + ++ID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('" + ID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
@@ -327,18 +329,20 @@ namespace HandelTSE
             if (EinstellungenTabs.SelectedIndex == 0)
             {
                 if (SchriftGrossTasten.Text == "" || Spaltenzahl1.Text == "" || Spaltenzahl2.Text == "" || Zeilenzahl1.Text == "" || Zeilenzahl2.Text == "") { MessageBox.Show("Korrigieren Sie Ihre Daten!"); return; }
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] COUNTER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55),[Spaltenzahl1] TEXT(55),[Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55),[Zeilenzahl2] TEXT(55),[SchriftGross] TEXT(55), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] INTEGER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55),[Spaltenzahl1] TEXT(55),[Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55),[Zeilenzahl2] TEXT(55),[SchriftGross] TEXT(55), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, MenuFunktionenValue = 0;
-                Int32 Id = -1;
+                Int32 Id = 0;
                 if (MenuFunktionenCheckbox.IsChecked == true) MenuFunktionenValue = -1;
                 SQLiteCommand cmd2;
 
-                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenDarstellung", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT Id from TBL_ProgramEinstellungenDarstellung WHERE Id = 1", con);
+                try {
+                    SQLiteDataReader myReader = IdCommand.ExecuteReader();
+                    while (myReader.Read()) Id = (int)(long)myReader["Id"]; } catch { }
 
-                if (Id == 0) 
+                if (Id == 1) 
                 { 
                     cmd2 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenDarstellung] SET Hintergrundfarbe = @Hintergrundfarbe, ProgrammOberflache = @ProgrammOberflache, ProgrammGrosse = @ProgrammGrosse, Spaltenzahl1 = @Spaltenzahl1, Zeilenzahl1 = @Zeilenzahl1, Spaltenzahl2 = @Spaltenzahl2, Zeilenzahl2 = @Zeilenzahl2, SchriftGross = @SchriftGross, MenuFunktionen = @MenuFunktionen, SchnellDruck = @SchnellDruck WHERE Id = @ID", con);
 
@@ -354,7 +358,7 @@ namespace HandelTSE
                     cmd2.Parameters.Add(new SQLiteParameter("@SchnellDruck", SchnellDruckBox.Text));
                     cmd2.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
-                else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenDarstellung](Id, Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck)Values('" + 0 + "','" + Farbauswahl1.Background.ToString() + "','" + Farbauswahl2.Background.ToString() + "','" + ProgramGrosseBox.Text + "','" + Spaltenzahl1.Text + "','" + Zeilenzahl1.Text + "','" + Spaltenzahl2.Text + "','" + Zeilenzahl2.Text + "','" + SchriftGrossTasten.Text + "','" + MenuFunktionenValue + "','" + SchnellDruckBox.Text + "')", con);
+                else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenDarstellung](Id, Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck)Values('" + Id + 1 + "','" + Farbauswahl1.Background.ToString() + "','" + Farbauswahl2.Background.ToString() + "','" + ProgramGrosseBox.Text + "','" + Spaltenzahl1.Text + "','" + Zeilenzahl1.Text + "','" + Spaltenzahl2.Text + "','" + Zeilenzahl2.Text + "','" + SchriftGrossTasten.Text + "','" + MenuFunktionenValue + "','" + SchnellDruckBox.Text + "')", con);
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
@@ -364,18 +368,18 @@ namespace HandelTSE
                 foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(FirmendatenPanel)) { if ((tb.Name == "FirmaField" || tb.Name == "StrasseField" || tb.Name == "PLZField" || tb.Name == "OrtField" || tb.Name == "LandField" || tb.Name == "SteuerField" || tb.Name == "USTIDField") && tb.Text == "") { tb.Background = brush_red; k = 1; } }
                 if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; };
 
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] COUNTER, [Firma] TEXT(55),[Inhaber] TEXT(55),[Strasse] TEXT(55),[PLZ] TEXT(55),[Ort] TEXT(55),[Land] TEXT(55),[Telefon] TEXT(55),[Fax] TEXT(55), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] INTEGER, [Firma] TEXT(55),[Inhaber] TEXT(55),[Strasse] TEXT(55),[PLZ] TEXT(55),[Ort] TEXT(55),[Land] TEXT(55),[Telefon] TEXT(55),[Fax] TEXT(55), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
-                int result = 0, counter = 0;
+                int result = 0, INTEGER = 0;
                 int[] Checkboxes = new int[11];
                 Int32 Id = -1; 
-                foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { if (ch.IsChecked == true) Checkboxes[counter] = -1; else Checkboxes[counter] = 0; counter++; }
+                foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { if (ch.IsChecked == true) Checkboxes[INTEGER] = -1; else Checkboxes[INTEGER] = 0; INTEGER++; }
 
                 SQLiteCommand cmd4;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenFirmendaten", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
@@ -410,7 +414,7 @@ namespace HandelTSE
                 int k = 0;
                 foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(KassendatenPanel)) { if (tb.Text == "" && tb.Name != "DSFinField") { tb.Background = brush_red; k = 1; } }
                 if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; }; 
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] COUNTER, [Kassennummer] TEXT(55),[MarkederKasse] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55),[WahrungDerKasse] TEXT(55),[BasiswahrungCode] TEXT(55), [Dsfinv-k] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] INTEGER, [Kassennummer] TEXT(55),[MarkederKasse] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55),[WahrungDerKasse] TEXT(55),[BasiswahrungCode] TEXT(55), [Dsfinv-k] TEXT(55))", con);
                 try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0;
@@ -418,7 +422,7 @@ namespace HandelTSE
                 SQLiteCommand cmd2;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassendaten", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {

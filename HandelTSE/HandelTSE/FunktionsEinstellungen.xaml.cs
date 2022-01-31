@@ -216,7 +216,7 @@ namespace HandelTSE
                 SQLiteCommand cmd4;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenFunktionen", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
@@ -248,7 +248,7 @@ namespace HandelTSE
                 SQLiteCommand cmd4;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenAbschlag", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
@@ -280,7 +280,7 @@ namespace HandelTSE
                 SQLiteCommand cmd4;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenBondrucker", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
 
                 if (Id == 0)
                 {
@@ -311,7 +311,7 @@ namespace HandelTSE
                 SQLiteCommand cmd4;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_FunktionsEinstellungenGutscheine", con);
-                try { Id = (Int32)IdCommand.ExecuteScalar(); } catch { }
+                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
                 string EinzweckString = "0";
                 if (MehrzweckRadioButton.IsChecked == false) EinzweckString = EinzweckComboBox.Text;
 

@@ -427,11 +427,10 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="Liste der einzelnen Erfassungs-Terminal (sog. Slave-Kassen)" FontSize="13" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
-                                <DataGrid Name = "TerminalenDataGrid" IsReadOnly="True" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="400">
-                                </DataGrid>
+                                <DataGrid Name = "TerminalenDataGrid" IsReadOnly="True" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="400" Width="330"/>
 
-                                <CheckBox Name="NetzwerkDatenbank" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="169, 0" />
-                                <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="Netzwerk - Datenbank" Margin="0, 0, 35, 2" />
+                                <CheckBox Name="NetzwerkDatenbank" VerticalContentAlignment="Center" Content="Netzwerk - Datenbank" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0" />
+                                <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="" Margin="0, 0, 35, 2" />
 
                                 <DockPanel Name="TerminalIDPanel" Grid.Row="2" Grid.RowSpan="1" Height="260" Width="440" Grid.ColumnSpan="2" Grid.Column="2" VerticalAlignment="Top" Margin="10,1" HorizontalAlignment="Center" Background="LightGray">
                                     <Border DockPanel.Dock="Top"
@@ -488,7 +487,7 @@
 
                                 <Button Content="neues Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Click="NeuesTerminal_Click" />
                                 <Button Content="löschen Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Loschen_Click" />
-                                <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" Width="95" VerticalAlignment="Top" Margin="10, 0, 10, 0" Click="Speichern_Click" />
+                                <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" Width="145" VerticalAlignment="Top" Margin="10, 0, 10, 0" Click="Speichern_Click" />
 
                             </Grid>
 
