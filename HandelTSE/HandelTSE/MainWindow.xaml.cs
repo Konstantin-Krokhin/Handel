@@ -41,6 +41,7 @@ namespace HandelTSE
             InitializeComponent();
 
             //con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
+            //SQLiteConnection.CreateFile("db_handel.sqlite");
 
             try { con.Open(); }
             catch { MessageBox.Show("Opening connection string failed!"); }

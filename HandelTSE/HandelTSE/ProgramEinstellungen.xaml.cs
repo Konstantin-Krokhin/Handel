@@ -329,19 +329,17 @@ namespace HandelTSE
             if (EinstellungenTabs.SelectedIndex == 0)
             {
                 if (SchriftGrossTasten.Text == "" || Spaltenzahl1.Text == "" || Spaltenzahl2.Text == "" || Zeilenzahl1.Text == "" || Zeilenzahl2.Text == "") { MessageBox.Show("Korrigieren Sie Ihre Daten!"); return; }
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenDarstellung] ([Id] INTEGER, [Hintergrundfarbe] TEXT(55),[ProgrammOberflache] TEXT(55),[ProgrammGrosse] TEXT(55),[Spaltenzahl1] TEXT(55),[Zeilenzahl1] TEXT(55),[Spaltenzahl2] TEXT(55),[Zeilenzahl2] TEXT(55),[SchriftGross] TEXT(55), [MenuFunktionen] YESNO, [SchnellDruck] TEXT(55))", con);
-                try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0, MenuFunktionenValue = 0;
                 Int32 Id = 0;
                 if (MenuFunktionenCheckbox.IsChecked == true) MenuFunktionenValue = -1;
-                SQLiteCommand cmd2;
 
                 SQLiteCommand IdCommand = new SQLiteCommand("SELECT Id from TBL_ProgramEinstellungenDarstellung WHERE Id = 1", con);
                 try {
                     SQLiteDataReader myReader = IdCommand.ExecuteReader();
                     while (myReader.Read()) Id = (int)(long)myReader["Id"]; } catch { }
 
+                SQLiteCommand cmd2;
                 if (Id == 1) 
                 { 
                     cmd2 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenDarstellung] SET Hintergrundfarbe = @Hintergrundfarbe, ProgrammOberflache = @ProgrammOberflache, ProgrammGrosse = @ProgrammGrosse, Spaltenzahl1 = @Spaltenzahl1, Zeilenzahl1 = @Zeilenzahl1, Spaltenzahl2 = @Spaltenzahl2, Zeilenzahl2 = @Zeilenzahl2, SchriftGross = @SchriftGross, MenuFunktionen = @MenuFunktionen, SchnellDruck = @SchnellDruck WHERE Id = @ID", con);
@@ -368,19 +366,20 @@ namespace HandelTSE
                 foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(FirmendatenPanel)) { if ((tb.Name == "FirmaField" || tb.Name == "StrasseField" || tb.Name == "PLZField" || tb.Name == "OrtField" || tb.Name == "LandField" || tb.Name == "SteuerField" || tb.Name == "USTIDField") && tb.Text == "") { tb.Background = brush_red; k = 1; } }
                 if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; };
 
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenFirmendaten] ([Id] INTEGER, [Firma] TEXT(55),[Inhaber] TEXT(55),[Strasse] TEXT(55),[PLZ] TEXT(55),[Ort] TEXT(55),[Land] TEXT(55),[Telefon] TEXT(55),[Fax] TEXT(55), [E-mail] TEXT(55), [Steuernummer] TEXT(55), [USTID] TEXT(55), [1] YESNO, [2] YESNO, [3] YESNO, [4] YESNO, [5] YESNO, [6] YESNO, [7] YESNO, [8] YESNO, [9] YESNO, [10] YESNO, [11] YESNO)", con);
-                try { cmd.ExecuteNonQuery(); } catch { }
-
                 int result = 0, INTEGER = 0;
                 int[] Checkboxes = new int[11];
-                Int32 Id = -1; 
+                Int32 Id = 0; 
                 foreach (CheckBox ch in Artikelverwaltung.FindVisualChildren<CheckBox>(FirmendatenPanel)) { if (ch.IsChecked == true) Checkboxes[INTEGER] = -1; else Checkboxes[INTEGER] = 0; INTEGER++; }
 
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT Id from TBL_ProgramEinstellungenFirmendaten WHERE Id = 1", con);
+                try
+                {
+                    SQLiteDataReader myReader = IdCommand.ExecuteReader();
+                    while (myReader.Read()) Id = (int)(long)myReader["Id"];
+                }
+                catch { }
+
                 SQLiteCommand cmd4;
-
-                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenFirmendaten", con);
-                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
-
                 if (Id == 0)
                 {
                     cmd4 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET [Firma] = @Firma, [Inhaber] = @Inhaber, [Strasse] = @Strasse, [PLZ] = @PLZ, [Ort] = @Ort, [Land] = @Land, [Telefon] = @Telefon, [Fax] = @Fax, [E-mail] = @Email, [Steuernummer] = @Steuernummer, [USTID] = @USTID, [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11 WHERE [Id] = @ID", con);
@@ -403,7 +402,7 @@ namespace HandelTSE
                 {
                     string checkboxes = "";
                     for (int i = 1; i < 12; i++) { checkboxes += "','" + Checkboxes[i - 1].ToString(); }
-                    cmd4 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + 0 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
+                    cmd4 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + Id + 1 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
@@ -414,16 +413,19 @@ namespace HandelTSE
                 int k = 0;
                 foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(KassendatenPanel)) { if (tb.Text == "" && tb.Name != "DSFinField") { tb.Background = brush_red; k = 1; } }
                 if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; }; 
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_ProgramEinstellungenKassendaten] ([Id] INTEGER, [Kassennummer] TEXT(55),[MarkederKasse] TEXT(55),[Modellbezeichnung] TEXT(55),[Seriennummer] TEXT(55),[Kassensoftware] TEXT(55),[VersionDerSoftware] TEXT(55),[WahrungDerKasse] TEXT(55),[BasiswahrungCode] TEXT(55), [Dsfinv-k] TEXT(55))", con);
-                try { cmd.ExecuteNonQuery(); } catch { }
 
                 int result = 0;
-                Int32 Id = -1;
+                Int32 Id = 0;
+
+                SQLiteCommand IdCommand = new SQLiteCommand("SELECT Id from TBL_ProgramEinstellungenKassendaten WHERE Id = 1", con);
+                try
+                {
+                    SQLiteDataReader myReader = IdCommand.ExecuteReader();
+                    while (myReader.Read()) Id = (int)(long)myReader["Id"];
+                }
+                catch { }
+
                 SQLiteCommand cmd2;
-
-                SQLiteCommand IdCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassendaten", con);
-                try { Id = (int)(long)IdCommand.ExecuteScalar(); } catch { }
-
                 if (Id == 0)
                 {
                     cmd2 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenKassendaten] SET Kassennummer = @Kassennummer, MarkederKasse = @MarkederKasse, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, WahrungDerKasse = @WahrungDerKasse, BasiswahrungCode = @BasiswahrungCode, [Dsfinv-k] = @Dsfinvk WHERE Id = @ID", con);
@@ -439,7 +441,7 @@ namespace HandelTSE
                     cmd2.Parameters.Add(new SQLiteParameter("@Dsfinvk", DSFinField.Text));
                     cmd2.Parameters.Add(new SQLiteParameter("@ID", Id));
                 }
-                else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassendaten](Id, Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k])Values('" + 0 + "','" + Kassennummer.Text + "','" + MarkederKasse.Text + "','" + Modellbezeichnung_Kassendaten.Text + "','" + Seriennummer_Kassendaten.Text + "','" + KassenSoftware_Kassendaten.Text + "','" + VersionDerSoftware_Kassendaten.Text + "','" + WahrungDerKasse.Text + "','" + BasiswahrungCode.Text + "','" + DSFinField.Text + "')", con);
+                else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassendaten](Id, Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k])Values('" + Id + 1 + "','" + Kassennummer.Text + "','" + MarkederKasse.Text + "','" + Modellbezeichnung_Kassendaten.Text + "','" + Seriennummer_Kassendaten.Text + "','" + KassenSoftware_Kassendaten.Text + "','" + VersionDerSoftware_Kassendaten.Text + "','" + WahrungDerKasse.Text + "','" + BasiswahrungCode.Text + "','" + DSFinField.Text + "')", con);
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
                 catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
             }
