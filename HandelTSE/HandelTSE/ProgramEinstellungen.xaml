@@ -168,7 +168,7 @@
                                     <ComboBoxItem>Bar, Bewirtungsbeleb</ComboBoxItem>
                                     <ComboBoxItem>weitere Zahlungen</ComboBoxItem>
                                 </ComboBox>
-                                
+
                             </Grid>
                         </Border>
                     </DockPanel>
@@ -372,7 +372,7 @@
                 <TabItem.Header>
 
                     <Label Content="Kassennetz" HorizontalAlignment="Stretch" Style="{StaticResource HeaderLabelStyle}"/>
-                   
+
                 </TabItem.Header>
 
                 <Grid>
@@ -395,7 +395,7 @@
                     </Grid.RowDefinitions>
 
                     <DockPanel Name="KassennetzPanel" Grid.Row="0" Grid.RowSpan="7" Width="820" Grid.ColumnSpan="7" Grid.Column="0" Background="LightGray">
-                    <Border DockPanel.Dock="Top"
+                        <Border DockPanel.Dock="Top"
                             BorderBrush="LightGray"
                             Background="White"
                             BorderThickness="2"
@@ -485,7 +485,7 @@
 
                                 </DockPanel>
 
-                                <Button Content="neues Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Click="NeuesTerminal_Click" />
+                                <Button Content="neues Terminal" FontSize="15" Grid.Row="2" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Click="NeuesTerminal_Click" Grid.ColumnSpan="2" Margin="73,283,0,0" Grid.RowSpan="2" />
                                 <Button Content="löschen Terminal" FontSize="15" Grid.Row="3" Grid.Column="2" Width="150" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Loschen_Click" />
                                 <Button Content="speichern" FontWeight="Bold" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Height="75" Width="145" VerticalAlignment="Top" Margin="10, 0, 10, 0" Click="Speichern_Click" />
 

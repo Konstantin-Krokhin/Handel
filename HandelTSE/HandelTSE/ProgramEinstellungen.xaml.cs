@@ -38,7 +38,7 @@ namespace HandelTSE
 
         public class Terminalen
         {
-            public Int32 Id { get; set; }
+            public int Id { get; set; }
             public string Terminal_ID { get; set; }
             public string Marke { get; set; }
             public string Modell { get; set; }
@@ -87,7 +87,7 @@ namespace HandelTSE
             SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
-                //if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
+                if (myReader["Id"] != DBNull.Value) data.Id = int.Parse(myReader["Id"].ToString()); else data.Id = -1;
                 if (myReader["TerminalID"] != DBNull.Value) data.Terminal_ID = (string)myReader["TerminalID"]; else data.Terminal_ID = "";
                 if (myReader["MarkeDesTerminals"] != DBNull.Value) data.Marke = (string)myReader["MarkeDesTerminals"]; else data.Marke = "";
                 if (myReader["Modellbezeichnung"] != DBNull.Value) data.Modell = (string)myReader["Modellbezeichnung"]; else data.Modell = "";
@@ -100,6 +100,7 @@ namespace HandelTSE
             Data = list;
             TerminalenDataGrid.ItemsSource = Data;
             list = new List<Terminalen>();
+            myReader.Close();
         }
 
         private void cp1_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -147,7 +148,7 @@ namespace HandelTSE
             foreach (TextBox tb in Artikelverwaltung.FindVisualChildren<TextBox>(TerminalIDPanel)) { if (tb.Text == "") { tb.Background = brush_red; k = 1; } }
             if (k == 1) { MessageBox.Show("mit * gekennzeichnete Felder sind Pflichtfelder"); return; };
 
-            Int32 ID = 0;
+            int ID = 0;
             int result = 0;
             SQLiteCommand cmd = new SQLiteCommand();
             int NetzwerkDatenbankValue = 0;
@@ -169,13 +170,14 @@ namespace HandelTSE
             else
             {
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_ProgramEinstellungenKassennetz", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar() + 1; }
+                try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; }
                 catch { }
                 cmd = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassennetz](Id, TerminalID, MarkeDesTerminals, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, NetzwerkDatenbank)Values('" + ID + "','" + TerminalID.Text + "','" + MarkeDesTermin.Text + "','" + Modellbezeichnung.Text + "','" + Seriennummer.Text + "','" + KassenSoftware.Text + "','" + VersionDerSoftware.Text + "','" + NetzwerkDatenbankValue + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            NeuesTerminal_Click(sender, e);
         }
 
         private void TextChanged(object sender, TextChangedEventArgs e) { if (((TextBox)sender).Background == brush_red) ((TextBox)sender).Background = Brushes.White; }
@@ -380,7 +382,7 @@ namespace HandelTSE
                 catch { }
 
                 SQLiteCommand cmd4;
-                if (Id == 0)
+                if (Id == 1)
                 {
                     cmd4 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenFirmendaten] SET [Firma] = @Firma, [Inhaber] = @Inhaber, [Strasse] = @Strasse, [PLZ] = @PLZ, [Ort] = @Ort, [Land] = @Land, [Telefon] = @Telefon, [Fax] = @Fax, [E-mail] = @Email, [Steuernummer] = @Steuernummer, [USTID] = @USTID, [1] = @1, [2] = @2, [3] = @3, [4] = @4, [5] = @5, [6] = @6, [7] = @7, [8] = @8, [9] = @9, [10] = @10, [11] = @11 WHERE [Id] = @ID", con);
 
@@ -426,7 +428,7 @@ namespace HandelTSE
                 catch { }
 
                 SQLiteCommand cmd2;
-                if (Id == 0)
+                if (Id == 1)
                 {
                     cmd2 = new SQLiteCommand("UPDATE [TBL_ProgramEinstellungenKassendaten] SET Kassennummer = @Kassennummer, MarkederKasse = @MarkederKasse, Modellbezeichnung = @Modellbezeichnung, Seriennummer = @Seriennummer, Kassensoftware = @Kassensoftware, VersionDerSoftware = @VersionDerSoftware, WahrungDerKasse = @WahrungDerKasse, BasiswahrungCode = @BasiswahrungCode, [Dsfinv-k] = @Dsfinvk WHERE Id = @ID", con);
 
