@@ -23,7 +23,7 @@ namespace HandelTSE
     {
         Storno data = new Storno();
         List<Storno> list = new List<Storno>();
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
         public List<Storno> Data { get; set; }
 
         public class Storno
@@ -36,7 +36,7 @@ namespace HandelTSE
             InitializeComponent();
 
             // If the menu Stornogrunde is being open multiple times
-            if (con.ConnectionString.Length == 0)
+            if (con == null)
             {
                 con = MainWindow.con;
                 SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Stornogrunde] ([Id] COUNTER, [Stornogrund] TEXT(55))", con);

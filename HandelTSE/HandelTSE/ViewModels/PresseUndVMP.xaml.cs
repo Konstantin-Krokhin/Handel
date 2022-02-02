@@ -32,7 +32,7 @@ namespace HandelTSE.ViewModels
         EANCode data2 = new EANCode();
         List<Presse> list = new List<Presse>();
         List<EANCode> list2 = new List<EANCode>();
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
         public List<Presse> Data { get; set; }
         public List<EANCode> Data2 { get; set; }
         Brush brush_red = new SolidColorBrush(Color.FromArgb(255, (byte)255, (byte)128, (byte)128));

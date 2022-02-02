@@ -23,7 +23,7 @@ namespace HandelTSE
     {
         Zahlung data = new Zahlung();
         List<Zahlung> list = new List<Zahlung>();
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
         public List<Zahlung> Data { get; set; }
         public class Zahlung
         {
@@ -42,7 +42,7 @@ namespace HandelTSE
             InitializeComponent();
             
             // If the menu Zahlungen is being open multiple times
-            if (con.ConnectionString.Length == 0)
+            if (con == null)
             {
                 con = MainWindow.con;
                 SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Zahlungen] ([Id] COUNTER, [Nr] INT,[Zahlungsmethode] TEXT(55),[Status] TEXT(55),[ZArt] TEXT(55),[Bemerkung] TEXT(55), [BargeldCheck] TEXT(1), [KassenladeCheck] TEXT(1), [AbfrageCheck] TEXT(1))", con);

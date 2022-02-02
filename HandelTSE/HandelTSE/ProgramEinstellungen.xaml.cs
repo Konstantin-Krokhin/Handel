@@ -176,7 +176,7 @@ namespace HandelTSE
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("DB CRUD error"); }
             NeuesTerminal_Click(sender, e);
         }
 
@@ -242,7 +242,7 @@ namespace HandelTSE
 
                     int result = 0;
                     try { result = cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                    catch { MessageBox.Show("DB CRUD error"); }
 
                     LoadGrid();
                     HideColumns();
@@ -360,7 +360,7 @@ namespace HandelTSE
                 }
                 else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenDarstellung](Id, Hintergrundfarbe, ProgrammOberflache, ProgrammGrosse, Spaltenzahl1, Zeilenzahl1, Spaltenzahl2, Zeilenzahl2, SchriftGross, MenuFunktionen, SchnellDruck)Values('" + Id + 1 + "','" + Farbauswahl1.Background.ToString() + "','" + Farbauswahl2.Background.ToString() + "','" + ProgramGrosseBox.Text + "','" + Spaltenzahl1.Text + "','" + Zeilenzahl1.Text + "','" + Spaltenzahl2.Text + "','" + Zeilenzahl2.Text + "','" + SchriftGrossTasten.Text + "','" + MenuFunktionenValue + "','" + SchnellDruckBox.Text + "')", con);
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch { MessageBox.Show("DB CRUD error"); }
             }
             else if (EinstellungenTabs.SelectedIndex == 1)
             {
@@ -407,7 +407,7 @@ namespace HandelTSE
                     cmd4 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenFirmendaten](Id, Firma, Inhaber, Strasse, PLZ, Ort, Land, Telefon, Fax, [E-mail], Steuernummer, USTID, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11])Values('" + Id + 1 + "','" + FirmaField.Text + "','" + InhaberField.Text + "','" + StrasseField.Text + "','" + PLZField.Text + "','" + OrtField.Text + "','" + LandField.Text + "','" + TelefonField.Text + "','" + FaxField.Text + "','" + EmailField.Text + "','" + SteuerField.Text + "','" + USTIDField.Text + checkboxes + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch { MessageBox.Show("DB CRUD error"); }
 
             }
             else if (EinstellungenTabs.SelectedIndex == 2)
@@ -445,7 +445,7 @@ namespace HandelTSE
                 }
                 else cmd2 = new SQLiteCommand("insert into [TBL_ProgramEinstellungenKassendaten](Id, Kassennummer, MarkederKasse, Modellbezeichnung, Seriennummer, Kassensoftware, VersionDerSoftware, WahrungDerKasse, BasiswahrungCode, [Dsfinv-k])Values('" + Id + 1 + "','" + Kassennummer.Text + "','" + MarkederKasse.Text + "','" + Modellbezeichnung_Kassendaten.Text + "','" + Seriennummer_Kassendaten.Text + "','" + KassenSoftware_Kassendaten.Text + "','" + VersionDerSoftware_Kassendaten.Text + "','" + WahrungDerKasse.Text + "','" + BasiswahrungCode.Text + "','" + DSFinField.Text + "')", con);
                 try { result = cmd2.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch { MessageBox.Show("DB CRUD error"); }
             }
         }
 

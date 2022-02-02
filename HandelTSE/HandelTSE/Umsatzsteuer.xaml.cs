@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace HandelTSE
 {
@@ -23,7 +24,7 @@ namespace HandelTSE
     {
         Umsatz data = new Umsatz();
         List<Umsatz> list = new List<Umsatz>();
-        public static SQLiteConnection con = new SQLiteConnection();
+        public static SQLiteConnection con;
         public List<Umsatz> Data { get; set; }
         int maxSchlussel = 0;
 
@@ -44,10 +45,10 @@ namespace HandelTSE
             InitializeComponent();
 
             // If the menu Umsatzsteuer is being open multiple times
-            if (con.ConnectionString.Length == 0)
+            if (con == null)
             {
                 con = MainWindow.con;
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Umsatzsteuer] ([Id] COUNTER, [MwSt] TEXT(55),[Bezeich] TEXT(55),[Schlussel] TEXT(55),[Beschreibung] TEXT(55),[Konto] TEXT(55),[GKonto] TEXT(55), [Kennzeich] TEXT(55))", con);
+                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_Umsatzsteuer] ([Id] COUNTER, [MwSt] TEXT(55), [Bezeich] TEXT(55),[Schlussel] TEXT(55),[Beschreibung] TEXT(55),[Konto] TEXT(55),[GKonto] TEXT(55), [Kennzeich] TEXT(55))", con);
                 try 
                 { 
                     cmd.ExecuteNonQuery();
@@ -60,6 +61,7 @@ namespace HandelTSE
             }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
+            HideColumns();
         }
 
         private void LoadGrid()
@@ -68,7 +70,7 @@ namespace HandelTSE
             SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
-                if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
+                if (myReader["Id"] != DBNull.Value) data.Id = int.Parse(myReader["Id"].ToString()); else data.Id = -1;
                 if (myReader["MwSt"] != DBNull.Value) data.MwSt = (string)myReader["MwSt"]; else data.MwSt = "";
                 if (myReader["Bezeich"] != DBNull.Value) data.Bezeich = (string)myReader["Bezeich"]; else data.Bezeich = "";
                 if (myReader["Schlussel"] != DBNull.Value) data.Schlussel = (string)myReader["Schlussel"]; else data.Schlussel = "";
@@ -87,7 +89,7 @@ namespace HandelTSE
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e) { if (UmsatzsteuerDataGrid.SelectedItem != null && UmsatzsteuerDataGrid.SelectedIndex != UmsatzsteuerDataGrid.Items.Count - 1 && ((Umsatz)UmsatzsteuerDataGrid.Items[UmsatzsteuerDataGrid.Items.Count - 1]).Schlussel == null) {Data.RemoveAt(UmsatzsteuerDataGrid.Items.Count-1); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); NeuUmsatzsteuerButton.IsEnabled = true; } }
 
-        private void NeuUmsatzsteuer_Click(object sender, RoutedEventArgs e) { if(Data != null) Data.Add(new Umsatz { }); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); UmsatzsteuerDataGrid.SelectedIndex = UmsatzsteuerDataGrid.Items.Count - 1; NeuUmsatzsteuerButton.IsEnabled = false; }
+        private void NeuUmsatzsteuer_Click(object sender, RoutedEventArgs e) { if(Data != null) Data.Add(new Umsatz { }); UmsatzsteuerDataGrid.ItemsSource = Data; UmsatzsteuerDataGrid.Items.Refresh(); UmsatzsteuerDataGrid.SelectedIndex = UmsatzsteuerDataGrid.Items.Count - 1; NeuUmsatzsteuerButton.IsEnabled = false; HideColumns(); }
 
         private void speichern_Click(object sender, RoutedEventArgs e)
         {
@@ -97,7 +99,7 @@ namespace HandelTSE
             if (k == 1) { MessageBox.Show("Überprüfen Sie bitte die Steuerndaten (Steuersatz und Bezeichnung)!"); return; }
             NeuUmsatzsteuerButton.IsEnabled = true;
 
-            Int32 ID = 0;
+            int ID = 0;
             int result = 0;
             string Bezeich = "";
             if (item.MwSt.Contains(".") || item.MwSt.Contains(",")) Bezeich = item.MwSt + "%"; else Bezeich = item.MwSt + ".00" + "%";
@@ -120,7 +122,7 @@ namespace HandelTSE
             {
                 int currentSchlussel = 0;
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Umsatzsteuer", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; } catch { }
                 foreach (var i in UmsatzsteuerDataGrid.Items) { if (((Umsatz)i).Schlussel == null) break; currentSchlussel = int.Parse(((Umsatz)i).Schlussel); if (currentSchlussel > maxSchlussel) maxSchlussel = currentSchlussel; }
                 cmd = new SQLiteCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
             }
