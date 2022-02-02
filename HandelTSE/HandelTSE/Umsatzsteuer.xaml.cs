@@ -30,7 +30,7 @@ namespace HandelTSE
 
         public class Umsatz
         {
-            public Int32 Id { get; set; }
+            public int Id { get; set; }
             public string MwSt { get; set; }
             public string Bezeich { get; set; }
             public string Schlussel { get; set; }
@@ -124,7 +124,7 @@ namespace HandelTSE
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Umsatzsteuer", con);
                 try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; } catch { }
                 foreach (var i in UmsatzsteuerDataGrid.Items) { if (((Umsatz)i).Schlussel == null) break; currentSchlussel = int.Parse(((Umsatz)i).Schlussel); if (currentSchlussel > maxSchlussel) maxSchlussel = currentSchlussel; }
-                cmd = new SQLiteCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ++ID + "','" + item.MwSt + "','" + Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_Umsatzsteuer](Id, MwSt, Bezeich, Schlussel, Beschreibung, Konto, GKonto, Kennzeich)Values('" + ID + "','" + item.MwSt + "','" + Bezeich + "','" + ++maxSchlussel + "','" + item.Beschreibung + "','" + item.Konto + "','" + item.GKonto + "','" + item.Kennzeich + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }

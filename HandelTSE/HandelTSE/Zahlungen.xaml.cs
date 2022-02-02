@@ -27,8 +27,8 @@ namespace HandelTSE
         public List<Zahlung> Data { get; set; }
         public class Zahlung
         {
-            public Int32 Id { get; set; }
-            public Int32 Nr { get; set; }
+            public int Id { get; set; }
+            public int Nr { get; set; }
             public string Zahlungsmethode { get; set; }
             public string Status { get; set; }
             public string ZArt { get; set; }
@@ -66,8 +66,8 @@ namespace HandelTSE
             SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
-                if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
-                if (myReader["Nr"] != DBNull.Value) data.Nr = (Int32)myReader["Nr"]; else data.Nr = 0;
+                if (myReader["Id"] != DBNull.Value) data.Id = int.Parse(myReader["Id"].ToString()); else data.Id = -1;
+                if (myReader["Nr"] != DBNull.Value) data.Nr = int.Parse(myReader["Nr"].ToString()); else data.Nr = 0;
                 if (myReader["Zahlungsmethode"] != DBNull.Value) data.Zahlungsmethode = (string)myReader["Zahlungsmethode"]; else data.Zahlungsmethode = "";
                 if (myReader["Status"] != DBNull.Value) data.Status = (string)myReader["Status"]; else data.Status = "";
                 if (myReader["ZArt"] != DBNull.Value) data.ZArt = (string)myReader["ZArt"]; else data.ZArt = "";
@@ -114,8 +114,8 @@ namespace HandelTSE
 
         private void speichern_Click(object sender, RoutedEventArgs e)
         {
-            Int32 ID = 0;
-            Int32 Nr = 0;
+            Int32 ID = 1;
+            Int32 Nr = 1;
             int result = 0;
             string bargeldcheck = "0", kassenladecheck = "0", abfragecheck = "0", buttonstatus = "inaktiv";
             Zahlung item = null;
@@ -145,9 +145,9 @@ namespace HandelTSE
             else
             {
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Zahlungen", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; } catch { }
                 SQLiteCommand maxCommand2 = new SQLiteCommand("SELECT max(Nr) from TBL_Zahlungen", con);
-                try { Nr = (Int32)maxCommand2.ExecuteScalar(); } catch { }
+                try { object val = maxCommand2.ExecuteScalar(); Nr = int.Parse(val.ToString()) + 1; } catch { }
                 cmd = new SQLiteCommand("insert into [TBL_Zahlungen](Id, Nr, Zahlungsmethode, Status, ZArt, Bemerkung, BargeldCheck, KassenladeCheck, AbfrageCheck)Values('" + ++ID + "','" + ++Nr + "','" + Zahlungsname.Text + "','"  + buttonstatus + "','" + Zahlungsart.Text  + "','" + Bemerkung.Text + "','" + bargeldcheck + "','" + kassenladecheck + "','" + abfragecheck + "')", con);
             }
 

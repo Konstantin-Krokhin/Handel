@@ -28,7 +28,7 @@ namespace HandelTSE
 
         public class Storno
         {
-            public Int32 Id { get; set; }
+            public int Id { get; set; }
             public string Stornogrund { get; set; }
         }
         public Stornogrunde()

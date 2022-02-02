@@ -39,14 +39,14 @@ namespace HandelTSE.ViewModels
 
         public class Presse
         {
-            public Int32 Id { get; set; }
+            public int Id { get; set; }
             public string CEAN { get; set; }
             public string CNAME { get; set; }
         }
 
         public class EANCode
         {
-            public Int32 Id { get; set; }
+            public int Id { get; set; }
             public string Landprafix { get; set; }
             public string PresseKZ { get; set; }
             public string MwSt { get; set; }
