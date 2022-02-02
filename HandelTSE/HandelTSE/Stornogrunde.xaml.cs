@@ -60,7 +60,7 @@ namespace HandelTSE
             SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
-                if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
+                if (myReader["Id"] != DBNull.Value) data.Id = int.Parse(myReader["Id"].ToString()); else data.Id = -1;
                 if (myReader["Stornogrund"] != DBNull.Value) data.Stornogrund = (string)myReader["Stornogrund"]; else data.Stornogrund = "";
                 list.Add(new Storno { Id = data.Id, Stornogrund = data.Stornogrund });
             }
@@ -108,7 +108,7 @@ namespace HandelTSE
             if (item.Stornogrund == null || item.Stornogrund == "") { MessageBox.Show("Überprüfen Sie bitte die Stornogrund-Bezeichnung!"); return; }
             NeuButton.IsEnabled = true;
 
-            Int32 ID = 0;
+            int ID = 0;
             int result = 0;
             SQLiteCommand cmd = new SQLiteCommand();
             if (item.Id != 0)
@@ -122,8 +122,8 @@ namespace HandelTSE
             else
             {
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_Stornogrunde", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                cmd = new SQLiteCommand("insert into [TBL_Stornogrunde](Id, Stornogrund)Values('" + ++ID + "','" + item.Stornogrund + "')", con);
+                try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; } catch { }
+                cmd = new SQLiteCommand("insert into [TBL_Stornogrunde](Id, Stornogrund)Values('" + ID + "','" + item.Stornogrund + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); }
