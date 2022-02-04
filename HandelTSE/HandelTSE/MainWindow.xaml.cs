@@ -53,11 +53,12 @@ namespace HandelTSE
             Globals.PresseCon = con;
 
             // FOR DEV/TEST Purposes ONLY********************
+
             ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new Stornogrunde();
+            DataContext = new Main();
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
@@ -141,7 +142,7 @@ namespace HandelTSE
             if (pb == null) pb = new ProgressBarWindow();
             pb.Owner = this;
             pb.Visibility = Visibility.Visible;
-            Globals.PresseCon = con;
+            //Globals.PresseCon = con;
 
             await Task.Run(() => LoadData());
 
@@ -157,7 +158,7 @@ namespace HandelTSE
         {
             string str = "";
             SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
-            SQLiteCommand cmd2 = new SQLiteCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
+            
             try
             {
                 cmd.ExecuteNonQuery();
@@ -192,8 +193,6 @@ namespace HandelTSE
                 }
                 transaction.Commit();
             }
-            catch { }
-            try { cmd2.ExecuteNonQuery(); }
             catch { }
         }
 

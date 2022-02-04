@@ -22,7 +22,7 @@ namespace HandelTSE.ViewModels
         public static int Training_mode = 0;
         public static int Admin_mode = 0;
         public static string CsvZeitungenFilePath = "";
-        public static PresseUndVMP p = new PresseUndVMP();
+        //public static PresseUndVMP p = new PresseUndVMP();
         public static List<CSVImportieren.Presse> presseList = new List<CSVImportieren.Presse>();
         public static CSVImportieren.Presse KopfzeilItem = new CSVImportieren.Presse();
         public static SQLiteConnection PresseCon = MainWindow.con;

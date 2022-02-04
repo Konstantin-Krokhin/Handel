@@ -59,9 +59,20 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
 
-            con = Globals.PresseCon;
+            con = MainWindow.con;
             CSVDateiPath.Text = Globals.CsvZeitungenFilePath;
             EhastraKundennummerTextBox.Text = Properties.Settings.Default.EhastraKundennummer;
+
+            SQLiteCommand cmd2 = new SQLiteCommand("CREATE TABLE [TBL_EANCode] ([Id] COUNTER, [Landprafix] TEXT(55), [PresseKZ] TEXT(55), [MwSt] TEXT(55), [VDZ] TEXT(55), [Verkaufspreis] TEXT(55), [Bezeichnung] TEXT(55))", con);
+            try
+            {
+                cmd2.ExecuteNonQuery();
+                //Create first empty record with the proper starting ID starting from 1
+                cmd2 = new SQLiteCommand("insert into [TBL_EANCode](Id)Values('" + 1 + "')", con);
+                try { cmd2.ExecuteNonQuery(); }
+                catch { }
+            }
+            catch { }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
         }
@@ -72,7 +83,7 @@ namespace HandelTSE.ViewModels
             SQLiteDataReader myReader = cmd2.ExecuteReader();
             while (myReader.Read())
             {
-                if (myReader["Id"] != DBNull.Value) data.Id = (Int32)myReader["Id"]; else data.Id = -1;
+                if (myReader["Id"] != DBNull.Value) data.Id = int.Parse(myReader["Id"].ToString()); else data.Id = -1;
                 if (myReader["CEAN"] != DBNull.Value) data.CEAN = (string)myReader["CEAN"]; else data.CEAN = "";
                 if (myReader["CNAME"] != DBNull.Value) data.CNAME = (string)myReader["CNAME"]; else data.CNAME = "";
                 list.Add(new Presse { Id = data.Id, CEAN = data.CEAN, CNAME = data.CNAME });
@@ -85,7 +96,7 @@ namespace HandelTSE.ViewModels
             SQLiteDataReader myReader3 = cmd3.ExecuteReader();
             while (myReader3.Read())
             {
-                if (myReader3["Id"] != DBNull.Value) data2.Id = (Int32)myReader3["Id"]; else data2.Id = -1;
+                if (myReader3["Id"] != DBNull.Value) data2.Id = int.Parse(myReader3["Id"].ToString()); else data2.Id = -1;
                 if (myReader3["Landprafix"] != DBNull.Value) data2.Landprafix = (string)myReader3["Landprafix"]; else data2.Landprafix = "";
                 if (myReader3["PresseKZ"] != DBNull.Value) data2.PresseKZ = (string)myReader3["PresseKZ"]; else data2.PresseKZ = "";
                 if (myReader3["MwSt"] != DBNull.Value) data2.MwSt = (string)myReader3["MwSt"]; else data2.MwSt = "";
@@ -140,7 +151,7 @@ namespace HandelTSE.ViewModels
             if (BezeichnungZeitungTextBox.Text == "") { BezeichnungZeitungTextBox.Background = brush_red; k = 1; }
             if (k == 1) return;
 
-            Int32 ID = 0;
+            int ID = 0;
             int result = 0;
             Presse item = (Presse)EANDataGrid.SelectedItem;
             SQLiteCommand cmd = new SQLiteCommand();
@@ -156,8 +167,8 @@ namespace HandelTSE.ViewModels
             else
             {
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_PRESSE", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
-                cmd = new SQLiteCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + EANZeitungTextBox.Text + "','" + BezeichnungZeitungTextBox.Text + "')", con);
+                try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; } catch { }
+                cmd = new SQLiteCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ID + "','" + EANZeitungTextBox.Text + "','" + BezeichnungZeitungTextBox.Text + "')", con);
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); HideColumn2(); }
@@ -194,6 +205,7 @@ namespace HandelTSE.ViewModels
 
                     LoadGrid();
                     HideColumn();
+                    HideColumn2();
 
                     EANDataGrid.SelectedItem = null;
                     EANZeitungTextBox.Text = "";
@@ -310,8 +322,11 @@ namespace HandelTSE.ViewModels
         {
             SpeichernButton.IsEnabled = true;
             EntfernenButton.IsEnabled = true;
-            Int32 id = ((EANCode)EANPressecodeDataGrid.Items[EANPressecodeDataGrid.Items.Count - 1]).Id;
-            if (EANPressecodeDataGrid.SelectedItem != null && EANPressecodeDataGrid.SelectedIndex != EANPressecodeDataGrid.Items.Count - 1 && !(id > 0 && id <= int.MaxValue)) { Data2.RemoveAt(EANPressecodeDataGrid.Items.Count - 1); EANPressecodeDataGrid.ItemsSource = Data2; EANPressecodeDataGrid.Items.Refresh(); NeuButton.IsEnabled = true; }
+            if (EANPressecodeDataGrid.Items.Count > 0)
+            {
+                Int32 id = ((EANCode)EANPressecodeDataGrid.Items[EANPressecodeDataGrid.Items.Count - 1]).Id;
+                if (EANPressecodeDataGrid.SelectedItem != null && EANPressecodeDataGrid.SelectedIndex != EANPressecodeDataGrid.Items.Count - 1 && !(id > 0 && id <= int.MaxValue)) { Data2.RemoveAt(EANPressecodeDataGrid.Items.Count - 1); EANPressecodeDataGrid.ItemsSource = Data2; EANPressecodeDataGrid.Items.Refresh(); NeuButton.IsEnabled = true; }
+            }
         }
 
         private void NeuPresseCode_Click(object sender, RoutedEventArgs e)
@@ -355,10 +370,11 @@ namespace HandelTSE.ViewModels
         private void SpeichernPresseCode_Click(object sender, RoutedEventArgs e)
         {
             EANCode item = ((EANCode)EANPressecodeDataGrid.SelectedItem);
-            if (item == null || item.Landprafix == null || item.PresseKZ == "" || item.MwSt == "" || item.VDZ == "" || item.Verkaufspreis == "" || item.Bezeichnung == "" || (!item.Landprafix.All(char.IsDigit) && !Double.TryParse(item.Landprafix, out _)) || (!item.PresseKZ.All(char.IsDigit) && !Double.TryParse(item.PresseKZ, out _)) || (!item.MwSt.All(char.IsDigit) && !Double.TryParse(item.MwSt, out _)) || item.VDZ.Length != 5 || item.Verkaufspreis.Length != 4) { MessageBox.Show("Überprüfen Sie bitte Ihre Daten!"); return; }
+            bool LandprafixNotNumber = !int.TryParse(item.Landprafix, out _);
+            if (item == null || item.Landprafix == null || item.PresseKZ == "" || item.MwSt == "" || item.VDZ == "" || item.Verkaufspreis == "" || item.Bezeichnung == "" || LandprafixNotNumber == true || !int.TryParse(item.PresseKZ, out _) || !int.TryParse(item.MwSt, out _) || item.VDZ.Length != 5 || item.Verkaufspreis.Length != 4) { MessageBox.Show("Überprüfen Sie bitte Ihre Daten!"); return; }
             NeuButton.IsEnabled = true;
-
-            Int32 ID = 0;
+            
+            int ID = 0;
             SQLiteCommand cmd = new SQLiteCommand();
             if (item.Id != 0)
             {
@@ -377,12 +393,12 @@ namespace HandelTSE.ViewModels
             else
             {
                 SQLiteCommand maxCommand = new SQLiteCommand("SELECT max(Id) from TBL_EANCode", con);
-                try { ID = (Int32)maxCommand.ExecuteScalar(); } catch { }
+                try { object val = maxCommand.ExecuteScalar(); ID = int.Parse(val.ToString()) + 1; } catch { }
                 
-                cmd = new SQLiteCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, MwSt, VDZ, Verkaufspreis, Bezeichnung)Values('" + ++ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.MwSt + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
+                cmd = new SQLiteCommand("insert into [TBL_EANCode](Id, Landprafix, PresseKZ, MwSt, VDZ, Verkaufspreis, Bezeichnung)Values('" + ID + "','" + item.Landprafix + "','" + item.PresseKZ + "','" + item.MwSt + "','" + item.VDZ + "','" + item.Verkaufspreis + "','" + item.Bezeichnung + "')", con);
             }
 
-            try { cmd.ExecuteNonQuery(); LoadGrid(); HideColumn2(); HideColumn(); }
+            try { cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); HideColumn2(); }
             catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
 
         }
