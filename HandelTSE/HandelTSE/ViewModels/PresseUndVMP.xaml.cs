@@ -75,6 +75,33 @@ namespace HandelTSE.ViewModels
             catch { }
 
             if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
+
+            // Adds Identificators for each newspaper loadede to the DataGrid if needed
+            LoadIDsForPresse();
+        }
+
+        private void LoadIDsForPresse()
+        {
+            if (!(((Presse)EANDataGrid.Items[0]).Id > 0))
+            {
+                string str = "", cean = "";
+                for (int ID = 0; ID < EANDataGrid.Items.Count;)
+                {
+                    cean = ((Presse)EANDataGrid.Items[ID++]).CEAN;
+                    str += "UPDATE [TBL_PRESSE] SET Id = " + ID.ToString() + " WHERE CEAN = " + cean + ";";
+                }
+                // Separate SQL commands from each other
+                string[] sqlStatements = str.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // Run all commands for inserting the records
+                if (con.State == System.Data.ConnectionState.Closed) con.Open();
+                SQLiteTransaction transaction = con.BeginTransaction();
+                foreach (string statement in sqlStatements)
+                    using (SQLiteCommand cmd0 = new SQLiteCommand(statement, con, transaction)) { cmd0.ExecuteNonQuery(); }
+                transaction.Commit();
+
+                if (MainWindow.con.State != System.Data.ConnectionState.Closed) LoadGrid();
+            }
         }
 
         private void LoadGrid()
@@ -268,7 +295,8 @@ namespace HandelTSE.ViewModels
                 
                 progressBar.Visibility = Visibility.Visible;
                 CSVImportieren.Visibility = Visibility.Collapsed;
-                await Task.Run(() => LoadImportData());
+                try { await Task.Run(() => LoadImportData()); }
+                catch { MessageBox.Show("Bitte installieren Sie Excel!"); }
                 CSVImportieren.Visibility = Visibility.Visible;
                 progressBar.Visibility = Visibility.Collapsed;
 
@@ -283,7 +311,7 @@ namespace HandelTSE.ViewModels
             Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(Globals.CsvZeitungenFilePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
             Microsoft.Office.Interop.Excel.Worksheet excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(1); ;
             Microsoft.Office.Interop.Excel.Range excelRange = excelSheet.UsedRange;
-
+            
             string strCellData = "";
             int rowCnt = 0;
             int colCnt = 0;
