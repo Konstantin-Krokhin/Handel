@@ -35,24 +35,8 @@ namespace HandelTSE.ViewModels
 
             con.ConnectionString = ConfigurationManager.ConnectionStrings["Connection"].ToString();
             
-            try
-            {
-                con.Open();
-            }
-            catch
-            {
-                MessageBoxResult result = MessageBox.Show("Bitte installieren Sie die Microsoft Access Database Engine 2010. Möchten Sie zur Download-Seite weitergeleitet werden?", "Confirmation", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("https://www.microsoft.com/en-us/download/confirmation.aspx?id=13255");
-                    MessageBox.Show("Nach der Installation des Treibers öffnen Sie bitte das Programm erneut, falls erforderlich. ");
-                }
-                else if (result == MessageBoxResult.No)
-                {
-                    MessageBox.Show("Sie müssen den Treiber installieren, um die Daten sehen zu können.");
-                }
-
-            }
+            try { con.Open(); }
+            catch { MessageBox.Show("DB Error!"); }
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)

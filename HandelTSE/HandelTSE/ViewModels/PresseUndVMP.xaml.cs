@@ -199,7 +199,7 @@ namespace HandelTSE.ViewModels
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); HideColumn2(); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("DB error!"); }
 
             EANDataGrid.SelectedItem = null;
             LoschenZeitungButton.IsEnabled = false;
@@ -228,7 +228,7 @@ namespace HandelTSE.ViewModels
                     cmd.Parameters.Add(new SQLiteParameter("@Id", ((Presse)EANDataGrid.SelectedItem).Id));
 
                     try { cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                    catch { MessageBox.Show("DB error!"); }
 
                     LoadGrid();
                     HideColumn();
@@ -382,7 +382,7 @@ namespace HandelTSE.ViewModels
                     SQLiteCommand cmd = new SQLiteCommand("DELETE FROM [TBL_EANCode] where Id = @ID", con);
                     cmd.Parameters.Add(new SQLiteParameter("@ID", ((EANCode)EANPressecodeDataGrid.SelectedItem).Id));
                     try { cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                    catch { MessageBox.Show("DB error!"); }
 
                     LoadGrid();
                     HideColumn();
@@ -427,7 +427,7 @@ namespace HandelTSE.ViewModels
             }
 
             try { cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); HideColumn2(); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("DB error!"); }
 
         }
     }

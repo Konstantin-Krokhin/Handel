@@ -31,11 +31,11 @@
 
         <TextBlock Text="Backup - Verzeichnis:" Grid.Column="1" Grid.Row="2" Margin="0, 5" />
         <TextBlock Name="VerzeichnisTextBlock" Text="" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3" Margin="5, 0" />
-        <Button Content="Einstellungen" Padding="5, 3" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Margin="15, 0, 0, 0" />
+        <Button Name="EinstellungenButton" Content="Einstellungen" Padding="5, 3" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Margin="15, 0, 0, 0" Click="EinstellungenButton_Click" />
 
         <CheckBox Name="DBkomprimieren" IsChecked = "True" Content="Datenbank komprimieren und im Backup-Verzeichnis sichern" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4" Margin="10, 10, 0, 10" />
         
-        <Button Name="SicherungButton" Content="Sicherung beginnen" VerticalAlignment="Bottom" Margin="0, 40" Padding="15, 4" Grid.Row="7" Grid.Column="1" />
+        <Button Name="SicherungButton" Content="Sicherung beginnen" VerticalAlignment="Bottom" Margin="0, 40" Padding="15, 4" Grid.Row="7" Grid.Column="1" Click="SicherungButton_Click" />
         <Button Name="BeendenButton" Content="Programm beenden" VerticalAlignment="Bottom" Margin="15, 40, 0, 40" Padding="10, 4" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" Click="ProgrammBeenden_Click" />
     </Grid>
 </Window>

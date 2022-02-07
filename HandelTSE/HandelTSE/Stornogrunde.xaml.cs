@@ -91,7 +91,7 @@ namespace HandelTSE
                     cmd.Parameters.Add(new SQLiteParameter("@ID", ((Storno)StornogrundeDataGrid.SelectedItem).Id));
                     int result = 0;
                     try { result = cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                    catch { MessageBox.Show("DB error!"); }
 
                     LoadGrid();
                     HideColumn();
@@ -127,7 +127,7 @@ namespace HandelTSE
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumn(); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("DB error!"); }
         }
 
         private void RecordSelected(object sender, SelectionChangedEventArgs e) { if (StornogrundeDataGrid.SelectedItem != null && StornogrundeDataGrid.SelectedIndex != StornogrundeDataGrid.Items.Count - 1 && ((Storno)StornogrundeDataGrid.Items[StornogrundeDataGrid.Items.Count - 1]).Id == 0) { Data.RemoveAt(StornogrundeDataGrid.Items.Count - 1); StornogrundeDataGrid.ItemsSource = Data; StornogrundeDataGrid.Items.Refresh(); NeuButton.IsEnabled = true; } EntfernenButton.IsEnabled = true; }

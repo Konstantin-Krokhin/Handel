@@ -81,7 +81,7 @@ namespace HandelTSE.ViewModels
                         cmd = new SQLiteCommand("insert into [TBL_PRESSE](Id, CEAN, CNAME)Values('" + ++ID + "','" + data.CNAME + "','" + data.CEAN + "')", con);
 
                     try { cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); break; }
+                    catch { MessageBox.Show("DB error!"); break; }
                 }
             }
 

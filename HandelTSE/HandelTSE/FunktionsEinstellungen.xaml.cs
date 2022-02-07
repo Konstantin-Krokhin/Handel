@@ -265,7 +265,7 @@ namespace HandelTSE
                     cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenAbschlag](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [AbschlagSendenTextBox])Values('" + 0 + checkboxes + "','" + AbschlagSendenTextBox.Text + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch { MessageBox.Show("DB error!"); }
             }
             else if (EinstellungenTabs.SelectedIndex == 3)
             {
@@ -296,7 +296,7 @@ namespace HandelTSE
                     cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenBondrucker](Id, [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18])Values('" + 0 + checkboxes + "')", con);
                 }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch { MessageBox.Show("DB error!"); }
             }
             else if (EinstellungenTabs.SelectedIndex == 4)
             {
@@ -326,7 +326,7 @@ namespace HandelTSE
                 }
                 else { cmd4 = new SQLiteCommand("insert into [TBL_FunktionsEinstellungenGutscheine](Id, [GutscheinSystemAktivCheckbox], [MehrzweckRadioButton], [EinzweckComboBox], [GutscheinTextBox] )Values('" + 0 + "','" + GutscheinCheckbox + "','" + MehrzweckCheckbox + "','" + EinzweckString + "','" + GutscheinTextBox.Text + "')", con); }
                 try { result = cmd4.ExecuteNonQuery(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-                catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                catch { MessageBox.Show("DB error!"); }
             }
         } // Save Common Button --- END
 

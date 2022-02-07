@@ -152,7 +152,7 @@ namespace HandelTSE
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("DB error!"); }
 
             if (NeuZahlungWindow.Visibility == Visibility.Visible) NeuZahlungWindow.Visibility = Visibility.Collapsed;
             ZahlungenDataGrid.IsEnabled = true;

@@ -128,7 +128,7 @@ namespace HandelTSE
             }
 
             try { result = cmd.ExecuteNonQuery(); LoadGrid(); HideColumns(); MessageBox.Show("Ihre Daten wurden erfolgreich gespeichert!"); }
-            catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+            catch { MessageBox.Show("DB error!"); }
         }
 
         private void HideColumns() { if (UmsatzsteuerDataGrid.Items.Count > 0 && UmsatzsteuerDataGrid.Columns.Count > 0) foreach (var item in UmsatzsteuerDataGrid.Columns) { if (item.Header.ToString() == "Id") item.Visibility = Visibility.Collapsed; if (item.Header.ToString() == "Schlussel") item.IsReadOnly = true; if (item.Header.ToString() == "Bezeich") item.IsReadOnly = true; } }
@@ -155,7 +155,7 @@ namespace HandelTSE
                     cmd.Parameters.Add(new SQLiteParameter("@ID", ((Umsatz)UmsatzsteuerDataGrid.SelectedItem).Id));
                     int result = 0;
                     try { result = cmd.ExecuteNonQuery(); }
-                    catch { MessageBox.Show("Bitte stellen Sie sicher, dass die Verbindung zur Datenbank hergestellt ist und der erforderliche Treiber für Microsoft Access 2010 installiert ist oder der Datentyp der Datenbankspalte mit den Daten im Formular übereinstimmt."); }
+                    catch { MessageBox.Show("DB error!"); }
 
                     LoadGrid();
                     HideColumns();
