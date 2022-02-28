@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO.Compression;
+using System.Security;
+using System.Security.Permissions;
 
 namespace HandelTSE.DatensicherungEinstellungen
 {
@@ -32,8 +34,20 @@ namespace HandelTSE.DatensicherungEinstellungen
 
         private void SicherungButton_Click(object sender, RoutedEventArgs e)
         {
-            try { ZipFile.CreateFromDirectory(Properties.Settings.Default.Datenbank, VerzeichnisTextBlock.Text); }
-            catch { MessageBox.Show("Directory error!"); }
+            var permissionSet = new PermissionSet(PermissionState.None);
+            var writePermission = new FileIOPermission(FileIOPermissionAccess.AllAccess, VerzeichnisTextBlock.Text);
+            permissionSet.AddPermission(writePermission);
+
+            if (permissionSet.IsSubsetOf(AppDomain.CurrentDomain.PermissionSet))
+            {
+                try { ZipFile.CreateFromDirectory(Properties.Settings.Default.Datenbank, VerzeichnisTextBlock.Text); }
+                catch { MessageBox.Show("Directory error!"); }
+            }
+            else
+            {
+                // alternative stuff
+            }
+            
         }
 
         private void EinstellungenButton_Click(object sender, RoutedEventArgs e)

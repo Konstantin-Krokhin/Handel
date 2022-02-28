@@ -43,10 +43,10 @@
     <TargetZone>Internet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -333,6 +333,7 @@
     <EmbeddedResource Include="ViewModels\DragDataGridRowMessageBox.resx">
       <DependentUpon>DragDataGridRowMessageBox.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="img\.vs\img\v16\.suo" />
     <None Include="img\.vs\slnx.sqlite" />
     <None Include="img\.vs\VSWorkspaceState.json" />
