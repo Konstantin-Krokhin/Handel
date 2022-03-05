@@ -34,20 +34,49 @@ namespace HandelTSE.DatensicherungEinstellungen
 
         private void SicherungButton_Click(object sender, RoutedEventArgs e)
         {
-            var permissionSet = new PermissionSet(PermissionState.None);
+            string destPath = VerzeichnisTextBlock.Text + "\\db_source_" + DateTime.Now.ToString("dd.MM.yyyy") + ".zip";
+            
+            string copyDestPath = VerzeichnisTextBlock.Text + "\\db_handel.db";
+            string dbPath = Properties.Settings.Default.Datenbank;//.Replace(@"\db_handel.db", @"\db_handel.db");
+            //string copyDestPath2 = copyDestPath.Replace(@"\\", @"\");
+            //string curFile = System.IO.Path.GetFileName(dbPath);
+            //string newDir = dbPath.Replace(@"\db_handel.db", @"\") + "copy\\";
+            //string newPathToFile = System.IO.Path.Combine(copyDestPath, curFile);
+
+            if (File.Exists(dbPath) && dbPath.ToLower() != copyDestPath.ToLower())
+            {
+                File.Copy(dbPath, copyDestPath, true);
+            }
+            using (FileStream fs = new FileStream(destPath, FileMode.Create))
+            using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create))
+            {
+                arch.CreateEntryFromFile(copyDestPath, "db_handel.db");
+            }
+
+            /*using (FileStream fs = new FileStream(destPath, FileMode.Create))
+            using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create))
+            {
+                arch.CreateEntryFromFile(copyDestPath, "db_handel.db");
+            }*/
+
+            ////// -------------------
+
+            /*var permissionSet = new PermissionSet(PermissionState.None);
             var writePermission = new FileIOPermission(FileIOPermissionAccess.AllAccess, VerzeichnisTextBlock.Text);
             permissionSet.AddPermission(writePermission);
 
             if (permissionSet.IsSubsetOf(AppDomain.CurrentDomain.PermissionSet))
             {
-                try { ZipFile.CreateFromDirectory(Properties.Settings.Default.Datenbank, VerzeichnisTextBlock.Text); }
-                catch { MessageBox.Show("Directory error!"); }
+                
+
+                //try { ZipFile.CreateFromDirectory(Properties.Settings.Default.Datenbank, destPath); }
+                //catch { MessageBox.Show("Directory error!"); }
             }
             else
             {
                 // alternative stuff
-            }
-            
+            }*/
+
         }
 
         private void EinstellungenButton_Click(object sender, RoutedEventArgs e)
