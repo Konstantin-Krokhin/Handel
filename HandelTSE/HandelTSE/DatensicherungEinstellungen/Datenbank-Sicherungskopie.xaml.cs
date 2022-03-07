@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.IO.Compression;
 using System.Security;
 using System.Security.Permissions;
+using System.Text.RegularExpressions;
 
 namespace HandelTSE.DatensicherungEinstellungen
 {
@@ -35,47 +36,44 @@ namespace HandelTSE.DatensicherungEinstellungen
         private void SicherungButton_Click(object sender, RoutedEventArgs e)
         {
             string destPath = VerzeichnisTextBlock.Text + "\\db_source_" + DateTime.Now.ToString("dd.MM.yyyy") + ".zip";
+            string[] files = Directory.GetFiles(VerzeichnisTextBlock.Text, "db_source_" + DateTime.Now.ToString("dd.MM.yyyy") + "_*.zip", SearchOption.TopDirectoryOnly);
             
+            if (File.Exists(destPath) && files.Length == 0) { destPath = destPath.Replace(".zip", "_1.zip");  }
+            else if (File.Exists(destPath) && files.Length > 0)
+            {
+                int startIndex = 0;
+                int endIndex = 0;
+                List<int> numbs = new List<int>();
+                foreach (string s in files)
+                {
+                    startIndex = s.LastIndexOf(Regex.Match(s, "db_source_" + DateTime.Now.ToString("dd.MM.yyyy") + "_").Value) + 21;
+                    endIndex = s.IndexOf(".zip");
+                    try { numbs.Add(Int32.Parse(s.Substring(startIndex, endIndex - startIndex))); } catch { };
+                }
+                int i = 1;
+                numbs.Sort();
+                for (; i <= numbs.Count + 1; i++) if (i > numbs.Count || i != numbs[i - 1]) break;
+                destPath = destPath.Replace(".zip", "_" + i.ToString() + ".zip");
+            }
+
             string copyDestPath = VerzeichnisTextBlock.Text + "\\db_handel.db";
-            string dbPath = Properties.Settings.Default.Datenbank;//.Replace(@"\db_handel.db", @"\db_handel.db");
-            //string copyDestPath2 = copyDestPath.Replace(@"\\", @"\");
-            //string curFile = System.IO.Path.GetFileName(dbPath);
-            //string newDir = dbPath.Replace(@"\db_handel.db", @"\") + "copy\\";
-            //string newPathToFile = System.IO.Path.Combine(copyDestPath, curFile);
+            string dbPath = Properties.Settings.Default.Datenbank;
 
-            if (File.Exists(dbPath) && dbPath.ToLower() != copyDestPath.ToLower())
-            {
-                File.Copy(dbPath, copyDestPath, true);
-            }
-            using (FileStream fs = new FileStream(destPath, FileMode.Create))
-            using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create))
-            {
-                arch.CreateEntryFromFile(copyDestPath, "db_handel.db");
-            }
-
-            /*using (FileStream fs = new FileStream(destPath, FileMode.Create))
-            using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create))
-            {
-                arch.CreateEntryFromFile(copyDestPath, "db_handel.db");
-            }*/
-
-            ////// -------------------
-
-            /*var permissionSet = new PermissionSet(PermissionState.None);
+            // Checking if admin permissions are used
+            var permissionSet = new PermissionSet(PermissionState.None);
             var writePermission = new FileIOPermission(FileIOPermissionAccess.AllAccess, VerzeichnisTextBlock.Text);
             permissionSet.AddPermission(writePermission);
 
             if (permissionSet.IsSubsetOf(AppDomain.CurrentDomain.PermissionSet))
             {
-                
+                // Copy the db file to zip it as the original file might be in use and give access denied error
+                File.Copy(dbPath, copyDestPath, true);
 
-                //try { ZipFile.CreateFromDirectory(Properties.Settings.Default.Datenbank, destPath); }
-                //catch { MessageBox.Show("Directory error!"); }
+                // Compress a single DB file .db by first creating .zip and then adding to it .db
+                using (FileStream fs = new FileStream(destPath, FileMode.Create))
+                using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create)) { arch.CreateEntryFromFile(copyDestPath, "db_handel1.db"); }
             }
-            else
-            {
-                // alternative stuff
-            }*/
+            else { MessageBox.Show("Bitte stellen Sie sicher, dass das Programm mit Administratorrechten geöffnet ist!"); }
 
         }
 
