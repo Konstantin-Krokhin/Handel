@@ -121,9 +121,9 @@ namespace HandelTSE
             string path = SaveDirectoryTextBox.Text;
             if (!Directory.Exists(path)) { Data = list; DatenbankDataGrid.ItemsSource = Data; DatenbankDataGrid.Items.Refresh(); return; }
             
-            string[] files = GetFileNames(path, "*.mdb|*.zip", SearchOption.TopDirectoryOnly);
+            string[] files = GetFileNames(path, "*.mdb|*.zip|*.db", SearchOption.TopDirectoryOnly);
             string[] date = new string[files.Length];
-            string[] size = GetFileSize(path, "*.mdb|*.zip", SearchOption.TopDirectoryOnly, date);
+            string[] size = GetFileSize(path, "*.mdb|*.zip|*.db", SearchOption.TopDirectoryOnly, date);
 
             if (files != null)
             {

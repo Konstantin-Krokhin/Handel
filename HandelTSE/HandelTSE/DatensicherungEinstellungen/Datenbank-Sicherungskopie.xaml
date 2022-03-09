@@ -27,7 +27,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Letzte Datensicherung:" Grid.Column="1" Grid.Row="1" Margin="0, 0"/>
-        <TextBlock Name="Datum" Text="nicht vorhanden" Grid.Column="2" Grid.Row="1" Margin="-20, 0" />
+        <TextBlock Name="Datum" Text="nicht vorhanden" Grid.Column="2" Grid.Row="1" Margin="-15, 0" />
 
         <TextBlock Text="Backup - Verzeichnis:" Grid.Column="1" Grid.Row="2" Margin="0, 5" />
         <TextBlock Name="VerzeichnisTextBlock" Width="340" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3" Margin="5, 0" TextTrimming="WordEllipsis" />

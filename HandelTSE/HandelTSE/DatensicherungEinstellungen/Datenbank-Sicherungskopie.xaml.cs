@@ -29,6 +29,7 @@ namespace HandelTSE.DatensicherungEinstellungen
             InitializeComponent();
 
             VerzeichnisTextBlock.Text = Properties.Settings.Default.Verzeichnis;
+            if (Properties.Settings.Default.LetzteDatensicherung.Any()) Datum.Text = Properties.Settings.Default.LetzteDatensicherung;
         }
 
         private void ProgrammBeenden_Click(object sender, RoutedEventArgs e) { this.Close(); }
@@ -74,15 +75,18 @@ namespace HandelTSE.DatensicherungEinstellungen
 
             if (permissionSet.IsSubsetOf(AppDomain.CurrentDomain.PermissionSet))
             {
-                // Copy the db file to zip it as the original file might be in use and give access denied error
+                // Copy the db file to zip it as the original file might be in use and might give "access denied"error
                 File.Copy(dbPath, copyDestPath, true);
 
                 // Compress a single DB file .db by first creating .zip and then adding to it .db
                 using (FileStream fs = new FileStream(destPath, FileMode.Create))
-                using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create)) { arch.CreateEntryFromFile(copyDestPath, "db_handel1.db"); }
+                using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create)) { arch.CreateEntryFromFile(copyDestPath, "db_handel.db"); }
             }
             else { MessageBox.Show("Bitte stellen Sie sicher, dass das Programm mit Administratorrechten geöffnet ist!"); }
 
+            // Saving the Last Backup date in Property Setting to retrieve it next time the window is open for Datum TextBlock
+            Properties.Settings.Default.LetzteDatensicherung = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
+            Properties.Settings.Default.Save();
             this.Close();
         }
 
@@ -90,6 +94,7 @@ namespace HandelTSE.DatensicherungEinstellungen
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
+                dialog.SelectedPath = VerzeichnisTextBlock.Text;
                 dialog.ShowDialog();
                 if (dialog.SelectedPath != "") VerzeichnisTextBlock.Text = dialog.SelectedPath;
             }
