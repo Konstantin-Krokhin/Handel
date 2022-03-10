@@ -76,7 +76,7 @@ namespace HandelTSE.DatensicherungEinstellungen
             if (permissionSet.IsSubsetOf(AppDomain.CurrentDomain.PermissionSet))
             {
                 // Copy the db file to zip it as the original file might be in use and might give "access denied"error
-                File.Copy(dbPath, copyDestPath, true);
+                //File.Copy(copyDestPath, VerzeichnisTextBlock.Text + "\\copy_db_handel.db", true);
 
                 // Compress a single DB file .db by first creating .zip and then adding to it .db
                 using (FileStream fs = new FileStream(destPath, FileMode.Create))

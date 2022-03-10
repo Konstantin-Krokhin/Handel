@@ -175,5 +175,18 @@ namespace HandelTSE
 
             window.Show();
         }
+
+        private void DatenbankKomprimieren_Click(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(Properties.Settings.Default.Verzeichnis + "\\old_db_handel.db")) File.Delete(Properties.Settings.Default.Verzeichnis + "\\old_db_handel.db");
+            System.IO.File.Move(Properties.Settings.Default.Verzeichnis + "\\db_handel.db", Properties.Settings.Default.Verzeichnis + "\\old_db_handel.db");
+            File.Copy(Properties.Settings.Default.Datenbank, Properties.Settings.Default.Verzeichnis + "\\db_handel.db", true);
+            
+            string caption = "Datenbank komprimieren";
+            string messageBoxText = Properties.Settings.Default.Verzeichnis + "\\db_handel.db" + "\n\nwurde erfolgreich komprimiert.";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+        }
     }
 }
