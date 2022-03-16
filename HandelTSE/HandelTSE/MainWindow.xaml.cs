@@ -29,7 +29,7 @@ namespace HandelTSE
         List<items> it = new List<items>();
         List<items> it2 = new List<items>();
         ProgressBarWindow pb = null;
-
+        
 
         static string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
         public static string path = @"URI=file:" + (System.IO.Path.GetDirectoryName(executable)) + "\\db_handel.db";

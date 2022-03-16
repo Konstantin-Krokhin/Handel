@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HandelTSE.ViewModels;
+using System.Data.SQLite;
 
 namespace HandelTSE.ViewModels
 {

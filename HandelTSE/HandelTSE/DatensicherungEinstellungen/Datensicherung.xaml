@@ -51,7 +51,7 @@
                 </StackPanel>
                 <StackPanel Name="Row2DatenbankEinstellungenStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15, 0">
                     <Button Content="Datenbank komprimieren" Padding="25, 5" Margin="0, 3" Click="DatenbankKomprimieren_Click" />
-                    <Button Content="Verbindung testen" Padding="25, 5" Margin="10, 3, 10, 3" />
+                    <Button Content="Verbindung testen" Padding="25, 5" Margin="10, 3, 10, 3" Click="VerbindungTesten_Click" />
                     <Button Content="speichern" Width="120" Padding="25, 5" Margin="0, 3" Click="DatenbankSpeichernButton_Click" />
                 </StackPanel>
             </StackPanel>

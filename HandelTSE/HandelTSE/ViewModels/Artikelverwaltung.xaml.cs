@@ -12,6 +12,7 @@ using DataGridRow = System.Windows.Controls.DataGridRow;
 using Color = System.Windows.Media.Color;
 using System.Windows.Controls.Primitives;
 using System.Data.SQLite;
+using System.Data.SQLite;
 
 namespace HandelTSE.ViewModels
 {

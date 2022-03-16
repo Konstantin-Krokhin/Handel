@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using HandelTSE.DatensicherungEinstellungen;
 using System.IO;
+using System.Data.SqlClient;
+using System.Data.Common;
+using System.Data.SQLite;
 
 namespace HandelTSE
 {
@@ -25,6 +28,7 @@ namespace HandelTSE
     {
         List<Files> list = new List<Files>();
         public List<Files> Data { get; set; }
+        public string dbExceptionMsg = "";
 
         public class Files
         {
@@ -172,7 +176,6 @@ namespace HandelTSE
         private void DatenbankSicherungskopieClicked(object sender, RoutedEventArgs e)
         {
             Datenbank_Sicherungskopie window = new Datenbank_Sicherungskopie();
-
             window.Show();
         }
 
@@ -187,6 +190,32 @@ namespace HandelTSE
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
             MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+        }
+
+        private void VerbindungTesten_Click(object sender, RoutedEventArgs e)
+        {
+            if (!File.Exists(DatenbankDirectoryTextBox.Text)) { MessageBox.Show("Keine Verbindung mit der Datenbank.\nCould not find file\n'" + DatenbankDirectoryTextBox.Text + "'."); return; }
+
+            if (IsServerConnected() == true) MessageBox.Show("Die Verbindung mit der Datenbank ist erfolgreich.");
+            else MessageBox.Show("Keine Verbindung mit der Datenbank.\n" + dbExceptionMsg + "\n'" + DatenbankDirectoryTextBox.Text + "'.");
+        }
+
+        public bool IsServerConnected()
+        {
+            using (SQLiteConnection db = new SQLiteConnection(@"Data Source=" + DatenbankDirectoryTextBox.Text + ";FailIfMissing=True;"))
+            {
+                try
+                {
+                    db.Open();
+                    using (var transaction = db.BeginTransaction()) { transaction.Rollback(); }
+                }
+                catch (SQLiteException ex)
+                {
+                    dbExceptionMsg = ex.Message;
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
