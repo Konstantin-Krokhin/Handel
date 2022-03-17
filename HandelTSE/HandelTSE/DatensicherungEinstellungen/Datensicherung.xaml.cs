@@ -217,5 +217,71 @@ namespace HandelTSE
             }
             return true;
         }
+
+        private void DatenbankErstbetriebVorbereiten_Click(object sender, RoutedEventArgs e)
+        {
+            string caption = "Daten löschen...";
+            string messageBoxText = "Wollen Sie wirklich die Daten löschen?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    messageBoxText = "WARNUNG!\n\nIhre Daten werden unwiderruflich gelöscht.\n\nSind Sie ganz sicher?";
+                    messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+                    switch (messageResult)
+                    {
+                        case MessageBoxResult.OK:
+                            // ?
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                    }
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+
+        private void WerkeinstellungenWiederherstellen_Click(object sender, RoutedEventArgs e)
+        {
+            string caption = "Information";
+            string messageBoxText = "Wollen Sie wirklich Werkeinstellungen wiederherstellen?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    // ?
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+
+        private void AlsWerkeinstellungenSpeichern_Click(object sender, RoutedEventArgs e)
+        {
+            string caption = "Information";
+            string messageBoxText = "Wollen Sie wirklich die Einstellungen sichern?";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBoxResult messageResult = MessageBox.Show(messageBoxText, caption, button, icon);
+
+            // Process the user choice
+            switch (messageResult)
+            {
+                case MessageBoxResult.OK:
+                    // ?
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
     }
 }
