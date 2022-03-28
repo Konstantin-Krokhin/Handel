@@ -29,6 +29,7 @@ namespace HandelTSE
         List<Files> list = new List<Files>();
         public List<Files> Data { get; set; }
         public string dbExceptionMsg = "";
+        public static SQLiteConnection con;
 
         public class Files
         {
@@ -41,6 +42,7 @@ namespace HandelTSE
         {
             InitializeComponent();
 
+            if (con == null) con = MainWindow.con;
             DatenbankDirectoryTextBox.Text = Properties.Settings.Default.Datenbank;
             SaveDirectoryTextBox.Text = Properties.Settings.Default.Verzeichnis;
 
@@ -235,7 +237,22 @@ namespace HandelTSE
                     switch (messageResult)
                     {
                         case MessageBoxResult.OK:
-                            // ?
+
+                            string[] tables = { "TBL_ProgramEinstellungenKassennetz", "TBL_ProgramEinstellungenDarstellung", "TBL_ProgramEinstellungenFirmendaten", "TBL_ProgramEinstellungenKassendaten", "TBL_PRESSE", "TBL_EANCode", "TBL_PERSONAL", "TBL_Stornogrunde", "TBL_Umsatzsteuer", "TBL_FunktionsEinstellungenProgram", "TBL_FunktionsEinstellungenFunktionen", "TBL_FunktionsEinstellungenAbschlag", "TBL_FunktionsEinstellungenBondrucker", "TBL_FunktionsEinstellungenGutscheine", "TBL_Zahlungen" };
+                            string[] sqlStatements = new string[tables.Count()];
+                            for (int i = 0; i < tables.Count(); i++) { sqlStatements[i] = "DELETE FROM " + tables[i]; }
+
+                            // Run all commands for inserting the records
+                            if (con.State == System.Data.ConnectionState.Closed) con.Open();
+                            SQLiteTransaction transaction = con.BeginTransaction();
+                            foreach (string statement in sqlStatements)
+                                using (SQLiteCommand cmd0 = new SQLiteCommand(statement, con, transaction)) { cmd0.ExecuteNonQuery(); }
+                            transaction.Commit();
+
+                            messageBoxText = "Die Kasse wird für den ersten Betrieb vorbereitet.";
+                            button = MessageBoxButton.OK;
+                            icon = MessageBoxImage.None;
+                            MessageBox.Show(messageBoxText, caption, button, icon);
                             break;
                         case MessageBoxResult.Cancel:
                             break;
