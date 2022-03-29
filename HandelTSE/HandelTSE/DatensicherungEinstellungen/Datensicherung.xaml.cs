@@ -240,7 +240,7 @@ namespace HandelTSE
 
                             string[] tables = { "TBL_ProgramEinstellungenKassennetz", "TBL_ProgramEinstellungenDarstellung", "TBL_ProgramEinstellungenFirmendaten", "TBL_ProgramEinstellungenKassendaten", "TBL_PRESSE", "TBL_EANCode", "TBL_PERSONAL", "TBL_Stornogrunde", "TBL_Umsatzsteuer", "TBL_FunktionsEinstellungenProgram", "TBL_FunktionsEinstellungenFunktionen", "TBL_FunktionsEinstellungenAbschlag", "TBL_FunktionsEinstellungenBondrucker", "TBL_FunktionsEinstellungenGutscheine", "TBL_Zahlungen" };
                             string[] sqlStatements = new string[tables.Count()];
-                            for (int i = 0; i < tables.Count(); i++) { sqlStatements[i] = "DELETE FROM " + tables[i]; }
+                            for (int i = 0; i < tables.Count(); i++) { sqlStatements[i] = "DROP TABLE IF EXISTS " + tables[i]; }
 
                             // Run all commands for inserting the records
                             if (con.State == System.Data.ConnectionState.Closed) con.Open();
