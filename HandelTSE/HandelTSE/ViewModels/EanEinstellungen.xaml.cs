@@ -86,9 +86,9 @@ namespace HandelTSE.ViewModels
             string l = "", savePath = "";
             TabItem ti = EanTabs.SelectedItem as TabItem;
             DataGrid dg = new DataGrid();
-            if (ti.Name == "PreisTabItem") { dg = listOfPreisCodes; savePath = "eancodes_preis.csv"; }
-            else if (ti.Name == "GewichtTabItem") { dg = listOfGewichtCodes; savePath = "eancodes_gewicht.csv"; }
-            else if (ti.Name == "MengeTabItem") { dg = listOfMengeCodes; savePath = "eancodes_menge.csv"; }
+            if (ti.Name == "PreisTabItem") { dg = listOfPreisCodes; savePath = "eancodes_preis.csv"; EntfernenPreis.IsEnabled = false; }
+            else if (ti.Name == "GewichtTabItem") { dg = listOfGewichtCodes; savePath = "eancodes_gewicht.csv"; EntfernenGewicht.IsEnabled = false; }
+            else if (ti.Name == "MengeTabItem") { dg = listOfMengeCodes; savePath = "eancodes_menge.csv"; EntfernenMenge.IsEnabled = false; }
 
             for (int i = 0; i < dg.Items.Count-1; i++)
             {
@@ -138,18 +138,21 @@ namespace HandelTSE.ViewModels
                         dg = listOfPreisCodes;
                         preisCodes.Remove((Code)dg.SelectedItem);
                         dg.ItemsSource = preisCodes;
+                        EntfernenPreis.IsEnabled = false;
                     }
                     else if (ti.Name == "GewichtTabItem") 
                     { 
                         dg = listOfGewichtCodes;
                         gewichtCodes.Remove((Code)dg.SelectedItem);
                         dg.ItemsSource = gewichtCodes;
+                        EntfernenGewicht.IsEnabled = false;
                     }
                     else if (ti.Name == "MengeTabItem") 
                     { 
                         dg = listOfMengeCodes;
                         mengeCodes.Remove((Code)dg.SelectedItem);
                         dg.ItemsSource = mengeCodes;
+                        EntfernenMenge.IsEnabled = false;
                     }
                     
                     dg.Items.Refresh();
@@ -160,5 +163,36 @@ namespace HandelTSE.ViewModels
             // FIX ! TO SAVE RIGHT AFTER DELETED
             //Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
+
+        private void Neu_Click(object sender, RoutedEventArgs e) 
+        {
+            if (EanTabs.SelectedIndex == 0)
+            {
+                preisCodes.Add(new Code { });
+                listOfPreisCodes.ItemsSource = preisCodes;
+                EntfernenPreis.IsEnabled = false;
+                listOfPreisCodes.Items.Refresh();
+            }
+            else if (EanTabs.SelectedIndex == 1)
+            {
+                gewichtCodes.Add(new Code { });
+                listOfGewichtCodes.ItemsSource = gewichtCodes;
+                EntfernenGewicht.IsEnabled = false;
+                listOfGewichtCodes.Items.Refresh();
+            }
+            else if (EanTabs.SelectedIndex == 2)
+            {
+                mengeCodes.Add(new Code { });
+                listOfMengeCodes.ItemsSource = mengeCodes;
+                EntfernenMenge.IsEnabled = false;
+                listOfMengeCodes.Items.Refresh();
+            }
+        }
+
+        private void listOfMengeCodes_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (EntfernenMenge.IsEnabled == false) EntfernenMenge.IsEnabled = true; }
+
+        private void listOfGewichtCodes_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (EntfernenGewicht.IsEnabled == false) EntfernenGewicht.IsEnabled = true; }
+
+        private void listOfPreisCodes_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (EntfernenPreis.IsEnabled == false) EntfernenPreis.IsEnabled = true; }
     }
 }
