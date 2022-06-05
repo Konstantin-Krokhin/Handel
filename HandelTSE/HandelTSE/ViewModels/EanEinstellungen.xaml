@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Gray">
     <Grid>
-        <TabControl Name="EanTabs">
+        <TabControl Name="EanTabs" SelectionChanged="EanTabs_SelectionChanged">
             <TabControl.Resources>
                 <Style TargetType="TextBlock" x:Key="HeaderTextBlockStyle">
                     <Style.Triggers>

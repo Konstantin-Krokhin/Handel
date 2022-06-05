@@ -18,6 +18,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Data.SQLite;
+using HandelTSE.ViewModels;
 
 namespace HandelTSE
 {
@@ -242,7 +243,7 @@ namespace HandelTSE
                             string[] sqlStatements = new string[tables.Count()];
                             for (int i = 0; i < tables.Count(); i++) { sqlStatements[i] = "DROP TABLE IF EXISTS " + tables[i]; }
 
-                            // Run all commands for inserting the records
+                            // Run all commands for dropping (emptying) the records
                             if (con.State == System.Data.ConnectionState.Closed) con.Open();
                             SQLiteTransaction transaction = con.BeginTransaction();
                             foreach (string statement in sqlStatements)
@@ -253,6 +254,14 @@ namespace HandelTSE
                             button = MessageBoxButton.OK;
                             icon = MessageBoxImage.None;
                             MessageBox.Show(messageBoxText, caption, button, icon);
+                            ProgramEinstellungen.con = null;
+                            FunktionsEinstellungen.con = null;
+                            Stornogrunde.con = null;
+                            Umsatzsteuer.con = null;
+                            Zahlungen.con = null;
+                            con = null;
+                            Personalverwaltung.con = null;
+                            PresseUndVMP.con = null;
                             break;
                         case MessageBoxResult.Cancel:
                             break;

@@ -90,7 +90,7 @@ namespace HandelTSE.ViewModels
             else if (ti.Name == "GewichtTabItem") { dg = listOfGewichtCodes; savePath = "eancodes_gewicht.csv"; EntfernenGewicht.IsEnabled = false; }
             else if (ti.Name == "MengeTabItem") { dg = listOfMengeCodes; savePath = "eancodes_menge.csv"; EntfernenMenge.IsEnabled = false; }
 
-            for (int i = 0; i < dg.Items.Count-1; i++)
+            for (int i = 0; i < dg.Items.Count; i++)
             {
                 l = "";
                 DataGridRow dataGridRow = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(i);
@@ -161,7 +161,7 @@ namespace HandelTSE.ViewModels
                     break;
             }
             // FIX ! TO SAVE RIGHT AFTER DELETED
-            //Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private void Neu_Click(object sender, RoutedEventArgs e) 
@@ -194,5 +194,10 @@ namespace HandelTSE.ViewModels
         private void listOfGewichtCodes_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (EntfernenGewicht.IsEnabled == false) EntfernenGewicht.IsEnabled = true; }
 
         private void listOfPreisCodes_SelectionChanged(object sender, SelectionChangedEventArgs e) { if (EntfernenPreis.IsEnabled == false) EntfernenPreis.IsEnabled = true; }
+
+        private void EanTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
     }
 }
