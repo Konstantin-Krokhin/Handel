@@ -1,5 +1,4 @@
 ﻿using HandelTSE.Views;
-using Syncfusion.UI.Xaml.Charts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
