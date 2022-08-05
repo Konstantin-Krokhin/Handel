@@ -54,10 +54,10 @@ namespace HandelTSE
 
             // FOR DEV/TEST Purposes ONLY********************
 
-            ContentWindow.SetValue(Grid.RowProperty, 1);
+            /*ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
-            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 5);*/
             DataContext = new Main();
 
             // FOR Login Screen window
@@ -97,7 +97,7 @@ namespace HandelTSE
 
         private void StatTable_Clicked(object sender, RoutedEventArgs e) { DataContext = new StatTableModel(); }
 
-        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { DataContext = new StatisticsGraphViewModel(); }
+        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { DataContext = new BedienerStatistik(); }// StatisticsGraphViewModel(); }
 
         private void TransParking_Clicked(object sender, RoutedEventArgs e) { DataContext = new TransactionParkingViewModel(); }
 
@@ -196,7 +196,12 @@ namespace HandelTSE
             catch { }
         }
 
-        // Use If constant positioning of the loading ProgressBar needs to be centered inside the Ownder (add LocationChanged="Window_LocationChanged")
+        private void BedienerStatistik(object sender, RoutedEventArgs e)
+        {
+            Content = new BedienerStatistik();
+        }
+
+        // Use If constant positioning of the loading ProgressBar needs to be centered inside the Owner (add LocationChanged="Window_LocationChanged")
         /*private void Window_LocationChanged(object sender, EventArgs e)
         {
             if (pb != null)
