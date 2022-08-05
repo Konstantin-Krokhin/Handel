@@ -16,14 +16,14 @@ namespace HandelTSE {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class BedienerStatistik : ReportClass {
+    public class CrystalReport2 : ReportClass {
         
-        public BedienerStatistik() {
+        public CrystalReport2() {
         }
         
         public override string ResourceName {
             get {
-                return "BedienerStatistik.rpt";
+                return "CrystalReport2.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace HandelTSE {
         
         public override string FullResourceName {
             get {
-                return "HandelTSE.BedienerStatistik.rpt";
+                return "HandelTSE.CrystalReport2.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace HandelTSE {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedBedienerStatistik : Component, ICachedReport {
+    public class CachedCrystalReport2 : Component, ICachedReport {
         
-        public CachedBedienerStatistik() {
+        public CachedCrystalReport2() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace HandelTSE {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            BedienerStatistik rpt = new BedienerStatistik();
+            CrystalReport2 rpt = new CrystalReport2();
             rpt.Site = this.Site;
             return rpt;
         }
