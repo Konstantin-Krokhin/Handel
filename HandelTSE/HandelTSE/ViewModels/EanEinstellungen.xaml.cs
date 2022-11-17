@@ -136,21 +136,24 @@ namespace HandelTSE.ViewModels
                     if (ti.Name == "PreisTabItem") 
                     { 
                         dg = listOfPreisCodes;
-                        preisCodes.Remove((Code)dg.SelectedItem);
+                          if (dg.SelectedItem != null) preisCodes.Remove((Code)dg.SelectedItem);
+                        else return;
                         dg.ItemsSource = preisCodes;
                         EntfernenPreis.IsEnabled = false;
                     }
                     else if (ti.Name == "GewichtTabItem") 
                     { 
                         dg = listOfGewichtCodes;
-                        gewichtCodes.Remove((Code)dg.SelectedItem);
+                          if (dg.SelectedItem != null) gewichtCodes.Remove((Code)dg.SelectedItem);
+                        else return;
                         dg.ItemsSource = gewichtCodes;
                         EntfernenGewicht.IsEnabled = false;
                     }
                     else if (ti.Name == "MengeTabItem") 
                     { 
                         dg = listOfMengeCodes;
-                        mengeCodes.Remove((Code)dg.SelectedItem);
+                          if (dg.SelectedItem != null) mengeCodes.Remove((Code)dg.SelectedItem);
+                        else return;
                         dg.ItemsSource = mengeCodes;
                         EntfernenMenge.IsEnabled = false;
                     }
@@ -160,8 +163,13 @@ namespace HandelTSE.ViewModels
                 case MessageBoxResult.Cancel:
                     break;
             }
+             messageBoxText = "Bitte speichern Sie die Änderungen nach der Verwaltung der Datentabelle!";
+            caption = "Abspeichern der Daten";
+            button = MessageBoxButton.OKCancel;
+            icon = MessageBoxImage.Information;
+            result = MessageBox.Show(messageBoxText, caption, button, icon);
             // FIX ! TO SAVE RIGHT AFTER DELETED
-            Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            //Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private void Neu_Click(object sender, RoutedEventArgs e) 
