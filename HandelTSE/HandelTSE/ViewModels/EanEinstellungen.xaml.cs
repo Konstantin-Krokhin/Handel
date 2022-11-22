@@ -139,6 +139,7 @@ namespace HandelTSE.ViewModels
                           if (dg.SelectedItem != null) preisCodes.Remove((Code)dg.SelectedItem);
                         else return;
                         dg.ItemsSource = preisCodes;
+                        dg.Items.Refresh();
                         EntfernenPreis.IsEnabled = false;
                     }
                     else if (ti.Name == "GewichtTabItem") 
@@ -147,6 +148,7 @@ namespace HandelTSE.ViewModels
                           if (dg.SelectedItem != null) gewichtCodes.Remove((Code)dg.SelectedItem);
                         else return;
                         dg.ItemsSource = gewichtCodes;
+                        dg.Items.Refresh();
                         EntfernenGewicht.IsEnabled = false;
                     }
                     else if (ti.Name == "MengeTabItem") 
@@ -155,19 +157,18 @@ namespace HandelTSE.ViewModels
                           if (dg.SelectedItem != null) mengeCodes.Remove((Code)dg.SelectedItem);
                         else return;
                         dg.ItemsSource = mengeCodes;
+                        dg.Items.Refresh();
                         EntfernenMenge.IsEnabled = false;
                     }
-                    
-                    dg.Items.Refresh();
+                    messageBoxText = "Bitte speichern Sie die Änderungen nach der Verwaltung der Datentabelle!";
+                    caption = "Abspeichern der Daten";
+                    button = MessageBoxButton.OKCancel;
+                    icon = MessageBoxImage.Information;
+                    result = MessageBox.Show(messageBoxText, caption, button, icon);
                     break;
                 case MessageBoxResult.Cancel:
                     break;
             }
-             messageBoxText = "Bitte speichern Sie die Änderungen nach der Verwaltung der Datentabelle!";
-            caption = "Abspeichern der Daten";
-            button = MessageBoxButton.OKCancel;
-            icon = MessageBoxImage.Information;
-            result = MessageBox.Show(messageBoxText, caption, button, icon);
             // FIX ! TO SAVE RIGHT AFTER DELETED
             //Speichern.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }

@@ -81,7 +81,7 @@
 
                     </DataGrid>
                     <Button Grid.Column="3" Content="Neu" Margin="0,5,-80,0" Background="IndianRed" Grid.Row="1" Width="90" Height="40" Click="Neu_Click"/>
-                    <Button Name ="EntfernenGewicht"  Grid.Column="3" Content="Entfernen" Margin="0,5,-80,0" Background="IndianRed" Grid.Row="2" Width="90" Height="40" Click="Entfernen_Click"/>
+                    <Button Name ="EntfernenGewicht" IsEnabled="False" Grid.Column="3" Content="Entfernen" Margin="0,5,-80,0" Background="IndianRed" Grid.Row="2" Width="90" Height="40" Click="Entfernen_Click"/>
                     <Button Name="Speichern2" Grid.Column="3" Content ="Speichern" Margin="0,5,-80,0" Background="ForestGreen" Grid.Row="3" Width="90" Height="40" Click="Speichern_Click"/>
                 </Grid>
             </TabItem>
@@ -113,7 +113,7 @@
 
                     </DataGrid>
                     <Button Grid.Column="3" Content="Neu" Margin="0, 5,-80,0" Background="IndianRed" Grid.Row="1" Width="90" Height="40" Click="Neu_Click"/>
-                    <Button Name ="EntfernenMenge" Grid.Column="3" Content="Entfernen" Margin="0,5,-80,0" Background="IndianRed" Grid.Row="2" Width="90" Height="40" Click="Entfernen_Click"/>
+                    <Button Name ="EntfernenMenge" IsEnabled="False" Grid.Column="3" Content="Entfernen" Margin="0,5,-80,0" Background="IndianRed" Grid.Row="2" Width="90" Height="40" Click="Entfernen_Click"/>
                     <Button Name="Speichern3" Grid.Column="3" Content ="Speichern" Margin="0, 5,-80,0" Background="ForestGreen" Grid.Row="3" Width="90" Height="40" Click="Speichern_Click"/>
                 </Grid>
             </TabItem>
