@@ -95,13 +95,13 @@ namespace HandelTSE
             public string geld { get; set; }
         }
 
-        private void StatTable_Clicked(object sender, RoutedEventArgs e) { DataContext = new StatTableModel(); }
+        private void StatTable_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new StatTableModel(); }
 
-        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { DataContext = new BedienerStatistik(); }// StatisticsGraphViewModel(); }
+        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new BedienerStatistik(); }// StatisticsGraphViewModel(); }
 
-        private void TransParking_Clicked(object sender, RoutedEventArgs e) { DataContext = new TransactionParkingViewModel(); }
+        private void TransParking_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new TransactionParkingViewModel(); }
 
-        private void MwStTool_Clicked(object sender, RoutedEventArgs e) { DataContext = new MwStTool(); }
+        private void MwStTool_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new MwStTool(); }
 
         private void MainWindow_Clicked(object sender, RoutedEventArgs e) { DataContext = new Main(); }
 
@@ -198,7 +198,7 @@ namespace HandelTSE
 
         private void BedienerStatistik(object sender, RoutedEventArgs e)
         {
-            Content = new BedienerStatistik();
+            Content = new BedienerStatistik();  /// ?????
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -208,7 +208,11 @@ namespace HandelTSE
 
         private void GerateManager_Click(object sender, RoutedEventArgs e)
         {
-            Content = new GerateManager();
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 8);
+            DataContext = new GerateManager();
         }
 
         // Use If constant positioning of the loading ProgressBar needs to be centered inside the Owner (add LocationChanged="Window_LocationChanged")
