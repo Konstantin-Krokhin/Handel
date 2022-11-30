@@ -116,26 +116,26 @@ namespace HandelTSE
 
         private void Kasse_Click(object sender, RoutedEventArgs e) { Kasse kasse = new Kasse(); kasse.Show(); }
 
-        private void EanEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new EanEinstellungen(); }
+        private void EanEinstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new EanEinstellungen(); }
 
-        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e) { DataContext = new ArtikelOptionenEinstellungen(); }
+        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new ArtikelOptionenEinstellungen(); }
 
-        private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { DataContext = new Personalverwaltung(); }
+        private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Personalverwaltung(); }
 
         // Close all the connections made in User Control Interfaces
         private void Close_Clicked(object sender, EventArgs e) { con.Close(); }
 
-        private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new ProgramEinstellungen(); }
+        private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new ProgramEinstellungen(); }
 
-        private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { DataContext = new FunktionsEinstellungen(); }
+        private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new FunktionsEinstellungen(); }
 
-        private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { DataContext = new Umsatzsteuer(); }
+        private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Umsatzsteuer(); }
 
-        private void Zahlungen_Click(object sender, RoutedEventArgs e) { DataContext = new Zahlungen(); }
+        private void Zahlungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Zahlungen(); }
 
         private void ProgramBeenden_Click(object sender, RoutedEventArgs e) { this.Close(); }
 
-        private void Stornogrunde_Click(object sender, RoutedEventArgs e) { DataContext = new Stornogrunde(); }
+        private void Stornogrunde_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Stornogrunde(); }
 
         private async void PresseUndVMP_Click(object sender, RoutedEventArgs e) 
         {
@@ -151,7 +151,7 @@ namespace HandelTSE
             DataContext = new PresseUndVMP(); 
         }
 
-        private void Datensicherung_Click(object sender, RoutedEventArgs e) { DataContext = new Datensicherung(); }
+        private void Datensicherung_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Datensicherung(); }
 
         // Loading all newspapers from the list and creating tables in DB
         public async Task LoadData()
@@ -198,7 +198,11 @@ namespace HandelTSE
 
         private void BedienerStatistik(object sender, RoutedEventArgs e)
         {
-            Content = new BedienerStatistik();  /// ?????
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
+            DataContext = new BedienerStatistik();  /// ?????
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

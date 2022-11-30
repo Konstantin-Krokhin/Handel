@@ -11,6 +11,8 @@ dist/
 
 HandelTSE/.vs/
 
+HandelTSE/obj/
+
 HandelTSE/HandelTSE/obj/Debug/
 
 *.suo
