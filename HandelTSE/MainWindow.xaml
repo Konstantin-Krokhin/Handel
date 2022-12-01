@@ -164,7 +164,7 @@
                 <Image Source="/img/print2.1.png" />
             </StackPanel>
         </Button>
-        <Label Content="Warengruppen - Abrechnung" Grid.Column="4" Grid.Row="2"/>
+        <Label Content="Warengruppen - Abrechnung" Width="200" HorizontalAlignment="Left" Grid.Column="4" Grid.Row="2"/>
         <DataGrid Name ="dg2"  Width="330" Grid.Column="4" Grid.Row="3" Grid.RowSpan="6" Height="{Binding ElementName=WindowName,Path=ActualWidth}"/>
 
 
@@ -173,7 +173,7 @@
         <Button Content=">" Grid.Row="5" Height="35" Click="BedienerStatistik" />
         <Button Content=">" Grid.Row="6" Height="35" Click="TransParking_Clicked" />
         <Button Content=">" Grid.Row="7" Height="35" Click="MwStTool_Clicked"/>
-        <ContentControl x:Name="ContentWindow" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="8" Content="{Binding}" />
-
+        <ContentControl x:Name="ContentWindow" Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="8" Visibility="Hidden" SizeChanged="ContentWindow_SizeChanged" Content="{Binding}" />
+        
     </Grid>
 </Window>

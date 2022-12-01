@@ -111,7 +111,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new HandelTSE.ViewModels.Artikelverwaltung();
+            DataContext = new Artikelverwaltung();
         }
 
         private void Kasse_Click(object sender, RoutedEventArgs e) { Kasse kasse = new Kasse(); kasse.Show(); }
@@ -202,7 +202,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new BedienerStatistik();  /// ?????
+            DataContext = new BedienerStatistik();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -217,6 +217,16 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 8);
             DataContext = new GerateManager();
+        }
+
+        private void ContentWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            
+        } //DataContextChanged="ContentWindow_DataContextChanged" 
+
+        private void ContentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ContentWindow.Visibility == Visibility.Hidden) ContentWindow.Visibility = Visibility.Visible;
         }
 
         // Use If constant positioning of the loading ProgressBar needs to be centered inside the Owner (add LocationChanged="Window_LocationChanged")

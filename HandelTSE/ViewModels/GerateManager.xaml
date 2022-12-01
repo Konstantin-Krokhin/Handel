@@ -82,14 +82,20 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="20"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -97,10 +103,36 @@
                         <RowDefinition Height= "*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
-                    
-                    
-                    
-                    </Grid>
+
+                    <CheckBox Name="A4DruckerCheckbox" VerticalContentAlignment="Center" Content="A4 - Drucker" Grid.Column="1" Grid.Row="1" Margin="10" Checked="A4DruckerCheckbox_Checked" Unchecked="A4DruckerCheckbox_Unchecked" />
+                    <TextBlock Text = "Drucker:" Grid.Row="2" Grid.Column="1"  Margin="10, 10, 10, 10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                    <ComboBox Name="A4PrinterComboBox" Grid.Row="2" Grid.Column="2" SelectedIndex="4" HorizontalAlignment="Center" Padding="10, 1" Width="300" Height="25" IsEnabled="False" >
+                        <ComboBoxItem Content="Print to PDF (Mac Desktop)" />
+                        <ComboBoxItem Content="Microsoft Print to PDF" />
+                        <ComboBoxItem Content="Microsoft XPS Document Writer" />
+                        <ComboBoxItem Content="HP DesignJet T630 36-in" />
+                        <ComboBoxItem Content="printer-event (c9:ba:f8) (3)" />
+                    </ComboBox>
+                    <Button Name="A4testenButton" Content="testen..." IsEnabled="False" Grid.Row="2" Grid.Column="3" Padding="20, 0" Height="30" Margin="10, 0" />
+
+                    <CheckBox Name="EtikettenDruckerCheckbox" VerticalContentAlignment="Center" Content="Etikettendrucker" Grid.Column="1" Grid.Row="4" Margin="10" Checked="EtikettenDruckerCheckbox_Checked" Unchecked="EtikettenDruckerCheckbox_Unchecked" />
+                    <TextBlock Text = "Drucker:" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1"  Margin="10, 10, 10, 10"/>
+                    <ComboBox Name="EtikettPrinterComboBox" Padding="10, 1" Grid.Row="5" Grid.Column="2" SelectedIndex="4" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="300" Height="25" IsEnabled="False" >
+                        <ComboBoxItem Content="Print to PDF (Mac Desktop)" />
+                        <ComboBoxItem Content="Microsoft Print to PDF" />
+                        <ComboBoxItem Content="Microsoft XPS Document Writer" />
+                        <ComboBoxItem Content="HP DesignJet T630 36-in" />
+                        <ComboBoxItem Content="printer-event (c9:ba:f8) (3)" />
+                    </ComboBox>
+                    <Button Name="EtikettButton" Content="testen..." IsEnabled="False" Grid.Row="5" Grid.Column="3" Padding="20, 0" Height="30" Margin="10, 0" />
+                    <TextBlock Text = "Vorlage:" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1"  Margin="10, 10, 10, 10"/>
+                    <TextBox Name="VorlageTextBox" Grid.Row="6" Grid.Column="2" Height="25" IsEnabled="False" />
+                    <Button Name="VorlageButton" Content="Vorlage laden..." IsEnabled="False" Grid.Row="6" Grid.Column="3" Padding="20, 0" Height="30" Margin="10, 0" />
+                    <Button Name="VorschauButton" Content="Vorschau" IsEnabled="False" Grid.Row="7" Grid.Column="2" Width="150" HorizontalAlignment="Left" Padding="20, 0" Height="30" Margin="0, 0" />
+
+
+
+                </Grid>
             </TabItem>
 
             <TabItem Name="ScannerTab" FontSize="16">

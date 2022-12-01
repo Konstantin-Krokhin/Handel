@@ -39,5 +39,38 @@ namespace HandelTSE.ViewModels
         {
 
         }
+
+        private void A4DruckerCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (A4DruckerCheckbox.IsChecked == true)
+            {
+                A4PrinterComboBox.IsEnabled = true;
+                A4testenButton.IsEnabled = true;
+            }
+        }
+
+        private void EtikettenDruckerCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            EtikettPrinterComboBox.IsEnabled = true;
+            EtikettButton.IsEnabled = true;
+            VorlageTextBox.IsEnabled = true;
+            VorlageButton.IsEnabled = true;
+            VorschauButton.IsEnabled = true;
+        }
+
+        private void A4DruckerCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            A4PrinterComboBox.IsEnabled = false;
+            A4testenButton.IsEnabled = false;
+        }
+
+        private void EtikettenDruckerCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            EtikettPrinterComboBox.IsEnabled = false;
+            EtikettButton.IsEnabled = false;
+            VorlageTextBox.IsEnabled = false;
+            VorlageButton.IsEnabled = false;
+            VorschauButton.IsEnabled = false;
+        }
     }
 }
