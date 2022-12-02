@@ -7,18 +7,18 @@
 node_modules/
 dist/
 
-.vs/
+# .vs/
 
-HandelTSE/.vs/
+# HandelTSE/.vs/
 
-# *.g.cs
-# *.g.i.cs
-# *.baml
-# *.csproj*
-# *.resources
-# *.cache
+*.g.cs
+*.g.i.cs
+*.baml
+*.csproj*
+*.resources
+*.cache
 
-*.suo
+# *.suo
 
 Debug/.dll
 
