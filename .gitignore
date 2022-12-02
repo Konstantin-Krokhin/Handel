@@ -11,12 +11,12 @@ dist/
 
 HandelTSE/.vs/
 
-*.g.cs
-*.g.i.cs
-*.baml
-*.csproj*
-*.resources
-*.cache
+# *.g.cs
+# *.g.i.cs
+# *.baml
+# *.csproj*
+# *.resources
+# *.cache
 
 *.suo
 
