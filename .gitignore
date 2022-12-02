@@ -11,9 +11,12 @@ dist/
 
 HandelTSE/.vs/
 
-HandelTSE/obj/
-
-HandelTSE/HandelTSE/obj/Debug/
+*.g.cs
+*.g.i.cs
+*.baml
+*.csproj*
+*.resources
+*.cache
 
 *.suo
 
