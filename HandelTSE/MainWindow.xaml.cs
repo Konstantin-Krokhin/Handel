@@ -58,7 +58,7 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 5);*/
-            DataContext = new Main();
+            DataContext = null;
 
             // FOR Login Screen window
             /*if (ViewModels.Globals.opened == 0)
@@ -69,7 +69,7 @@ namespace HandelTSE
             //*******************************************
 
             // FOR SHOWING MAIN WINDOW FIRST (COMMENT IN ORDER to WORK ON other pages for convenience)
-            /*
+            
             dateBlock.Text = "Heute ist der " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
             it.Add(new items { titel = "Umsatz gesamt:", geld = "0 EUR" });
@@ -85,7 +85,7 @@ namespace HandelTSE
             for (int i = 0; i < 30; i++) it2.Add(new items { titel = "", geld = "" });
 
             dg2.ItemsSource = it2;
-            */
+            
         }
 
 
@@ -95,47 +95,55 @@ namespace HandelTSE
             public string geld { get; set; }
         }
 
-        private void StatTable_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new StatTableModel(); }
+        private void StatTable_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 1); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new StatTableModel(); }
 
-        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new BedienerStatistik(); }// StatisticsGraphViewModel(); }
+        private void StatGraph_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 1); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new BedienerStatistik(); }// StatisticsGraphViewModel(); }
 
-        private void TransParking_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new TransactionParkingViewModel(); }
+        private void TransParking_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 1); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new TransactionParkingViewModel(); }
 
-        private void MwStTool_Clicked(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new MwStTool(); }
+        private void MwStTool_Clicked(object sender, RoutedEventArgs e) { }//ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new MwStTool(); }
 
-        private void MainWindow_Clicked(object sender, RoutedEventArgs e) { DataContext = new Main(); }
+        private void MainWindow_Clicked(object sender, RoutedEventArgs e) {
+            ContentWindow.SetValue(Grid.RowProperty, 2);
+            ContentWindow.SetValue(Grid.ColumnProperty, 3);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 1);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 1);
+            DataContext = null;
+        }//DataContext = new Main(); }
 
         private void Artikelverwaltung_Click(object sender, RoutedEventArgs e)
         {
             ContentWindow.SetValue(Grid.RowProperty, 1);
             ContentWindow.SetValue(Grid.ColumnProperty, 0);
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
-            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 8);
             DataContext = new Artikelverwaltung();
         }
 
         private void Kasse_Click(object sender, RoutedEventArgs e) { Kasse kasse = new Kasse(); kasse.Show(); }
 
-        private void EanEinstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new EanEinstellungen(); }
+        private void EanEinstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new EanEinstellungen(); }
 
-        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new ArtikelOptionenEinstellungen(); }
+        private void ArtikelOptionen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new ArtikelOptionenEinstellungen(); }
 
-        private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Personalverwaltung(); }
+        private void Personalverwaltung_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Personalverwaltung(); }
 
         // Close all the connections made in User Control Interfaces
         private void Close_Clicked(object sender, EventArgs e) { con.Close(); }
 
-        private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new ProgramEinstellungen(); }
+        private void ProgramEinstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new ProgramEinstellungen(); }
 
-        private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new FunktionsEinstellungen(); }
+        private void FunktionsEnstellungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new FunktionsEinstellungen(); }
 
-        private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Umsatzsteuer(); }
+        private void Umsatzsteuer_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Umsatzsteuer(); }
 
-        private void Zahlungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Zahlungen(); }
+        private void Zahlungen_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Zahlungen(); }
 
         private void ProgramBeenden_Click(object sender, RoutedEventArgs e) { this.Close(); }
 
-        private void Stornogrunde_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Stornogrunde(); }
+        private void Stornogrunde_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Stornogrunde(); }
+
+        private void Datensicherung_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.RowProperty, 1); ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.RowSpanProperty, 8); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Datensicherung(); }
 
         private async void PresseUndVMP_Click(object sender, RoutedEventArgs e) 
         {
@@ -151,14 +159,40 @@ namespace HandelTSE
             DataContext = new PresseUndVMP(); 
         }
 
-        private void Datensicherung_Click(object sender, RoutedEventArgs e) { ContentWindow.SetValue(Grid.ColumnProperty, 0); ContentWindow.SetValue(Grid.ColumnSpanProperty, 7); DataContext = new Datensicherung(); }
+        private void BedienerStatistik(object sender, RoutedEventArgs e)
+        {
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 8); // 5
+            DataContext = new BedienerStatistik();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GerateManager_Click(object sender, RoutedEventArgs e)
+        {
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 8);
+            DataContext = new GerateManager();
+        }
+
+        private void ContentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ContentWindow.Visibility == Visibility.Hidden) ContentWindow.Visibility = Visibility.Visible;
+        }
 
         // Loading all newspapers from the list and creating tables in DB
         public async Task LoadData()
         {
             string str = "";
             SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE [TBL_PRESSE] ([Id] COUNTER, [CEAN] TEXT(55), [CNAME] TEXT(55))", con);
-            
+
             try
             {
                 cmd.ExecuteNonQuery();
@@ -194,39 +228,6 @@ namespace HandelTSE
                 transaction.Commit();
             }
             catch { }
-        }
-
-        private void BedienerStatistik(object sender, RoutedEventArgs e)
-        {
-            ContentWindow.SetValue(Grid.RowProperty, 1);
-            ContentWindow.SetValue(Grid.ColumnProperty, 0);
-            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
-            ContentWindow.SetValue(Grid.RowSpanProperty, 5);
-            DataContext = new BedienerStatistik();
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void GerateManager_Click(object sender, RoutedEventArgs e)
-        {
-            ContentWindow.SetValue(Grid.RowProperty, 1);
-            ContentWindow.SetValue(Grid.ColumnProperty, 0);
-            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
-            ContentWindow.SetValue(Grid.RowSpanProperty, 8);
-            DataContext = new GerateManager();
-        }
-
-        private void ContentWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            
-        } //DataContextChanged="ContentWindow_DataContextChanged" 
-
-        private void ContentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (ContentWindow.Visibility == Visibility.Hidden) ContentWindow.Visibility = Visibility.Visible;
         }
 
         // Use If constant positioning of the loading ProgressBar needs to be centered inside the Owner (add LocationChanged="Window_LocationChanged")
