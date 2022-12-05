@@ -72,5 +72,51 @@ namespace HandelTSE.ViewModels
             VorlageButton.IsEnabled = false;
             VorschauButton.IsEnabled = false;
         }
+
+        private void KundenanzeigeCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            AnschlussComboBox.IsEnabled = true;
+            AnschlusstestenButton.IsEnabled = true;
+            BegrussungstextButton.IsEnabled = true;
+            EinstellungenButton.IsEnabled = true;
+        }
+
+        private void KundenanzeigeCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AnschlussComboBox.IsEnabled = false;
+            AnschlusstestenButton.IsEnabled = false;
+            BegrussungstextButton.IsEnabled = false;
+            EinstellungenButton.IsEnabled = false;
+        }
+
+        private void KundendisplayCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            KundendisplayButton.IsEnabled = false;
+            BTextBox.IsEnabled = false;
+            HTextBox.IsEnabled = false;
+            HintergrundbildTextBox.IsEnabled = false;
+            runterladenButton.IsEnabled = false;
+            BildBTextBox.IsEnabled = false;
+            BildHTextBox.IsEnabled = false;
+            LogoTextBox.IsEnabled = false;
+            logoRunterladenButton.IsEnabled = false;
+            BegrüßungTextBox.IsEnabled = false;
+            BegrussungNachBondruckTextBox.IsEnabled = false;
+        }
+
+        private void KundendisplayCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            KundendisplayButton.IsEnabled = true;
+            BTextBox.IsEnabled = true;
+            HTextBox.IsEnabled = true;
+            HintergrundbildTextBox.IsEnabled = true;
+            runterladenButton.IsEnabled = true;
+            BildBTextBox.IsEnabled = true;
+            BildHTextBox.IsEnabled = true;
+            LogoTextBox.IsEnabled = true;
+            logoRunterladenButton.IsEnabled = true;
+            BegrüßungTextBox.IsEnabled = true;
+            BegrussungNachBondruckTextBox.IsEnabled = true;
+        }
     }
 }

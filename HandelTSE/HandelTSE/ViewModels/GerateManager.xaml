@@ -43,9 +43,9 @@
                         <RowDefinition Height= "*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
+
                     
-                    
-                    
+
                 </Grid>
             </TabItem>
             <TabItem Name="KundendisplayTab" FontSize="16">
@@ -55,9 +55,9 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="20"/>
@@ -67,13 +67,55 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height= "*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
-                    
-                    
-                    
-                    </Grid>
+
+                    <CheckBox Name="KundenanzeigeCheckbox" VerticalContentAlignment="Center" Content="Kundenanzeige" Grid.Column="1" Grid.Row="1" Margin="10, 20, 10, 0" Checked="KundenanzeigeCheckbox_Checked" Unchecked="KundenanzeigeCheckbox_Unchecked" />
+                    <TextBlock Text = "Anschluß:" Grid.Row="2" Grid.Column="1"  Margin="35, 10, 10, 10" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                    <ComboBox Name="AnschlussComboBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" SelectedIndex="0" HorizontalAlignment="Center" Padding="10, 1" Width="300" Height="25" IsEnabled="False" Margin="110, 0" >
+                        <ComboBoxItem Content=" " />
+                    </ComboBox>
+                    <Button Name="AnschlusstestenButton" Content="testen..." IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Right" />
+                    <Button Name="BegrussungstextButton" Content="Begrüßungstext" IsEnabled="False" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Grid.ColumnSpan="2" Width="170" Padding="20, 0" Height="30" Margin="-130, 10, 0, 5" />
+                    <Button Name="EinstellungenButton" Content="Einstellungen" IsEnabled="False" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="170" Padding="20, 0" Height="30" Margin="-130, 0, 0, 10" />
+
+
+                    <CheckBox Name="KundendisplayCheckbox" VerticalContentAlignment="Center" Content="Kundendisplay" Grid.Column="1" Grid.Row="5" Margin="10, 10, 10, 0" Checked="KundendisplayCheckbox_Checked" Unchecked="KundendisplayCheckbox_Unchecked" />
+                    <Button Name="KundendisplayButton" Content="testen..." IsEnabled="False" Grid.Row="5" Grid.Column="1" Width="130" HorizontalAlignment="Center" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Padding="20, 0" Height="30" Margin="-90, 10, 0, 0" />
+                    <TextBlock Text = "Displaygröße (B x H):" Grid.Row="6" Grid.Column="1"  Margin="35, 0, 0, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="BTextBox" Width="60" Height="23" Text="800" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="2" Margin="3, 0" />
+                    <TextBox Name="HTextBox" Width="60" Height="23" Text="600" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Grid.Row="6" Grid.Column="2" Margin="3, 0" />
+                    <TextBlock Text = "X" Grid.Row="6" Grid.Column="2"  Margin="93, 10, 10, 10" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+
+                    <TextBlock Text = "Hintergrundbild:" Grid.Row="7" Grid.Column="1"  Margin="35, 0, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="HintergrundbildTextBox" Width="300" Height="23" Text="" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="2" Margin="3, 0" />
+                    <Button Name="runterladenButton" Content="runterladen..." IsEnabled="False" Grid.Row="7" Grid.Column="3" Padding="20, 0" Height="30" Margin="0, 0" />
+
+                    <TextBlock Text = "Bildgröße (B x H):" Grid.Row="8" Grid.Column="1"  Margin="35, 0, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="BildBTextBox" Width="60" Height="23" Text="" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="2" Margin="3, 0" />
+                    <TextBox Name="BildHTextBox" Width="60" Height="23" Text="" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Grid.Row="8" Grid.Column="2" Margin="3, 0" />
+                    <TextBlock Text = "X" Grid.Row="8" Grid.Column="2"  Margin="93, 10, 10, 10" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+
+                    <TextBlock Text = "Logo:" Grid.Row="9" Grid.Column="1"  Margin="35, 0, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="LogoTextBox" Width="300" Height="23" Text="" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="2" Margin="3, 0" />
+                    <Button Name="logoRunterladenButton" Content="runterladen..." IsEnabled="False" Grid.Row="9" Grid.Column="3" Padding="20, 0" Height="30" Margin="0, 0" />
+
+                    <TextBlock Text = "Begrüßung beim Start der Kasse:" Grid.ColumnSpan="2" Grid.Row="10" Grid.Column="1"  Margin="35, 0, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="BegrüßungTextBox" Grid.ColumnSpan="2" Width="300" Height="23" Text="Herzlich Willkommen!" IsEnabled="False" HorizontalContentAlignment="Left" HorizontalAlignment="Center" Grid.Row="10" Grid.Column="2" Margin="100, 10" />
+
+                    <TextBlock Text = "Begrüßung nach Bondruck:" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Margin="35, 0, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <TextBox Name="BegrussungNachBondruckTextBox" Grid.ColumnSpan="2" Width="300" Height="23" Text="Danke für Ihren Einkauf!" IsEnabled="False" HorizontalContentAlignment="Left" HorizontalAlignment="Center" Grid.Row="11" Grid.Column="2" Margin="40, 0" />
+                
+                </Grid>
             </TabItem>
             <TabItem Name="WeitereDruckerTab" FontSize="16">
                 <TabItem.Header>
