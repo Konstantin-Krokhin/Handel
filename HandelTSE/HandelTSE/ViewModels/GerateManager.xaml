@@ -27,10 +27,12 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="278.5"/>
-                        <ColumnDefinition Width="141.5"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="20"/>
@@ -40,11 +42,117 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height= "*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
+                    <CheckBox Name="BondruckerCheckbox" VerticalContentAlignment="Center" Content="Bondrucker" Grid.Column="1" Grid.Row="1" Margin="10, 20, 0, 0" Checked="BondruckerCheckbox_Checked" Unchecked="BondruckerCheckbox_Unchecked" />
+                    <ComboBox Name="BondruckerComboBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Padding="10, 1" Width="200" Height="25" IsEnabled="False" Margin="32,5, 0, 5" >
+                            <ComboBoxItem Content="Print to PDF (Mac Desktop)" />
+                            <ComboBoxItem Content="Microsoft Print to PDF" />
+                            <ComboBoxItem Content="Microsoft XPS Document Writer" />
+                            <ComboBoxItem Content="HP DesignJet T630 36-in" />
+                            <ComboBoxItem Content="printer-event (c9:ba:f8) (3)" />
+                    </ComboBox>
+                    <Button Name="BondruckertestenButton" Content="testen..." IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Left" />
+                    <Button Name="weitereEinstellungenButton" Content="weitere Einstellungen" IsEnabled="False" Grid.Row="2" Grid.Column="4" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Left" />
+
+                    <GroupBox Name="GeldKassenladeGroupBox" IsEnabled="false" Width="745" Height="65" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="8" Margin="5, 0, 5, 0">
+                        <GroupBox.Header>
+                            <CheckBox Name ="GeldKassenladeCheckBox" IsEnabled="false" Content="Geld-Kassenlade" Checked="GeldKassenladeCheckBox_Checked" Unchecked="GeldKassenladeCheckBox_Unchecked" />
+                        </GroupBox.Header>
+
+                        <StackPanel Name="GeldKassenladeStackPanel" Orientation="Vertical" Margin="5, 0">
+                            <StackPanel Name="Row1GeldKassenladeStackPanel" Orientation="Horizontal" Margin="5, 5">
+
+                                <RadioButton Name="SteuerungRadioButton" Content="Steuerung über Bondrucker" IsEnabled="False" IsChecked="True" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="10, 0" />
+                                <RadioButton Name="AnderenAnschlussRadioButton" Content="anderen Anschluß" IsEnabled="False" Checked="AnschlussRadioButton_Checked" Unchecked="AnschlussRadioButton_Unchecked" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="1" Margin="10, 0" />
+
+                                <ComboBox Name="anderenAnschlussComboBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Padding="10, 1" Width="150" Height="25" IsEnabled="False" Margin="10,5, 0, 5" >
+                                    <ComboBoxItem Content="" />
+                                </ComboBox>
+                                <Button Name="anderenAnschlusstestenButton" Content="testen..." IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
+
+
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </GroupBox>
+
+
+                    <CheckBox Name="Bondrucker2Checkbox" VerticalContentAlignment="Center" Content="Bondrucker 2" Grid.Column="1" Grid.Row="4" Margin="10, 20, 0, 0" Checked="Bondrucker2Checkbox_Checked" Unchecked="Bondrucker2Checkbox_Unchecked" />
+                    <ComboBox Name="Bondrucker2ComboBox" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Padding="10, 1" Width="200" Height="25" IsEnabled="False" Margin="32,5, 0, 5" >
+                        <ComboBoxItem Content="Print to PDF (Mac Desktop)" />
+                        <ComboBoxItem Content="Microsoft Print to PDF" />
+                        <ComboBoxItem Content="Microsoft XPS Document Writer" />
+                        <ComboBoxItem Content="HP DesignJet T630 36-in" />
+                        <ComboBoxItem Content="printer-event (c9:ba:f8) (3)" />
+                    </ComboBox>
+                    <Button Name="Bondruckertesten2Button" Content="testen..." IsEnabled="False" Grid.Row="5" Grid.Column="2" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Left" />
+                    <Button Name="weitereEinstellungen2Button" Content="weitere Einstellungen" IsEnabled="False" Grid.Row="5" Grid.Column="4" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Left" />
+
+                    <GroupBox Name="GeldKassenlade2GroupBox" IsEnabled="false" Width="745" Height="65" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="8" Margin="5, 0, 5, 0">
+                        <GroupBox.Header>
+                            <CheckBox Name ="GeldKassenlade2CheckBox"  IsEnabled="false" Content="Geld-Kassenlade" Checked="GeldKassenlade2CheckBox_Checked" Unchecked="GeldKassenlade2CheckBox_Unchecked" />
+                        </GroupBox.Header>
+
+                        <StackPanel Name="GeldKassenlade2StackPanel" Orientation="Vertical" Margin="5, 0">
+                            <StackPanel Name="Row1GeldKassenlade2StackPanel" Orientation="Horizontal" Margin="5, 5">
+
+                                <RadioButton Name="Steuerung2RadioButton" Content="Steuerung über Bondrucker" IsEnabled="False" IsChecked="True" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="10, 0" />
+                                <RadioButton Name="AnderenAnschluss2RadioButton" Content="anderen Anschluß" IsEnabled="False" Checked="Anschluss2RadioButton_Checked" Unchecked="Anschluss2RadioButton_Unchecked" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="1" Margin="10, 0" />
+
+                                <ComboBox Name="anderenAnschluss2ComboBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Padding="10, 1" Width="150" Height="25" IsEnabled="False" Margin="10,5, 0, 5" >
+                                    <ComboBoxItem Content="" />
+                                </ComboBox>
+                                <Button Name="anderenAnschlusstesten2Button" Content="testen..." IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
+
+
+                            </StackPanel>
+                        </StackPanel>
+
+                    </GroupBox>
                     
+                    
+
+                    <CheckBox Name="Bondrucker3Checkbox" VerticalContentAlignment="Center" Content="Bondrucker 3" Grid.Column="1" Grid.Row="7" Margin="10, 20, 0, 0" Checked="Bondrucker3Checkbox_Checked" Unchecked="Bondrucker3Checkbox_Unchecked" />
+                    <ComboBox Name="Bondrucker3ComboBox" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" Padding="10, 1" Width="200" Height="25" IsEnabled="False" Margin="32,5, 0, 5" >
+                        <ComboBoxItem Content="Print to PDF (Mac Desktop)" />
+                        <ComboBoxItem Content="Microsoft Print to PDF" />
+                        <ComboBoxItem Content="Microsoft XPS Document Writer" />
+                        <ComboBoxItem Content="HP DesignJet T630 36-in" />
+                        <ComboBoxItem Content="printer-event (c9:ba:f8) (3)" />
+                    </ComboBox>
+                    <Button Name="Bondruckertesten3Button" Content="testen..." IsEnabled="False" Grid.Row="8" Grid.Column="2" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Left" />
+                    <Button Name="weitereEinstellungen3Button" Content="weitere Einstellungen" IsEnabled="False" Grid.Row="8" Grid.Column="4" Padding="20, 0" Height="30" Margin="10, 0" HorizontalAlignment="Left" />
+
+                    <GroupBox Name="GeldKassenlade3GroupBox" IsEnabled="false" Width="745" Height="65" Grid.Row="9" Grid.Column="1" VerticalAlignment="Top" Grid.RowSpan="1" Grid.ColumnSpan="8" Margin="5, 0, 5, 0">
+                        <GroupBox.Header>
+                            <CheckBox Name ="GeldKassenlade3CheckBox"  IsEnabled="false" Content="Geld-Kassenlade" Checked="GeldKassenlade3CheckBox_Checked" Unchecked="GeldKassenlade3CheckBox_Unchecked" />
+                        </GroupBox.Header>
+
+                        <StackPanel Name="GeldKassenlade3StackPanel" Orientation="Vertical" Margin="5, 0">
+                            <StackPanel Name="Row1GeldKassenlade3StackPanel" Orientation="Horizontal" Margin="5, 5">
+
+                                <RadioButton Name="Steuerung3RadioButton" Content="Steuerung über Bondrucker" IsEnabled="False" IsChecked="True" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="10, 0" />
+                                <RadioButton Name="AnderenAnschluss3RadioButton" Content="anderen Anschluß" IsEnabled="False" Checked="Anschluss3RadioButton_Checked" Unchecked="Anschluss3RadioButton_Unchecked" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="1" Margin="10, 0" />
+
+                                <ComboBox Name="anderenAnschluss3ComboBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Padding="10, 1" Width="150" Height="25" IsEnabled="False" Margin="10,5, 0, 5" >
+                                    <ComboBoxItem Content="" />
+                                </ComboBox>
+                                <Button Name="anderenAnschlusstesten3Button" Content="testen..." IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
+
+
+                            </StackPanel>
+                        </StackPanel>
+
+                    </GroupBox>
 
                 </Grid>
             </TabItem>
