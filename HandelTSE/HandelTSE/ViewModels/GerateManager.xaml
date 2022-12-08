@@ -197,12 +197,21 @@
                     <Button Name="EinstellungenButton" Content="Einstellungen" IsEnabled="False" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="170" Padding="20, 0" Height="30" Margin="-130, 0, 0, 10" />
 
 
-                    <CheckBox Name="KundendisplayCheckbox" VerticalContentAlignment="Center" Content="Kundendisplay" Grid.Column="1" Grid.Row="5" Margin="10, 10, 10, 0" Checked="KundendisplayCheckbox_Checked" Unchecked="KundendisplayCheckbox_Unchecked" />
-                    <Button Name="KundendisplayButton" Content="testen..." IsEnabled="False" Grid.Row="5" Grid.Column="1" Width="130" HorizontalAlignment="Center" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Padding="20, 0" Height="30" Margin="-90, 10, 0, 0" />
+                    <CheckBox Name="KundendisplayCheckbox" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Kundendisplay" Grid.Column="1" Grid.Row="5" Margin="10, 0, 10, 0" Checked="KundendisplayCheckbox_Checked" Unchecked="KundendisplayCheckbox_Unchecked" />
+                    <Button Name="KundendisplayButton" Content="testen..." IsEnabled="False" Grid.Row="5" Grid.Column="1" Width="130" HorizontalAlignment="Center" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="20, 0" Height="30" Margin="-90, 0, 0, 0" />
                     <TextBlock Text = "Displaygröße (B x H):" Grid.Row="6" Grid.Column="1"  Margin="35, 0, 0, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <TextBox Name="BTextBox" Width="60" Height="23" Text="800" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="2" Margin="3, 0" />
                     <TextBox Name="HTextBox" Width="60" Height="23" Text="600" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Grid.Row="6" Grid.Column="2" Margin="3, 0" />
                     <TextBlock Text = "X" Grid.Row="6" Grid.Column="2"  Margin="93, 10, 10, 10" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                    <Button Name="FirstcolorButton" Style="{StaticResource LightBlueButton}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Width="40" Height="35">
+                        
+                    </Button>
+                    <Button Name="SecondcolorButton" Style="{StaticResource NavyButton}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Width="40" Height="35" Margin="100, 0, 0, 0" />
+                    <Button Name="ThirdcolorButton" Style="{StaticResource DarkYellowButton}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Width="40" Height="35" Margin="200, 0, 0, 0" />
+                    <Button Name="FourthcolorButton" Style="{StaticResource PurpleButton}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Width="40" Height="35" Grid.ColumnSpan="2" Margin="135, 0, 0, 0" />
+                    <Button Name="FifthcolorButton" Style="{StaticResource GreenButton}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" Width="40" Height="35" HorizontalAlignment="Left" Margin="12, 0" />
+                    <Button Name="SixthcolorButton" Style="{StaticResource RedButton}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" Width="40" Height="35" />
+
 
                     <TextBlock Text = "Hintergrundbild:" Grid.Row="7" Grid.Column="1"  Margin="35, 0, 10, 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <TextBox Name="HintergrundbildTextBox" Width="300" Height="23" Text="" IsEnabled="False" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="2" Margin="3, 0" />
