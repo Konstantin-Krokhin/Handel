@@ -4,10 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HandelTSE.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
         <TabControl Name="GerateManagerTabs" SelectionChanged="GerateManagerTabs_SelectionChanged">
+
+            <TabControl.Template>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid ClipToBounds="True" KeyboardNavigation.TabNavigation="Local" SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Name="ColumnDefinition0" Width="*"/>
+                            <ColumnDefinition Name="ColumnDefinition4" Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel
+                  Name="HeaderPanel"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  Margin="2,2,2,0"
+                  Panel.ZIndex="1"
+                  IsItemsHost="True"
+                  KeyboardNavigation.TabIndex="1"/>
+                        <Border
+                  Name="ContentPanel"
+                  Grid.Column="0"
+                  Grid.Row="1"
+                  Background="{TemplateBinding Panel.Background}"
+                  BorderBrush="{TemplateBinding Border.BorderBrush}"
+                  BorderThickness="{TemplateBinding Border.BorderThickness}"
+                  KeyboardNavigation.DirectionalNavigation="Contained"
+                  KeyboardNavigation.TabIndex="2"
+                  KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter
+                     Name="PART_SelectedContentHost"
+                     Margin="{TemplateBinding Control.Padding}"
+                     Content="{TemplateBinding TabControl.SelectedContent}"
+                     ContentSource="SelectedContent"
+                     ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}"
+                     ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}"
+                     SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </TabControl.Template>
+
             <TabControl.Resources>
                 <Style TargetType="TextBlock" x:Key="HeaderTextBlockStyle">
                     <Style.Triggers>
@@ -18,7 +61,17 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
+                <Style TargetType="Label" x:Key="HeaderLabelStyle">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected,
+                          RelativeSource={RelativeSource AncestorType=TabItem}}"
+                         Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
             </TabControl.Resources>
+            
             <TabItem Name="BondruckerTab" FontSize="16">
                 <TabItem.Header>
                     <TextBlock Text="Bondrucker" Style="{StaticResource HeaderTextBlockStyle}"/>
@@ -364,6 +417,15 @@
                     
                 </Grid>
             </TabItem>
+
+            <TabItem Name="speichernCommonButton" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <TabItem.Template>
+                    <ControlTemplate>
+                        <Button Padding="10, 5" Margin="0, 0" Click="speichernCommonButton_Click" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right">speichern</Button>
+                    </ControlTemplate>
+                </TabItem.Template>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </UserControl>

@@ -114,8 +114,8 @@
                             
                             <Border  Background="SkyBlue"  BorderBrush="#e4e7eb" BorderThickness="2" >
                                 <Grid>
-                                <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
-                                <Image Source="/img/BackgroundColor.png" />
+                                    <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                                    <Image Source="/img/BackgroundColor.png" />
                                 </Grid>
                             </Border>
                             

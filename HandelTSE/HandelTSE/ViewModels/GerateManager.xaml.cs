@@ -263,5 +263,9 @@ namespace HandelTSE.ViewModels
             if (anderenAnschluss3ComboBox.IsEnabled == true) anderenAnschluss3ComboBox.IsEnabled = false;
         }
 
+        private void speichernCommonButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
