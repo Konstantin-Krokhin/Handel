@@ -243,7 +243,7 @@
                                 <TextBlock Text="E-Mail:" Grid.Column="1" Grid.Row="8" Margin="0, 8, 0, 8" />
                                 <TextBlock Text="Steuernummer*:" Grid.Column="1" Grid.Row="9" Margin="0, 8, 20, 8" />
                                 <TextBlock Text="USTID*:" Grid.Column="1" Grid.Row="10" Margin="0, 8" />
-                                <TextBlock Text="alle" Grid.Column="3" Grid.Row="11" Margin="0, 0" Padding="10,5,0,5" />
+                                <TextBlock Text="alle" Grid.Column="3" Grid.Row="11" Margin="0, 0" Padding="10,0,0,0" />
                                 <TextBlock Text="Deutschland - DEU" Grid.Column="3" Grid.Row="5" Margin="184, 0" Padding="10,7,0,0" />
                                 <TextBlock Text="z.B. 111/222/33333" Grid.Column="3" Grid.Row="9" Margin="184, 0" Padding="10,7,0,0" />
                                 <TextBlock Text="z.B. DE444444444" Grid.Column="3" Grid.Row="10" Margin="184, 0" Padding="10,7,0,0" />
@@ -427,7 +427,7 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="Liste der einzelnen Erfassungs-Terminal (sog. Slave-Kassen)" FontSize="13" Grid.Column="1" Grid.Row="1" Margin="0, 8, 0, 8"/>
-                                <DataGrid Name = "TerminalenDataGrid" IsReadOnly="True" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="400" Width="330"/>
+                                <DataGrid Name = "TerminalenDataGrid" IsReadOnly="True" CanUserAddRows="True" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="380" Width="330"/>
 
                                 <CheckBox Name="NetzwerkDatenbank" VerticalContentAlignment="Center" Content="Netzwerk - Datenbank" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0" />
                                 <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="13" Text="" Margin="0, 0, 35, 2" />
@@ -573,11 +573,11 @@
                                 <TextBox Grid.Row="4" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 1"/>
                                 <TextBox Text="UTF-8" Grid.Row="5" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 1"/>
                                 <TextBox Grid.Row="6" Grid.Column="3" Height="25" Width="316" HorizontalAlignment="Left" Margin="10, 1"/>
-                                <TextBox Grid.Row="7" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="50" Width="620" HorizontalAlignment="Left" Margin="10, 0" VerticalScrollBarVisibility="Visible"/>
-                                <TextBox Grid.Row="8" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="50" Width="620" HorizontalAlignment="Left" Margin="10, 1" VerticalScrollBarVisibility="Visible"/>
-                                <TextBox Grid.Row="9" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="50" Width="620" HorizontalAlignment="Left" Margin="10, 0" VerticalScrollBarVisibility="Visible"/>
-                                <TextBox Grid.Row="10" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="50" Width="620" HorizontalAlignment="Left" Margin="10, 1" VerticalScrollBarVisibility="Visible"/>
-                                <TextBox Grid.Row="11" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="50" Width="620" HorizontalAlignment="Left" Margin="10, 0" VerticalScrollBarVisibility="Visible"/>
+                                <TextBox Grid.Row="7" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="45" Width="620" HorizontalAlignment="Left" Margin="10, 0" VerticalScrollBarVisibility="Visible"/>
+                                <TextBox Grid.Row="8" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="45" Width="620" HorizontalAlignment="Left" Margin="10, 1" VerticalScrollBarVisibility="Visible"/>
+                                <TextBox Grid.Row="9" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="45" Width="620" HorizontalAlignment="Left" Margin="10, 0" VerticalScrollBarVisibility="Visible"/>
+                                <TextBox Grid.Row="10" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="45" Width="620" HorizontalAlignment="Left" Margin="10, 1" VerticalScrollBarVisibility="Visible"/>
+                                <TextBox Grid.Row="11" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Grid.Column="3" Height="45" Width="620" HorizontalAlignment="Left" Margin="10, 0" VerticalScrollBarVisibility="Visible"/>
 
                                 <Button Content="TSE-Modul deaktivieren" Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" />
                                 <TextBlock Text="Laufwerk:" FontWeight="Bold" Grid.Row="4" Grid.Column="4" />

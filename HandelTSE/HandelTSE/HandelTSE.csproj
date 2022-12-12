@@ -208,6 +208,9 @@
     <Compile Include="DatensicherungEinstellungen\ODBCDatensicherung.xaml.cs">
       <DependentUpon>ODBCDatensicherung.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\BonRechnung.xaml.cs">
+      <DependentUpon>BonRechnung.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CSVImportieren.xaml.cs">
       <DependentUpon>CSVImportieren.xaml</DependentUpon>
     </Compile>
@@ -294,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DatensicherungEinstellungen\ODBCDatensicherung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\BonRechnung.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
