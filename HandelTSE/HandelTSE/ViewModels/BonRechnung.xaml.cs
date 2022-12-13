@@ -24,5 +24,25 @@ namespace HandelTSE.ViewModels
         {
             InitializeComponent();
         }
+
+        private void LeftAlignment1Button_Click(object sender, RoutedEventArgs e)
+        {
+            KopfzeileTextBox.HorizontalContentAlignment = HorizontalAlignment.Left;
+        }
+
+        private void CenterAlignment1Button_Click(object sender, RoutedEventArgs e)
+        {
+            KopfzeileTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+        }
+
+        private void LeftAlignment2Button_Click(object sender, RoutedEventArgs e)
+        {
+            FusszeileTextBox.HorizontalContentAlignment = HorizontalAlignment.Left;
+        }
+
+        private void CenterAlignment2Button_Click(object sender, RoutedEventArgs e)
+        {
+            FusszeileTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+        }
     }
 }

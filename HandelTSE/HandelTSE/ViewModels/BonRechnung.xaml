@@ -63,10 +63,14 @@
                     <TextBlock Text = "Kopfzeile" Grid.Row="2" Grid.Column="1"  Margin="20, 0"/>
                     <TextBox Name="KopfzeileTextBox" Width="350" Height="120" Text="" IsEnabled="True" HorizontalContentAlignment="Left" Grid.Row="2" Grid.Column="2" Margin="0, 0" />
 
-                    <Button Name="LeftAlignment1Button" Content="---" VerticalAlignment="Top" Grid.Row="2" Grid.Column="3" Padding="10, 0" Height="40" Margin="10, 0" />
-                    <Button Name="CenterAlignment1Button" Content="---" VerticalAlignment="Top" Grid.Row="2" Grid.Column="4" Padding="10, 0" Height="40" Margin="0, 0" />
+                    <Button Name="LeftAlignment1Button" VerticalAlignment="Top" Grid.Row="2" Grid.Column="3" Padding="0, 0" Height="40" Margin="10, 0" Click="LeftAlignment1Button_Click">
+                        <TextBlock Text="----&#10;--   &#10;----&#10;--   &#10;----&#10;--   &#10;----" Padding="0, 7" LineHeight="4" LineStackingStrategy="BlockLineHeight" />
+                    </Button>
+                    <Button Name="CenterAlignment1Button" VerticalAlignment="Top" Grid.Row="2" Grid.Column="4" Padding="10, 0" Height="40" Margin="0, 0" Click="CenterAlignment1Button_Click">
+                        <TextBlock Text="----&#10;---&#10;----&#10;---&#10;----&#10;---&#10;----" Padding="0, 7" LineHeight="4" LineStackingStrategy="BlockLineHeight" />
+                    </Button>
                     <TextBlock Text = "F" Grid.Row="2" Grid.Column="3"  Margin="25, 50"/>
-                    <TextBox Name="Font1TextBox" Width="50" Height="20" Text="33"  HorizontalContentAlignment="Center" Grid.Row="2" Grid.Column="4" Margin="0, 20" />
+                    <TextBox Name="Font1TextBox" Width="50" Height="25" Text="33"  HorizontalContentAlignment="Center" Grid.Row="2" Grid.Column="4" Margin="0, 20" />
 
                     <Button Name="SpeichernButton" Content="Speichern" VerticalAlignment="Top" Grid.Row="2" Grid.Column="5" Padding="10, 0" Height="40" Margin="30, 0" />
                     <Button Name="TestDruckenButton" Content="Test drucken" VerticalAlignment="Center" Grid.Row="2" Grid.Column="5" Padding="10, 0" Height="40" Margin="30, 0" />
@@ -76,12 +80,17 @@
                     <TextBox Name="BoninhaltTextBox" Width="350" Height="90" Text="" IsEnabled="True" HorizontalContentAlignment="Left" Grid.Row="3" Grid.Column="2" Margin="0, 0" />
 
                     <TextBlock Text = "Fußzeile" Grid.Row="4" Grid.Column="1"  Margin="20, 0"/>
-                    <TextBox Name="FusszeileTextBox" FontSize="14" Width="350" Height="200" Text="Vielen Dank für Ihren Einkauf!Besuchen Sie uns wieder.Auf Wiedersehen!" IsEnabled="True" HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0, 0" />
+                    <TextBox Name="FusszeileTextBox" FontSize="14" Width="350" Height="200" Text="Vielen Dank für Ihren Einkauf!&#10;Besuchen Sie uns wieder.&#10;Auf Wiedersehen!" IsEnabled="True" HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0, 0" />
                     
-                    <Button Name="LeftAlignment2Button" Content="---" VerticalAlignment="Top" Grid.Row="4" Grid.Column="3" Padding="10, 0" Height="40" Margin="10, 0" />
-                    <Button Name="CenterAlignment2Button" Content="---" VerticalAlignment="Top" Grid.Row="4" Grid.Column="4" Padding="10, 0" Height="40" Margin="0, 0" />
+                    <Button Name="LeftAlignment2Button" VerticalAlignment="Top" Grid.Row="4" Grid.Column="3" Padding="10, 0" Height="40" Margin="10, 0" Click="LeftAlignment2Button_Click" >
+                        <TextBlock Text="----&#10;--   &#10;----&#10;--   &#10;----&#10;--   &#10;----" Padding="0, 7" LineHeight="4" LineStackingStrategy="BlockLineHeight" />
+                    </Button>
+                    
+                    <Button Name="CenterAlignment2Button"  VerticalAlignment="Top" Grid.Row="4" Grid.Column="4" Padding="10, 0" Height="40" Margin="0, 0" Click="CenterAlignment2Button_Click">
+                        <TextBlock Text="----&#10;---&#10;----&#10;---&#10;----&#10;---&#10;----" Padding="0, 7" LineHeight="4" LineStackingStrategy="BlockLineHeight" />
+                    </Button>
                     <TextBlock Text = "F" Grid.Row="4" Grid.Column="3"  Margin="25, 50"/>
-                    <TextBox Name="Font2TextBox" Width="50" Height="20" VerticalAlignment="Top" Text="8"  HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="4" Margin="0, 50" />
+                    <TextBox Name="Font2TextBox" Width="50" Height="25" VerticalAlignment="Top" Text="8"  HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="4" Margin="0, 50" />
 
 
                 </Grid>
