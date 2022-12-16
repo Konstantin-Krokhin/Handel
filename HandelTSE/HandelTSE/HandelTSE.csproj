@@ -208,6 +208,9 @@
     <Compile Include="DatensicherungEinstellungen\ODBCDatensicherung.xaml.cs">
       <DependentUpon>ODBCDatensicherung.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sondernzeichen.xaml.cs">
+      <DependentUpon>Sondernzeichen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BonRechnung.xaml.cs">
       <DependentUpon>BonRechnung.xaml</DependentUpon>
     </Compile>
@@ -297,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DatensicherungEinstellungen\ODBCDatensicherung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sondernzeichen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

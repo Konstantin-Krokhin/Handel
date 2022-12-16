@@ -80,7 +80,7 @@
                     <TextBox Name="BoninhaltTextBox" IsEnabled="False" Width="350" Height="90" Text="" HorizontalContentAlignment="Left" Grid.Row="3" Grid.Column="2" Margin="0, 0" />
 
                     <TextBlock Text = "Fußzeile" Grid.Row="4" Grid.Column="1"  Margin="20, 0"/>
-                    <TextBox Name="FusszeileTextBox" FontSize="14" Width="350" Height="200" Text="Vielen Dank für Ihren Einkauf!&#10;Besuchen Sie uns wieder.&#10;Auf Wiedersehen!" IsEnabled="True" HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0, 0" />
+                    <TextBox Name="FusszeileTextBox" FontSize="14" Width="350" Height="170" Text="Vielen Dank für Ihren Einkauf!&#10;Besuchen Sie uns wieder.&#10;Auf Wiedersehen!" IsEnabled="True" HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0, 0" />
                     
                     <Button Name="LeftAlignment2Button" VerticalAlignment="Top" Grid.Row="4" Grid.Column="3" Padding="10, 0" Height="40" Margin="10, 0" Click="LeftAlignment2Button_Click" >
                         <TextBlock Text="----&#10;--   &#10;----&#10;--   &#10;----&#10;--   &#10;----" Padding="0, 7" LineHeight="4" LineStackingStrategy="BlockLineHeight" />
