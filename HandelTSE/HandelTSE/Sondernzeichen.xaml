@@ -29,7 +29,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Name="SondernzeichenGroupBox" HorizontalAlignment="Left" IsEnabled="false" Width="405" Height="435" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Margin="5, 0, 5, 0">
+        <GroupBox Name="SondernzeichenGroupBox" HorizontalAlignment="Left" Width="405" Height="435" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Margin="5, 0, 5, 0">
             <GroupBox.Header>
                 Sondernzeichen
             </GroupBox.Header>
@@ -37,7 +37,7 @@
             <StackPanel Name="StackPanel1" Orientation="Horizontal" Margin="5, 0">
                 <StackPanel Name="StackPanel2" Orientation="Vertical" Margin="5, 5">
 
-                    <DataGrid Name = "ZahlungenDataGrid" CanUserAddRows="False" IsReadOnly="true" HorizontalContentAlignment="Center" Loaded="ZahlungenDataGrid_Loaded" SelectionMode="Single" SelectionChanged="RecordSelected" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" AutoGeneratingColumn="CustomizeHeaders" Grid.RowSpan="3" Grid.Row="2" Height="320" Margin="5,5">
+                    <DataGrid Name = "SondernzeichenDataGrid" SelectionChanged="SondernzeichenDataGrid_SelectionChanged" CanUserAddRows="False" HorizontalContentAlignment="Center" Loaded="SondernzeichenDataGrid_Loaded" SelectionMode="Single" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  Grid.Column="1" Grid.RowSpan="3" Grid.Row="2" Height="320" Margin="5,5">
 
                     </DataGrid>
 
@@ -47,13 +47,13 @@
                     </StackPanel>
 
                     <StackPanel Name="StackPanel4" Orientation="Horizontal" Margin="5, 0">
-                        <Button Name="loschenButton" Visibility="Hidden" Content="löschen" IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
-                        <Button Name="speichernButton" Visibility="Hidden" Content="speichern" IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
+                        <Button Name="loschenButton" Click="loschenButton_Click" Visibility="Hidden" Content="löschen" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
+                        <Button Name="speichernButton" Click="speichernButton_Clicked" Visibility="Hidden" Content="speichern" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="20, 0" HorizontalAlignment="Left" />
                     </StackPanel>
 
                 </StackPanel>
                 <StackPanel Name="StackPanel5" Orientation="Vertical" VerticalAlignment="Bottom" Margin="5, 0">
-                    <Button Name="neuButton" Content="neu" IsEnabled="False" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="0, 22" HorizontalAlignment="Left" />
+                    <Button Name="neuButton" IsEnabled="True" Content="neu" Grid.Row="2" Grid.Column="2" Padding="20, 0" Height="30" Margin="0, 22" HorizontalAlignment="Left" Click="neuButton_Click" />
                 </StackPanel>
             </StackPanel>
             

@@ -111,7 +111,7 @@
                     <MenuItem Header="DSFinV-K" />
                     <MenuItem Header="TSE-Export" IsEnabled="False"/>
                 </MenuItem>
-                <MenuItem Header="_Einstellungen" Click="MenuItem_Click">
+                <MenuItem Header="_Einstellungen">
                     <MenuItem Header="Programm - Einstellungen" Click="ProgramEinstellungen_Click" />
                     <MenuItem Header="Funktionseinstellungen" Click="FunktionsEnstellungen_Click" />
                     <MenuItem Header="Personalverwaltung" Click="Personalverwaltung_Click" />
@@ -125,7 +125,7 @@
                     <MenuItem Header="Geräte Manager" Click="GerateManager_Click" />
                     <MenuItem Header="Bon / Rechnung" Click="BonRechnung_Click" />
                     <MenuItem Header="A4-Dokumente" />
-                    <MenuItem Header="Sondernzeichen" />
+                    <MenuItem Header="Sondernzeichen" Click="Sondernzeichen_Click" />
                     <MenuItem Header="Gutscheinvorlage" />
                     <MenuItem Header="Pfand und Leergut" />
                     <MenuItem Header="Terminplaner" />

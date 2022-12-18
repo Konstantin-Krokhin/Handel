@@ -168,11 +168,6 @@ namespace HandelTSE
             DataContext = new BedienerStatistik();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void GerateManager_Click(object sender, RoutedEventArgs e)
         {
             ContentWindow.SetValue(Grid.RowProperty, 1);
@@ -189,6 +184,15 @@ namespace HandelTSE
             ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
             ContentWindow.SetValue(Grid.RowSpanProperty, 8);
             DataContext = new BonRechnung();
+        }
+
+        private void Sondernzeichen_Click(object sender, RoutedEventArgs e)
+        {
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 8);
+            DataContext = new Sondernzeichen();
         }
 
         private void ContentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
