@@ -60,7 +60,6 @@ namespace HandelTSE
         {
             SignTextBox.Visibility = Visibility.Visible;
             CodeTextBox.Visibility = Visibility.Visible;
-            loschenButton.Visibility = Visibility.Visible;
             speichernButton.Visibility = Visibility.Visible;
 
             Sondern item = null;
@@ -69,6 +68,7 @@ namespace HandelTSE
             {
                 SignTextBox.Text = item.Sondernzeichen;
                 CodeTextBox.Text = item.Code;
+                loschenButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -92,8 +92,8 @@ namespace HandelTSE
                 ID = item.Id;
                 cmd = new SQLiteCommand("UPDATE [TBL_Sondernzeichen] SET Sondernzeichen = @Sondernzeichen, Code = @Code WHERE Id = @ID", con);
 
-                cmd.Parameters.Add(new SQLiteParameter("@Code", item.Code));
-                cmd.Parameters.Add(new SQLiteParameter("@Sondernzeichen", item.Sondernzeichen));
+                cmd.Parameters.Add(new SQLiteParameter("@Code", CodeTextBox.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@Sondernzeichen", SignTextBox.Text));
                 cmd.Parameters.Add(new SQLiteParameter("@ID", ID));
             }
             else
@@ -153,6 +153,7 @@ namespace HandelTSE
                 case MessageBoxResult.Cancel:
                     break;
             }
+            loschenButton.Visibility = Visibility.Hidden;
         }
     }
 }
