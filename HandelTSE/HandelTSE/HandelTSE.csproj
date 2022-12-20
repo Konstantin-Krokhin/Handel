@@ -193,6 +193,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="A4DokumenteRechnung.xaml.cs">
+      <DependentUpon>A4DokumenteRechnung.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BedienerStatistik.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -291,6 +294,10 @@
     <Compile Include="Zahlungen.xaml.cs">
       <DependentUpon>Zahlungen.xaml</DependentUpon>
     </Compile>
+    <Page Include="A4DokumenteRechnung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DatensicherungEinstellungen\Datenbank-Sicherungskopie.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

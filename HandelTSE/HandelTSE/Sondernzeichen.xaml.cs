@@ -79,6 +79,8 @@ namespace HandelTSE
             loschenButton.Visibility = Visibility.Hidden;
             speichernButton.Visibility = Visibility.Visible;
             SondernzeichenDataGrid.SelectedItem = null;
+            SignTextBox.Text = "";
+            CodeTextBox.Text = "";
         }
 
         private void speichernButton_Clicked(object sender, RoutedEventArgs e)

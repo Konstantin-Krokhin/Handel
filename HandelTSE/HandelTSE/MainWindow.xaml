@@ -124,7 +124,11 @@
                     <MenuItem Header="Datensicherung" Click="Datensicherung_Click" />
                     <MenuItem Header="Geräte Manager" Click="GerateManager_Click" />
                     <MenuItem Header="Bon / Rechnung" Click="BonRechnung_Click" />
-                    <MenuItem Header="A4-Dokumente" />
+                    <MenuItem Header="A4-Dokumente">
+                        <MenuItem Header="Rechnung" Click="A4Rechnung_Click"/>
+                        <MenuItem Header="Auftrag"/>
+                        <MenuItem Header="Lieferschein"/>
+                    </MenuItem>
                     <MenuItem Header="Sondernzeichen" Click="Sondernzeichen_Click" />
                     <MenuItem Header="Gutscheinvorlage" />
                     <MenuItem Header="Pfand und Leergut" />

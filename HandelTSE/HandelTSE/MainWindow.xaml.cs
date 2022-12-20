@@ -195,6 +195,15 @@ namespace HandelTSE
             DataContext = new Sondernzeichen();
         }
 
+        private void A4Rechnung_Click(object sender, RoutedEventArgs e)
+        {
+            ContentWindow.SetValue(Grid.RowProperty, 1);
+            ContentWindow.SetValue(Grid.ColumnProperty, 0);
+            ContentWindow.SetValue(Grid.ColumnSpanProperty, 7);
+            ContentWindow.SetValue(Grid.RowSpanProperty, 8);
+            DataContext = new A4DokumenteRechnung();
+        }
+
         private void ContentWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (ContentWindow.Visibility == Visibility.Hidden) ContentWindow.Visibility = Visibility.Visible;
