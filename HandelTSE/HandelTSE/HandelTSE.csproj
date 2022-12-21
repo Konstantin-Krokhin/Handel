@@ -214,6 +214,7 @@
     <Compile Include="Sondernzeichen.xaml.cs">
       <DependentUpon>Sondernzeichen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValidatorClass.cs" />
     <Compile Include="ViewModels\BonRechnung.xaml.cs">
       <DependentUpon>BonRechnung.xaml</DependentUpon>
     </Compile>
